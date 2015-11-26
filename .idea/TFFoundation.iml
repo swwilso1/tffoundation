@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/cmake/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmake/headers.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/base64/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/data/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/date/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/include/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/include/tfplatformheaders.h.in" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/include/tftypes.hpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/log/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/string/config.cmake" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/uuid/config.cmake" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
