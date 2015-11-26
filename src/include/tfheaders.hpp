@@ -28,13 +28,65 @@ SOFTWARE.
 #include "tfplatformheaders.h"
 
 
+// Standard C headers
+
 #if defined(NEEDS_ASSERT_H)
 #	if defined(HAS_ASSERT_H)
 #		include <assert.h>
 #	else
-#		error "System header assert.h required, but not available"
+#		error "System C header <assert.h> required, but not available"
 #	endif
 #	undef NEEDS_ASSERT_H
 #endif
 
+
+#if defined(NEEDS_LIMITS_H)
+#   if defined(HAS_LIMITS_H)
+#       include <limits.h>
+#   else
+#       error "System C header <limits.h> required, but not available"
+#   endif
+#   undef NEEDS_LIMITS_H
+#endif
+
+
+#if defined(NEEDS_STDLIB_H)
+#   if defined(HAS_STDLIB_H)
+#       include <stdlib.h>
+#   else
+#       error "System C header <stdlib.h> required, but not available"
+#   endif
+#   undef NEEDS_STDLIB_H
+#endif
+
+
+// Standard C++ headers
+
+#if defined(NEEDS_MUTEX)
+#   if defined(HAS_MUTEX)
+#       include <mutex>
+#   else
+#       error "System C++ header <mutex> required, but not available"
+#   endif
+#   undef NEEDS_MUTEX
+#endif
+
+
+#if defined(NEEDS_NEW)
+#   if defined(HAS_NEW)
+#       include <new>
+#   else
+#       error "System C++ header <new> required, but not available"
+#   endif
+#   undef NEEDS_NEW
+#endif
+
+#if defined(NEEDS_UTILITY)
+#   if defined(HAS_UTILITY)
+#       include <utility>
+#   else
+#       error "System C++ header <utility> required, but not available"
+#   endif
+#   undef NEEDS_UTILITY
+#endif
 

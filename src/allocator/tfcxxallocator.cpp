@@ -25,28 +25,60 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPLATFORMHEADERS_H
-#define TFPLATFORMHEADERS_H 1
+#include "tfallocatorinterface.hpp"
+#include "tfcxxallocator.hpp"
 
-namespace TF
+
+void * operator new(TF::Foundation::Size_t s) noexcept(false)
 {
-
-    namespace Foundation
+    auto allocator = TF::Foundation::AllocatorInterface::getBlockAllocator();
+    if(allocator != nullptr)
     {
-
-// Standard C header files
-#cmakedefine HAS_ASSERT_H
-#cmakedefine HAS_LIMITS_H
-#cmakedefine HAS_STDLIB_H
-
-// Standard C++ header files
-#cmakedefine HAS_MUTEX
-#cmakedefine HAS_NEW
-#cmakedefine HAS_UTILITY
-
+        void *memory = allocator(s);
+        if(memory == nullptr)
+            throw std::bad_alloc();
+        return memory;
     }
-
+    throw std::bad_alloc();
 }
 
-#endif // TFPLATFORMHEADERS_H
+
+void * operator new[](TF::Foundation::Size_t s) noexcept(false)
+{
+    auto allocator = TF::Foundation::AllocatorInterface::getBlockAllocator();
+    if(allocator != nullptr)
+    {
+        void *memory = allocator(s);
+        if(memory == nullptr)
+            throw std::bad_alloc();
+        return memory;
+    }
+    throw std::bad_alloc();
+}
+
+
+void operator delete(void *p) noexcept
+{
+    if(p == nullptr)
+        return;
+
+    auto deallocator = TF::Foundation::AllocatorInterface::getBlockDeallocator();
+    if(deallocator != nullptr)
+    {
+        deallocator(p);
+    }
+}
+
+
+void operator delete[](void *p) noexcept
+{
+    if(p == nullptr)
+        return;
+
+    auto deallocator = TF::Foundation::AllocatorInterface::getBlockDeallocator();
+    if(deallocator != nullptr)
+    {
+        deallocator(p);
+    }
+}
 

@@ -29,80 +29,101 @@ SOFTWARE.
 #ifndef TFTYPES_HPP
 #define TFTYPES_HPP 1
 
+#define NEEDS_LIMITS_H
+#include "tfheaders.hpp"
+
+
 namespace TF
 {
 
-	/** @brief type used to track intervals in time */
-	using TimeInterval = double;
+    namespace Foundation
+    {
+        /** @brief type used to track intervals in time */
+        using TimeInterval = double;
 
-	/** @brief unsigned integer type */
-	using UnsignedInteger = unsigned int;
+        /** @brief unsigned integer type */
+        using UnsignedInteger = unsigned int;
 
-	/** @brief float type */
-	using Float = float;
+        /** @brief size_t type */
+        using Size_t = size_t;
 
-	/** @brief 2 dimensional size (width, height) */
-	struct Size
-	{
-		Float width;
-		Float height;
+        /** @brief float type */
+        using Float = float;
 
-		/** @brief default constructor */
-		Size() : width(0.0), height(0.0) {}
+        /** @brief 2 dimensional size (width, height) */
+        struct Size
+        {
+            Float width;
+            Float height;
 
-		/** @brief lvalue constructor */
-		Size(const Float &w, const Float &h) : width(w), height(h) {}
+            /** @brief default constructor */
+            Size() : width(0.0), height(0.0)
+            { }
 
-		/** @brief rvalue constructor */
-		Size(const Float &&w, const Float &&h) : width(w), height(h) {}
-	};
+            /** @brief lvalue constructor */
+            Size(const Float &w, const Float &h) : width(w), height(h)
+            { }
 
-
-	/** @brief Cartesian point (x,y) */
-	struct Point
-	{
-		Float x;
-		Float y;
-
-		/** @brief default constructor */
-		Point() : x(0.0), y(0.0) {}
-
-		/** @brief lvalue constructor */
-		Point(const Float &a, const Float &b) : x(a), y(b) {}
-
-		/** @brief rvalue constructor */
-		Point(const Float &&a, const Float &&b) : x(a), y(b) {}
-	};
+            /** @brief rvalue constructor */
+            Size(const Float &&w, const Float &&h) : width(w), height(h)
+            { }
+        };
 
 
-	/** @brief basic rectangle */
-	struct Rectangle
-	{
-		Point origin;
-		Size size;
+        /** @brief Cartesian point (x,y) */
+        struct Point
+        {
+            Float x;
+            Float y;
 
-		/** @brief point/size constructor */
-		Rectangle(const Point &p, const Size &s) : origin(p), size(s) {}
+            /** @brief default constructor */
+            Point() : x(0.0), y(0.0)
+            { }
 
-		/** @brief width/height, x/y constructor */
-		Rectangle(const Float &w, const Float &h, const Float &x, const Float &y) :
-			origin(w,h), size(x,y) {}
-	};
+            /** @brief lvalue constructor */
+            Point(const Float &a, const Float &b) : x(a), y(b)
+            { }
+
+            /** @brief rvalue constructor */
+            Point(const Float &&a, const Float &&b) : x(a), y(b)
+            { }
+        };
 
 
-	/** @brief range object */
-	struct Range
-	{
-		UnsignedInteger position;
-		UnsignedInteger length;
+        /** @brief basic rectangle */
+        struct Rectangle
+        {
+            Point origin;
+            Size size;
 
-		/** @brief default constructor */
-		Range() : position(0), length(0) {}
+            /** @brief point/size constructor */
+            Rectangle(const Point &p, const Size &s) : origin(p), size(s)
+            { }
 
-		/** @brief lvalue constructor */
-		Range(const UnsignedInteger &p, const UnsignedInteger &l) : position(p),
-				length(l) {}
-	};
+            /** @brief width/height, x/y constructor */
+            Rectangle(const Float &w, const Float &h, const Float &x, const Float &y) :
+                    origin(w, h), size(x, y)
+            { }
+        };
+
+
+        /** @brief range object */
+        struct Range
+        {
+            UnsignedInteger position;
+            UnsignedInteger length;
+
+            /** @brief default constructor */
+            Range() : position(0), length(0)
+            { }
+
+            /** @brief lvalue constructor */
+            Range(const UnsignedInteger &p, const UnsignedInteger &l) : position(p),
+                                                                        length(l)
+            { }
+        };
+
+    } // Foundation
 
 } // TF
 

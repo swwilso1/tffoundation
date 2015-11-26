@@ -25,28 +25,37 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPLATFORMHEADERS_H
-#define TFPLATFORMHEADERS_H 1
+#ifndef TFCXXALLOCATOR_HPP
+#define TFCXXALLOCATOR_HPP 1
 
-namespace TF
-{
+#define NEEDS_NEW
+#include "tfheaders.hpp"
+#include "tftypes.hpp"
 
-    namespace Foundation
-    {
+/**
+ *  @brief single object operator new function that ties in to the library allocator interface.
+ *  @param s the number of bytes to allocate.
+ *  @return the allocated memory
+ */
+extern void * operator new(TF::Foundation::Size_t s) noexcept(false);
 
-// Standard C header files
-#cmakedefine HAS_ASSERT_H
-#cmakedefine HAS_LIMITS_H
-#cmakedefine HAS_STDLIB_H
+/**
+ *  @brief array object operator new function that ties in to the library allocator interface
+ *  @param s the number of bytes to allocate.
+ *  @return the allocated memory
+ */
+extern void * operator new(TF::Foundation::Size_t s) noexcept(false);
 
-// Standard C++ header files
-#cmakedefine HAS_MUTEX
-#cmakedefine HAS_NEW
-#cmakedefine HAS_UTILITY
+/**
+ *  @brief single object operator delete function that ties in to the library allocator interface.
+ *  @param p the bytes to free.
+ */
+extern void operator delete(void *p) noexcept;
 
-    }
+/**
+ *  @brief array object operator delete function that ties in to the library allocator interface.
+ *  @param p the bytes to free.
+ */
+extern void operator delete[](void *p) noexcept;
 
-}
-
-#endif // TFPLATFORMHEADERS_H
-
+#endif // TFCXXALLOCATOR_HPP
