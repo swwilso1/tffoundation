@@ -9,6 +9,7 @@ include(src/allocator/config.cmake)
 include(src/base64/config.cmake)
 include(src/data/config.cmake)
 include(src/date/config.cmake)
+include(src/format/config.cmake)
 include(src/include/config.cmake)
 include(src/log/config.cmake)
 include(src/string/config.cmake)
@@ -19,6 +20,7 @@ include_directories(
     src/base64
     src/data
     src/date
+    src/format
     src/include
     src/log
     src/string

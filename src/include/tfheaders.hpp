@@ -81,6 +81,17 @@ SOFTWARE.
 #   undef NEEDS_NEW
 #endif
 
+
+#if defined(NEEDS_STRING)
+#   if defined(HAS_STRING)
+#       include <string>
+#   else
+#       error "System C++ header <string> required, but not available"
+#   endif
+#   undef NEEDS_STRING
+#endif
+
+
 #if defined(NEEDS_UTILITY)
 #   if defined(HAS_UTILITY)
 #       include <utility>
