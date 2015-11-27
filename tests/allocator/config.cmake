@@ -5,16 +5,11 @@
 #####
 ################################################################################
 
-include_directories(
-	${GTEST_DIR}/include
-	${TEST_INCLUDE_DIRECTORIES}
+build_and_run_test(
+	custom_allocator_test
+	CustomAllocatorTest
+	tests/allocator/custom_allocator_test.cpp
 )
 
-link_directories(
-	${GTEST_DIR}/lib
-	${TEST_LIBRARY_DIRECTORIES}
-)
 
-include(tests/cmake/config.cmake)
-include(tests/allocator/config.cmake)
 

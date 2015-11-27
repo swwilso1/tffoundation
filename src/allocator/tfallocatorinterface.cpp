@@ -26,6 +26,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #define NEEDS_STDLIB_H
+#define NEEDS_CSTDDEF
 #include "tfheaders.hpp"
 #include "tfallocatorinterface.hpp"
 
@@ -74,7 +75,7 @@ namespace TF
                 if(newBlock != nullptr)
                 {
                     newBlock->deallocator = AllocatorInterface::getDeallocator();
-                    return reinterpret_cast<void *>(newBlock->theBuffer);
+                    return reinterpret_cast<void *>(&newBlock->theBuffer);
                 }
             }
 
@@ -88,7 +89,7 @@ namespace TF
             {
                 // Recover the MemoryBlock.
                 MemoryBlock *theBlock = reinterpret_cast<MemoryBlock *>(
-                        reinterpret_cast<char *>(p) - sizeof(DeallocatorType));
+                        reinterpret_cast<char *>(p) - offsetof(MemoryBlock, theBuffer));
                 if(theBlock != nullptr)
                 {
                     if(theBlock->deallocator != nullptr)

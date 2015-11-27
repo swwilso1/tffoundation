@@ -25,30 +25,5 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPLATFORMHEADERS_H
-#define TFPLATFORMHEADERS_H 1
-
-namespace TF
-{
-
-    namespace Foundation
-    {
-
-// Standard C header files
-#cmakedefine HAS_ASSERT_H
-#cmakedefine HAS_LIMITS_H
-#cmakedefine HAS_STDLIB_H
-
-// Standard C++ header files
-#cmakedefine HAS_CSTDDEF
-#cmakedefine HAS_MUTEX
-#cmakedefine HAS_NEW
-#cmakedefine HAS_STRING
-#cmakedefine HAS_UTILITY
-
-    }
-
-}
-
-#endif // TFPLATFORMHEADERS_H
+#include "tfallocator.hpp"
 

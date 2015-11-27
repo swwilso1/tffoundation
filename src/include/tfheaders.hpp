@@ -62,6 +62,15 @@ SOFTWARE.
 
 // Standard C++ headers
 
+#if defined(NEEDS_CSTDDEF)
+#	if defined(HAS_CSTDDEF)
+#		include <cstddef>
+#	else
+#		error "System C++ header <cstddef> required, but not available"
+#	endif
+#	undef NEEDS_CSTDDEF
+#endif
+
 #if defined(NEEDS_MUTEX)
 #   if defined(HAS_MUTEX)
 #       include <mutex>
