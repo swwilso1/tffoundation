@@ -25,36 +25,18 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPLATFORMHEADERS_H
-#define TFPLATFORMHEADERS_H 1
+#include "tfformatterfactory.hpp"
 
 namespace TF
 {
 
-    namespace Foundation
-    {
+	namespace Foundation
+	{
 
-// Standard C header files
-#cmakedefine HAS_ASSERT_H
-#cmakedefine HAS_LIMITS_H
-#cmakedefine HAS_STDLIB_H
+		FormatterFactory::formatter_type FormatterFactory::formatterType =
+			FormatterType::DefaultFormatterType;
 
-// Standard C++ header files
-#cmakedefine HAS_CSTDDEF
-#cmakedefine HAS_LIST
-#cmakedefine HAS_MAP
-#cmakedefine HAS_MUTEX
-#cmakedefine HAS_NEW
-#cmakedefine HAS_OSTREAM
-#cmakedefine HAS_SSTREAM
-#cmakedefine HAS_STRING
-#cmakedefine HAS_TYPEINFO
-#cmakedefine HAS_UTILITY
-#cmakedefine HAS_VECTOR
+	} // Foundation
 
-    }
-
-}
-
-#endif // TFPLATFORMHEADERS_H
+} // TF
 

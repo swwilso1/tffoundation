@@ -25,36 +25,27 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPLATFORMHEADERS_H
-#define TFPLATFORMHEADERS_H 1
+#include "tfclassmember.hxx"
 
 namespace TF
 {
 
-    namespace Foundation
-    {
+	namespace Foundation
+	{
 
-// Standard C header files
-#cmakedefine HAS_ASSERT_H
-#cmakedefine HAS_LIMITS_H
-#cmakedefine HAS_STDLIB_H
+		std::ostream& ClassMember::writeToStream(std::ostream &o) const
+		{
+			o << theType << " " << theName;
+			return o;
+		}
 
-// Standard C++ header files
-#cmakedefine HAS_CSTDDEF
-#cmakedefine HAS_LIST
-#cmakedefine HAS_MAP
-#cmakedefine HAS_MUTEX
-#cmakedefine HAS_NEW
-#cmakedefine HAS_OSTREAM
-#cmakedefine HAS_SSTREAM
-#cmakedefine HAS_STRING
-#cmakedefine HAS_TYPEINFO
-#cmakedefine HAS_UTILITY
-#cmakedefine HAS_VECTOR
 
-    }
+		std::ostream& operator<<(std::ostream &o, const ClassMember &m)
+		{
+			return m.writeToStream(o);
+		}
 
-}
+	} // Foundation
 
-#endif // TFPLATFORMHEADERS_H
+} // TF
 

@@ -71,6 +71,24 @@ SOFTWARE.
 #	undef NEEDS_CSTDDEF
 #endif
 
+#if defined(NEEDS_LIST)
+#	if defined(HAS_LIST)
+#		include <list>
+#	else
+#		error "System C++ header <list> required, but not available."
+#	endif
+#	undef NEEDS_LIST
+#endif
+
+#if defined(NEEDS_MAP)
+#	if defined(HAS_MAP)
+#		include <map>
+#	else
+#		error "System C++ header <map> required. but not available."
+#	endif
+#	undef NEEDS_MAP
+#endif
+
 #if defined(NEEDS_MUTEX)
 #   if defined(HAS_MUTEX)
 #       include <mutex>
@@ -90,6 +108,23 @@ SOFTWARE.
 #   undef NEEDS_NEW
 #endif
 
+#if defined(NEEDS_OSTREAM)
+#	if defined(HAS_OSTREAM)
+#		include <ostream>
+#	else
+#		error "System C++ header <ostream> required, but not available"
+#	endif
+#	undef NEEDS_OSTREAM
+#endif
+
+#if defined(NEEDS_SSTREAM)
+#	if defined(HAS_SSTREAM)
+#		include <sstream>
+#	else
+#		error "System C++ header <sstream> required, but not available"
+#	endif
+#	undef NEEDS_SSTREAM
+#endif
 
 #if defined(NEEDS_STRING)
 #   if defined(HAS_STRING)
@@ -100,6 +135,14 @@ SOFTWARE.
 #   undef NEEDS_STRING
 #endif
 
+#if defined(NEEDS_TYPEINFO)
+#	if defined(HAS_TYPEINFO)
+#		include <typeinfo>
+#	else
+#		error "System C++ header <typeinfo> required, but not avavilable"
+#	endif
+#	undef NEEDS_TYPEINFO
+#endif
 
 #if defined(NEEDS_UTILITY)
 #   if defined(HAS_UTILITY)
@@ -109,4 +152,14 @@ SOFTWARE.
 #   endif
 #   undef NEEDS_UTILITY
 #endif
+
+#if defined(NEEDS_VECTOR)
+#	if defined(HAS_VECTOR)
+#		include <vector>
+#	else
+#		error "System C++ header <vector> required, but not available"
+#	endif
+#	undef NEEDS_VECTOR
+#endif
+
 

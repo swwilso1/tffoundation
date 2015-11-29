@@ -25,36 +25,54 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPLATFORMHEADERS_H
-#define TFPLATFORMHEADERS_H 1
+#include "tfxmlclassformatter.hpp"
+#include "tftab.hpp"
 
 namespace TF
 {
 
-    namespace Foundation
-    {
+	namespace Foundation
+	{
 
-// Standard C header files
-#cmakedefine HAS_ASSERT_H
-#cmakedefine HAS_LIMITS_H
-#cmakedefine HAS_STDLIB_H
+		std::ostream& XMLClassFormatter::writeToStream(std::ostream &o) const
+		{
+			o << std::endl << Tab(indentLevel, tabWidth) << "<" << className;
+			if(classTemplateList.size() > 0)
+			{
+				size_type i = 0;
+				size_type max = classTemplateList.size();
+				o << " template_types=\"";
+				for(auto templateType : classTemplateList)
+				{
+					o << templateType;
+					if(i++ < (max - 1))
+						o << ",";
+				}
+				o << "\"";
+			}
+			o << ">";
+			indentLevel++;
+			for(auto member : classMemberList)
+			{
+				string_type theValue = member->value();
+				bool doIndent = theValue.find("\n") != string_type::npos ? true : false;
+				o << std::endl << Tab(indentLevel, tabWidth);
+				o << "<" << member->name() << " type=\"" << member->type() << "\">";
+				if(doIndent)
+					indentLevel++;
+				o << member->value();
+				if(doIndent)
+				{
+					indentLevel--;
+					o << std::endl << Tab(indentLevel, tabWidth);
+				}
+				o << "</" << member->name() << ">";
+			}
+			indentLevel--;
+			o << std::endl << Tab(indentLevel, tabWidth) << "</" << className << ">";
+			return o;
+		}
 
-// Standard C++ header files
-#cmakedefine HAS_CSTDDEF
-#cmakedefine HAS_LIST
-#cmakedefine HAS_MAP
-#cmakedefine HAS_MUTEX
-#cmakedefine HAS_NEW
-#cmakedefine HAS_OSTREAM
-#cmakedefine HAS_SSTREAM
-#cmakedefine HAS_STRING
-#cmakedefine HAS_TYPEINFO
-#cmakedefine HAS_UTILITY
-#cmakedefine HAS_VECTOR
+	} // Foundation
 
-    }
-
-}
-
-#endif // TFPLATFORMHEADERS_H
-
+} // TF

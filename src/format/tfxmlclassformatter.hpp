@@ -25,36 +25,27 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPLATFORMHEADERS_H
-#define TFPLATFORMHEADERS_H 1
+#ifndef TFXMLCLASSFORMATTER_HPP
+#define TFXMLCLASSFORMATTER_HPP 1
+
+#include "tfclassformatter.hpp"
 
 namespace TF
 {
 
-    namespace Foundation
-    {
+	namespace Foundation
+	{
 
-// Standard C header files
-#cmakedefine HAS_ASSERT_H
-#cmakedefine HAS_LIMITS_H
-#cmakedefine HAS_STDLIB_H
+		class XMLClassFormatter : public ClassFormatter
+		{
+		public:
 
-// Standard C++ header files
-#cmakedefine HAS_CSTDDEF
-#cmakedefine HAS_LIST
-#cmakedefine HAS_MAP
-#cmakedefine HAS_MUTEX
-#cmakedefine HAS_NEW
-#cmakedefine HAS_OSTREAM
-#cmakedefine HAS_SSTREAM
-#cmakedefine HAS_STRING
-#cmakedefine HAS_TYPEINFO
-#cmakedefine HAS_UTILITY
-#cmakedefine HAS_VECTOR
+			std::ostream& writeToStream(std::ostream &o) const override;
+		};
 
-    }
+	} // Foundation
 
-}
+} // TF
 
-#endif // TFPLATFORMHEADERS_H
+#endif // TFXMLCLASSFORMATTER_HPP
 

@@ -5,17 +5,8 @@
 #####
 ################################################################################
 
-include_directories(
-	${GTEST_DIR}/include
-	${TEST_INCLUDE_DIRECTORIES}
+build_and_run_test(
+	formatter_test
+	FormatterTest
+	tests/format/formatter_test.cpp
 )
-
-link_directories(
-	${GTEST_DIR}/lib
-	${TEST_LIBRARY_DIRECTORIES}
-)
-
-include(tests/cmake/config.cmake)
-include(tests/allocator/config.cmake)
-include(tests/format/config.cmake)
-
