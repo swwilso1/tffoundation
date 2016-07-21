@@ -1,11 +1,11 @@
 /******************************************************************************
 
-Tectiform Open Source License (TOS)
+Tectiform Open Source License (TOS
 
-Copyright (c) 2015 Tectiform Inc.
+Copyright (c 2015 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
+of this software and associated documentation files (the "Software", to deal
 in the Software without restriction, including without limitation the rights
 to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
@@ -36,20 +36,116 @@ namespace TF
 
 // Standard C header files
 #cmakedefine HAS_ASSERT_H
+#cmakedefine HAS_COMPLEX_H
+#cmakedefine HAS_CTYPE_H
+#cmakedefine HAS_ERRNO_H
+#cmakedefine HAS_FENV_H
+#cmakedefine HAS_FLOAT_H
+#cmakedefine HAS_INTTYPES_H
+#cmakedefine HAS_ISO646_H
 #cmakedefine HAS_LIMITS_H
+#cmakedefine HAS_LOCALE_H
+#cmakedefine HAS_MATH_H
+#cmakedefine HAS_SETJMP_H
+#cmakedefine HAS_SIGNAL_H
+#cmakedefine HAS_STDALIGN_H
+#cmakedefine HAS_STDARG_H
+#cmakedefine HAS_STDATOMIC_H
+#cmakedefine HAS_STDBOOL_H
+#cmakedefine HAS_STDDEF_H
+#cmakedefine HAS_STDINT_H
+#cmakedefine HAS_STDIO_H
 #cmakedefine HAS_STDLIB_H
+#cmakedefine HAS_STDNORETURN_H
+#cmakedefine HAS_STRING_H
+#cmakedefine HAS_TGMATH_H
+#cmakedefine HAS_THREADS_H
+#cmakedefine HAS_TIME_H
+#cmakedefine HAS_UCHAR_H
+#cmakedefine HAS_WCHAR_H
+#cmakedefine HAS_WCTYPE_H
 
 // Standard C++ header files
+#cmakedefine HAS_ANY
+#cmakedefine HAS_ALGORITHM
+#cmakedefine HAS_ARRAY
+#cmakedefine HAS_ATOMIC
+#cmakedefine HAS_BITSET
+#cmakedefine HAS_CASSERT
+#cmakedefine HAS_CCTYPE
+#cmakedefine HAS_CERRNO
+#cmakedefine HAS_CFENV
+#cmakedefine HAS_CFLOAT
+#cmakedefine HAS_CHRONO
+#cmakedefine HAS_CINTTYPES
+#cmakedefine HAS_CLIMITS
+#cmakedefine HAS_CLOCALE
+#cmakedefine HAS_CMATH
+#cmakedefine HAS_CODECVT
+#cmakedefine HAS_COMPLEX
+#cmakedefine HAS_CONDITION_VARIABLE
+#cmakedefine HAS_CSTDIO
+#cmakedefine HAS_CSTDLIB
+#cmakedefine HAS_CSIGNAL
+#cmakedefine HAS_CSETJMP
+#cmakedefine HAS_CSTDARG
 #cmakedefine HAS_CSTDDEF
+#cmakedefine HAS_CSTDINT
+#cmakedefine HAS_CSTRING
+#cmakedefine HAS_CTIME
+#cmakedefine HAS_CUCHAR
+#cmakedefine HAS_CWCHAR
+#cmakedefine HAS_CWCTYPE
+#cmakedefine HAS_DEQUE
+#cmakedefine HAS_EXCEPTION
+#cmakedefine HAS_EXECUTION
+#cmakedefine HAS_FILESYSTEM
+#cmakedefine HAS_FORWARD_LIST
+#cmakedefine HAS_FSTREAM
+#cmakedefine HAS_FUNCTIONAL
+#cmakedefine HAS_FUTURE
+#cmakedefine HAS_INITIALIZER_LIST
+#cmakedefine HAS_IOMANIP
+#cmakedefine HAS_IOS
+#cmakedefine HAS_IOSFWD
+#cmakedefine HAS_IOSTREAM
+#cmakedefine HAS_ISTREAM
+#cmakedefine HAS_ITERATOR
+#cmakedefine HAS_LIMITS
 #cmakedefine HAS_LIST
+#cmakedefine HAS_LOCALE
 #cmakedefine HAS_MAP
+#cmakedefine HAS_MEMORY
 #cmakedefine HAS_MUTEX
 #cmakedefine HAS_NEW
+#cmakedefine HAS_NUMERIC
+#cmakedefine HAS_OPTIONAL
 #cmakedefine HAS_OSTREAM
+#cmakedefine HAS_QUEUE
+#cmakedefine HAS_RANDOM
+#cmakedefine HAS_RATIO
+#cmakedefine HAS_REGEX
+#cmakedefine HAS_SCOPED_ALLOCATOR
+#cmakedefine HAS_SET
+#cmakedefine HAS_SHARED_MUTEX
 #cmakedefine HAS_SSTREAM
+#cmakedefine HAS_STACK
+#cmakedefine HAS_STDEXCEPT
+#cmakedefine HAS_STREAMBUF
 #cmakedefine HAS_STRING
+#cmakedefine HAS_STRING_VIEW
+#cmakedefine HAS_STRSTREAM
+#cmakedefine HAS_SYSTEM_ERROR
+#cmakedefine HAS_THREAD
+#cmakedefine HAS_TUPLE
 #cmakedefine HAS_TYPEINFO
+#cmakedefine HAS_TYPEINDEX
+#cmakedefine HAS_TYPE_TRAITS
+#cmakedefine HAS_UNORDERED_MAP
+#cmakedefine HAS_UNORDERED_SET
 #cmakedefine HAS_UTILITY
+#cmakedefine HAS_VALARRAY
+#cmakedefine HAS_VARIANT
 #cmakedefine HAS_VECTOR
 
     }
