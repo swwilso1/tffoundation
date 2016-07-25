@@ -88,7 +88,7 @@ int main()
 	// original deallocator.   If they use the new allocator, they will crash
 	// the program.
 	delete[] bat;
-	delete[] bar;
+	delete bar;
 	delete[] foo;
 
 	// Test successfull.

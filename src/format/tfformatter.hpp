@@ -25,10 +25,9 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
+#ifndef TFFORMATTER_HPP
+#define TFFORMATTER_HPP
+
 #include "tfformatterfactory.hpp"
-#include "tfdata.hpp"
 
-
+#endif /* TFFORMATTER_HPP */

@@ -25,10 +25,42 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tfdata.hpp"
+#include "tftypes.hpp"
+#include "tfformatter.hpp"
+
+namespace TF
+{
+
+	namespace Foundation
+	{
+	
+		template<class T, class Allocator>
+		std::ostream& List<T, Allocator>::description(std::ostream &o) const
+		{
+			ClassFormatter *formatter = FormatterFactory::getFormatter();
+			if(formatter != nullptr)
+			{
+				formatter->setClassName("List");
+				Size_t i = 0;
+				for(auto element : *this)
+				{
+					formatter->addClassMember(i++, element);
+				}
+				o << *formatter;
+				delete formatter;
+			}
+			return o;
+		}
 
 
+		template<class T, class Allocator>
+		std::ostream& operator<<(std::ostream &o, const List<T, Allocator> &l)
+		{
+			return l.description(o);
+		}
+
+	
+	} // Foundation
+	
+
+} // TF

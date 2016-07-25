@@ -12,6 +12,7 @@ include(src/date/config.cmake)
 include(src/format/config.cmake)
 include(src/include/config.cmake)
 include(src/log/config.cmake)
+include(src/stl/config.cmake)
 include(src/string/config.cmake)
 include(src/uuid/config.cmake)
 
@@ -23,6 +24,7 @@ include_directories(
     src/format
     src/include
     src/log
+    src/stl
     src/string
     src/uuid
     "${GENERATED_SOURCES_DIR}"

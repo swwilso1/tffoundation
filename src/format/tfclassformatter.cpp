@@ -90,6 +90,16 @@ namespace TF
 		}
 
 
+		 void ClassFormatter::addClassMember(size_type i, const string_type &type,
+		 	const string_type &value)
+		 {
+		 	std::stringstream converter;
+		 	converter << i;
+		 	TemplateClassMemberWithType<string_type> *newMember =
+		 		new TemplateClassMemberWithType<string_type>(type, converter.str(), value);
+		 }
+
+
 		void ClassFormatter::addClassTemplateType(const string_type &t)
 		{
 			classTemplateList.push_back(t);

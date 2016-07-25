@@ -110,6 +110,26 @@ namespace TF
 					const string_type &value);
 
 			/**
+			 *  @brief function for adding an indexed member (such as an array member)
+			 *  to the class.
+			 *  @param i the index of the member
+			 *  @param type the type of the member
+			 *  @param value the value of the parameter
+			 */
+			 void addClassMember(size_type i, const string_type &type, const string_type &value);
+
+
+			 /**
+			  *  @brief function for adding an indexed member (such as an array member)
+			  *  to the class.
+			  *  @tparam T the type of the class member
+			  *  @param i the index of the parameter
+			  *  @param value the value of the parameter
+			  */
+			 template<typename T>
+			 void addClassMember(size_type i, const T &value);
+
+			/**
 			 * @brief function for adding a new class member to the member list.
 			 * @tparam T the type of the class member.
 			 * @param name the member name

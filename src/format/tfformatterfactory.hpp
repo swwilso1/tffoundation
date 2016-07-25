@@ -75,7 +75,7 @@ namespace TF
 			 *  @brief function to get a object of the current formatter type.
 			 *  @return a pointer to an object of the current formatter type.
 			 */
-			default_formatter_type * getFormatter()
+			static default_formatter_type * getFormatter()
 			{
 				default_formatter_type *theFormatter = nullptr;
 				switch(formatterType)

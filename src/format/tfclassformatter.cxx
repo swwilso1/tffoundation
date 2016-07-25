@@ -38,10 +38,20 @@ namespace TF
 		template<typename T>
 		void ClassFormatter::addClassMember(const string_type &name, const T &value)
 		{
-			string_type theType = typeid(value).name();
 			TemplateClassMember<T> *newMember = new TemplateClassMember<T>(name, value);
 			classMemberList.push_back(newMember);
 		}
+
+
+		 template<typename T>
+		 void ClassFormatter::addClassMember(size_type i, const T &value)
+		 {
+		 	std::stringstream converter;
+		 	converter << i;
+		 	TemplateClassMember<T> *newMember = new TemplateClassMember<T>(converter.str(),
+		 		value);
+		 	classMemberList.push_back(newMember);
+		 }
 
 
 		template<typename T>

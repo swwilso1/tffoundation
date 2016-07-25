@@ -25,10 +25,43 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tfdata.hpp"
+#ifndef TFLIST_HPP
+#define TFLIST_HPP
+
+#define NEEDS_LIST
+#define NEEDS_OSTREAM
+#include "tfheaders.hpp"
+
+namespace TF
+{
+
+	namespace Foundation
+	{
+	
+		template<
+			class T,
+			class Allocator = std::allocator<T>
+		>
+		class List : public std::list<T, Allocator>
+		{
+		public:
+
+			using parent = std::list<T, Allocator>;
+
+			using iterator = typename parent::iterator;
+
+			std::ostream& description(std::ostream &o) const;		
+		};
 
 
+		template<class T, class Allocator = std::allocator<T>>
+		std::ostream& operator<<(std::ostream &o, const List<T, Allocator> &l);
+	
+	} // Foundation
+	
+
+} // TF
+
+#include "tflist.cxx"
+
+#endif /* TFLIST_HPP */

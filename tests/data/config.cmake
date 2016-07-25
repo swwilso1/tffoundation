@@ -5,13 +5,8 @@
 #####
 ################################################################################
 
-list(APPEND FOUNDATION_HEADER_FILES
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/data/tfdata.hpp"
+build_and_run_test(
+	data_test
+	DataTest
+	tests/data/data_test.cpp
 )
-
-
-list(APPEND FOUNDATION_SOURCE_FILES
-	src/data/tfdata.cpp
-	src/data/tfdata.hpp
-)
-
