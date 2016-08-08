@@ -344,6 +344,8 @@ namespace TF
 
 			chunk_type *newChunk = new chunk_type(buffer, theLength);
 			other.chunkList.emplace_back(newChunk);
+            
+            delete[] buffer;
 
 			return newChunk->bytes();
 		}

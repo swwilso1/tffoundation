@@ -196,3 +196,217 @@ TEST(DataTest, OperatorNotEqualTest)
 }
 
 
+TEST(DataTest, OperatorBracketTest)
+{
+	char data[kDataSize];
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		data[i] = i;
+	}
+
+	Data d(data, kDataSize);
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		EXPECT_EQ(d[i],i);
+	}
+}
+
+
+TEST(DataTest, LengthMethodTest)
+{
+	char data[kDataSize];
+
+	Data d(data, kDataSize);
+	EXPECT_EQ(d.length(), kDataSize);
+}
+
+
+
+TEST(DataTest, BytesMethodTest)
+{
+	char data[kDataSize];
+
+	Data d(data, kDataSize);
+
+	const char *bytes = d.bytes();
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		EXPECT_EQ(data[i], *(bytes + i));
+	}
+}
+
+
+TEST(DataTest, AppendByteArrayTest)
+{
+	char data[kDataSize];
+	char data2[kDataSize];
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		data[i] = data2[i] = i;
+	}
+
+	Data d(data,kDataSize);
+
+	d.append(data2, kDataSize);
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		ASSERT_EQ(d[i],i);
+	}
+
+	for(int i = kDataSize; i < (2 * kDataSize); i++)
+	{
+		ASSERT_EQ(d[i], i - kDataSize);
+	}
+}
+
+
+TEST(DataTest, AppendDataObjectTest)
+{
+	char data[kDataSize];
+	char data2[kDataSize];
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		data[i] = data2[i] = i;
+	}
+
+	Data d(data, kDataSize);
+	Data d2(data, kDataSize);
+
+	d.append(d2);
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		ASSERT_EQ(d[i],i);
+	}
+
+	for(int i = kDataSize; i < (2 * kDataSize); i++)
+	{
+		ASSERT_EQ(d[i], i - kDataSize);
+	}
+}
+
+
+TEST(DataTest, AppendDataMoveTest)
+{
+	char data[kDataSize];
+	char data2[kDataSize];
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		data[i] = data2[i] = i;
+	}
+
+	Data d(data, kDataSize);
+
+	d.append(Data(data2, kDataSize));
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		ASSERT_EQ(d[i],i);
+	}
+
+	for(int i = kDataSize; i < (2 * kDataSize); i++)
+	{
+		ASSERT_EQ(d[i], i - kDataSize);
+	}	
+}
+
+
+TEST(DataTest, PrependByteArrayTest)
+{
+	char data[kDataSize];
+	char data2[kDataSize];
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		data[i] = i;
+	}
+
+	for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
+	{
+		data2[i] = j;
+	}
+
+	Data d(data, kDataSize);
+
+	d.prepend(data2, kDataSize);
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		ASSERT_EQ(d[i], kDataSize - i - 1);
+	}
+
+	for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
+	{
+		ASSERT_EQ(d[i], j);
+	}
+}
+
+
+
+TEST(DataTest, PrependDataObjectTest)
+{
+	char data[kDataSize];
+	char data2[kDataSize];
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		data[i] = i;
+	}
+
+	for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
+	{
+		data2[i] = j;
+	}
+
+	Data d(data, kDataSize);
+	Data d2(data2, kDataSize);
+
+	d.prepend(d2);
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		ASSERT_EQ(d[i], kDataSize - i - 1);
+	}
+
+	for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
+	{
+		ASSERT_EQ(d[i], j);
+	}
+}
+
+
+TEST(DataTest, PrependDataObjectMoveTest)
+{
+	char data[kDataSize];
+	char data2[kDataSize];
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		data[i] = i;
+	}
+
+	for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
+	{
+		data2[i] = j;
+	}
+
+	Data d(data, kDataSize);
+	d.prepend(Data(data2, kDataSize));
+
+	for(int i = 0; i < kDataSize; i++)
+	{
+		ASSERT_EQ(d[i], kDataSize - i - 1);
+	}
+
+	for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
+	{
+		ASSERT_EQ(d[i], j);
+	}
+}
