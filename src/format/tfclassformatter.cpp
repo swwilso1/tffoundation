@@ -97,6 +97,7 @@ namespace TF
 		 	converter << i;
 		 	TemplateClassMemberWithType<string_type> *newMember =
 		 		new TemplateClassMemberWithType<string_type>(type, converter.str(), value);
+             classMemberList.push_back(newMember);
 		 }
 
 

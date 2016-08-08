@@ -267,7 +267,6 @@ namespace TF
 				const value_type *v,
 				const size_type &l) : ClassMember(t, n)
 			{
-				value_type vt;
 				theValue = new value_type[l];
 				for(size_type i = 0; i < l; i++)
 				{
