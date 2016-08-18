@@ -5,8 +5,6 @@
 #####
 ################################################################################
 
-include(cmake/headers.cmake)
-
 set(GENERATED_SOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated_sources" CACHE STRING "Name of generated source directory")
 
 set(FOUNDATION_LIBRARY_NAME "TFFoundation" CACHE STRING "Library name")
@@ -50,3 +48,6 @@ set(TEST_LINK_FLAGS ${TEST_PLATFORM_LINK_FLAGS})
 set(TEST_LIBRARIES ${TEST_PLATFORM_LIBRARIES})
 
 list(APPEND TEST_INCLUDE_DIRECTORIES ${CMAKE_CURRENT_BINARY_DIR}/headers)
+
+include(cmake/headers.cmake)
+

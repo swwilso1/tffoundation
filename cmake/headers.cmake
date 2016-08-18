@@ -8,6 +8,10 @@
 include(CheckIncludeFile)
 include(CheckIncludeFileCXX)
 
+if(HEADER_TEST_COMPILE_FLAGS)
+	set(CMAKE_REQUIRED_FLAGS ${HEADER_TEST_COMPILE_FLAGS})
+endif()
+
 # Standard C header files
 
 CHECK_INCLUDE_FILE(assert.h HAS_ASSERT_H)
