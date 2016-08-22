@@ -113,15 +113,21 @@ namespace TF
             UnsignedInteger position;
             UnsignedInteger length;
 
-            /** @brief default constructor */
-            Range() : position(0), length(0)
-            { }
-
             /** @brief lvalue constructor */
-            Range(const UnsignedInteger &p, const UnsignedInteger &l) : position(p),
-                                                                        length(l)
+            Range(const UnsignedInteger &p = 0,
+                const UnsignedInteger &l = 0) : position(p), length(l)
             { }
         };
+
+
+        enum endian
+        {
+            BigEndian = 1,
+            LittleEndian,
+            NoEndian
+        };
+
+        using Endian = enum endian;
 
     } // Foundation
 
