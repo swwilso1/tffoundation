@@ -25,16 +25,33 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
+#ifndef TFMUTEX_HPP
+#define TFMUTEX_HPP
+
+#define NEEDS_MUTEX
+#define NEEDS_OSTREAM
+#include "tfheaders.hpp"
+
+namespace TF
+{
+
+	namespace Foundation
+	{
+	
+		class Mutex : public std::mutex
+		{
+		public:
+		
+			using parent = std::mutex;
+			
+			std::ostream& description(std::ostream &o) const;
+		};
+
+		std::ostream& operator<<(std::ostream &o, const Mutex &m);
+
+	} // Foundation
+
+} // TF
+
+#endif // TFMUTEX_HPP
 

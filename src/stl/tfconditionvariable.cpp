@@ -25,16 +25,37 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfthread.hpp"
 #include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
+#include "tftypes.hpp"
+#include "tfformatter.hpp"
+
+namespace TF
+{
+
+	namespace Foundation
+	{
+
+		std::ostream& ConditionVariable::description(std::ostream &o)
+			const
+		{
+			ClassFormatter *formatter = FormatterFactory::getFormatter();
+			if(formatter != nullptr)
+			{
+				formatter->setClassName("ConditionVariable");
+				o << *formatter;
+				delete formatter;
+			}
+			return o;
+		}
+		
+		
+		std::ostream& operator<<(std::ostream &o,
+			const ConditionVariable &v)
+		{
+			return v.description(o);
+		}
+
+	} // Foundation
+
+} // TF
 

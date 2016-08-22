@@ -25,16 +25,40 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
+#ifndef TFQUEUE_HXX
+#define TFQUEUE_HXX
+
+#define NEEDS_QUEUE
+#define NEEDS_DEQUE
+#define NEEDS_OSTREAM
+#include "tfheaders.hpp"
+
+namespace TF
+{
+	
+	namespace Foundation
+	{
+
+		template<class T, class Container = std::deque<T>>
+		class Queue : public std::queue<T, Container>
+		{
+		public:
+		
+			using parent = std::queue<T, Container>;
+			
+			std::ostream& description(std::ostream &o) const;
+		};
+		
+		
+		template<class T, class Container = std::deque<T>>
+		std::ostream& operator<<(std::ostream &o,
+			const Queue<T, Container> &q);
+
+	} // Foundation
+
+} // TF
+
+#include "tfqueue.cxx"
+
+#endif // TFQUEUE_HXX
 

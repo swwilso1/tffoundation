@@ -25,16 +25,32 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
+#ifndef TFTHREAD_HPP
+#define TFTHREAD_HPP
+
+#define NEEDS_THREAD
+#include "tfheaders.hpp"
+
+namespace TF
+{
+	
+	namespace Foundation
+	{
+		class Thread : public std::thread
+		{
+		public:
+		
+			using parent = std::thread;
+			
+			std::ostream& description(std::ostream &o) const;
+		};
+		
+		
+		std::ostream& operator<<(std::ostream &o, const Thread &t);
+
+	} // Foundation
+
+} // TF
+
+#endif // TFTHREAD_HPP
 

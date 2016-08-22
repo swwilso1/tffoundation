@@ -25,16 +25,41 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
 #include "tfthreadcontroller.hpp"
+#include "tfformatter.hpp"
+
+namespace TF
+{
+
+	namespace Foundation
+	{
+
+		std::ostream& ThreadController::description(std::ostream &o)
+			const
+		{
+			ClassFormatter *formatter = FormatterFactory::getFormatter();
+			if(formatter != nullptr)
+			{
+				formatter->setClassName("ThreadController");
+				formatter->addClassMember<bool>("theSignal",
+					theSignal);
+				formatter->addClassMember<bool>("autoReset",
+					autoReset);
+				formatter->addClassMember<bool>("theStop", theStop);
+				o << *formatter;
+				delete formatter;
+			}
+			return o;
+		}
+		
+		
+		std::ostream& operator<<(std::ostream &o,
+			const ThreadController &c)
+		{
+			return c.description(o);
+		}
+
+	} // Foundation
+
+} // TF
 

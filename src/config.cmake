@@ -14,6 +14,7 @@ include(src/include/config.cmake)
 include(src/log/config.cmake)
 include(src/stl/config.cmake)
 include(src/string/config.cmake)
+include(src/thread/config.cmake)
 include(src/uuid/config.cmake)
 
 include_directories(
@@ -26,6 +27,7 @@ include_directories(
     src/log
     src/stl
     src/string
+    src/thread
     src/uuid
     "${GENERATED_SOURCES_DIR}"
 )
