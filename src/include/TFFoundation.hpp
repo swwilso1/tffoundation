@@ -37,4 +37,6 @@ SOFTWARE.
 #include "tfdata.hpp"
 #include "tfthreadsafequeue.hxx"
 #include "tfthreadcontroller.hpp"
+#include "tflog.hpp"
+
 
