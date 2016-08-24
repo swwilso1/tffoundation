@@ -129,7 +129,7 @@ namespace TF
 			{
 				o << std::endl << Tab(indentLevel, tabWidth);
 				o << member->type() << " " << member->name() << " ";
-				o << member->value() << std::endl;
+				o << member->value();
 			}
 			indentLevel--;
 			return o;
