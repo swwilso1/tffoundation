@@ -6,6 +6,7 @@
 ################################################################################
 
 list(APPEND FOUNDATION_HEADER_FILES
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthread.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthreadcontroller.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthreadsafequeue.cxx"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthreadsafequeue.hxx"
@@ -20,6 +21,8 @@ set_source_files_properties(
 
 
 list(APPEND FOUNDATION_SOURCE_FILES
+	"src/thread/tfthread.cpp"
+	"src/thread/tfthread.hpp"
 	"src/thread/tfthreadcontroller.cpp"
 	"src/thread/tfthreadcontroller.hpp"
 	"src/thread/tfthreadsafequeue.cxx"

@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2015 Tectiform Inc.
+Copyright (c) 2016 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -28,29 +28,77 @@ SOFTWARE.
 #ifndef TFTHREAD_HPP
 #define TFTHREAD_HPP
 
-#define NEEDS_THREAD
+#define NEEDS_OSTREAM
+#define NEEDS_TYPE_TRAITS
+#define NEEDS_FUNCTIONAL
 #include "tfheaders.hpp"
+#include "tftypes.hpp"
+#include "tfallocator.hpp"
+
+// Very unix centric at the moment.
+#include <pthread.h>
 
 namespace TF
 {
-	
+
 	namespace Foundation
 	{
-		class Thread : public std::thread
+	
+		class ThreadID;
+
+		class Thread : public AllocatorInterface
 		{
 		public:
-		
-			using parent = std::thread;
-			
+
+			using id = ThreadID;
+
+			using native_handle_type = pthread_t;
+
+			using thread_function_type = std::function<void *(void *)>;
+
+			Thread();
+
+			Thread(Thread &&t);
+
+			Thread(thread_function_type f, void *arg);
+
+			Thread(const Thread &t) = delete;
+
+			~Thread();
+
+			Thread& operator=(Thread &&t);
+
+			bool joinable() const;
+
+			id get_id() const;
+
+			native_handle_type native_handle();
+
+			static unsigned hardware_concurrency();
+
+			void join();
+
+			void detach();
+
+			void swap(Thread &t);
+
 			std::ostream& description(std::ostream &o) const;
+
+
+		private:
+
+			native_handle_type nativeHandle;
+			bool handleValid;
+
 		};
-		
-		
+
+
 		std::ostream& operator<<(std::ostream &o, const Thread &t);
 
 	} // Foundation
+	
 
 } // TF
 
-#endif // TFTHREAD_HPP
 
+#endif /* TFTHREAD_HPP */

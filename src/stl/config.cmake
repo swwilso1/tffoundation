@@ -12,7 +12,6 @@ list(APPEND FOUNDATION_HEADER_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfmutex.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfqueue.cxx"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfqueue.hxx"
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfthread.hpp"
 )
 
 
@@ -33,7 +32,5 @@ list(APPEND FOUNDATION_SOURCE_FILES
 	src/stl/tfmutex.hpp
 	src/stl/tfqueue.cxx
 	src/stl/tfqueue.hxx
-	src/stl/tfthread.cpp
-	src/stl/tfthread.hpp
 )
 
