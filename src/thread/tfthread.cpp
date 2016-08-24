@@ -30,6 +30,7 @@ SOFTWARE.
 #define NEEDS_SYSTEM_ERROR
 #include "tfheaders.hpp"
 #include "tfthread.hpp"
+#include "tfformatter.hpp"
 
 namespace TF
 {
@@ -118,23 +119,23 @@ namespace TF
 
 		void Thread::join()
 		{
-			if(validHandle)
+			if(handleValid)
 			{
 				int apiResult = pthread_join(nativeHandle, nullptr);
 				if(apiResult == 0)
-					validHandle = false;
+					handleValid = false;
 			}
 		}
 
 
 		void Thread::detach()
 		{
-			if(validHandle)
+			if(handleValid)
 			{
 				int apiResult = pthread_detach(nativeHandle);
 
 				if(apiResult == 0)
-					validHandle = 0;
+					handleValid = 0;
 			}
 		}
 
@@ -142,13 +143,13 @@ namespace TF
 		void Thread::swap(Thread &t)
 		{
 			native_handle_type tmpHandle = t.nativeHandle;
-			bool tmpValid = t.validHandle;
+			bool tmpValid = t.handleValid;
 
 			t.nativeHandle = nativeHandle;
-			t.validHandle = validHandle;
+			t.handleValid = handleValid;
 
 			nativeHandle = tmpHandle;
-			validHandle = tmpValid;
+			handleValid = tmpValid;
 		}
 
 
@@ -158,8 +159,8 @@ namespace TF
 			if(formatter != nullptr)
 			{
 				formatter->setClassName("Thread");
-				formatter->addClassMember<bool>("validHandle",
-					validHandle);
+				formatter->addClassMember<bool>("handleValid",
+					handleValid);
 				o << *formatter;
 				delete formatter;
 			}

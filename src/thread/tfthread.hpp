@@ -30,7 +30,6 @@ SOFTWARE.
 
 #define NEEDS_OSTREAM
 #define NEEDS_TYPE_TRAITS
-#define NEEDS_FUNCTIONAL
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -46,6 +45,11 @@ namespace TF
 	
 		class ThreadID;
 
+		extern "C"
+		{
+			typedef void * (*thread_function)(void *);
+		}
+
 		class Thread : public AllocatorInterface
 		{
 		public:
@@ -54,7 +58,7 @@ namespace TF
 
 			using native_handle_type = pthread_t;
 
-			using thread_function_type = std::function<void *(void *)>;
+			using thread_function_type = thread_function;
 
 			Thread();
 
