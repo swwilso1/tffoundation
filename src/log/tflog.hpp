@@ -97,7 +97,7 @@ namespace TF
 						std::stringstream formatter;
 						formatter << value;
 						logMessage += formatter.str();
-						log(priority, formatter.str().substr(i+1),
+						log(priority, format.substr(i + 1),
 							args...);
 						return;
 					}
@@ -119,7 +119,7 @@ namespace TF
 
 #define LOG(options, priority, format, args...) \
 		{ \
-			TF::Foundation::Logger theLog(options); \
+			TF::Foundation::Logger theLog(static_cast<int>(options)); \
 			theLog.log(priority, format , ##args); \
 		}
 
