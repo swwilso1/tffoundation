@@ -121,13 +121,15 @@ namespace TF
 					if(i++ < (max - 1))
 						o << ",";
 				}
-				o << ">";
+				o << ">" << std::endl;
 			}
+			else
+				o << Tab(indentLevel,tabWidth) << className << std::endl;
 			for(auto member : classMemberList)
 			{
 				o << std::endl << Tab(indentLevel, tabWidth);
 				o << member->type() << " " << member->name() << " ";
-				o << member->value();
+				o << member->value() << std::endl;
 			}
 			indentLevel--;
 			return o;
