@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2015 Tectiform Inc.
+Copyright (c) 2016 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,20 +25,45 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
+#include "tfformatter.hpp"
 
+namespace TF
+{
+
+	namespace Foundation
+	{
+
+		template<class Key, class T, class Compare, class Allocator>
+		std::ostream& Map<Key, T, Compare, Allocator>::description(
+			std::ostream &o) const
+		{
+			ClassFormatter *formatter =
+				FormatterFactory::getFormatter();
+			if(formatter != nullptr)
+			{
+				formatter->setClassName("Map");
+				Size_t i = 0;
+				for(auto entry : *this)
+				{
+					Pair<Key, T> p(entry.first, entry.second);
+					formatter->addClassMember<pair_type>(i++,p);
+				}
+				o << *formatter;
+				delete formatter;
+			}
+
+			return o;
+		}
+		
+		
+		template<class Key, class T, class Compare, class Allocator>
+		std::ostream& operator<<(std::ostream &o,
+			const Map<Key, T, Compare, Allocator> &m)
+		{
+			return m.description(o);
+		}
+
+	} // Foundation
+
+} // TF
 
