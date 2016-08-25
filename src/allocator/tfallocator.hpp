@@ -26,5 +26,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #include "tfallocatorinterface.hpp"
-#include "tfcxxallocator.hpp"
+#ifndef SKIP_TF_CXX_ALLOCATORS
+#	include "tfcxxallocator.hpp"
+#endif
 
