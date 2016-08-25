@@ -32,6 +32,7 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfclassformatter.hpp"
 #include "tfxmlclassformatter.hpp"
+#include "tflogxmlclassformatter.hpp"
 
 namespace TF
 {
@@ -42,7 +43,8 @@ namespace TF
 		enum class FormatterType
 		{
 			DefaultFormatterType,
-			XMLFormatterType
+			XMLFormatterType,
+			LogXMLFormatterType
 		};
 
 
@@ -55,6 +57,9 @@ namespace TF
 
 			/** @brief xml formatter type */
 			using xml_formatter_type = XMLClassFormatter;
+			
+			/** @brief log xml formatter type */
+			using log_xml_formatter_type = LogXMLClassFormatter;
 
 			/** @brief type for indicating which formatter to select. */
 			using formatter_type = FormatterType;
@@ -83,6 +88,10 @@ namespace TF
 					case FormatterType::XMLFormatterType:
 						theFormatter = dynamic_cast<default_formatter_type *>(
 							new xml_formatter_type());
+						break;
+					case FormatterType::LogXMLFormatterType:
+						theFormatter = dynamic_cast<default_formatter_type *>(
+							new log_xml_formatter_type());
 						break;
 					default:
 						theFormatter = new default_formatter_type();
