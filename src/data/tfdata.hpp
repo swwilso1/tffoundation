@@ -166,7 +166,7 @@ namespace TF
 
 
 			/** @brief default constructor */
-			Data() : theLength(0) {}
+			Data() : theLength(0) { chunkList = nullptr; }
 
 			/**
 			 *  @brief byte array constructor
@@ -281,7 +281,7 @@ namespace TF
 			 *  object to the end of the current data object's byte array.
 			 *  @param d the other Data object
 			 **/
-			void append(const Data &&d);
+			void append(Data &&d);
 
 			/**
 			 *  @brief method to prepend a raw byte array to the byte array already
@@ -303,7 +303,7 @@ namespace TF
 			 *  to the byte array in the current object.
 			 *  @param d the other Data object.
 			 **/
-			void prepend(const Data &&d);
+			void prepend(Data &&d);
 
 			/**
 			 *  @brief method to write the object contents to a stream object
@@ -337,7 +337,7 @@ namespace TF
 
 
 			/** @brief the list of buffers */
-			chunk_list_type chunkList;
+			chunk_list_type *chunkList;
 
 			/**
 				@brief the counter that holds the overall number of bytes tracked
