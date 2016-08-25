@@ -82,7 +82,7 @@ namespace TF
 				 *  @brief c the chunk to copy using
 				 *  rvalue semantics.
 				 **/
-				Chunk(const Chunk &&c);
+				Chunk(Chunk &&c);
 
 				/** @brief destructor */
 				~Chunk()
@@ -105,7 +105,7 @@ namespace TF
 				 *  @param c the chunk to assign from.
 				 *  @return this chunk updated with the contents of @e c
 				 **/
-				Chunk& operator=(const Chunk &&c);
+				Chunk& operator=(Chunk &&c);
 
 				/**
 				 *  @brief equality operator to compare if two chunks are equal.
@@ -187,7 +187,7 @@ namespace TF
 			 *  Data object into the new object.
 			 *  @param d the other object.
 			 **/
-			Data(const Data &&d);
+			Data(Data &&d);
 
 			/** @brief destructor */
 			~Data();
@@ -209,7 +209,7 @@ namespace TF
 			 *  @return this object now holding the contents of
 			 *  @e d.
 			 **/
-			Data& operator=(const Data &&d);
+			Data& operator=(Data &&d);
 
 
 			/**

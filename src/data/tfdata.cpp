@@ -67,13 +67,12 @@ namespace TF
 		}
 
 
-		Data::Chunk::Chunk(const Chunk &&c)
+		Data::Chunk::Chunk(Chunk &&c)
 		{
-			Chunk &other = const_cast<Chunk &>(c);
 			theBuffer = c.theBuffer;
 			theLength = c.theLength;
-			other.theBuffer = nullptr;
-			other.theLength = 0;
+			c.theBuffer = nullptr;
+			c.theLength = 0;
 		}
 
 
@@ -103,7 +102,7 @@ namespace TF
 		}
 
 
-		Data::Chunk& Data::Chunk::operator=(const Chunk &&c)
+		Data::Chunk& Data::Chunk::operator=(Chunk &&c)
 		{
 			if(this != &c)
 			{
@@ -116,11 +115,10 @@ namespace TF
 
 				if(c.theBuffer != nullptr && c.theLength != 0)
 				{
-					Chunk &other = const_cast<Chunk &>(c);
 					theBuffer = c.theBuffer;
 					theLength = c.theLength;
-					other.theBuffer = nullptr;
-					other.theLength = 0;
+					c.theBuffer = nullptr;
+					c.theLength = 0;
 				}
 			}
 
@@ -190,7 +188,7 @@ namespace TF
 		}
 
 
-		Data::Data(const Data &&d)
+		Data::Data(Data &&d)
 		{
 			theLength = 0;
 			if(d.theLength > 0)
@@ -242,7 +240,7 @@ namespace TF
 		}
 
 
-		Data& Data::operator=(const Data &&d)
+		Data& Data::operator=(Data &&d)
 		{
 			if(this != &d)
 			{
@@ -437,7 +435,7 @@ namespace TF
 			{
 				formatter->setClassName("Data");
 				formatter->addClassMember("chunk_list_type", "chunkList", chunkList);
-				formatter->addClassMember("Size_t", "theLength", theLength);
+				formatter->addClassMember<Size_t>("theLength", theLength);
 				o << *formatter;
 				delete formatter;
 			}
