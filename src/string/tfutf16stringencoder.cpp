@@ -973,7 +973,7 @@ namespace TF
 			ClassFormatter *formatter = FormatterFactory::getFormatter();
 			if(formatter != nullptr)
 			{
-				formatter->setClassName("ASCIIStringEncoder");
+				formatter->setClassName("UTF16StringEncoder");
 				o << *formatter;
 				delete formatter;
 			}
