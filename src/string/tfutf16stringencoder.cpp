@@ -1,15 +1,29 @@
-/* begin copyright *******************************************************
+/******************************************************************************
 
-                    Tectiform Inc. source file
+Tectiform Open Source License (TOS)
 
-        Copyright 2011 through 2012 by Tectiform Inc.
+Copyright (c) 2016 Tectiform Inc.
 
-This material contains trade secrets and may be registered with the
-U.S. Copyright Office as an unpublished work, pursuant to Title 17,
-U.S. Code, Section 408.  Unauthorized copying, adaptation, distribution
-or display is prohibited.
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-********************************************************* end copyright */
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+
+******************************************************************************/
 
 #define NEEDS_CSTRING
 #define NEEDS_CMATH
