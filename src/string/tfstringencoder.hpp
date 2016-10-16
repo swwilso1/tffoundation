@@ -43,7 +43,7 @@ namespace TF
 
 	namespace Foundation
 	{
-	
+
 		class StringEncoder : public AllocatorInterface
 		{
 		public:
@@ -74,7 +74,7 @@ namespace TF
 			/**
 				@brief length in bytes of the basic code used by the encoder's encoding scheme.
 				@return the number of bytes used for the basic code.
-			
+
 				For example, UTF-8 encoding uses 1 byte codes, UTF-16 uses 2-byte codes, and
 				UTF-32 uses 4-byte codes.
 			*/
@@ -133,7 +133,7 @@ namespace TF
 				@return the byte_order_query (std::pair<bool,Endian>).
 			*/
 			virtual byte_order_query_type hasByteOrderMark(const char_type *start, size_type length) = 0;
-			
+
 			/**
 				@brief given a byte array, return the number of characters encoded in the array.
 				@param start the pointer to the array of bytes.
@@ -282,7 +282,7 @@ namespace TF
 			*/
 			virtual range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
 				const char_type *substringStart, size_type substringLength) = 0;
-			
+
 			/**
 				@brief given a byte array and another byte array representing the contents of a substring,
 				calculate all the ranges (location and length) of bytes of the occurances of the substring
@@ -338,7 +338,7 @@ namespace TF
 			*/
 			virtual range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type *stringStart, size_type stringLength,
 				const char_type *substringStart, size_type substringLength) = 0;
-			
+
 			/**
 				@brief given two byte arrays, compare the character values encoded in those arrays.
 				@param firstStringStart the pointer to the array of bytes for the first string.
@@ -350,9 +350,9 @@ namespace TF
 				string come lexically after the characters in the second string and OrderedSame of the
 				contents of the two strings are equal.
 			*/
-			virtual ComparisonResult compareStrings(const char_type *firstStringStart, size_type firstStringLength, 
+			virtual ComparisonResult compareStrings(const char_type *firstStringStart, size_type firstStringLength,
 				const char_type *secondStringStart, size_type secondStringLength);
-			
+
 			/**
 				@brief given a byte array and case conversion specificer, convert the characters in the byte
 				array to the case indicated.
@@ -379,9 +379,9 @@ namespace TF
 				This method must include the number of bytes needed for any byte order mark used by the encoder.
 			*/
 			virtual size_type computeArraySizeInBytesForStringByReplacingSubstrings(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength, 
+				const char_type *substringStart, size_type substringLength,
 				const char_type *replaceStringStart, size_type replaceStringLength, range_array_type& ranges) = 0;
-			
+
 			/**
 				@brief give a byte array and new byte array and a replacement byte array and an array of ranges of
 				the characters to replace, create the new array by inserting the replacement byte array values in
@@ -395,7 +395,7 @@ namespace TF
 				@param substringRanges a reference to an array of ranges that contain the location and
 				lengths of the substrings to replace in originalStringStart.
 
-				This method will copy the values from the original string to the new string that are not contained 
+				This method will copy the values from the original string to the new string that are not contained
 				in the ranges list, and will insert the replacement string in the new string in place of the values
 				in the ranges list.
 
@@ -403,7 +403,7 @@ namespace TF
 				In addition, the replacementString and the originalString will both contain byte order marks if
 				the encoder uses byte order marks.
 			*/
-			virtual void replaceOccurancesOfStringWithString(const char_type *originalStringStart, size_type originalStringLength, 
+			virtual void replaceOccurancesOfStringWithString(const char_type *originalStringStart, size_type originalStringLength,
 				char_type *newStringStart, size_type newStringLength, const char_type *replacementStringStart,
 				size_type replacementStringLength, range_array_type& substringRanges) = 0;
 
@@ -446,9 +446,9 @@ namespace TF
 
 
 		};
-	
+
 	} // Foundation
-	
+
 
 } // TF
 

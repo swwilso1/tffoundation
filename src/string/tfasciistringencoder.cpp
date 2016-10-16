@@ -37,7 +37,7 @@ namespace TF
 
 	namespace Foundation
 	{
-	
+
 		ASCIIStringEncoder::~ASCIIStringEncoder()
 		{
 		}
@@ -122,7 +122,7 @@ namespace TF
 									modifier = static_cast<size_type>(*(string + j) - 55);
 								else
 								{
-									// Found a non-allowed character, just move on to 
+									// Found a non-allowed character, just move on to
 									// the ':' character.
 									aborted = true;
 									break;
@@ -173,7 +173,7 @@ namespace TF
 									modifier = static_cast<size_type>(*(string + j) - 55);
 								else
 								{
-									// Found a non-allowed character, just move on to 
+									// Found a non-allowed character, just move on to
 									// the ':' character.
 									aborted = true;
 									break;
@@ -469,7 +469,7 @@ namespace TF
 
 			return result;
 		}
-		
+
 
 		ASCIIStringEncoder::range_array_type ASCIIStringEncoder::findByteRangesOfSubstringInString(const char_type *stringStart, size_type stringLength,
 			const char_type *substringStart, size_type substringLength)
@@ -530,28 +530,28 @@ namespace TF
 			for(size_type i = 0; i < stringNumberOfCharacters; i++)
 			{
 				unicode_point_type stringCode = unicodeCodePointForCharacterAtIndex(stringStart, stringLength, i);
-				
+
 				if(stringCode == subCode)
 				{
 					size_type j = i + 1, k = 1;
 					result.position = i;
 					bool aborted = false;
-					
+
 					if(substringNumberOfCharacters > (stringNumberOfCharacters - i))
 						return range_type();
-					
+
 					for(; j < (i + substringNumberOfCharacters); j++, k++)
 					{
 						unicode_point_type stringCode2 = unicodeCodePointForCharacterAtIndex(stringStart, stringLength, j);
 						unicode_point_type subCode2 = unicodeCodePointForCharacterAtIndex(substringStart, substringLength, k);
-						
+
 						if(stringCode2 != subCode2)
 						{
 							aborted = true;
 							break;
 						}
 					}
-					
+
 					if(aborted)
 					{
 						result.position = 0;
@@ -564,8 +564,8 @@ namespace TF
 					}
 				}
 			}
-			
-			return result;		
+
+			return result;
 		}
 
 
@@ -573,39 +573,39 @@ namespace TF
 			const char_type *substringStart, size_type substringLength)
 		{
 			range_array_type rangeArray;
-			
+
 			if(substringLength > stringLength)
 				return rangeArray;
-			
+
 			size_type stringNumberOfCharacters = numberOfCharacters(stringStart, stringLength);
 			size_type substringNumberOfCharacters = numberOfCharacters(substringStart, substringLength);
-			
+
 			unicode_point_type subCode = unicodeCodePointForCharacterAtIndex(substringStart, substringLength, 0);
-			
+
 			for(size_type i = 0; i < stringNumberOfCharacters; i++)
 			{
 				unicode_point_type stringCode = unicodeCodePointForCharacterAtIndex(stringStart, stringLength, i);
-				
+
 				if(stringCode == subCode)
 				{
 					size_type j = i + 1, k = 1;
 					bool aborted = false;
-					
+
 					if(substringNumberOfCharacters > (stringNumberOfCharacters - i))
 						return rangeArray;
-					
+
 					for(; j < (i + substringNumberOfCharacters); j++, k++)
 					{
 						unicode_point_type stringCode2 = unicodeCodePointForCharacterAtIndex(stringStart, stringLength, j);
 						unicode_point_type subCode2 = unicodeCodePointForCharacterAtIndex(substringStart, substringLength, k);
-						
+
 						if(stringCode2 != subCode2)
 						{
 							aborted = true;
 							break;
 						}
 					}
-					
+
 					if(aborted)
 					{
 						continue;
@@ -617,7 +617,7 @@ namespace TF
 					}
 				}
 			}
-			
+
 			return rangeArray;
 		}
 
@@ -626,7 +626,7 @@ namespace TF
 			const char_type *substringStart, size_type substringLength)
 		{
 			range_array_type rangeArray;
-			
+
 			if(substringLength > stringLength)
 			{
 				if(stringLength > 0)
@@ -637,24 +637,24 @@ namespace TF
 				}
 				return rangeArray;
 			}
-			
+
 			size_type stringNumberOfCharacters = this->numberOfCharacters(stringStart, stringLength);
 			size_type substringNumberOfCharacters = this->numberOfCharacters(substringStart, substringLength);
-			
+
 			unicode_point_type subCode = this->unicodeCodePointForCharacterAtIndex(substringStart, substringLength, 0);
-			
+
 			size_type location = 0;
 			size_type length = 0;
-			
+
 			for(size_type i = 0; i < stringNumberOfCharacters; i++)
 			{
 				unicode_point_type stringCode = this->unicodeCodePointForCharacterAtIndex(stringStart, stringLength, i);
-				
+
 				if(stringCode == subCode)
 				{
 					size_type j = i + 1, k = 1;
 					bool aborted = false;
-					
+
 					if(substringNumberOfCharacters > (stringNumberOfCharacters - i))
 					{
 						length += stringNumberOfCharacters - i;
@@ -662,19 +662,19 @@ namespace TF
 						rangeArray.push_back(theRange);
 						return rangeArray;
 					}
-					
+
 					for(; j < (i + substringNumberOfCharacters); j++, k++)
 					{
 						unicode_point_type stringCode2 = this->unicodeCodePointForCharacterAtIndex(stringStart, stringLength, j);
 						unicode_point_type subCode2 = this->unicodeCodePointForCharacterAtIndex(substringStart, substringLength, k);
-						
+
 						if(stringCode2 != subCode2)
 						{
 							aborted = true;
 							break;
 						}
 					}
-					
+
 					if(aborted)
 					{
 						length++;
@@ -698,13 +698,13 @@ namespace TF
 					length++;
 				}
 			}
-			
+
 			if(length > 0)
 			{
 				range_type theRange(location, length);
 				rangeArray.push_back(theRange);
 			}
-			
+
 			return rangeArray;
 		}
 
@@ -745,7 +745,7 @@ namespace TF
 
 
 		ASCIIStringEncoder::size_type ASCIIStringEncoder::computeArraySizeInBytesForStringByReplacingSubstrings(const char_type *stringStart, size_type stringLength,
-			const char_type *substringStart, size_type substringLength, 
+			const char_type *substringStart, size_type substringLength,
 			const char_type *replaceStringStart, size_type replaceStringLength, range_array_type& ranges)
 		{
 			size_type newsize = 0;
@@ -794,12 +794,12 @@ namespace TF
 
 				newsize++;
 			}
-			
+
 			return newsize;
 		}
-		
 
-		void ASCIIStringEncoder::replaceOccurancesOfStringWithString(const char_type *originalStringStart, size_type originalStringLength, 
+
+		void ASCIIStringEncoder::replaceOccurancesOfStringWithString(const char_type *originalStringStart, size_type originalStringLength,
 			char_type *newStringStart, size_type newStringLength, const char_type *replacementStringStart,
 			size_type replacementStringLength, range_array_type& substringRanges)
 		{
@@ -817,7 +817,7 @@ namespace TF
 			{
 				if(! endOfRanges && i == (*rangeIter).position)
 				{
-					std::memcpy(reinterpret_cast<void *>(newStringTmp), 
+					std::memcpy(reinterpret_cast<void *>(newStringTmp),
 						reinterpret_cast<void *>(const_cast<char_type *>(replacementStringStart)),
 						replacementStringLength * sizeof(char_type));
 					newStringTmp += replacementStringLength * sizeof(char_type);
@@ -844,7 +844,7 @@ namespace TF
 
 			return theNext.first;
 		}
-		
+
 
 		bool ASCIIStringEncoder::operator==(const StringEncoder& e)
 		{
@@ -874,8 +874,8 @@ namespace TF
 			return o;
 		}
 
-	
+
 	} // Foundation
-	
+
 
 } // TF

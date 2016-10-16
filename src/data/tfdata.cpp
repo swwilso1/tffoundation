@@ -36,7 +36,7 @@ namespace TF
 
 	namespace Foundation
 	{
-	
+
 		Data::Chunk::Chunk(const char *c, size_type length)
 		{
 			theBuffer = nullptr;
@@ -344,7 +344,7 @@ namespace TF
 
 			chunk_type *newChunk = new chunk_type(buffer, theLength);
 			other.chunkList.emplace_back(newChunk);
-            
+
             delete[] buffer;
 
 			return newChunk->bytes();
@@ -456,8 +456,8 @@ namespace TF
 			return d.description(o);
 		}
 
-	
+
 	} // Foundation
-	
+
 
 } // TF

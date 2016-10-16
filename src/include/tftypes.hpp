@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2015 Tectiform Inc.
+Copyright (c) 2016 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -30,6 +30,7 @@ SOFTWARE.
 #define TFTYPES_HPP 1
 
 #define NEEDS_LIMITS_H
+#define NEEDS_OSTREAM
 #include "tfheaders.hpp"
 
 
@@ -128,6 +129,8 @@ namespace TF
         };
 
         using Endian = enum endian;
+
+        std::ostream& operator<<(std::ostream &o, const Endian &e);
 
     } // Foundation
 
