@@ -39,14 +39,14 @@ namespace TF
 
 	namespace Foundation
 	{
-	
+
 		/**
 		 *  @brief A class design to pass arrays of bytes around in a program.  The
 		 *  class holds arbitrary bytes of arbitrary length.
 		 **/
 		class Data : public AllocatorInterface
 		{
-	
+
 		private:
 
 			/**
@@ -146,7 +146,7 @@ namespace TF
 
 				/** @brief the number of bytes in the byte array */
 				size_type theLength;
-				
+
 			};
 
 
@@ -368,9 +368,9 @@ namespace TF
 		 **/
 		std::ostream& operator<<(std::ostream &o, const Data &d);
 
-	
+
 	} // Foundation
-	
+
 
 } // TF
 
