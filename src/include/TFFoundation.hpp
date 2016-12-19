@@ -29,6 +29,7 @@ SOFTWARE.
 #include "tfclassformatter.hpp"
 #include "tfxmlclassformatter.hpp"
 #include "tfformatterfactory.hpp"
+#include "tfarray.hxx"
 #include "tflist.hxx"
 #include "tfqueue.hxx"
 #include "tfmutex.hpp"

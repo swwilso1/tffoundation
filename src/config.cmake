@@ -6,6 +6,7 @@
 ################################################################################
 
 include(src/allocator/config.cmake)
+include(src/array/config.cmake)
 include(src/base64/config.cmake)
 include(src/data/config.cmake)
 include(src/date/config.cmake)
@@ -19,6 +20,7 @@ include(src/uuid/config.cmake)
 
 include_directories(
     src/allocator
+    src/array
     src/base64
     src/data
     src/date
