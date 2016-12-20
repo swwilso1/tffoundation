@@ -246,6 +246,11 @@ namespace TF
 		};
 
 
+		template<> TemplateArrayClassMember<unsigned char>::string_type
+			TemplateArrayClassMember<unsigned char>::value();
+
+		template<> std::ostream& TemplateArrayClassMember<unsigned char>::writeToStream(std::ostream &o) const;
+
 		template<typename T>
 		struct TemplateArrayClassMemberWithType : public ClassMember
 		{
@@ -327,6 +332,11 @@ namespace TF
 			size_type theLength;
 
 		};
+
+		template<> TemplateArrayClassMemberWithType<unsigned char>::string_type
+		TemplateArrayClassMemberWithType<unsigned char>::value();
+
+		template<> std::ostream& TemplateArrayClassMemberWithType<unsigned char>::writeToStream(std::ostream &o) const;
 
 	} // Foundation
 

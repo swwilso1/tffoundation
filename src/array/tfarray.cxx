@@ -543,6 +543,9 @@ namespace TF
         template<class T>
         typename Array<T>::iterator Array<T>::begin()
         {
+            if(theLength == 0)
+                return end();
+
             return ArrayIterator<T>(*this, 0);
         }
 
@@ -550,6 +553,9 @@ namespace TF
         template<class T>
         typename Array<T>::const_iterator Array<T>::cbegin()
         {
+            if(theLength == 0)
+                return cend();
+
             const ArrayIterator<T> citer(*this, 0);
             return citer;
         }

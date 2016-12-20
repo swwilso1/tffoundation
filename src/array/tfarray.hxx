@@ -496,7 +496,7 @@ namespace TF
              * @brief exchange the contents of the array with another array
              * @param other the other array
              */
-            void swap(Array &other);
+            void swap(Array &makeother);
 
 
             /**

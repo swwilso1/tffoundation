@@ -25,6 +25,9 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#define NEEDS_IOSTREAM
+#define NEEDS_IOMANIP
+#include "tfheaders.hpp"
 #include "tfclassmember.hxx"
 
 namespace TF
@@ -32,6 +35,85 @@ namespace TF
 
 	namespace Foundation
 	{
+
+		template<> TemplateArrayClassMember<unsigned char>::string_type
+			TemplateArrayClassMember<unsigned char>::value()
+		{
+			std::stringstream collector;
+			if(theLength > 0)
+			{
+				collector << "{";
+				for(size_type i = 0; i < theLength; i++)
+				{
+					int value = static_cast<int>(theValue[i]);
+					collector << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
+					if(i < (theLength - 1))
+						collector << ",";
+				}
+				collector << "}";
+			}
+			return collector.str();
+
+		}
+
+
+		template<> std::ostream& TemplateArrayClassMember<unsigned char>::writeToStream(std::ostream &o) const
+		{
+			o << theType << " " << theName << "[" << theLength << "]";
+			if(theLength > 0)
+			{
+				o << " {";
+				for(size_type i = 0; i < theLength; i++)
+				{
+					int value = static_cast<int>(theValue[i]);
+					o << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
+					if(i < (theLength - 1))
+						o << ",";
+				}
+				o << "}";
+			}
+			return o;
+		}
+
+
+		template<> TemplateArrayClassMemberWithType<unsigned char>::string_type
+			TemplateArrayClassMemberWithType<unsigned char>::value()
+		{
+			std::stringstream collector;
+			if(theLength > 0)
+			{
+				collector << "{";
+				for(size_type i = 0; i < theLength; i++)
+				{
+					int value = static_cast<int>(theValue[i]);
+					collector << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
+					if(i < (theLength - 1))
+						collector << ",";
+				}
+				collector << "}";
+			}
+			return collector.str();
+		}
+
+
+		template<> std::ostream& TemplateArrayClassMemberWithType<unsigned char>::writeToStream(std::ostream &o) const
+		{
+			o << theType << " " << theName << "[" << theLength << "]";
+			if(theLength > 0)
+			{
+				o << " {";
+				for(size_type i = 0; i < theLength; i++)
+				{
+					int value = static_cast<int>(theValue[i]);
+					o << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
+					if(i < (theLength - 1))
+						o << ",";
+				}
+				o << "}";
+			}
+			return o;
+		}
+
 
 		std::ostream& ClassMember::writeToStream(std::ostream &o) const
 		{
