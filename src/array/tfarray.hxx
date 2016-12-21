@@ -301,6 +301,14 @@ namespace TF
 
 
             /**
+             * @brief array value constructor
+             * @param a the array of raw values
+             * @param l the length of the array
+             */
+            Array(const value_type *a, size_type l);
+
+
+            /**
              * @brief copy constructor
              * @param a the other array
              */

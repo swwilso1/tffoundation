@@ -421,6 +421,19 @@ namespace TF
 
 
         template<class T>
+        Array<T>::Array(const value_type *a, size_type l)
+        {
+            theArray = std::shared_ptr<value_type>(new value_type[l]);
+            theLength = l;
+            value_type *tmp = theArray.get();
+
+
+            for(size_type i = 0; i < l; i++)
+                *(tmp + i) = a[i];
+        }
+
+
+        template<class T>
         Array<T>::Array(const size_type &l)
         {
             theArray = nullptr;

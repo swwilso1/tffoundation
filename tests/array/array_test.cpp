@@ -39,6 +39,19 @@ TEST(ArrayTest, DefaultConstructorTest)
 }
 
 
+TEST(ArrayTest, RawArrayConstructorTest)
+{
+    int a[10];
+    for(int i = 0; i < 10; i++)
+        a[i] = i;
+
+    Array<int> b(a, 10);
+
+    for(int i = 0; i < 10; i++)
+        EXPECT_EQ(i, b[i]);
+}
+
+
 TEST(ArrayTest, SizeConstructorTest)
 {
     Array<int> a(10);
