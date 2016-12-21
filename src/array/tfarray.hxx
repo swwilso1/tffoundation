@@ -34,6 +34,7 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
+#include "tfdata.hpp"
 
 namespace TF
 {
@@ -505,6 +506,13 @@ namespace TF
              * @param other the other array
              */
             void swap(Array &makeother);
+
+
+            /**
+             * @brief method to get the array contents as a Data object
+             * @return the bytes of the array as a Data object
+             */
+            operator Data() const;
 
 
             /**

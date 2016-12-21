@@ -708,6 +708,17 @@ namespace TF
 
 
         template<class T>
+        Array<T>::operator Data() const
+        {
+            Data theData;
+
+            theData.append(reinterpret_cast<const char *>(theArray.get()),
+                theLength * sizeof(value_type));
+            return theData;
+        }
+
+
+        template<class T>
         std::ostream& Array<T>::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();

@@ -273,3 +273,18 @@ TEST(ArrayTest, SwapTest)
     for(int i = 0; i < 40; i++)
         EXPECT_EQ(i, b[i]);
 }
+
+
+TEST(ArrayTest, OperatorDataTest)
+{
+    Array<unsigned short> a(4);
+
+    a.fill(1);
+
+    Data d = a;
+
+    EXPECT_EQ(4 * sizeof(unsigned short), d.length());
+
+    EXPECT_TRUE((d[0] == 1 && d[1] == 0) || (d[0] == 0 && d[1] == 1));
+    EXPECT_TRUE((d[2] == 1 && d[3] == 0) || (d[2] == 0 && d[3] == 1));
+}
