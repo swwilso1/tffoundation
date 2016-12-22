@@ -41,5 +41,8 @@ SOFTWARE.
 #include "tfthreadsafequeue.hxx"
 #include "tfthreadcontroller.hpp"
 #include "tflog.hpp"
+#include "tfnotification.hpp"
+#include "tfnotificationcenter.hpp"
+
 
 

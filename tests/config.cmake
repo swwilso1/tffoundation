@@ -20,4 +20,6 @@ include(tests/allocator/config.cmake)
 include(tests/array/config.cmake)
 include(tests/data/config.cmake)
 include(tests/format/config.cmake)
+include(tests/notification/config.cmake)
+
 

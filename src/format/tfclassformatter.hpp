@@ -119,6 +119,14 @@ namespace TF
 			 void addClassMember(size_type i, const string_type &type, const string_type &value);
 
 
+			/**
+			 * @brief function for adding a void * class member
+			 * @param n the name of the member
+			 * @param value the void * value
+			 */
+			void addClassMember(const string_type &n, void *value);
+
+
 			 /**
 			  *  @brief function for adding an indexed member (such as an array member)
 			  *  to the class.

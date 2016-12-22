@@ -78,6 +78,33 @@ namespace TF
 		std::ostream& operator<<(std::ostream &o, const ClassMember &m);
 
 
+		class VoidClassMember : public ClassMember
+		{
+		public:
+
+			VoidClassMember() : ClassMember() { theValue = nullptr; }
+
+			VoidClassMember(const string_type &n, void *value) : ClassMember("void *", n)
+			{
+				theValue = value;
+			}
+
+			string_type value() override
+			{
+				std::stringstream theConverter;
+				theConverter << theValue;
+				return theConverter.str();
+			}
+
+
+			std::ostream& writeToStream(std::ostream &o) const override;
+
+		private:
+
+			void *theValue;
+		};
+
+
 		template <typename T>
 		struct TemplateClassMember : public ClassMember
 		{

@@ -122,6 +122,15 @@ namespace TF
 		}
 
 
+		std::ostream& VoidClassMember::writeToStream(std::ostream &o) const
+		{
+			std::stringstream converter;
+			converter << theValue;
+			o << theType << " " << theName << " " << converter.str();
+			return o;
+		}
+
+
 		std::ostream& operator<<(std::ostream &o, const ClassMember &m)
 		{
 			return m.writeToStream(o);

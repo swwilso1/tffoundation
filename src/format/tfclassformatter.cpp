@@ -101,6 +101,14 @@ namespace TF
 		 }
 
 
+		void ClassFormatter::addClassMember(const string_type &n, void *value)
+		{
+			VoidClassMember *voidMember = new VoidClassMember(n, value);
+			classMemberList.push_back(voidMember);
+		}
+
+
+
 		void ClassFormatter::addClassTemplateType(const string_type &t)
 		{
 			classTemplateList.push_back(t);
