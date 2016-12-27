@@ -54,6 +54,14 @@ namespace TF
         }
 
 
+        Notification::Notification(const notification_label &l, const notification_data &d)
+        {
+            theLabel = l;
+            theData = d;
+            theSender = nullptr;
+        }
+
+
         Notification::Notification(const notification_label &l)
         {
             theLabel = l;

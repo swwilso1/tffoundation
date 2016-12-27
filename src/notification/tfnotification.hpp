@@ -90,6 +90,14 @@ namespace TF
 
 
             /**
+             * @brief message constructor with label and data, but no sender
+             * @param l the label
+             * @param d the data
+             */
+            Notification(const notification_label &l, const notification_data &d);
+
+
+            /**
              * @brief message constructor without data object or sender
              * @param l the label.
              */
