@@ -239,6 +239,8 @@ namespace TF
 				if(d.length() > 0)
 				{
 					chunk_type *newChunk = new chunk_type(d.bytes(), d.length());
+					if(chunkList == nullptr)
+						chunkList = new chunk_list_type();
 					chunkList->emplace_back(newChunk);
 					theLength = d.length();
 				}
