@@ -37,6 +37,8 @@ namespace TF
 
         NotificationCenter::mutex_type NotificationCenter::singleMutex;
 
+        NotificationCenter::mutex_type NotificationCenter::singletonMutex;
+
         NotificationCenter::NotificationCenter()
         {
             threadHandle = thread_type(processNotifications, reinterpret_cast<void *>(this));
@@ -53,7 +55,7 @@ namespace TF
 
         NotificationCenter::pointer NotificationCenter::DefaultCenter()
         {
-            lock_type theLock(singleMutex);
+            lock_type theLock(singletonMutex);
             if(singleCenter == nullptr)
             {
                 singleCenter = pointer(new NotificationCenter());

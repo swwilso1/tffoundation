@@ -215,6 +215,9 @@ namespace TF
             /** @brief shared mutex for accessing the singleton notification center */
             static mutex_type singleMutex;
 
+            /** @brief mutex for access thing pointer to the notification center singleton */
+            static mutex_type singletonMutex;
+
             /**
              * @brief private default constructor so that users must access the notification center
              * through the DefaultCenter method.
