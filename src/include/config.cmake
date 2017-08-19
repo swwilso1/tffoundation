@@ -7,6 +7,7 @@
 
 list(APPEND FOUNDATION_HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/tfassert.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/include/tfcomparison.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/include/tfheaders.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/include/tftypes.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/include/TFFoundation.hpp"
@@ -16,6 +17,7 @@ list(APPEND FOUNDATION_HEADER_FILES
 
 list(APPEND FOUNDATION_SOURCE_FILES
     "src/include/tfassert.hpp"
+    "src/include/tfcomparison.hpp"
     "src/include/tfheaders.hpp"
 	"src/include/tftypes.hpp"
 	"src/include/TFFoundation.hpp"
