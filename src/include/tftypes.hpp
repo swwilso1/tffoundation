@@ -110,15 +110,15 @@ namespace TF
         /** @brief range object */
         struct Range
         {
-            UnsignedInteger position;
-            UnsignedInteger length;
+            Size_t position;
+            Size_t length;
 
             /** @brief default constructor */
             Range() : position(0), length(0)
             { }
 
             /** @brief lvalue constructor */
-            Range(const UnsignedInteger &p, const UnsignedInteger &l) : position(p),
+            Range(const Size_t &p, const Size_t &l) : position(p),
                                                                         length(l)
             { }
         };

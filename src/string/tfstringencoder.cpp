@@ -32,10 +32,6 @@ namespace TF
 	namespace Foundation
 	{
 	
-		StringEncoder::~StringEncoder()
-		{
-		}
-		
 		bool StringEncoder::doesRangeOfBytesLieInString(const char_type *start, size_type length, range_type& range)
 		{
 			if(range.position > length)
@@ -87,7 +83,7 @@ namespace TF
 			
 			if(firstStringNumberOfCharacters == secondStringNumberOfCharacters)
 				return OrderedSame;
-			else if(firstStringNumberOfCharacters > secondStringNumberOfCharacters)
+            if(firstStringNumberOfCharacters > secondStringNumberOfCharacters)
 				return OrderedAscending;
 			
 			return OrderedDescending;

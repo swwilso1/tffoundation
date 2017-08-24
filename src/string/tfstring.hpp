@@ -37,9 +37,11 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
-#include "tfarray.hxx"
 #include "tfdata.hpp"
 #include "tfcomparison.hpp"
+#include "tfstringcore.hpp"
+#include "tfstringiterator.hpp"
+#include "tfstringencoder.hpp"
 
 namespace TF
 {
@@ -52,7 +54,7 @@ namespace TF
         public:
 
             /** @brief array type */
-            using string_array_type = Array<String>;
+            using string_array_type = std::vector<String>;
 
             /** @brief data type */
             using data_type = Data;
@@ -61,13 +63,16 @@ namespace TF
             using range_type = Range;
 
             /** @brief range array type */
-            using range_array_type = Array<Range>;
+            using range_array_type = std::vector<Range>;
 
             /** @brief STL string type */
             using stl_string_type = std::string;
 
             /** @brief basic char type */
             using unicode_point_type = unsigned int;
+
+            /** @brief iterator type */
+            using iterator = StringIterator;
 
 #pragma mark - Constructors
 
@@ -128,7 +133,7 @@ namespace TF
 
 
             /** @brief destructor */
-            ~String() override;
+            ~String() override = default;
 
 #pragma mark - Initialization routines
 
@@ -182,7 +187,7 @@ namespace TF
 #pragma mark - Iterator methods
 
 
-#if 0 // Disabled for now
+#if 1 // Disabled for now
             /**
                 @brief returns an iterator pointing to the initial character of the string.
             */
@@ -296,7 +301,7 @@ namespace TF
                 @brief return a C string version (if possible) of the string object.
                 @return a pointer to a C-style string.
             */
-            std::shared_ptr<const char> c_str();
+            std::unique_ptr<const char> c_str();
 
             /**
                 @brief return a STL string version (if possible) of the string object.
@@ -587,13 +592,17 @@ namespace TF
             */
             String stringByAppendingFormat(const char *format, va_list *argList);
 
+            using encoder_type = StringEncoder;
+
+            static data_type convertToThisEncoding(const String &s, encoder_type *encoder);
+
             using code_array_type = std::shared_ptr<unicode_point_type>;
 
-            /** @brief the unicode values */
-            code_array_type theCodes;
+            using core_type = StringCore;
 
-            /** @brief the number of bytes in the byte array */
-            size_type theNumberOfCodes;
+            using core_pointer_type = std::shared_ptr<core_type>;
+
+            core_pointer_type core;
         };
 
 

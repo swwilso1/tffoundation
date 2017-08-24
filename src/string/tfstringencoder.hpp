@@ -74,7 +74,7 @@ namespace TF
 
 
 			/** @brief destructor */
-			virtual ~StringEncoder();
+			virtual ~StringEncoder() = default;
 
 			/** @brief clone method for creating a new encoder */
 			virtual StringEncoder * clone() = 0;
