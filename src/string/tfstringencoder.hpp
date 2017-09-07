@@ -246,7 +246,7 @@ namespace TF
 
 
 			/**
-				@brief given a byte array and a range of characters, caculate the number of bytes from the byte
+				@brief given a byte array and a range of characters, calculate the number of bytes from the byte
 				array required to represent that range of characters.
 				@param start the pointer to the array of bytes.
 				@param lengt hthe number of bytes in the byte array.

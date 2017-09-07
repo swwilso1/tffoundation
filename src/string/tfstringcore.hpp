@@ -51,6 +51,9 @@ namespace TF
             /** @brief unicode point type */
             using unicode_point_type = unsigned int;
 
+            /** @brief character type */
+            using char_type = unsigned char;
+
             /** @brief default constructor */
             StringCore();
 
@@ -64,7 +67,7 @@ namespace TF
             explicit StringCore(size_type i);
 
             /** @brief array constructor */
-            StringCore(const unicode_point_type *t, size_type i);
+            StringCore(const char_type *t, size_type i);
 
             /** @brief destructor */
             ~StringCore() override;
@@ -82,15 +85,11 @@ namespace TF
             /** @brief inequality operator */
             bool operator!=(const StringCore &c) const;
 
-            /** @brief operator for getting value by index. */
-            unicode_point_type& operator[](size_type i);
-
-
             /** @brief length method */
             size_type length() const;
 
             /** @brief getter for byte array */
-            unicode_point_type * data();
+            char_type * data();
 
             /** @brief ostream method */
             std::ostream& description(std::ostream &o) const;
@@ -98,9 +97,9 @@ namespace TF
 
         private:
 
-            unicode_point_type *theCodes;
+            char_type *theBytes;
 
-            size_type numberOfCodes;
+            size_type numberOfBytes;
         };
 
         std::ostream& operator<<(std::ostream &o, const StringCore &c);

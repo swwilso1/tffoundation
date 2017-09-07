@@ -26,6 +26,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #define NEEDS_STDEXCEPT
+#define NEEDS_CSTRING
 #include "tfheaders.hpp"
 #include "tfstringcore.hpp"
 #include "tfformatter.hpp"
@@ -38,70 +39,71 @@ namespace TF
 
         StringCore::StringCore()
         {
-            theCodes = nullptr;
-            numberOfCodes = 0;
+            theBytes = nullptr;
+            numberOfBytes = 0;
         }
 
 
         StringCore::StringCore(const StringCore &c)
         {
-            theCodes = nullptr;
-            numberOfCodes = 0;
+            theBytes = nullptr;
+            numberOfBytes = 0;
 
-            if(c.numberOfCodes > 0)
+            if(c.numberOfBytes > 0)
             {
-                theCodes = new unicode_point_type[c.numberOfCodes];
-                for(size_type i = 0; i < c.numberOfCodes; i++)
-                    *(theCodes + i) = *(c.theCodes + i);
-                numberOfCodes = c.numberOfCodes;
+                theBytes = new char_type[c.numberOfBytes];
+                std::memcpy(reinterpret_cast<void *>(theBytes),
+                        reinterpret_cast<void *>(c.theBytes), c.numberOfBytes * sizeof(char_type));
+                numberOfBytes = c.numberOfBytes;
             }
         }
 
 
         StringCore::StringCore(StringCore &&c) noexcept
         {
-            theCodes = c.theCodes;
-            numberOfCodes = c.numberOfCodes;
+            theBytes = c.theBytes;
+            numberOfBytes = c.numberOfBytes;
 
-            c.theCodes = nullptr;
-            c.numberOfCodes = 0;
+            c.theBytes = nullptr;
+            c.numberOfBytes = 0;
         }
 
 
         StringCore::StringCore(size_type i)
         {
-            theCodes = nullptr;
-            numberOfCodes = 0;
+            theBytes = nullptr;
+            numberOfBytes = 0;
 
             if(i > 0)
             {
-                theCodes = new unicode_point_type[i];
-                numberOfCodes = i;
+                theBytes = new char_type[i];
+                numberOfBytes = i;
             }
         }
 
 
-        StringCore::StringCore(const unicode_point_type *t, size_type i)
+        StringCore::StringCore(const char_type *t, size_type i)
         {
-            theCodes = nullptr;
-            numberOfCodes = 0;
+            theBytes = nullptr;
+            numberOfBytes = 0;
 
             if(t != nullptr && i > 0)
             {
-                theCodes = new unicode_point_type[i];
-                for(size_type j = 0; j < i; j++)
-                    *(theCodes + j) = *(t + j);
-                numberOfCodes = i;
+                theBytes = new char_type[i];
+                std::memcpy(reinterpret_cast<void *>(theBytes),
+                        reinterpret_cast<void *>(
+                                const_cast<char_type *>(t)), i * sizeof(char_type));
+                numberOfBytes = i;
             }
         }
 
 
         StringCore::~StringCore()
         {
-            if(theCodes != nullptr && numberOfCodes > 0)
-                delete[] theCodes;
-            theCodes = nullptr;
-            numberOfCodes = 0;
+            if(theBytes != nullptr && numberOfBytes > 0)
+                delete[] theBytes;
+            theBytes = nullptr;
+            numberOfBytes = 0;
         }
 
 
@@ -110,21 +112,19 @@ namespace TF
         {
             if(this != &c)
             {
-                if (theCodes != nullptr && numberOfCodes > 0)
+                if (theBytes != nullptr && numberOfBytes > 0)
                 {
-                    delete[] theCodes;
-                    theCodes = nullptr;
-                    numberOfCodes = 0;
+                    delete[] theBytes;
+                    theBytes = nullptr;
+                    numberOfBytes = 0;
                 }
 
-                if (c.numberOfCodes > 0)
+                if (c.numberOfBytes > 0)
                 {
-                    theCodes = new unicode_point_type[c.numberOfCodes];
-                    for (size_type i = 0; i < c.numberOfCodes; i++)
-                    {
-                        *(theCodes + i) = *(c.theCodes + i);
-                    }
-                    numberOfCodes = c.numberOfCodes;
+                    theBytes = new char_type[c.numberOfBytes];
+                    std::memcpy(reinterpret_cast<void *>(theBytes),
+                            reinterpret_cast<void *>(c.theBytes), c.numberOfBytes * sizeof(char_type));
+                    numberOfBytes = c.numberOfBytes;
                 }
             }
 
@@ -136,18 +136,18 @@ namespace TF
         {
             if(this != &c)
             {
-                if (theCodes != nullptr && numberOfCodes > 0)
+                if (theBytes != nullptr && numberOfBytes > 0)
                 {
-                    delete[] theCodes;
-                    theCodes = nullptr;
-                    numberOfCodes = 0;
+                    delete[] theBytes;
+                    theBytes = nullptr;
+                    numberOfBytes = 0;
                 }
 
-                theCodes = c.theCodes;
-                numberOfCodes = c.numberOfCodes;
+                theBytes = c.theBytes;
+                numberOfBytes = c.numberOfBytes;
 
-                c.theCodes = nullptr;
-                c.numberOfCodes = 0;
+                c.theBytes = nullptr;
+                c.numberOfBytes = 0;
             }
 
             return *this;
@@ -158,12 +158,12 @@ namespace TF
         {
             if(this != &c)
             {
-                if(numberOfCodes != c.numberOfCodes)
+                if(numberOfBytes != c.numberOfBytes)
                     return false;
 
-                for(size_type i = 0; i < numberOfCodes; i++)
+                for(size_type i = 0; i < numberOfBytes; i++)
                 {
-                    if(*(theCodes + i) != *(c.theCodes + i))
+                    if(*(theBytes + i) != *(c.theBytes + i))
                         return false;
                 }
             }
@@ -180,23 +180,15 @@ namespace TF
         }
 
 
-        StringCore::unicode_point_type& StringCore::operator[](size_type i)
-        {
-            if(numberOfCodes == 0 || i > numberOfCodes)
-                throw std::range_error("index not contained within length of string");
-
-            return *(theCodes + i);
-        }
-
         StringCore::size_type StringCore::length() const
         {
-            return numberOfCodes;
+            return numberOfBytes;
         }
 
 
-        StringCore::unicode_point_type * StringCore::data()
+        StringCore::char_type * StringCore::data()
         {
-            return theCodes;
+            return theBytes;
         }
 
 
@@ -206,8 +198,8 @@ namespace TF
             if(formatter != nullptr)
             {
                 formatter->setClassName("StringCore");
-                formatter->addClassMember<unicode_point_type>("theCodes", theCodes, numberOfCodes);
-                formatter->addClassMember<size_type>("numberOfCodes",numberOfCodes);
+                formatter->addClassMember<char_type>("theBytes", theBytes, numberOfBytes);
+                formatter->addClassMember<size_type>("numberOfBytes",numberOfBytes);
                 o << *formatter;
                 delete formatter;
             }

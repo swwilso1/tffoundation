@@ -34,6 +34,7 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfstringcore.hpp"
+#include "tfstringencoder.hpp"
 
 namespace TF
 {
@@ -57,6 +58,12 @@ namespace TF
             /** @brief core pointer type */
             using core_pointer_type = std::shared_ptr<core_type>;
 
+            /** @brief encoder type */
+            using encoder = StringEncoder;
+
+            /** @brief encoder pointer type */
+            using encoder_pointer_type = std::shared_ptr<encoder>;
+
             /** @brief default constructor */
             StringIterator();
 
@@ -67,10 +74,10 @@ namespace TF
             StringIterator(StringIterator &&i) noexcept;
 
             /** @brief string blob constructor */
-            StringIterator(const core_pointer_type &c, size_type index = 0);
+            StringIterator(encoder_pointer_type e, const core_pointer_type &c, size_type index = 0);
 
             /** @brief default destructor */
-            ~StringIterator() = default;
+            ~StringIterator() override  = default;
 
             /** @brief assignment operator */
             StringIterator& operator=(const StringIterator &i);
@@ -83,12 +90,6 @@ namespace TF
 
             /** @brief post-increment opewrator */
             StringIterator operator++(int);
-
-            /** @brief pre-decrement operator */
-            StringIterator& operator--();
-
-            /** @brief post-decrement operator */
-            StringIterator operator--(int);
 
             /** @brief dereference operator */
             unicode_point_type operator*();
@@ -104,7 +105,11 @@ namespace TF
 
         private:
 
+            std::pair<unicode_point_type, size_type> getNextCodePoint();
+
             core_pointer_type core;
+
+            encoder_pointer_type theEncoder;
 
             size_type currentIndex;
         };

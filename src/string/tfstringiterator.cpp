@@ -36,6 +36,7 @@ namespace TF
 
         StringIterator::StringIterator()
         {
+            theEncoder = nullptr;
             currentIndex = 0;
         }
 
@@ -43,6 +44,7 @@ namespace TF
         StringIterator::StringIterator(const StringIterator &i)
         {
             core = i.core;
+            theEncoder = i.theEncoder;
             currentIndex = i.currentIndex;
         }
 
@@ -50,13 +52,15 @@ namespace TF
         StringIterator::StringIterator(StringIterator &&i) noexcept
         {
             core = i.core;
+            theEncoder = i.theEncoder;
             currentIndex = i.currentIndex;
         }
 
 
-        StringIterator::StringIterator(const core_pointer_type &c, size_type index)
+        StringIterator::StringIterator(encoder_pointer_type  e, const core_pointer_type &c, size_type index)
         {
             core = c;
+            theEncoder = e;
             currentIndex = index;
         }
 
@@ -64,6 +68,7 @@ namespace TF
         StringIterator &StringIterator::operator=(const StringIterator &i)
         {
             core = i.core;
+            theEncoder = i.theEncoder;
             currentIndex = i.currentIndex;
         }
 
@@ -71,45 +76,44 @@ namespace TF
         StringIterator &StringIterator::operator=(StringIterator &&i) noexcept
         {
             core = i.core;
+            theEncoder = i.theEncoder;
             currentIndex = i.currentIndex;
         }
 
 
         StringIterator& StringIterator::operator++()
         {
-            currentIndex++;
+            auto nextCodePoint = getNextCodePoint();
+            currentIndex += nextCodePoint.second;
             return *this;
         }
 
 
         StringIterator StringIterator::operator++(int)
         {
-            StringIterator newIterator(core, currentIndex);
-            currentIndex++;
+            StringIterator newIterator(theEncoder, core, currentIndex);
+            auto nextCodePoint = getNextCodePoint();
+            currentIndex += nextCodePoint.second;
             return newIterator;
         }
 
 
-        StringIterator& StringIterator::operator--()
+        std::pair<StringIterator::unicode_point_type, StringIterator::size_type> StringIterator::getNextCodePoint()
         {
-            if(currentIndex > 0)
-                currentIndex--;
-            return *this;
-        }
+            auto theEndian = theEncoder->thisSystemEndianness();
 
+            if(currentIndex == core->length())
+                throw std::runtime_error("End of iteration in operator*");
 
-        StringIterator StringIterator::operator--(int)
-        {
-            StringIterator newIterator(core, currentIndex);
-            if(currentIndex > 0)
-                currentIndex--;
-            return newIterator;
+            return theEncoder->nextCodePoint(core->data(), core->length()
+                    - currentIndex, theEndian);
         }
 
 
         StringIterator::unicode_point_type StringIterator::operator*()
         {
-            return (*core)[currentIndex];
+            auto nextCodePoint = getNextCodePoint();
+            return nextCodePoint.first;
         }
 
 
@@ -137,6 +141,7 @@ namespace TF
             {
                 formatter->setClassName("StringIterator");
                 formatter->addClassMember("core_type","core",*core);
+                formatter->addClassMember("encoder","theEncoder",theEncoder);
                 formatter->addClassMember<size_type>("currentIndex",currentIndex);
                 o << *formatter;
                 delete formatter;

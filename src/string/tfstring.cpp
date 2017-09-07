@@ -68,22 +68,26 @@ namespace TF
         {
             size_type theLength = std::strlen(str);
 
-            auto theArray = new unicode_point_type[theLength];
+            auto theArray = new char_type[theLength];
             for(size_type i = 0; i < theLength; i++)
-                theArray[i] = static_cast<unicode_point_type>(*(str + i));
+                theArray[i] = static_cast<char_type>(*(str + i));
 
-            core = std::make_shared<core_type>(theArray,theLength);
+            core = std::make_shared<core_type>(theArray, theLength);
+
+            delete[] theArray;
         }
 
 
         String::String(const char *str, size_type length)
         {
-            auto theArray = new unicode_point_type[length];
+            auto theArray = new char_type[length];
 
             for(size_type i = 0; i < length; i++)
-                theArray[i] = static_cast<unicode_point_type>(*(str + i));
+                theArray[i] = static_cast<char_type>(*(str + i));
 
             core = std::make_shared<core_type>(theArray, length);
+
+            delete[] theArray;
         }
 
 
@@ -93,12 +97,14 @@ namespace TF
             size_type theNumberOfCodes = s.size();
             const char *cString = s.c_str();
 
-            auto theArray = new unicode_point_type[theNumberOfCodes];
+            auto theArray = new char_type[theNumberOfCodes];
 
             for(size_type i = 0; i < theNumberOfCodes; i++)
-                theArray[i] = static_cast<unicode_point_type>(*(cString + i));
+                theArray[i] = static_cast<char_type>(*(cString + i));
 
             core = std::make_shared<core_type>(theArray, theNumberOfCodes);
+
+            delete[] theArray;
         }
 
 
@@ -111,27 +117,7 @@ namespace TF
             if(! encoder.checkStringForCorrectness(str, length))
                 throw std::runtime_error("String UTF-8 constructor cannot create string from bad UTF-8");
 
-            size_type theNumberOfCodes = encoder.numberOfCharacters(str, length);
-
-            auto theArray = new unicode_point_type[theNumberOfCodes];
-
-            auto queryResult = encoder.hasByteOrderMark(str, length);
-            auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
-            if(queryResult.first)
-            {
-                tmp += bomLength;
-                length -= bomLength;
-            }
-
-            for(size_type i = 0; i < theNumberOfCodes; i++)
-            {
-                auto operationResult = encoder.nextCodePoint(tmp, length, queryResult.second);
-                theArray[i] = operationResult.first;
-                tmp += operationResult.second;
-                length -= operationResult.second;
-            }
-
-            core = std::make_shared<core_type>(theArray, theNumberOfCodes);
+            core = std::make_shared<core_type>(str, length);
         }
 
 
@@ -139,6 +125,7 @@ namespace TF
         String::String(const unsigned short *str, size_type length)
         {
             UTF16StringEncoder encoder;
+            UTF8StringEncoder utf8Encoder;
             auto tmp = reinterpret_cast<const unsigned char *>(str);
             size_type byteLength = length * sizeof(const unsigned short);
 
@@ -157,21 +144,42 @@ namespace TF
                 byteLength -= bomLength;
             }
 
+            size_type bytesNeededForUTF8 = 0;
+
             for(size_type i = 0; i < theNumberOfCodes; i++)
             {
                 auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
                 theArray[i] = operationResult.first;
+                bytesNeededForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(theArray[i]);
                 tmp += operationResult.second;
                 byteLength -= operationResult.second;
             }
 
-            core = std::make_shared<core_type>(theArray, theNumberOfCodes);
+            auto charArray = new char_type[bytesNeededForUTF8];
+
+            auto tmp2 = charArray;
+            auto bytesLeft = bytesNeededForUTF8;
+
+            for(size_type i = 0; i < theNumberOfCodes; i++)
+            {
+                auto operationResult = utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i],
+                    utf8Encoder.thisSystemEndianness());
+                tmp2 += operationResult;
+                bytesLeft -= operationResult;
+            }
+
+            delete[] theArray;
+
+            core = std::make_shared<core_type>(charArray, bytesNeededForUTF8);
+
+            delete[] charArray;
         }
 
 
         String::String(const unsigned int *str, size_type length)
         {
             UTF32StringEncoder encoder;
+            UTF8StringEncoder utf8Encoder;
             auto tmp = reinterpret_cast<const unsigned char *>(str);
             size_type byteLength = length * sizeof(const unsigned short);
 
@@ -190,15 +198,42 @@ namespace TF
                 byteLength -= bomLength;
             }
 
+            size_type bytesNeededForUTF8 = 0;
+
             for(size_type i = 0; i < theNumberOfCodes; i++)
             {
                 auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
                 theArray[i] = operationResult.first;
+                bytesNeededForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(theArray[i]);
                 tmp += operationResult.second;
                 byteLength -= operationResult.second;
             }
 
-            core = std::make_shared<core_type>(theArray, theNumberOfCodes);
+            auto charArray = new char_type[bytesNeededForUTF8];
+
+            auto tmp2 = charArray;
+            auto bytesLeft = bytesNeededForUTF8;
+
+            for(size_type i = 0; i < theNumberOfCodes; i++)
+            {
+                auto operationResult = utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i],
+                        utf8Encoder.thisSystemEndianness());
+                tmp2 += operationResult;
+                bytesLeft -= operationResult;
+            }
+
+            delete[] theArray;
+
+            core = std::make_shared<core_type>(charArray, bytesNeededForUTF8);
+
+            delete[] charArray;
+        }
+
+
+        String String::deepCopy()
+        {
+            String s(core->data(), core->length());
+            return s;
         }
 
 
@@ -1212,25 +1247,29 @@ namespace TF
 #if 1 // Disabled for now
         String::iterator String::begin(void)
         {
-            return iterator(core, 0);
+            std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
+            return iterator(encoder, core, 0);
         }
 
 
         String::iterator String::begin(void) const
         {
-            return iterator(core, 0);
+            std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
+            return iterator(encoder, core, 0);
         }
 
 
         String::iterator String::end(void)
         {
-            return iterator(core, core->length() + 1);
+            std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
+            return iterator(encoder, core, core->length() + 1);
         }
 
 
         String::iterator String::end(void) const
         {
-            return iterator(core, core->length() + 1);
+            std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
+            return iterator(encoder, core, core->length() + 1);
         }
 #endif // Disabled iterator methods
 
@@ -1279,44 +1318,50 @@ namespace TF
 
         String::size_type String::length() const
         {
-            return core->length();
+            UTF8StringEncoder encoder;
+            return encoder.numberOfCharacters(core->data(), core->length());
         }
 
 
         String::size_type String::numberOfBytes()
         {
-            return core->length() * sizeof(unicode_point_type);
+            return core->length();
         }
 
 
         String::unicode_point_type String::operator[](size_type i) const
         {
-            return (*core)[i];
+            UTF8StringEncoder encoder;
+            return encoder.unicodeCodePointForCharacterAtIndex(core->data(), core->length(), i);
         }
 
 
         String::unicode_point_type String::characterAtIndex(size_type i)
         {
-            return (*core)[i];
+            UTF8StringEncoder encoder;
+            return encoder.unicodeCodePointForCharacterAtIndex(core->data(), core->length(), i);
         }
 
 
         String String::getCharactersInRange(range_type& range)
         {
-            size_type theNumberOfCodes = core->length();
-            if(range.length > theNumberOfCodes)
-                throw std::range_error("getCharactersInRange given range greater than the length of the string");
+            UTF8StringEncoder encoder;
 
-            size_type codesFromPositiontoEnd = theNumberOfCodes - range.position;
+            if(! encoder.doesRangeOfCharactersLieInString(core->data(), core->length(),
+                range))
+                throw std::range_error("getCharactersInRange given range outside of string");
 
-            if(range.length > codesFromPositiontoEnd)
-                throw std::range_error("getCharactersInRange given range greater than remaining length of the string");
+            auto numberOfBytesForCharacters = encoder.numberOfBytesToCaptureCharactersInRange(core->data(),
+                core->length(), range);
 
-            auto theTmp = core->data();
+            auto theIndex = encoder.arrayIndexOfCharacterAtCharacterIndex(core->data(), core->length(),
+                range.position);
 
-            theTmp += range.position;
+            auto tmp = core->data();
 
-            String s(theTmp, range.length);
+            tmp += theIndex;
+
+            String s(tmp, numberOfBytesForCharacters);
             return s;
         }
 
@@ -1324,32 +1369,14 @@ namespace TF
         std::unique_ptr<const char> String::c_str()
         {
             ASCIIStringEncoder encoder;
+            auto asciiData = convertToThisEncoding(*this, &encoder);
 
-            size_type theNumberOfCodes = core->length();
+            auto theBytes = new char[asciiData.length() + 1];
+            std::memcpy(reinterpret_cast<void *>(theBytes),
+                    reinterpret_cast<void *>(
+                            const_cast<char *>(asciiData.bytes())), asciiData.length() * sizeof(char));
 
-            auto theTmp = core->data();
-
-            size_type byteLength = 0;
-
-            for(size_type i = 0; i < theNumberOfCodes; i++)
-            {
-                byteLength += encoder.bytesNeededForRepresentationOfCode(*(theTmp + i));
-            }
-
-            auto myEndianness = encoder.thisSystemEndianness();
-
-            auto theBytes = new char[byteLength + 1];
-            auto tmp = theBytes;
-
-            *(theBytes + byteLength) = '\0';
-
-            for(size_type i = 0; i < theNumberOfCodes; i++)
-            {
-                auto bytesUsed = encoder.encodeCodePoint(reinterpret_cast<StringEncoder::char_type *>(tmp), byteLength,
-                    *(theTmp + i), myEndianness);
-                tmp += bytesUsed;
-                byteLength -= bytesUsed;
-            }
+            theBytes[asciiData.length()] = '\0';
 
             return std::unique_ptr<const char>(theBytes);
         }
@@ -1393,77 +1420,59 @@ namespace TF
 
         String String::concatenateStrings(const String& s1, const String& s2)
         {
-            size_type newNumberOfCodes = s1.length() + s2.length();
+            auto newArrayLength = s1.core->length() + s2.core->length();
 
-            auto codes = new unicode_point_type[newNumberOfCodes];
+            auto theArray = new char_type[newArrayLength];
 
-            size_type i = 0;
+            std::memcpy(reinterpret_cast<void *>(theArray), reinterpret_cast<void *>(s1.core->data()),
+                s1.core->length() * sizeof(char_type));
 
-            for(i = 0; i < s1.length(); i++)
-            {
-                *(codes + i) = s1[i];
-            }
+            std::memcpy(reinterpret_cast<void *>(theArray + s1.core->length()),
+                    reinterpret_cast<void *>(s2.core->data()), s2.core->length() * sizeof(char));
 
-            size_type j = 0;
+            String s(theArray, newArrayLength);
 
-            for(j = 0; j < s2.length(); j++)
-            {
-                *(codes + i + j) = s2[j];
-            }
+            delete[] theArray;
 
-
-            String result(codes, newNumberOfCodes);
-            return result;
+            return s;
         }
 
 
         String String::substringFromIndex(size_type i)
         {
+            UTF8StringEncoder encoder;
             if(i > this->length())
                 throw std::runtime_error("substringFromIndex index larger than length of string");
 
-            auto newNumberOfCodes = this->length() - i;
+            auto index = encoder.arrayIndexOfCharacterAtCharacterIndex(core->data(), core->length(), i);
+            auto theLength = core->length() - index;
 
-            auto codes = new unicode_point_type[newNumberOfCodes];
-
-            for(size_type j = 0; j < newNumberOfCodes; j++, i++)
-            {
-                *(codes + j) = (*this)[i];
-            }
-
-            String result(codes, newNumberOfCodes);
-
-            return result;
+            String s(core->data() + index, theLength);
+            return s;
         }
 
 
         String String::substringWithRange(range_type& range)
         {
-            if(range.position > this->length())
-                throw std::range_error("substringWithRange given range with position larger than length of string");
+            UTF8StringEncoder encoder;
+            if(! encoder.doesRangeOfCharactersLieInString(core->data(), core->length(), range))
+                throw std::range_error("substringWithRange given range of characters that lies outside of the string");
 
-            auto remainingCodes = this->length() - range.position;
+            auto bytesNeededForRange = encoder.numberOfBytesToCaptureCharactersInRange(core->data(), core->length(),
+                range);
 
-            if(range.length > remainingCodes)
-            {
-                throw std::range_error("substringWithRange given range with length larger than remaining length"
-                    " of string");
-            }
+            auto theArray = new char_type[bytesNeededForRange];
+            auto startIndex = encoder.arrayIndexOfCharacterAtCharacterIndex(core->data(), core->length(),
+                range.position);
 
-            auto newNumberOfCodes = range.length;
+            std::memcpy(reinterpret_cast<void *>(theArray),
+                    reinterpret_cast<void *>(core->data() + startIndex), (bytesNeededForRange) * sizeof(char_type));
 
-            auto codes = new unicode_point_type[newNumberOfCodes];
+            String s(theArray, bytesNeededForRange);
 
-            size_type i = 0, j = range.position;
+            delete[] theArray;
 
-            for(i = 0 ; i < newNumberOfCodes; i++, j++)
-            {
-                *(codes + i) = (*this)[j];
-            }
-
-            String result(codes, newNumberOfCodes);
-
-            return result;
+            return s;
         }
 
 
@@ -1478,7 +1487,7 @@ namespace TF
                 substringArray.push_back(tmpString);
             }
 
-            if(range.position + range.length < this->length())
+            if((range.position + range.length) < this->length())
             {
                 size_type theLength = this->length() - (range.position + range.length);
                 range_type theRange(range.position + range.length, theLength);
@@ -1492,17 +1501,26 @@ namespace TF
 
         String String::substringToIndex(size_type i)
         {
-            if(i > this->length())
+            UTF8StringEncoder encoder;
+
+            if (i > this->length())
                 throw std::range_error("substringToIndex given index greater than length of string");
 
-            auto codes = new unicode_point_type[i];
+            range_type range(0, i);
 
-            for(size_type j = 0; j < i; j++)
-                *(codes + j) = (*this)[j];
+            auto bytesNeededForRange = encoder.numberOfBytesToCaptureCharactersInRange(core->data(), core->length(),
+                    range);
 
-            String result(codes, i);
+            auto theArray = new char_type[bytesNeededForRange];
 
-            return result;
+            for (size_type j = 0; j < bytesNeededForRange; j++)
+                *(theArray + j) = *(core->data() + j);
+
+            String s(theArray, bytesNeededForRange);
+
+            delete[] theArray;
+
+            return s;
         }
 
 
@@ -1510,16 +1528,10 @@ namespace TF
         {
             range_array_type rangesOfSubStrings;
             string_array_type theSubStrings;
-            UTF32StringEncoder theEncoder;
-
-            unsigned char *theseBytes = reinterpret_cast<unsigned char *>(core->data());
-            unsigned char *thoseBytes = reinterpret_cast<unsigned char *>(core->data());
-
-            size_type theseByteLengths = this->length() * sizeof(unicode_point_type);
-            size_type thoseByteLengths = str.length() * sizeof(unicode_point_type);
+            UTF8StringEncoder theEncoder;
 
             rangesOfSubStrings = theEncoder.findCharacterRangesOfSubstringsThatDoNotMatchSubstring(
-                    theseBytes, theseByteLengths, thoseBytes, thoseByteLengths);
+                    core->data(), core->length(), str.core->data(), str.core->length());
 
             for(auto &theRange : rangesOfSubStrings)
             {
@@ -1539,16 +1551,10 @@ namespace TF
         String::range_type String::rangeOfString(const String& str)
         {
             range_type theRange;
-            UTF32StringEncoder theEncoder;
+            UTF8StringEncoder theEncoder;
 
-            unsigned char *theseBytes = reinterpret_cast<unsigned char *>(core->data());
-            unsigned char *thoseBytes = reinterpret_cast<unsigned char *>(str.core->data());
-
-            size_type theseByteLengths = this->length() * sizeof(unicode_point_type);
-            size_type thoseByteLengths = str.length() * sizeof(unicode_point_type);
-
-            theRange = theEncoder.findCharacterRangeForSubstringInString(theseBytes,
-                    theseByteLengths, thoseBytes, thoseByteLengths);
+            theRange = theEncoder.findCharacterRangeForSubstringInString(core->data(),
+                    core->length(), str.core->data(), str.core->length());
 
             return theRange;
         }
@@ -1557,16 +1563,10 @@ namespace TF
         String::range_array_type String::rangesOfString(const String& str)
         {
             range_array_type theRanges;
-            UTF32StringEncoder theEncoder;
+            UTF8StringEncoder theEncoder;
 
-            unsigned char *theseBytes = reinterpret_cast<unsigned char *>(core->data());
-            unsigned char *thoseBytes = reinterpret_cast<unsigned char *>(str.core->data());
-
-            size_type theseByteLengths = this->length() * sizeof(unicode_point_type);
-            size_type thoseByteLengths = str.length() * sizeof(unicode_point_type);
-
-            theRanges = theEncoder.findCharacterRangesForSubstringInString(theseBytes,
-                    theseByteLengths, thoseBytes, thoseByteLengths);
+            theRanges = theEncoder.findCharacterRangesForSubstringInString(core->data(),
+                    core->length(), str.core->data(), str.core->length());
 
             return theRanges;
         }
@@ -1576,29 +1576,19 @@ namespace TF
             const String& original, const String& replacement)
         {
             range_array_type originalStringRanges;
-            size_type bytesNeededForNewString;
-            UTF32StringEncoder theEncoder;
+            UTF8StringEncoder theEncoder;
 
-            unsigned char *theseBytes = reinterpret_cast<unsigned char *>(core->data());
-            unsigned char *originalBytes = reinterpret_cast<unsigned char *>(original.core->data());
-            unsigned char *replacementBytes = reinterpret_cast<unsigned char *>(replacement.core->data());
+            auto bytesNeededForNewString = theEncoder.computeArraySizeInBytesForStringByReplacingSubstrings(
+                    core->data(), core->length(), original.core->data(), original.core->length(),
+                    replacement.core->data(), replacement.core->length(), originalStringRanges);
 
-            size_type theseByteLengths = this->length() * sizeof(unicode_point_type);
-            size_type originalByteLengths = original.length() * sizeof(unicode_point_type);
-            size_type replacementByteLengths = replacement.length() * sizeof(unicode_point_type);
+            auto newString = new char_type[bytesNeededForNewString];
 
-            bytesNeededForNewString = theEncoder.computeArraySizeInBytesForStringByReplacingSubstrings(
-                    theseBytes, theseByteLengths, originalBytes, originalByteLengths, replacementBytes,
-                    replacementByteLengths, originalStringRanges);
+            theEncoder.replaceOccurancesOfStringWithString(core->data(), core->length(), newString,
+                    bytesNeededForNewString, replacement.core->data(),
+                    replacement.core->length(), originalStringRanges);
 
-            unsigned char *newString = new unsigned char [bytesNeededForNewString];
-
-            theEncoder.replaceOccurancesOfStringWithString(theseBytes, theseByteLengths, newString,
-                    bytesNeededForNewString, replacementBytes,
-                    replacementByteLengths, originalStringRanges);
-
-            String theResultString(reinterpret_cast<unsigned int *>(newString),
-                    bytesNeededForNewString / sizeof(unsigned int));
+            String theResultString(newString, bytesNeededForNewString);
 
             delete[] newString;
 
@@ -1608,12 +1598,9 @@ namespace TF
 
         String String::stringByReplacingCharactersInRangeWithString(range_type& range, const String& str)
         {
-            UTF32StringEncoder theEncoder;
+            UTF8StringEncoder theEncoder;
 
-            unsigned char *theseBytes = reinterpret_cast<unsigned char *>(core->data());
-            size_type theseByteLengths = this->length() * sizeof(unicode_point_type);
-
-            if(! theEncoder.doesRangeOfCharactersLieInString(theseBytes, theseByteLengths, range))
+            if(! theEncoder.doesRangeOfCharactersLieInString(core->data(), core->length(), range))
                 throw std::out_of_range("Range argument lies outside range of string.");
 
             String theNewString;
@@ -1660,24 +1647,9 @@ namespace TF
 
         ComparisonResult String::compare(const String& str) const
         {
-            iterator thisIterator;
-            iterator thatIterator;
+            UTF8StringEncoder encoder;
 
-            for(thisIterator = this->begin(), thatIterator = str.begin(); thisIterator != this->end() &&
-                    thatIterator != str.end(); thisIterator++, thatIterator++)
-            {
-                if(*thisIterator < *thatIterator)
-                    return OrderedAscending;
-                if(*thisIterator > *thatIterator)
-                    return OrderedDescending;
-            }
-
-            if(this->length() == str.length())
-                return OrderedSame;
-            else if(this->length() > str.length())
-                return OrderedAscending;
-
-            return OrderedDescending;
+            return encoder.compareStrings(core->data(), core->length(), str.core->data(), str.core->length());
         }
 
 
@@ -1729,64 +1701,70 @@ namespace TF
 
         String String::capitalizedString()
         {
-            // This initialization is probably wrong because of byte order mark rules.
-            String capitalString(core->data(), core->length());
+            UTF8StringEncoder encoder;
+
+            String theCopy = this->deepCopy();
+
+            auto tmp = theCopy.core->data();
+            auto bytesLeft = theCopy.core->length();
+            auto thisEndian = encoder.thisSystemEndianness();
+
             bool nextCharShouldBeCapital = true;
 
-            for(size_type i = 0; i < capitalString.core->length(); i++)
+            while(bytesLeft > 0)
             {
-                auto theCharacter = (*capitalString.core)[i];
+                auto opResult = encoder.nextCodePoint(tmp, bytesLeft, thisEndian);
 
                 if(nextCharShouldBeCapital)
                 {
-                    if(theCharacter >= 97 || theCharacter <= 122)
-                        theCharacter -= 32;
+                    if(opResult.first >= 97 && opResult.first <= 122)
+                        tmp -= 32;
                     nextCharShouldBeCapital = false;
                 }
 
-                if(theCharacter == 32)
+                if(opResult.first == 32)
                     nextCharShouldBeCapital = true;
-                else if(theCharacter >= 65 && theCharacter <= 90)
-                    theCharacter += 32;
+                else if(opResult.first >= 65 && opResult.first <= 90)
+                    tmp += 32;
+
+                tmp += opResult.second;
+                bytesLeft -= opResult.second;
             }
-            return capitalString;
+
+            return theCopy;
         }
 
 
         String String::lowercaseString()
         {
-            String lowerString(core->data(), core->length());
+            UTF8StringEncoder encoder;
 
-            for(size_type i = 0; i < lowerString.core->length(); i++)
-            {
-                auto theCharacter = (*lowerString.core)[i];
+            String theCopy = this->deepCopy();
 
-                if(theCharacter >= 65 && theCharacter <= 90)
-                    theCharacter += 32;
-            }
-            return lowerString;
+            encoder.convertStringCharacters(theCopy.core->data(), theCopy.core->length(),
+                StringCase::LowerCase);
+
+            return theCopy;
         }
 
 
         String String::uppercaseString()
         {
-            String upperString(core->data(), core->length());
+            UTF8StringEncoder encoder;
 
-            for(size_type i = 0; i < upperString.core->length(); i++)
-            {
-                auto theCharacter = (*upperString.core)[i];
+            String theCopy = this->deepCopy();
 
-                if(theCharacter >= 97 && theCharacter <= 122)
-                    theCharacter -= 32;
-            }
-            return upperString;
+            encoder.convertStringCharacters(theCopy.core->data(), theCopy.core->length(),
+                StringCase::UpperCase);
+
+            return theCopy;
         }
 
 
         String::data_type String::getAsData()
         {
             data_type data(reinterpret_cast<char *>(core->data()),
-                core->length() * sizeof(unicode_point_type));
+                core->length());
             return data;
         }
 

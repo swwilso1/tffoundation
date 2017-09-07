@@ -74,6 +74,9 @@ namespace TF
             /** @brief iterator type */
             using iterator = StringIterator;
 
+            /** @brief character type */
+            using char_type = unsigned char;
+
 #pragma mark - Constructors
 
             /** Default constructor */
@@ -134,6 +137,10 @@ namespace TF
 
             /** @brief destructor */
             ~String() override = default;
+
+#pragma mark - Copy methods
+
+            String deepCopy();
 
 #pragma mark - Initialization routines
 
