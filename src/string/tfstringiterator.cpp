@@ -103,9 +103,9 @@ namespace TF
             auto theEndian = theEncoder->thisSystemEndianness();
 
             if(currentIndex == core->length())
-                throw std::runtime_error("End of iteration in operator*");
+                throw std::runtime_error("End of iteration in getNextCodePoint");
 
-            return theEncoder->nextCodePoint(core->data(), core->length()
+            return theEncoder->nextCodePoint(core->data() + currentIndex, core->length()
                     - currentIndex, theEndian);
         }
 
