@@ -1262,14 +1262,14 @@ namespace TF
         String::iterator String::end(void)
         {
             std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
-            return iterator(encoder, core, core->length() + 1);
+            return iterator(encoder, core, core->length());
         }
 
 
         String::iterator String::end(void) const
         {
             std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
-            return iterator(encoder, core, core->length() + 1);
+            return iterator(encoder, core, core->length());
         }
 #endif // Disabled iterator methods
 
