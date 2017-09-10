@@ -25,6 +25,8 @@ SOFTWARE.
 ******************************************************************************/
 
 #include <cstring>
+#include <string>
+#include <iostream>
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
 
@@ -40,7 +42,7 @@ TEST(StringTest, DefaultConstructorTest)
 
 #define TEST_STRING "test string"
 
-TEST(StringTest, CStyleStringConstructor1)
+TEST(StringTest, CStyleStringConstructor1Test)
 {
     String s1(TEST_STRING);
     auto ptr = s1.c_str();
@@ -49,7 +51,7 @@ TEST(StringTest, CStyleStringConstructor1)
 
 #define TEST2_STRING "test 2 string with a bunch more characters in the string"
 
-TEST(StringTest, CStyleStringConstructor2)
+TEST(StringTest, CStyleStringConstructor2Test)
 {
     String s(TEST2_STRING);
     auto ptr = s.c_str();
@@ -57,4 +59,45 @@ TEST(StringTest, CStyleStringConstructor2)
 }
 
 
+#define HELLO_WORLD "hello world"
+
+TEST(StringTest, CStringConstructorWithLengthTest)
+{
+    auto tmp = new char[40];
+    std::memcpy(reinterpret_cast<void *>(tmp), reinterpret_cast<void *>(
+                    const_cast<char *>(HELLO_WORLD)),
+        strlen(HELLO_WORLD));
+    String s(tmp, strlen(HELLO_WORLD));
+    auto ptr = s.c_str();
+    EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
+}
+
+
+TEST(StringTest, CXXStyleStringConstructorTest)
+{
+    std::string ss(HELLO_WORLD);
+    String s(ss);
+    auto ptr = s.c_str();
+    EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
+}
+
+
+
+TEST(StringTest, UTF8StringConstructorTest)
+{
+    auto tmp = new unsigned char[10];
+
+    tmp[0] = 0xE2;
+    tmp[1] = 0x98;
+    tmp[2] = 0x83;
+    tmp[3] = 0xE2;
+    tmp[4] = 0x98;
+    tmp[5] = 0x84;
+    tmp[6] = 0xF0;
+    tmp[7] = 0x9D;
+    tmp[8] = 0x8C;
+    tmp[9] = 0x86;
+
+    String s(tmp, 10);
+}
 
