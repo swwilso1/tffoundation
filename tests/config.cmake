@@ -21,5 +21,7 @@ include(tests/array/config.cmake)
 include(tests/data/config.cmake)
 include(tests/format/config.cmake)
 include(tests/notification/config.cmake)
+include(tests/string/config.cmake)
+
 
 
