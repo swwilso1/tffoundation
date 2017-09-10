@@ -1872,7 +1872,7 @@ namespace TF
             if(formatter != nullptr)
             {
                 formatter->setClassName("String");
-                formatter->addClassMember<core_pointer_type>("core",core);
+                formatter->addClassMember<core_type>("core",*(core.get()));
                 o << *formatter;
                 delete formatter;
             }
