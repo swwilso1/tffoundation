@@ -1319,6 +1319,8 @@ namespace TF
         String::size_type String::length() const
         {
             UTF8StringEncoder encoder;
+            if(core->length() == 0)
+                return 0;
             return encoder.numberOfCharacters(core->data(), core->length());
         }
 
@@ -1369,6 +1371,10 @@ namespace TF
         std::unique_ptr<const char> String::c_str()
         {
             ASCIIStringEncoder encoder;
+
+            if(core->length() == 0)
+                throw std::runtime_error("c_str unable to create string from empty string");
+
             auto asciiData = convertToThisEncoding(*this, &encoder);
 
             auto theBytes = new char[asciiData.length() + 1];
