@@ -117,6 +117,7 @@ namespace TF
 
 		std::ostream& ClassFormatter::writeToStream(std::ostream &o) const
 		{
+			o << std::endl; // Might need to change this line.
 			indentLevel++;
 			if(classTemplateList.size() > 0)
 			{
@@ -133,12 +134,14 @@ namespace TF
 			}
 			else
 				o << Tab(indentLevel,tabWidth) << className << std::endl;
+			indentLevel++;
 			for(auto member : classMemberList)
 			{
 				o << std::endl << Tab(indentLevel, tabWidth);
-				o << member->type() << " " << member->name() << " ";
+				o << member->type() << " " << member->name() << ": ";
 				o << member->value();
 			}
+			indentLevel--;
 			indentLevel--;
 			return o;
 		}
