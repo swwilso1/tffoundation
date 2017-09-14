@@ -154,7 +154,7 @@ namespace TF
 				stringLength -= theNext.second;
 			}
 			
-			return false;
+			return true;
 		}
 		
 		
