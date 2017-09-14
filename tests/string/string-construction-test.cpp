@@ -85,7 +85,7 @@ TEST(StringTest, CXXStyleStringConstructorTest)
 
 TEST(StringTest, UTF8StringConstructorTest)
 {
-    auto tmp = new unsigned char[10];
+    unsigned char tmp[10];
 
     tmp[0] = 0xE2;
     tmp[1] = 0x98;
@@ -99,5 +99,60 @@ TEST(StringTest, UTF8StringConstructorTest)
     tmp[9] = 0x86;
 
     String s(tmp, 10);
+
+    EXPECT_TRUE(s.length() == 3);
+}
+
+
+TEST(StringTest, UTF16StringConstructorTest)
+{
+    unsigned short tmp [7];
+
+    tmp[0] = 0xFEFF;
+    tmp[1] = 0x3E6;
+    tmp[2] = 0x419;
+    tmp[3] = 0x46A;
+    tmp[4] = 0x5D0;
+    tmp[5] = 0xD800;
+    tmp[6] = 0xDF88;
+
+    String s(tmp, 7);
+
+    EXPECT_TRUE(s.length() == 5);
+}
+
+
+TEST(StringTest, UTF32StringConstructorTest)
+{
+    unsigned int tmp[7];
+
+    tmp[0] = 0xFEFF;
+    tmp[1] = 0x10388;
+    tmp[2] = 0x5D0;
+    tmp[3] = 0xD800;
+    tmp[4] = 0x435;
+    tmp[5] = 0x2939;
+    tmp[6] = 0x10302;
+
+    String s(tmp, 7);
+
+    EXPECT_TRUE(s.length() == 6);
+}
+
+
+TEST(StringTest, CopyConstructorTest)
+{
+    String s("foo bar bat");
+    String t(s);
+
+    EXPECT_TRUE(s == t);
+}
+
+
+TEST(StringTest, RValueConstructorTest)
+{
+    String s(String::initWithFormat("foo bar"));
+    auto ptr = s.c_str();
+    EXPECT_TRUE(strncmp("foo bar", ptr.get(), s.length()) == 0);
 }
 
