@@ -181,7 +181,7 @@ namespace TF
             UTF32StringEncoder encoder;
             UTF8StringEncoder utf8Encoder;
             auto tmp = reinterpret_cast<const unsigned char *>(str);
-            size_type byteLength = length * sizeof(const unsigned short);
+            size_type byteLength = length * sizeof(const unsigned int);
 
             if(! encoder.checkStringForCorrectness(tmp, byteLength))
                 throw std::runtime_error("String UTF-32 constructor cannot create string from bad UTF-32");
