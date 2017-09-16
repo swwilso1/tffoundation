@@ -10,3 +10,10 @@ build_and_run_test(
         StringConstructionTest
         tests/string/string-construction-test.cpp
 )
+
+
+build_and_run_test(
+        init-format-test
+        InitFormatTest
+        tests/string/init-format-test.cpp
+)
