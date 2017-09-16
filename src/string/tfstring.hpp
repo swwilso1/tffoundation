@@ -53,6 +53,8 @@ namespace TF
         {
         public:
 
+            static bool useObjectFormattingOutput;
+
             /** @brief array type */
             using string_array_type = std::vector<String>;
 
@@ -533,7 +535,7 @@ namespace TF
                 @return a pointer to a new TFData object that contains a copy
                 of the string in ASCII encoding.
             */
-            data_type getAsDataInASCIIEncoding();
+            data_type getAsDataInASCIIEncoding() const;
 
             /**
                 @brief return a TFData object pointer with the contents of the
@@ -541,7 +543,7 @@ namespace TF
                 @return a pointer to a new TFData object that contains a copy
                 of the string in UTF-8 encoding.
             */
-            data_type getAsDataInUTF8Encoding();
+            data_type getAsDataInUTF8Encoding() const;
 
             /**
                 @brief return a TFData object pointer with the contents of the
@@ -549,7 +551,7 @@ namespace TF
                 @return a pointer to a new TFData object that contains a copy
                 of the string in UTF-16 encoding.
             */
-            data_type getAsDataInUTF16Encoding();
+            data_type getAsDataInUTF16Encoding() const;
 
             /**
                 @brief return a TFData object pointer with the contents of the
@@ -557,7 +559,7 @@ namespace TF
                 @return a pointer to a new TFData object that contains a copy
                 of the string in UTF-32 encoding.
             */
-            data_type getAsDataInUTF32Encoding();
+            data_type getAsDataInUTF32Encoding() const;
 
 #pragma mark - Methods for testing purposes
 

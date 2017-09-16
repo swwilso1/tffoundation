@@ -45,6 +45,8 @@ namespace TF
     namespace Foundation
     {
 
+        bool String::useObjectFormattingOutput = false;
+
 #pragma mark - Constructor methods
 
         String::String()
@@ -1824,28 +1826,28 @@ namespace TF
             return data;
         }
 
-        String::data_type String::getAsDataInASCIIEncoding()
+        String::data_type String::getAsDataInASCIIEncoding() const
         {
             ASCIIStringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
         }
 
 
-        String::data_type String::getAsDataInUTF8Encoding()
+        String::data_type String::getAsDataInUTF8Encoding() const
         {
             UTF8StringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
         }
 
 
-        String::data_type String::getAsDataInUTF16Encoding()
+        String::data_type String::getAsDataInUTF16Encoding() const
         {
             UTF16StringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
         }
 
 
-        String::data_type String::getAsDataInUTF32Encoding(void)
+        String::data_type String::getAsDataInUTF32Encoding(void) const
         {
             UTF32StringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
@@ -1868,13 +1870,37 @@ namespace TF
 
         std::ostream& String::description(std::ostream& o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            if(useObjectFormattingOutput)
             {
-                formatter->setClassName("String");
-                formatter->addClassMember<core_type>("core",*(core.get()));
-                o << *formatter;
-                delete formatter;
+                ClassFormatter *formatter = FormatterFactory::getFormatter();
+                if (formatter != nullptr)
+                {
+                    formatter->setClassName("String");
+                    formatter->addClassMember<core_type>("core", *(core.get()));
+                    o << *formatter;
+                    delete formatter;
+                }
+            }
+            else
+            {
+                data_type asciiData = getAsDataInASCIIEncoding();
+
+                // We have the ASCII formatted data, but we need to have it in
+                // a form we can write to the stream.
+
+                if(asciiData.length() > 0)
+                {
+                    auto tmp = new char[asciiData.length() + 1];
+                    memcpy(reinterpret_cast<void *>(tmp),
+                            reinterpret_cast<void *>(
+                                    const_cast<char *>(asciiData.bytes())),
+                            asciiData.length() * sizeof(char));
+                    tmp[asciiData.length()] = '\0';
+
+                    o << tmp;
+
+                    delete[] tmp;
+                }
             }
             return o;
         }
