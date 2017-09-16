@@ -149,9 +149,14 @@ TEST(StringTest, CopyConstructorTest)
 }
 
 
+String RValueHelper(String a)
+{
+    return a;
+}
+
 TEST(StringTest, RValueConstructorTest)
 {
-    String s(String::initWithFormat("foo bar"));
+    String s = RValueHelper(String::initWithFormat("foo bar"));
     auto ptr = s.c_str();
     EXPECT_TRUE(strncmp("foo bar", ptr.get(), s.length()) == 0);
 }
