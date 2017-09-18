@@ -222,3 +222,52 @@ TEST(StringTest, GRealNumberTest)
 }
 
 
+TEST(StringTest, ERealNumberTest)
+{
+    auto f {3.141561};
+    String s = String::initWithFormat("%e", f);
+    String t("3.141561e+00");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, StringConverterTest)
+{
+    unsigned char tmp[10];
+
+    tmp[0] = 0xE2;
+    tmp[1] = 0x98;
+    tmp[2] = 0x83;
+    tmp[3] = 0xE2;
+    tmp[4] = 0x98;
+    tmp[5] = 0x84;
+    tmp[6] = 0xF0;
+    tmp[7] = 0x9D;
+    tmp[8] = 0x8C;
+    tmp[9] = 0x86;
+
+    String s(tmp, 10);
+    String t = String::initWithFormat("%@", &s);
+    String u("\\:002603\\:002604\\:01D306");
+    EXPECT_EQ(t, u);
+}
+
+
+TEST(StringTest, StringConverterTest2)
+{
+    String s("Hello World!");
+    String t = String::initWithFormat("%@",s);
+    String u("Hello World!");
+    EXPECT_EQ(t,u);
+}
+
+
+TEST(StringTest, ZeroModifierTest)
+{
+    String s = String::initWithFormat("%04d", 1);
+    String t("0001");
+    EXPECT_EQ(s,t);
+}
+
+
+
