@@ -210,7 +210,7 @@ namespace TF
 					if(7 < length)
 					{
 						size_type j, k;
-						for(j = 2, k = 5; j < 7; j++, k--)
+						for(j = 2, k = 5; j <= 7; j++, k--)
 						{
 							double base = std::pow(static_cast<double>(16.0), static_cast<double>(k));
 							size_type modifier;
