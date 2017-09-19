@@ -1390,7 +1390,7 @@ namespace TF
         bool String::operator==(const char *s) const
         {
             String theStr {s};
-            return *this == s;
+            return *this == theStr;
         }
 
 
