@@ -59,6 +59,14 @@ TEST(StringTest, CStyleStringConstructor2Test)
 }
 
 
+TEST(StringTest, CStyleStringConstructorTest3)
+{
+    String s("abc\\:002387def\\:002231");
+    EXPECT_EQ(s.length(), 8);
+    EXPECT_EQ(s, "abc\\:002387def\\:002231");
+}
+
+
 #define HELLO_WORLD "hello world"
 
 TEST(StringTest, CStringConstructorWithLengthTest)
