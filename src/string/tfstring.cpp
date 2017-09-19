@@ -68,13 +68,50 @@ namespace TF
 
         String::String(const char *str)
         {
-            size_type theLength = std::strlen(str);
+            ASCIIStringEncoder asciiEncoder;
+            auto stringLength = std::strlen(str);
+            auto charactersInString = asciiEncoder.numberOfCharacters(
+                    reinterpret_cast<const char_type *>(str), stringLength);
 
-            auto theArray = new char_type[theLength];
-            for(size_type i = 0; i < theLength; i++)
-                theArray[i] = static_cast<char_type>(*(str + i));
+            auto characters = new unicode_point_type[charactersInString];
+            auto endian = asciiEncoder.thisSystemEndianness();
 
-            core = std::make_shared<core_type>(theArray, theLength);
+            char_type *tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
+            size_type i = 0;
+
+            // Use the ASCII encoder to convert the argument to unicode points.
+            while(stringLength > 0)
+            {
+                auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
+                characters[i++] = result.first;
+                tmp += result.second;
+                stringLength -= result.second;
+            }
+
+            UTF8StringEncoder utf8Encoder;
+
+            // Now convert the unicode points to UTF-8
+            size_type bytesRequiredForUTF8 = 0;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
+            }
+
+            auto theArray = new char_type[bytesRequiredForUTF8];
+            tmp = theArray;
+            auto tmpLength = bytesRequiredForUTF8;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
+                tmp += result;
+                tmpLength -= result;
+            }
+
+            delete[] characters;
+
+            core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
 
             delete[] theArray;
         }
@@ -82,12 +119,50 @@ namespace TF
 
         String::String(const char *str, size_type length)
         {
-            auto theArray = new char_type[length];
+            ASCIIStringEncoder asciiEncoder;
+            auto stringLength = length;
+            auto charactersInString = asciiEncoder.numberOfCharacters(
+                    reinterpret_cast<const char_type *>(str), stringLength);
 
-            for(size_type i = 0; i < length; i++)
-                theArray[i] = static_cast<char_type>(*(str + i));
+            auto characters = new unicode_point_type[charactersInString];
+            auto endian = asciiEncoder.thisSystemEndianness();
 
-            core = std::make_shared<core_type>(theArray, length);
+            char_type *tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
+            size_type i = 0;
+
+            // Use the ASCII encoder to convert the argument to unicode points.
+            while(stringLength > 0)
+            {
+                auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
+                characters[i++] = result.first;
+                tmp += result.second;
+                stringLength -= result.second;
+            }
+
+            UTF8StringEncoder utf8Encoder;
+
+            // Now convert the unicode points to UTF-8
+            size_type bytesRequiredForUTF8 = 0;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
+            }
+
+            auto theArray = new char_type[bytesRequiredForUTF8];
+            tmp = theArray;
+            auto tmpLength = bytesRequiredForUTF8;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
+                tmp += result;
+                tmpLength -= result;
+            }
+
+            delete[] characters;
+
+            core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
 
             delete[] theArray;
         }
@@ -96,15 +171,51 @@ namespace TF
 
         String::String(const std::string& s)
         {
-            size_type theNumberOfCodes = s.size();
-            const char *cString = s.c_str();
+            ASCIIStringEncoder asciiEncoder;
+            auto stringLength = s.size();
+            auto str = s.c_str();
+            auto charactersInString = asciiEncoder.numberOfCharacters(
+                    reinterpret_cast<const char_type *>(str), stringLength);
 
-            auto theArray = new char_type[theNumberOfCodes];
+            auto characters = new unicode_point_type[charactersInString];
+            auto endian = asciiEncoder.thisSystemEndianness();
 
-            for(size_type i = 0; i < theNumberOfCodes; i++)
-                theArray[i] = static_cast<char_type>(*(cString + i));
+            char_type *tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
+            size_type i = 0;
 
-            core = std::make_shared<core_type>(theArray, theNumberOfCodes);
+            // Use the ASCII encoder to convert the argument to unicode points.
+            while(stringLength > 0)
+            {
+                auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
+                characters[i++] = result.first;
+                tmp += result.second;
+                stringLength -= result.second;
+            }
+
+            UTF8StringEncoder utf8Encoder;
+
+            // Now convert the unicode points to UTF-8
+            size_type bytesRequiredForUTF8 = 0;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
+            }
+
+            auto theArray = new char_type[bytesRequiredForUTF8];
+            tmp = theArray;
+            auto tmpLength = bytesRequiredForUTF8;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
+                tmp += result;
+                tmpLength -= result;
+            }
+
+            delete[] characters;
+
+            core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
 
             delete[] theArray;
         }
