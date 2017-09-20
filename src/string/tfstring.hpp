@@ -190,6 +190,7 @@ namespace TF
                 @c ll Adds long long to integer values @n
                 @c h Makes @c d and @c i modifiers use type short, and @c o, @c u, @c x, @c X an unsigned short.
                 @c hh Makes @c d and @c i modifiers user type signed char, and @c o, @c u, @c x, @c X an unsigned char.
+                @c - Left aligns the formatted value.
             */
             static String initWithFormat(const char *format,...);
 
