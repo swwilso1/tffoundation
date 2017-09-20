@@ -17,3 +17,11 @@ build_and_run_test(
         InitFormatTest
         tests/string/init-format-test.cpp
 )
+
+
+build_and_run_test(
+        iterator-test
+        IteratorTest
+        tests/string/iterator-test.cpp
+)
+
