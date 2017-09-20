@@ -270,4 +270,134 @@ TEST(StringTest, ZeroModifierTest)
 }
 
 
+TEST(StringTest, PaddingTest)
+{
+    String s = String::initWithFormat("%8d", 12);
+    String t("      12");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, PrecisionTest)
+{
+    String s = String::initWithFormat("%.2f",3.1415);
+    String t("3.14");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, PaddingPrecisionTest)
+{
+    String s = String::initWithFormat("%5.2f", 3.14159);
+    String t(" 3.14");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, LongTest)
+{
+    String s = String::initWithFormat("%lu",18446744073709551615UL);
+    String t("18446744073709551615");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, LongLongTest)
+{
+    long long v = 18446744073709551615UL;
+    String s = String::initWithFormat("%llu",v);
+    String t("18446744073709551615");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HDTest)
+{
+    short v = 32768;
+    String s = String::initWithFormat("%hd", v);
+    String t("-32768");
+    EXPECT_EQ(s, t);
+}
+
+
+TEST(StringTest, HOTest)
+{
+    String s = String::initWithFormat("%ho", 65536);
+    String t("0");
+    EXPECT_EQ(s, t);
+}
+
+
+TEST(StringTest, HUTest)
+{
+    String s = String::initWithFormat("%hu", 65536);
+    String t("0");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HxTest)
+{
+    String s = String::initWithFormat("%hx",32778);
+    String t("800a");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HXTest)
+{
+    String s = String::initWithFormat("%hX", 32778);
+    String t("800A");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HHDTest)
+{
+    String s = String::initWithFormat("%hhd",65);
+    String t("A");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HHOTest)
+{
+    String s = String::initWithFormat("%hho",65);
+    String t("A");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HHUTest)
+{
+    String s = String::initWithFormat("%hhu",66);
+    String t("B");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HHxTest)
+{
+    String s = String::initWithFormat("%hhx",67);
+    String t("C");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, HHXTest)
+{
+    String s = String::initWithFormat("%hhX",68);
+    String t("D");
+    EXPECT_EQ(s,t);
+}
+
+
+TEST(StringTest, LeftJustifyTest)
+{
+    String s = String::initWithFormat("%-5d", 25);
+    String t("25   ");
+    EXPECT_EQ(s,t);
+}
+
+
 
