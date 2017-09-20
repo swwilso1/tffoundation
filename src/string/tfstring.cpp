@@ -486,7 +486,7 @@ namespace TF
                             }
                             else if(hasHHModifier)
                             {
-                                int arg;
+                                char arg;
                                 arg = va_arg(*argList, int);
                                 if(needsLeftAdjustment)
                                     value << std::left << arg;
@@ -500,7 +500,8 @@ namespace TF
                             }
                             else if(hasHModifier)
                             {
-                                int arg;
+                                short arg;
+
                                 arg = va_arg(*argList, int);
                                 if(needsLeftAdjustment)
                                     value << std::left << arg;
@@ -567,7 +568,7 @@ namespace TF
                             }
                             else if(hasHHModifier)
                             {
-                                unsigned int arg;
+                                unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
@@ -576,7 +577,7 @@ namespace TF
                             }
                             else if(hasHModifier)
                             {
-                                unsigned int arg;
+                                unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
@@ -633,7 +634,7 @@ namespace TF
                             }
                             else if(hasHHModifier)
                             {
-                                unsigned int arg;
+                                unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
@@ -642,7 +643,7 @@ namespace TF
                             }
                             else if(hasHModifier)
                             {
-                                unsigned int arg;
+                                unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
@@ -699,7 +700,7 @@ namespace TF
                             }
                             else if(hasHHModifier)
                             {
-                                unsigned int arg;
+                                unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
@@ -708,7 +709,7 @@ namespace TF
                             }
                             else if(hasHModifier)
                             {
-                                unsigned int arg;
+                                unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
@@ -765,7 +766,7 @@ namespace TF
                             }
                             else if(hasHHModifier)
                             {
-                                unsigned int arg;
+                                unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << arg;
@@ -774,7 +775,7 @@ namespace TF
                             }
                             else if(hasHModifier)
                             {
-                                unsigned int arg;
+                                unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
                                 if(needsLeftAdjustment)
                                     value << std::left << arg;
