@@ -38,3 +38,11 @@ build_and_run_test(
         AssignmentTest
         tests/string/assignment-test.cpp
 )
+
+
+build_and_run_test(
+        length-test
+        LengthTest
+        tests/string/length-tests.cpp
+)
+
