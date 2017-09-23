@@ -142,7 +142,7 @@ namespace TF
 
 #pragma mark - Copy methods
 
-            String deepCopy();
+            String deepCopy() const;
 
 #pragma mark - Initialization routines
 
@@ -349,6 +349,54 @@ namespace TF
             */
             static String concatenateStrings(const String& s1, const String& s2);
 
+
+            /**
+             * @brief method to create a new string by 'adding/appending' a C-style string
+             * @param s the C-style string
+             * @return a new string with the original string's contents augmented with @e s.
+             */
+            String operator+(const char *s) const;
+
+
+            /**
+             * @brief method to create a new string by 'adding/appending' a STL style string
+             * @param s the STL style string
+             * @return a new string with the original string's contents augmented with @e s.
+             */
+            String operator+(const std::string &s) const;
+
+
+            /**
+             * @brief method to create a new string by 'adding/appending' the contents of
+             * another string.
+             * @brief s the other string
+             * @return a new string with the original string's contents augemented with @s.
+             */
+            String operator+(const String &s) const;
+
+
+            /**
+             * @brief method to append a string with the contents of a C-style string.
+             * @param s the C-style string.
+             * @return this string with the contents of s appended.
+             */
+            String& operator+=(const char *s);
+
+
+            /**
+             * @brief method to append a string with the contents of a STL style string.
+             * @param s the STL style string.
+             * @return this string with the contents of s appended.
+             */
+            String& operator+=(const std::string &s);
+
+
+            /**
+             * @brief method to append a string to the current string.
+             * @param s the other string
+             * @return this string with the contents of s appended.
+             */
+            String& operator+=(const String &s);
 
 #pragma mark - Methods for dividing strings
 

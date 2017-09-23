@@ -343,7 +343,7 @@ namespace TF
         }
 
 
-        String String::deepCopy()
+        String String::deepCopy() const
         {
             String s(core->data(), core->length());
             return s;
@@ -1555,6 +1555,53 @@ namespace TF
             delete[] theArray;
 
             return s;
+        }
+
+
+        String String::operator+(const char *s) const
+        {
+            String copy = this->deepCopy();
+            String cStr(s);
+            return String::initWithFormat("%@%@", copy, cStr);
+        }
+
+
+        String String::operator+(const std::string &s) const
+        {
+            String copy = this->deepCopy();
+            String stlStr(s);
+            return String::initWithFormat("%@%@", copy, stlStr);
+        }
+
+
+        String String::operator+(const String &s) const
+        {
+            String copy = this->deepCopy();
+            return String::initWithFormat("%@%@", copy, s);
+
+        }
+
+
+        String& String::operator+=(const char *s)
+        {
+            String cStr(s);
+            *this = concatenateStrings(*this, cStr);
+            return *this;
+        }
+
+
+        String& String::operator+=(const std::string &s)
+        {
+            String stlStr(s);
+            *this = concatenateStrings(*this, stlStr);
+            return *this;
+        }
+
+
+        String& String::operator+=(const String &s)
+        {
+            *this = concatenateStrings(*this, s);
+            return *this;
         }
 
 
