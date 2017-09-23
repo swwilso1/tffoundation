@@ -53,3 +53,4 @@ TEST(StringTest, AssignmentTest2)
 
     EXPECT_EQ(s, t);
 }
+
