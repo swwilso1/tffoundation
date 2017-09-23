@@ -31,3 +31,10 @@ build_and_run_test(
         EqualityTest
         tests/string/equality-tests.cpp
 )
+
+
+build_and_run_test(
+        assignment-test
+        AssignmentTest
+        tests/string/assignment-test.cpp
+)
