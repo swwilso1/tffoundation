@@ -303,7 +303,7 @@ namespace TF
                 @param range the range of characters
                 @return a pointer to a new string object containing the requested range of characters.
             */
-            String getCharactersInRange(range_type& range);
+            String getCharactersInRange(const range_type& range);
 
 #pragma mark - Methods for getting C strings
 

@@ -342,7 +342,7 @@ namespace TF
 		
 
 		UTF16StringEncoder::size_type UTF16StringEncoder::numberOfBytesToCaptureCharactersInRange(
-			const char_type *string, size_type length, range_type& range)
+			const char_type *string, size_type length, const range_type& range)
 		{
 			if(! this->doesRangeOfCharactersLieInString(string, length, range))
 				throw std::range_error("numberOfBytesToCaptureCharactersInRange given string and range where "

@@ -232,7 +232,7 @@ namespace TF
 				@param range the byte range.
 				@return true if the byte array contains the byte range, false otherwise.
 			*/
-			virtual bool doesRangeOfBytesLieInString(const char_type *start, size_type length, range_type& range);
+			virtual bool doesRangeOfBytesLieInString(const char_type *start, size_type length, const range_type& range);
 
 			/**
 				@brief given a pointer to a byte array and range object, caculate whether or not that range of characters
@@ -242,7 +242,7 @@ namespace TF
 				@param range the character range.
 				@return true if the byte array contains the character range, false otherwise.
 			*/
-			virtual bool doesRangeOfCharactersLieInString(const char_type *start, size_type length, range_type& range);
+			virtual bool doesRangeOfCharactersLieInString(const char_type *start, size_type length, const range_type& range);
 
 
 			/**
@@ -256,7 +256,7 @@ namespace TF
 				This method does *not* include the bytes for the byte order mark.
 			*/
 			virtual size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
-				range_type& range) = 0;
+				const range_type& range) = 0;
 
 			/**
 				@brief given a byte array, calculate whether or not the array has a zero value character.

@@ -1459,7 +1459,7 @@ namespace TF
         }
 
 
-        String String::getCharactersInRange(range_type& range)
+        String String::getCharactersInRange(const range_type& range)
         {
             UTF8StringEncoder encoder;
 

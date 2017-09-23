@@ -359,7 +359,7 @@ namespace TF
 
 
 		ASCIIStringEncoder::size_type ASCIIStringEncoder::numberOfBytesToCaptureCharactersInRange(const char_type *string, size_type length,
-			range_type& range)
+			const range_type& range)
 		{
 			if(! this->doesRangeOfCharactersLieInString(string, length, range))
 				throw std::range_error("numberOfBytesToCaptureCharactersInRange asked to capture characters from "

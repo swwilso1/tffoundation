@@ -93,7 +93,7 @@ namespace TF
 			size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length, size_type index);
 
 			size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
-				range_type& range);
+				const range_type& range);
 
 			bool containsCharacterWithZeroValue(const char_type *start, size_type length);
 

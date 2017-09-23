@@ -32,7 +32,8 @@ namespace TF
 	namespace Foundation
 	{
 	
-		bool StringEncoder::doesRangeOfBytesLieInString(const char_type *start, size_type length, range_type& range)
+		bool StringEncoder::doesRangeOfBytesLieInString(const char_type *start, size_type length,
+				const range_type& range)
 		{
 			if(range.position > length)
 				return false;
@@ -44,7 +45,8 @@ namespace TF
 		}
 
 
-		bool StringEncoder::doesRangeOfCharactersLieInString(const char_type *start, size_type length, range_type& range)
+		bool StringEncoder::doesRangeOfCharactersLieInString(const char_type *start, size_type length,
+				const range_type& range)
 		{
 			size_type theNumberOfCharacters = this->numberOfCharacters(start, length);
 
