@@ -621,6 +621,10 @@ namespace TF
 
         ComparisonResult compareStrings(const String& stringOne, const String& stringTwo, void *context);
 
+        bool operator==(const char *s, const String &t);
+
+        bool operator==(const std::string &s, const String &t);
+
     } // Foundation
 
 } // TF

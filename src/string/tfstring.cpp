@@ -2029,6 +2029,19 @@ namespace TF
             return stringOne.compare(stringTwo);
         }
 
+
+        bool operator==(const char *s, const String &t)
+        {
+            return t == s;
+        }
+
+
+        bool operator==(const std::string &s, const String &t)
+        {
+            return t == s;
+        }
+
+
     } // Foundation
 
 } // TF
