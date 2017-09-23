@@ -41,3 +41,90 @@ TEST(StringTest, EmptyStringIteratorsTest)
     EXPECT_EQ(b,e);
 }
 
+
+TEST(StringTest, BeginEndIteratorsTest)
+{
+    String s("Hello World");
+    auto b = s.begin();
+    auto e = s.end();
+    EXPECT_NE(b,e);
+}
+
+
+TEST(StringTest, IteratorValueTest)
+{
+    String s("Hello World");
+    auto b = s.begin();
+    EXPECT_EQ(*b, 'H');
+
+    ++b;
+    EXPECT_EQ(*b, 'e');
+
+    ++b;
+    EXPECT_EQ(*b, 'l');
+
+    ++b;
+    EXPECT_EQ(*b, 'l');
+
+    ++b;
+    EXPECT_EQ(*b, 'o');
+
+    ++b;
+    EXPECT_EQ(*b, ' ');
+
+    ++b;
+    EXPECT_EQ(*b, 'W');
+
+    ++b;
+    EXPECT_EQ(*b, 'o');
+
+    ++b;
+    EXPECT_EQ(*b, 'r');
+
+    ++b;
+    EXPECT_EQ(*b, 'l');
+
+    ++b;
+    EXPECT_EQ(*b, 'd');
+
+    ++b;
+    EXPECT_EQ(b, s.end());
+}
+
+
+TEST(StringTest, UnicodeValueTest)
+{
+    String s("a\\:002387\\:002231");
+    auto b = s.begin();
+
+    EXPECT_EQ(*b, 'a');
+
+    ++b;
+    EXPECT_EQ(*b, 9095);
+
+    ++b;
+    EXPECT_EQ(*b, 8753);
+
+    ++b;
+    EXPECT_EQ(b, s.end());
+}
+
+
+TEST(StringTest, SimpleForLoopTest)
+{
+    String s("abcdefg\\:10FFFAq\\:005422");
+    for(auto i = s.begin(); i != s.end(); ++i)
+    {
+        EXPECT_NE(i,s.end());
+    }
+}
+
+
+TEST(StringTest, StrongerForLoopTest)
+{
+    String s("\\:003293aqqweiewi\\:10ADD3");
+    for(auto u : s)
+    {
+        EXPECT_NE(u, 0);
+    }
+}
