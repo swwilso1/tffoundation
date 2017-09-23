@@ -25,3 +25,9 @@ build_and_run_test(
         tests/string/iterator-test.cpp
 )
 
+
+build_and_run_test(
+        equality-test
+        EqualityTest
+        tests/string/equality-tests.cpp
+)
