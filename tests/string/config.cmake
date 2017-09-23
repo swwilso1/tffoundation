@@ -46,3 +46,9 @@ build_and_run_test(
         tests/string/length-tests.cpp
 )
 
+
+build_and_run_test(
+        get-character-test
+        GetCharacterTest
+        tests/string/get-character-tests.cpp
+)
