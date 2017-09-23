@@ -52,3 +52,11 @@ build_and_run_test(
         GetCharacterTest
         tests/string/get-character-tests.cpp
 )
+
+
+build_and_run_test(
+        get-c-string-test
+        GetCStringTest
+        tests/string/get-c-string-tests.cpp
+)
+
