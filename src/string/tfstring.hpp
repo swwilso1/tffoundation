@@ -330,7 +330,7 @@ namespace TF
                 contents to a string.  The format behavior behaves in the same manner as the
                 printf() family of functions.
             */
-            String stringByAppendingFormat(const char *format, ...);
+            String stringByAppendingFormat(const char *format, ...) const;
 
 
             /**
@@ -338,7 +338,23 @@ namespace TF
                 @param str a smart pointer to the string to use for appending
                 @return a smart pointer to the new objected containing the appended results
             */
-            String stringByAppendingString(const String& str);
+            String stringByAppendingString(const String& str) const;
+
+
+            /**
+             * @brief create a new string object by appending the contents of a C-style string
+             * @param s the C-style string.
+             * @return the newly joined string object.
+             */
+            String stringByAppendingString(const char *s) const;
+
+
+            /**
+             * create a new string object by appending the contents of STL style string
+             * @param s the STL style string
+             * @return the newly joined string object.
+             */
+            String stringByAppendingString(const std::string &s) const;
 
 
             /**
@@ -648,7 +664,7 @@ namespace TF
                 contents to a string.  The format behavior behaves in the same manner as the
                 printf() family of functions.
             */
-            String stringByAppendingFormat(const char *format, va_list *argList);
+            String stringByAppendingFormat(const char *format, va_list *argList) const;
 
             using encoder_type = StringEncoder;
 

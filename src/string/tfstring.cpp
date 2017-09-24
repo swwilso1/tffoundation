@@ -54,7 +54,7 @@ namespace TF
             core = std::make_shared<core_type>();
         }
 
-        String::String(const String& s)
+        String::String(const String &s)
         {
             core = s.core;
         }
@@ -80,7 +80,7 @@ namespace TF
             size_type i = 0;
 
             // Use the ASCII encoder to convert the argument to unicode points.
-            while(stringLength > 0)
+            while (stringLength > 0)
             {
                 auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
                 characters[i++] = result.first;
@@ -93,7 +93,7 @@ namespace TF
             // Now convert the unicode points to UTF-8
             size_type bytesRequiredForUTF8 = 0;
 
-            for(size_type i = 0; i < charactersInString; ++i)
+            for (size_type i = 0; i < charactersInString; ++i)
             {
                 bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
             }
@@ -102,7 +102,7 @@ namespace TF
             tmp = theArray;
             auto tmpLength = bytesRequiredForUTF8;
 
-            for(size_type i = 0; i < charactersInString; ++i)
+            for (size_type i = 0; i < charactersInString; ++i)
             {
                 auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
                 tmp += result;
@@ -131,7 +131,7 @@ namespace TF
             size_type i = 0;
 
             // Use the ASCII encoder to convert the argument to unicode points.
-            while(stringLength > 0)
+            while (stringLength > 0)
             {
                 auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
                 characters[i++] = result.first;
@@ -144,7 +144,7 @@ namespace TF
             // Now convert the unicode points to UTF-8
             size_type bytesRequiredForUTF8 = 0;
 
-            for(size_type i = 0; i < charactersInString; ++i)
+            for (size_type i = 0; i < charactersInString; ++i)
             {
                 bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
             }
@@ -153,7 +153,7 @@ namespace TF
             tmp = theArray;
             auto tmpLength = bytesRequiredForUTF8;
 
-            for(size_type i = 0; i < charactersInString; ++i)
+            for (size_type i = 0; i < charactersInString; ++i)
             {
                 auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
                 tmp += result;
@@ -168,8 +168,7 @@ namespace TF
         }
 
 
-
-        String::String(const std::string& s)
+        String::String(const std::string &s)
         {
             ASCIIStringEncoder asciiEncoder;
             auto stringLength = s.size();
@@ -184,7 +183,7 @@ namespace TF
             size_type i = 0;
 
             // Use the ASCII encoder to convert the argument to unicode points.
-            while(stringLength > 0)
+            while (stringLength > 0)
             {
                 auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
                 characters[i++] = result.first;
@@ -197,7 +196,7 @@ namespace TF
             // Now convert the unicode points to UTF-8
             size_type bytesRequiredForUTF8 = 0;
 
-            for(size_type i = 0; i < charactersInString; ++i)
+            for (size_type i = 0; i < charactersInString; ++i)
             {
                 bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
             }
@@ -206,7 +205,7 @@ namespace TF
             tmp = theArray;
             auto tmpLength = bytesRequiredForUTF8;
 
-            for(size_type i = 0; i < charactersInString; ++i)
+            for (size_type i = 0; i < charactersInString; ++i)
             {
                 auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
                 tmp += result;
@@ -227,7 +226,7 @@ namespace TF
             UTF8StringEncoder encoder;
             auto tmp = str;
 
-            if(! encoder.checkStringForCorrectness(str, length))
+            if (!encoder.checkStringForCorrectness(str, length))
                 throw std::runtime_error("String UTF-8 constructor cannot create string from bad UTF-8");
 
             core = std::make_shared<core_type>(str, length);
@@ -242,7 +241,7 @@ namespace TF
             auto tmp = reinterpret_cast<const unsigned char *>(str);
             size_type byteLength = length * sizeof(const unsigned short);
 
-            if(! encoder.checkStringForCorrectness(tmp, byteLength))
+            if (!encoder.checkStringForCorrectness(tmp, byteLength))
                 throw std::runtime_error("String UTF-16 constructor cannot create string from bad UTF-16");
 
             size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
@@ -251,7 +250,7 @@ namespace TF
 
             auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
             auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
-            if(queryResult.first)
+            if (queryResult.first)
             {
                 tmp += bomLength;
                 byteLength -= bomLength;
@@ -259,7 +258,7 @@ namespace TF
 
             size_type bytesNeededForUTF8 = 0;
 
-            for(size_type i = 0; i < theNumberOfCodes; i++)
+            for (size_type i = 0; i < theNumberOfCodes; i++)
             {
                 auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
                 theArray[i] = operationResult.first;
@@ -273,10 +272,10 @@ namespace TF
             auto tmp2 = charArray;
             auto bytesLeft = bytesNeededForUTF8;
 
-            for(size_type i = 0; i < theNumberOfCodes; i++)
+            for (size_type i = 0; i < theNumberOfCodes; i++)
             {
                 auto operationResult = utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i],
-                    utf8Encoder.thisSystemEndianness());
+                        utf8Encoder.thisSystemEndianness());
                 tmp2 += operationResult;
                 bytesLeft -= operationResult;
             }
@@ -296,7 +295,7 @@ namespace TF
             auto tmp = reinterpret_cast<const unsigned char *>(str);
             size_type byteLength = length * sizeof(const unsigned int);
 
-            if(! encoder.checkStringForCorrectness(tmp, byteLength))
+            if (!encoder.checkStringForCorrectness(tmp, byteLength))
                 throw std::runtime_error("String UTF-32 constructor cannot create string from bad UTF-32");
 
             size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
@@ -305,7 +304,7 @@ namespace TF
 
             auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
             auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
-            if(queryResult.first)
+            if (queryResult.first)
             {
                 tmp += bomLength;
                 byteLength -= bomLength;
@@ -313,7 +312,7 @@ namespace TF
 
             size_type bytesNeededForUTF8 = 0;
 
-            for(size_type i = 0; i < theNumberOfCodes; i++)
+            for (size_type i = 0; i < theNumberOfCodes; i++)
             {
                 auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
                 theArray[i] = operationResult.first;
@@ -327,7 +326,7 @@ namespace TF
             auto tmp2 = charArray;
             auto bytesLeft = bytesNeededForUTF8;
 
-            for(size_type i = 0; i < theNumberOfCodes; i++)
+            for (size_type i = 0; i < theNumberOfCodes; i++)
             {
                 auto operationResult = utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i],
                         utf8Encoder.thisSystemEndianness());
@@ -350,13 +349,13 @@ namespace TF
         }
 
 
-        String String::initWithFormat(const char *format,...)
+        String String::initWithFormat(const char *format, ...)
         {
             String result;
 
             // Set up the variable argument list
             va_list argList;
-            va_start(argList,format);
+            va_start(argList, format);
             result = initWithFormat(format, &argList);
             va_end(argList);
             return result;
@@ -424,104 +423,99 @@ namespace TF
 
             const char *fmt = format;
 
-            while(*fmt != '\0')
+            while (*fmt != '\0')
             {
 
                 // The easiest thing to do here will be to use stl strings
                 // to collect the format valid characters and the conversion values.
                 // At the end we can drop it all into a UTF-16 string.
-                switch(*fmt)
+                switch (*fmt)
                 {
                     case '%': // Activate code processing mode
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             accumulator << *fmt;
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             processingFormatCode = true;
                         }
                         break;
                     case 'i': // Same as 'd' modifier
                     case 'd': // Output a base 10 (decimal) number
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
+                                if (needsZeroPadding) value.fill('0');
                             }
 
 
-                            if(hasLLModifier)
+                            if (hasLLModifier)
                             {
                                 long long arg;
                                 arg = va_arg(*argList, long long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
                                 }
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
                                 long arg;
                                 arg = va_arg(*argList, long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
                                 }
-                            }
-                            else if(hasHHModifier)
+                            } else if (hasHHModifier)
                             {
                                 char arg;
                                 arg = va_arg(*argList, int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
                                 }
-                            }
-                            else if(hasHModifier)
+                            } else if (hasHModifier)
                             {
                                 short arg;
 
                                 arg = va_arg(*argList, int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
                                 }
-                            }
-                            else
+                            } else
                             {
                                 int arg;
                                 arg = va_arg(*argList, int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
@@ -531,64 +525,59 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'o': // Output an octal number
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
+                                if (needsZeroPadding) value.fill('0');
                             }
 
-                            if(hasLLModifier)
+                            if (hasLLModifier)
                             {
                                 unsigned long long arg;
                                 arg = va_arg(*argList, unsigned long long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
                                 else
                                     value << std::oct << arg;
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
                                 unsigned long arg;
                                 arg = va_arg(*argList, unsigned long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
                                 else
                                     value << std::oct << arg;
-                            }
-                            else if(hasHHModifier)
+                            } else if (hasHHModifier)
                             {
                                 unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
                                 else
                                     value << std::oct << arg;
-                            }
-                            else if(hasHModifier)
+                            } else if (hasHModifier)
                             {
                                 unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
                                 else
                                     value << std::oct << arg;
-                            }
-                            else
+                            } else
                             {
                                 int arg;
                                 arg = va_arg(*argList, int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
                                 else
                                     value << std::oct << arg;
@@ -597,64 +586,59 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'x': // Output a hexidecimal number in lower-case
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
+                                if (needsZeroPadding) value.fill('0');
                             }
 
-                            if(hasLLModifier)
+                            if (hasLLModifier)
                             {
                                 unsigned long long arg;
                                 arg = va_arg(*argList, unsigned long long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
                                 else
                                     value << std::nouppercase << std::hex << arg;
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
                                 unsigned long arg;
                                 arg = va_arg(*argList, unsigned long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
                                 else
                                     value << std::nouppercase << std::hex << arg;
-                            }
-                            else if(hasHHModifier)
+                            } else if (hasHHModifier)
                             {
                                 unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
                                 else
                                     value << std::nouppercase << std::hex << arg;
-                            }
-                            else if(hasHModifier)
+                            } else if (hasHModifier)
                             {
                                 unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
                                 else
                                     value << std::nouppercase << std::hex << arg;
-                            }
-                            else
+                            } else
                             {
                                 int arg;
                                 arg = va_arg(*argList, int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
                                 else
                                     value << std::nouppercase << std::hex << arg;
@@ -663,64 +647,59 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'X': // Output a hexidecimal number in upper-case
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
+                                if (needsZeroPadding) value.fill('0');
                             }
 
-                            if(hasLLModifier)
+                            if (hasLLModifier)
                             {
                                 unsigned long long arg;
                                 arg = va_arg(*argList, unsigned long long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
                                 else
                                     value << std::uppercase << std::hex << arg;
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
                                 unsigned long arg;
                                 arg = va_arg(*argList, unsigned long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
                                 else
                                     value << std::uppercase << std::hex << arg;
-                            }
-                            else if(hasHHModifier)
+                            } else if (hasHHModifier)
                             {
                                 unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
                                 else
                                     value << std::uppercase << std::hex << arg;
-                            }
-                            else if(hasHModifier)
+                            } else if (hasHModifier)
                             {
                                 unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
                                 else
                                     value << std::uppercase << std::hex << arg;
-                            }
-                            else
+                            } else
                             {
                                 unsigned int arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
                                 else
                                     value << std::uppercase << std::hex << arg;
@@ -729,64 +708,59 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'u': // Output an unsigned int.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
+                                if (needsZeroPadding) value.fill('0');
                             }
 
-                            if(hasLLModifier)
+                            if (hasLLModifier)
                             {
                                 unsigned long long arg;
                                 arg = va_arg(*argList, unsigned long long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
                                 unsigned long arg;
                                 arg = va_arg(*argList, unsigned long);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
-                            }
-                            else if(hasHHModifier)
+                            } else if (hasHHModifier)
                             {
                                 unsigned char arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
-                            }
-                            else if(hasHModifier)
+                            } else if (hasHModifier)
                             {
                                 unsigned short arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
-                            }
-                            else
+                            } else
                             {
                                 unsigned int arg;
                                 arg = va_arg(*argList, unsigned int);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
@@ -795,32 +769,30 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'U': // Output an unsigned long int.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             unsigned long arg;
                             std::stringstream value;
 
                             arg = va_arg(*argList, unsigned long);
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
-                                if(needsLeftAdjustment)
+                                if (needsZeroPadding) value.fill('0');
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
-                            }
-                            else
+                            } else
                             {
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
@@ -829,31 +801,29 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'c': // Output a single character.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             int arg = va_arg(*argList, int);
                             auto c = static_cast<char>(arg);
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
-                                if(needsLeftAdjustment)
+                                if (needsZeroPadding) value.fill('0');
+                                if (needsLeftAdjustment)
                                     value << std::left << c;
                                 else
                                     value << c;
-                            }
-                            else
+                            } else
                             {
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << c;
                                 else
                                     value << c;
@@ -861,52 +831,50 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 's': // Output a C-Style string
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             char *s = va_arg(*argList, char *);
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
+                                if (needsZeroPadding) value.fill('0');
                             }
 
-                            if(needsLeftAdjustment)
+                            if (needsLeftAdjustment)
                                 value << std::left << s;
                             else
                                 value << s;
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'S': // Output a std::string
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
-                            std::string *s = va_arg(*argList,std::string *);
+                            std::string *s = va_arg(*argList, std::string *);
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding)
+                                if (needsZeroPadding)
                                     value.fill('0');
                             }
-                            if(s != nullptr)
+                            if (s != nullptr)
                             {
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << *s;
                                 else
                                     value << *s;
@@ -914,64 +882,60 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'f': // Output a real number with 6 digits of precision.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
-                                if(hasPrecision) value.precision(precision);
+                                if (needsZeroPadding) value.fill('0');
+                                if (hasPrecision) value.precision(precision);
                                 else value.precision(6);
-                            }
-                            else
+                            } else
                             {
-                                if(hasPrecision) value.precision(precision);
+                                if (hasPrecision) value.precision(precision);
                                 else value.precision(6);
                             }
 
-                            if(hasCapitalLModifier)
+                            if (hasCapitalLModifier)
                             {
                                 long double arg = va_arg(*argList, long double);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::fixed << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << std::fixed << arg;
                                     else
                                         value << std::fixed << arg;
                                 }
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
-                                double arg = va_arg(*argList,double);
-                                if(needsLeftAdjustment)
+                                double arg = va_arg(*argList, double);
+                                if (needsLeftAdjustment)
                                     value << std::left << std::fixed << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << std::fixed << arg;
                                     else
                                         value << std::fixed << arg;
                                 }
-                            }
-                            else
+                            } else
                             {
-                                double arg = va_arg(*argList,double);
-                                if(needsLeftAdjustment)
+                                double arg = va_arg(*argList, double);
+                                if (needsLeftAdjustment)
                                     value << std::left << std::fixed << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << std::fixed << arg;
                                     else
                                         value << std::fixed << arg;
@@ -981,64 +945,60 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'g': // Output a real number with up-to 6 digits of precision.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
-                                if(hasPrecision) value.precision(precision);
+                                if (needsZeroPadding) value.fill('0');
+                                if (hasPrecision) value.precision(precision);
                                 else value.precision(6);
-                            }
-                            else
+                            } else
                             {
-                                if(hasPrecision) value.precision(precision);
+                                if (hasPrecision) value.precision(precision);
                                 else value.precision(6);
                             }
 
-                            if(hasCapitalLModifier)
+                            if (hasCapitalLModifier)
                             {
                                 long double arg = va_arg(*argList, long double);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
                                 }
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
-                                double arg = va_arg(*argList,double);
-                                if(needsLeftAdjustment)
+                                double arg = va_arg(*argList, double);
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
                                 }
-                            }
-                            else
+                            } else
                             {
-                                double arg = va_arg(*argList,double);
-                                if(needsLeftAdjustment)
+                                double arg = va_arg(*argList, double);
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << arg;
                                     else
                                         value << arg;
@@ -1048,65 +1008,61 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'e': // Output a real number with up-to 6 digits of precision in scientific notation.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             std::stringstream value;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
-                                if(hasPrecision) value.precision(precision);
+                                if (needsZeroPadding) value.fill('0');
+                                if (hasPrecision) value.precision(precision);
                                 else value.precision(6);
-                            }
-                            else
+                            } else
                             {
-                                if(hasPrecision) value.precision(precision);
+                                if (hasPrecision) value.precision(precision);
                                 else value.precision(6);
                             }
 
 
-                            if(hasCapitalLModifier)
+                            if (hasCapitalLModifier)
                             {
                                 long double arg = va_arg(*argList, long double);
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << std::scientific << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << std::scientific << arg;
                                     else
                                         value << std::scientific << arg;
                                 }
-                            }
-                            else if(hasLModifier)
+                            } else if (hasLModifier)
                             {
-                                double arg = va_arg(*argList,double);
-                                if(needsLeftAdjustment)
+                                double arg = va_arg(*argList, double);
+                                if (needsLeftAdjustment)
                                     value << std::left << std::scientific << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << std::scientific << arg;
                                     else
                                         value << std::scientific << arg;
                                 }
-                            }
-                            else
+                            } else
                             {
-                                double arg = va_arg(*argList,double);
-                                if(needsLeftAdjustment)
+                                double arg = va_arg(*argList, double);
+                                if (needsLeftAdjustment)
                                     value << std::left << std::scientific << arg;
                                 else
                                 {
-                                    if(arg < 0 && needsZeroPadding)
+                                    if (arg < 0 && needsZeroPadding)
                                         value << std::internal << std::scientific << arg;
                                     else
                                         value << std::scientific << arg;
@@ -1116,29 +1072,27 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'p': // A void pointer.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             auto arg = reinterpret_cast<void *>(va_arg(*argList, void *));
                             std::stringstream value;
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
                                 value.width(fieldWidth);
-                                if(needsZeroPadding) value.fill('0');
-                                if(needsLeftAdjustment)
+                                if (needsZeroPadding) value.fill('0');
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
-                            }
-                            else
+                            } else
                             {
-                                if(needsLeftAdjustment)
+                                if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
                                     value << arg;
@@ -1146,202 +1100,184 @@ namespace TF
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '@': // Output a String object.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
 
                             String *arg = va_arg(*argList, String *);
                             std::stringstream value;
 
 
-                            if(needsLeftAdjustment)
+                            if (needsLeftAdjustment)
                                 value << std::left << *arg;
                             else
                                 value << *arg;
 
-                            if(hasFieldWidth)
+                            if (hasFieldWidth)
                             {
-                                if(fieldWidth > value.str().size())
+                                if (fieldWidth > value.str().size())
                                 {
                                     accumulator.width(fieldWidth);
-                                    if(needsZeroPadding) accumulator.fill('0');
+                                    if (needsZeroPadding) accumulator.fill('0');
                                 }
                             }
 
                             accumulator << value.str();
 
                             CLEAR_CONTROL_SETTINGS();
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '0': // Check to see if we need to turn on needsZeroPadding.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
-                            if(! hasFieldWidth && ! processingPrecision)
+                            if (!hasFieldWidth && !processingPrecision)
                             {
                                 needsZeroPadding = true;
-                            }
-                            else
+                            } else
                             {
                                 ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(0);
                             }
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '1': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(1);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '2': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(2);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '3': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(3);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '4': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(4);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '5': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(5);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '6': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(6);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '7': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(7);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '8': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(8);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '9': // Check to see if we need augment fieldWidth.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(9);
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '.': // Check to see if we have a precision setting.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             processingPrecision = true;
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'l': // Check to see if we need to turn on hasLModifier or hasLLModifier.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
-                            if(hasLModifier)
+                            if (hasLModifier)
                                 hasLLModifier = true;
                             else
                                 hasLModifier = true;
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'L': // Check to see if we need to turn on hasCapitalLModifier.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             hasCapitalLModifier = true;
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case 'h': // Check to see if we need to turn on hasHModifier or hasHHModifier.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
-                            if(hasHModifier)
+                            if (hasHModifier)
                                 hasHHModifier = true;
                             else
                                 hasHModifier = true;
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
                         break;
                     case '-': // Turn on left justification.
-                        if(processingFormatCode)
+                        if (processingFormatCode)
                         {
                             needsLeftAdjustment = true;
-                        }
-                        else
+                        } else
                         {
                             accumulator << *fmt;
                         }
@@ -1357,8 +1293,8 @@ namespace TF
         }
 
 
-
 #if 1 // Disabled for now
+
         String::iterator String::begin(void)
         {
             std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
@@ -1385,45 +1321,46 @@ namespace TF
             std::shared_ptr<encoder_type> encoder = std::shared_ptr<encoder_type>(new UTF8StringEncoder);
             return iterator(encoder, core, core->length());
         }
+
 #endif // Disabled iterator methods
 
 
         bool String::operator==(const char *s) const
         {
-            String theStr {s};
+            String theStr{s};
             return *this == theStr;
         }
 
 
-        bool String::operator==(const std::string& s) const
+        bool String::operator==(const std::string &s) const
         {
-            String theStr {s};
+            String theStr{s};
             return *this == theStr;
         }
 
 
-        bool String::operator==(const String& s) const
+        bool String::operator==(const String &s) const
         {
             return *core == *s.core;
         }
 
 
-        bool String::operator!=(const String& s) const
+        bool String::operator!=(const String &s) const
         {
-            if(*this == s)
+            if (*this == s)
                 return false;
             return true;
         }
 
 
-        String& String::operator=(const String& s)
+        String &String::operator=(const String &s)
         {
             core = s.core;
             return *this;
         }
 
 
-        String& String::operator=(String &&s) noexcept
+        String &String::operator=(String &&s) noexcept
         {
             core = s.core;
             return *this;
@@ -1433,7 +1370,7 @@ namespace TF
         String::size_type String::length() const
         {
             UTF8StringEncoder encoder;
-            if(core->length() == 0)
+            if (core->length() == 0)
                 return 0;
             return encoder.numberOfCharacters(core->data(), core->length());
         }
@@ -1459,19 +1396,19 @@ namespace TF
         }
 
 
-        String String::getCharactersInRange(const range_type& range)
+        String String::getCharactersInRange(const range_type &range)
         {
             UTF8StringEncoder encoder;
 
-            if(! encoder.doesRangeOfCharactersLieInString(core->data(), core->length(),
-                range))
+            if (!encoder.doesRangeOfCharactersLieInString(core->data(), core->length(),
+                    range))
                 throw std::range_error("getCharactersInRange given range outside of string");
 
             auto numberOfBytesForCharacters = encoder.numberOfBytesToCaptureCharactersInRange(core->data(),
-                core->length(), range);
+                    core->length(), range);
 
             auto theIndex = encoder.arrayIndexOfCharacterAtCharacterIndex(core->data(), core->length(),
-                range.position);
+                    range.position);
 
             auto tmp = core->data();
 
@@ -1486,7 +1423,7 @@ namespace TF
         {
             ASCIIStringEncoder encoder;
 
-            if(core->length() == 0)
+            if (core->length() == 0)
                 throw std::runtime_error("c_str unable to create string from empty string");
 
             auto asciiData = convertToThisEncoding(*this, &encoder);
@@ -1509,7 +1446,7 @@ namespace TF
         }
 
 
-        String String::stringByAppendingFormat(const char *format, ...)
+        String String::stringByAppendingFormat(const char *format, ...) const
         {
             String result;
             va_list argList;
@@ -1520,7 +1457,7 @@ namespace TF
         }
 
 
-        String String::stringByAppendingFormat(const char *format, va_list *argList)
+        String String::stringByAppendingFormat(const char *format, va_list *argList) const
         {
             String formatString;
             String newString;
@@ -1532,9 +1469,23 @@ namespace TF
         }
 
 
-        String String::stringByAppendingString(const String& str)
+        String String::stringByAppendingString(const String &str) const
         {
             return concatenateStrings(*this, str);
+        }
+
+
+        String String::stringByAppendingString(const char *s) const
+        {
+            String cStr(s);
+            return concatenateStrings(*this, cStr);
+        }
+
+
+        String String::stringByAppendingString(const std::string &s) const
+        {
+            String stlStr(s);
+            return concatenateStrings(*this, stlStr);
         }
 
 
