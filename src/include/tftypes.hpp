@@ -67,6 +67,19 @@ namespace TF
             /** @brief rvalue constructor */
             Size(const Float &&w, const Float &&h) : width(w), height(h)
             { }
+
+            bool operator==(const Size &s) const
+            {
+                return width == s.width && height == s.height;
+            }
+
+
+            bool operator!=(const Size &s) const
+            {
+                if(*this == s)
+                    return false;
+                return true;
+            }
         };
 
 
@@ -87,6 +100,20 @@ namespace TF
             /** @brief rvalue constructor */
             Point(const Float &&a, const Float &&b) : x(a), y(b)
             { }
+
+
+            bool operator==(const Point &p) const
+            {
+                return x == p.x && y == p.y;
+            }
+
+
+            bool operator!=(const Point &p) const
+            {
+                if(*this == p)
+                    return false;
+                return true;
+            }
         };
 
 
@@ -104,6 +131,20 @@ namespace TF
             Rectangle(const Float &w, const Float &h, const Float &x, const Float &y) :
                     origin(w, h), size(x, y)
             { }
+
+
+            bool operator==(const Rectangle &r) const
+            {
+                return origin == r.origin && size == r.size;
+            }
+
+
+            bool operator!=(const Rectangle &r) const
+            {
+                if(*this == r)
+                    return false;
+                return true;
+            }
         };
 
 
@@ -121,6 +162,20 @@ namespace TF
             Range(const Size_t &p, const Size_t &l) : position(p),
                                                                         length(l)
             { }
+
+
+            bool operator==(const Range &r) const
+            {
+                return position == r.position && length == r.length;
+            }
+
+
+            bool operator!=(const Range &r) const
+            {
+                if(*this == r)
+                    return false;
+                return true;
+            }
         };
 
     } // Foundation
