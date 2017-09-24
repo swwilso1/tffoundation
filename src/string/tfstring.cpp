@@ -56,7 +56,7 @@ namespace TF
 
         String::String(const String &s)
         {
-            core = s.core;
+            core = std::make_shared<core_type>(*s.core);
         }
 
 
@@ -1355,7 +1355,7 @@ namespace TF
 
         String &String::operator=(const String &s)
         {
-            core = s.core;
+            core = std::make_shared<core_type>(*s.core);
             return *this;
         }
 
