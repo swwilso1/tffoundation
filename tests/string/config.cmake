@@ -60,3 +60,10 @@ build_and_run_test(
         tests/string/get-c-string-tests.cpp
 )
 
+
+build_and_run_test(
+        combining-strings-test
+        CombiningStringsTest
+        tests/string/combining-strings-tests.cpp
+)
+
