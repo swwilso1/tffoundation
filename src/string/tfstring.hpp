@@ -430,7 +430,7 @@ namespace TF
                 @param range a variable containing the location and length of the requested sub-string.
                 @return a smart pointer to a new string object that contains the requested sub-string
             */
-            String substringWithRange(range_type& range);
+            String substringWithRange(const range_type& range);
 
 
             /**
@@ -438,7 +438,7 @@ namespace TF
                 @param range the range of substring not to match.
                 @return an array of substrings from the string that are not in the specified @e range.
             */
-            string_array_type substringsNotInRange(range_type& range);
+            string_array_type substringsNotInRange(const range_type& range);
 
 
             /**
@@ -460,11 +460,43 @@ namespace TF
 
 
             /**
+             * @brief method to return array of substrings that do not match a C-style string
+             * @param s the C-style string to match
+             * @return the array of substrings that do not match @e s.
+             */
+            string_array_type substringsThatDoNotMatchString(const char *s);
+
+
+            /**
+             * @brief method to return array of substrings that do not match a STL style string
+             * @param s the STL-style string to match.
+             * @return the array of substrings that do not match @e s.
+             */
+            string_array_type substringsThatDoNotMatchString(const std::string &s);
+
+
+            /**
                 @brief return an array of substrings created by splitting the string into chunks separated by @e splitString.
                 @param splitString the string to use for matching
                 @return an array of string pointers containing the substrings
             */
             string_array_type split(const String& splitString);
+
+
+            /**
+             * @brief return an array of substrings created by splitting the string into chuncks separated by @s.
+             * @param s the C-style string to use for the split match.
+             * @return the array of substrings.
+             */
+            string_array_type split(const char *s);
+
+
+            /**
+             * @brief return an array of substrings created by splitting the string into chunks separated by @s.
+             * @param s the STL Style string string to use for the split match.
+             * @return the array of substrings.
+             */
+            string_array_type split(const std::string &s);
 
 #pragma mark - Methods for finding characters and substrings
 

@@ -1570,7 +1570,7 @@ namespace TF
         }
 
 
-        String String::substringWithRange(range_type& range)
+        String String::substringWithRange(const range_type& range)
         {
             UTF8StringEncoder encoder;
             if(! encoder.doesRangeOfCharactersLieInString(core->data(), core->length(), range))
@@ -1594,7 +1594,7 @@ namespace TF
         }
 
 
-        String::string_array_type String::substringsNotInRange(range_type& range)
+        String::string_array_type String::substringsNotInRange(const range_type& range)
         {
             string_array_type substringArray;
 
@@ -1660,9 +1660,35 @@ namespace TF
         }
 
 
+        String::string_array_type String::substringsThatDoNotMatchString(const char *s)
+        {
+            String cStr(s);
+            return substringsThatDoNotMatchString(cStr);
+        }
+
+
+        String::string_array_type String::substringsThatDoNotMatchString(const std::string &s)
+        {
+            String stlStr(s);
+            return substringsThatDoNotMatchString(stlStr);
+        }
+
+
         String::string_array_type String::split(const String& splitString)
         {
             return this->substringsThatDoNotMatchString(splitString);
+        }
+
+
+        String::string_array_type String::split(const char *s)
+        {
+            return this->substringsThatDoNotMatchString(s);
+        }
+
+
+        String::string_array_type String::split(const std::string &s)
+        {
+            return this->substringsThatDoNotMatchString(s);
         }
 
 
