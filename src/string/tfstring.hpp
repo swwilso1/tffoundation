@@ -510,11 +510,44 @@ namespace TF
 
 
             /**
+             * @brief return a Range object containing the location of the first instance of the substring @e s
+             * in the string.
+             * @param s the C-style string
+             * @return the range object.
+             */
+            range_type rangeOfString(const char *s);
+
+
+            /**
+             * @brief return a Range object containing the location of the first instance of the substring @e s
+             * in the string.
+             * @param s the STL style string
+             * @return the range object.
+             */
+            range_type rangeOfString(const std::string &s);
+
+            /**
                 @brief return an array of TFRange objects containing the locations of the substring in the string.
                 @param str the substring.
                 @return an array of ranges.
             */
             range_array_type rangesOfString(const String& str);
+
+
+            /**
+             * @brief return an array of Range objects containing the locations of the substring @e s in the string.
+             * @param s the C-style substring
+             * @return the array of Range objects.
+             */
+            range_array_type rangesOfString(const char *s);
+
+
+            /**
+             * @brief return an array of Range objects containing the locations of the substring @e s in the string.
+             * @param s the STL style string
+             * @return the array of Range objects.
+             */
+            range_array_type rangesOfString(const std::string &s);
 
 
 #pragma mark - Methods for replacing substrings

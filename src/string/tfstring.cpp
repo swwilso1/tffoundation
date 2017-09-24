@@ -1704,6 +1704,20 @@ namespace TF
         }
 
 
+        String::range_type String::rangeOfString(const char *s)
+        {
+            String cStr(s);
+            return rangeOfString(cStr);
+        }
+
+
+        String::range_type String::rangeOfString(const std::string &s)
+        {
+            String stlStr(s);
+            return rangeOfString(stlStr);
+        }
+
+
         String::range_array_type String::rangesOfString(const String& str)
         {
             range_array_type theRanges;
@@ -1713,6 +1727,20 @@ namespace TF
                     core->length(), str.core->data(), str.core->length());
 
             return theRanges;
+        }
+
+
+        String::range_array_type String::rangesOfString(const char *s)
+        {
+            String cStr(s);
+            return rangesOfString(cStr);
+        }
+
+
+        String::range_array_type String::rangesOfString(const std::string &s)
+        {
+            String stlStr(s);
+            return rangesOfString(stlStr);
         }
 
 
