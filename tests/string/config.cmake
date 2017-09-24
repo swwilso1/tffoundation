@@ -14,56 +14,64 @@ build_and_run_test(
 
 build_and_run_test(
         init-format-test
-        InitFormatTest
+        StringInitFormatTest
         tests/string/init-format-test.cpp
 )
 
 
 build_and_run_test(
         iterator-test
-        IteratorTest
+        StringIteratorTest
         tests/string/iterator-test.cpp
 )
 
 
 build_and_run_test(
         equality-test
-        EqualityTest
+        StringEqualityTest
         tests/string/equality-tests.cpp
 )
 
 
 build_and_run_test(
         assignment-test
-        AssignmentTest
+        StringAssignmentTest
         tests/string/assignment-test.cpp
 )
 
 
 build_and_run_test(
         length-test
-        LengthTest
+        StringLengthTest
         tests/string/length-tests.cpp
 )
 
 
 build_and_run_test(
         get-character-test
-        GetCharacterTest
+        StringGetCharacterTest
         tests/string/get-character-tests.cpp
 )
 
 
 build_and_run_test(
         get-c-string-test
-        GetCStringTest
+        StringGetCStringTest
         tests/string/get-c-string-tests.cpp
 )
 
 
 build_and_run_test(
         combining-strings-test
-        CombiningStringsTest
+        StringCombiningStringsTest
         tests/string/combining-strings-tests.cpp
 )
+
+
+build_and_run_test(
+        dividing-strings-test
+        StringDividingStringsTest
+        tests/string/dividing-strings-tests.cpp
+)
+
 
