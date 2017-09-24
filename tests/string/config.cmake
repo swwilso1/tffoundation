@@ -75,3 +75,10 @@ build_and_run_test(
 )
 
 
+build_and_run_test(
+        finding-substrings-tests
+        StringFindingSubstringsTest
+        tests/string/finding-substrings-tests.cpp
+)
+
+
