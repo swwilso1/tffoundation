@@ -96,6 +96,12 @@ build_and_run_test(
 )
 
 
+build_and_run_test(
+        character-case-tests
+        StringCharacterCaseTests
+        tests/string/character-case-tests.cpp
+)
+
 
 
 
