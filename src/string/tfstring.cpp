@@ -1995,14 +1995,14 @@ namespace TF
                 if(nextCharShouldBeCapital)
                 {
                     if(opResult.first >= 97 && opResult.first <= 122)
-                        tmp -= 32;
+                        *tmp -= 32;
                     nextCharShouldBeCapital = false;
                 }
 
                 if(opResult.first == 32)
                     nextCharShouldBeCapital = true;
                 else if(opResult.first >= 65 && opResult.first <= 90)
-                    tmp += 32;
+                    *tmp += 32;
 
                 tmp += opResult.second;
                 bytesLeft -= opResult.second;
