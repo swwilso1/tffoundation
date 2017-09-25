@@ -82,3 +82,10 @@ build_and_run_test(
 )
 
 
+build_and_run_test(
+        replacing-substrings-tests
+        StringReplaceSubstringsTest
+        tests/string/replacing-substrings-tests.cpp
+)
+
+
