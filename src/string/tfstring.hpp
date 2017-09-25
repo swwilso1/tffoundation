@@ -562,12 +562,49 @@ namespace TF
 
 
             /**
+             * @brief return a string created by replacing instances of a sub-string with another string
+             * @param original the C-style sub-string to replace
+             * @param replacement the C-style string to insert in place of @e original
+             * @return The new string object.
+             */
+            String stringByReplacingOccurencesOfStringWithString(const char *original, const char *replacement);
+
+
+            /**
+             * @brief return a string created by replacing instances of a sub-string with another string.
+             * @param original the STL style string to replace
+             * @param replacement the STL style string to insert in place of @e original
+             * @return the new string object.
+             */
+            String stringByReplacingOccurencesOfStringWithString(const std::string &original,
+                const std::string &replacement);
+
+
+            /**
                 @brief return a string created by replacing the sub-string in the specified range with another string
                 @param range the origin and length of the sub-string to replace
                 @param str the string to insert in place of the string int @e range
                 @return a smart pointer to a new string object
             */
-            String stringByReplacingCharactersInRangeWithString(range_type& range, const String& str);
+            String stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str);
+
+
+            /**
+             * @brief return a string created by replacing the sub-string in the specified range with another string
+             * @param range the position and length of the sub-string to replace.
+             * @param s the C-style string to insert in place of the original string.
+             * @return the new string object.
+             */
+            String stringByReplacingCharactersInRangeWithString(const range_type &range, const char *s);
+
+
+            /**
+             * @brief return a string created by replacing the sub-string in the specified range with another string
+             * @param range the position and length of the sub-string to replace.
+             * @param s the STL style string to insert in place of the original string.
+             * @return the new string object.
+             */
+            String stringByReplacingCharactersInRangeWithString(const range_type &range, const std::string &s);
 
 #pragma mark - Methods for comparing strings
 

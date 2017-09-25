@@ -1768,7 +1768,26 @@ namespace TF
         }
 
 
-        String String::stringByReplacingCharactersInRangeWithString(range_type& range, const String& str)
+        String String::stringByReplacingOccurencesOfStringWithString(const char *original, const char *replacement)
+        {
+            String orig(original);
+            String replace(replacement);
+
+            return stringByReplacingOccurencesOfStringWithString(orig, replace);
+        }
+
+
+        String String::stringByReplacingOccurencesOfStringWithString(const std::string &original,
+            const std::string &replacement)
+        {
+            String orig(original);
+            String replace(replacement);
+
+            return stringByReplacingOccurencesOfStringWithString(orig, replace);
+        }
+
+
+        String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str)
         {
             UTF8StringEncoder theEncoder;
 
@@ -1815,6 +1834,22 @@ namespace TF
 
             return theNewString;
         }
+
+
+        String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const char *s)
+        {
+            String cStr(s);
+            return stringByReplacingCharactersInRangeWithString(range, cStr);
+        }
+
+
+
+        String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const std::string &s)
+        {
+            String stlStr(s);
+            return stringByReplacingCharactersInRangeWithString(range, stlStr);
+        }
+
 
 
         ComparisonResult String::compare(const String& str) const
