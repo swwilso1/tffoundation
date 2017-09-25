@@ -824,13 +824,7 @@ namespace TF
             */
             data_type getAsDataInUTF32Encoding() const;
 
-#pragma mark - Methods for testing purposes
-
-#ifdef TFTESTS
-            char_type * bytes();
-
-            StringEncoder * encoder();
-#endif /* TFTESTS */
+#pragma mark - Methods for writing to an ostream
 
 
             /** @brief std::ostream& interaction method */
