@@ -89,3 +89,14 @@ build_and_run_test(
 )
 
 
+build_and_run_test(
+        comparison-tests
+        StringComparisonTests
+        tests/string/comparison-tests.cpp
+)
+
+
+
+
+
+
