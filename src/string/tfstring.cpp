@@ -1860,10 +1860,38 @@ namespace TF
         }
 
 
-        ComparisonResult String::compareRangeWithString(range_type& range, const String& str)
+        ComparisonResult String::compare(const char *s) const
+        {
+            String cStr(s);
+            return compare(cStr);
+        }
+
+
+        ComparisonResult String::compare(const std::string &s) const
+        {
+            String stlStr(s);
+            return compare(stlStr);
+        }
+
+
+        ComparisonResult String::compareRangeWithString(const range_type &range, const String &str)
         {
             String rangeOfThisString = this->substringWithRange(range);
             return rangeOfThisString.compare(str);
+        }
+
+
+        ComparisonResult String::compareRangeWithString(const range_type &range, const char *s)
+        {
+            String cStr(s);
+            return compareRangeWithString(range, cStr);
+        }
+
+
+        ComparisonResult String::compareRangeWithString(const range_type &range, const std::string &s)
+        {
+            String stlStr(s);
+            return compareRangeWithString(range, stlStr);
         }
 
 
@@ -1879,6 +1907,20 @@ namespace TF
                 return true;
 
             return false;
+        }
+
+
+        bool String::hasPrefix(const char *s)
+        {
+            String cStr(s);
+            return hasPrefix(cStr);
+        }
+
+
+        bool String::hasPrefix(const std::string &s)
+        {
+            String stlStr(s);
+            return hasPrefix(stlStr);
         }
 
 
@@ -1898,11 +1940,39 @@ namespace TF
         }
 
 
+        bool String::hasSuffix(const char *s)
+        {
+            String cStr(s);
+            return hasSuffix(cStr);
+        }
+
+
+        bool String::hasSuffix(const std::string &s)
+        {
+            String stlStr(s);
+            return hasSuffix(stlStr);
+        }
+
+
         bool String::isEqualToString(const String& str)
         {
             if(this->compare(str) == OrderedSame)
                 return true;
             return false;
+        }
+
+
+        bool String::isEqualToString(const char *s)
+        {
+            String cStr(s);
+            return isEqualToString(cStr);
+        }
+
+
+        bool String::isEqualToString(const std::string &s)
+        {
+            String stlStr(s);
+            return isEqualToString(stlStr);
         }
 
 

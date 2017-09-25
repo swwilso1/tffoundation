@@ -619,25 +619,85 @@ namespace TF
 
 
             /**
+             * return a ComparisonResult indicating the lexical ordering of the string with another string
+             * @param s the C-style string to compare
+             * @return OrderedAscending if the string precedes @s lexically, OrderedSame if the string and @e s have
+             *     an equivalent lexical value and OrderedDescending if the string lexically follows @e s.
+             */
+            ComparisonResult compare(const char *s) const;
+
+
+            /**
+             * return a ComparisonResult indicating the lexical ordering of the string with another string
+             * @param s the STL-style string to compare
+             * @return OrderedAscending if the string precedes @s lexically, OrderedSame if the string and @e s have
+             *     an equivalent lexical value and OrderedDescending if the string lexically follows @e s.
+             */
+            ComparisonResult compare(const std::string &s) const;
+
+
+            /**
                 @brief return a TFComparisonResult indicating the lexical ordering of a sub-string
-                       specified by a range with respect another string
+                       specified by a range with respect to another string
                 @param range the origin and length of the sub-string to use for comparison
                 @param str the string to use for comparison with the sub-string
                 @return TFOrderedAscending if the sub-string precedes @e str lexically,
                     TFOrderedSame if the sub-string and @e str have an equivalent lexical value, and
                         TFOrderedDescending if the sub-string lexically follows @e str
             */
-            ComparisonResult compareRangeWithString(range_type& range, const String& str);
+            ComparisonResult compareRangeWithString(const range_type &range, const String &str);
 
 
             /**
-                @brief returns a boolean value indicating whether the intial characters of string
+             * @brief return a ComparisonResult indicating the lexical ordering of a sub-string specified by a range
+             *      with respect to another string
+             * @param range the origin and length of the sub-string to use for comparison
+             * @param s the C-style string to compare with the sub-string.
+             * @return OrderedAscending if the sub-string precedes @e s lexically, OrderedSame if the sub-string and
+             *      @e s have an equivalent lexical value, and OrderedDescending if the substring lexically follows
+             *      @e s.
+             */
+            ComparisonResult compareRangeWithString(const range_type &range, const char *s);
+
+
+            /**
+             * @brief return a ComparisonResult indicating the lexical ordering of a sub-string specified by a range
+             *      with respect to another string
+             * @param range the origin and length of the sub-string to use for comparison
+             * @param s the STL-style string to compare with the sub-string.
+             * @return OrderedAscending if the sub-string precedes @e s lexically, OrderedSame if the sub-string and
+             *      @e s have an equivalent lexical value, and OrderedDescending if the substring lexically follows
+             *      @e s.
+             */
+            ComparisonResult compareRangeWithString(const range_type &range, const std::string &s);
+
+
+            /**
+                @brief returns a boolean value indicating whether the initial characters of the string
                        match another string
                 @param str a string
                 @return @c true if the string's first characters match the values in @e str, @c false if
                         the string's first characters do not match the values in @e str
             */
             bool hasPrefix(const String& str);
+
+
+            /**
+             * @brief returns a boolean value indicating whether the initial characters of the string match
+             *     another string.
+             * @param s the C-style string to match
+             * @return @c true if the strings' first characters match the value of @e s, @c false otherwise.
+             */
+            bool hasPrefix(const char *s);
+
+
+            /**
+             * @brief returns a boolean value indicating whether the initial characters of the string match
+             *     another string.
+             * @param s the STL-style string to match
+             * @return @c true if the strings' first characters match the value of @e s, @c false otherwise.
+             */
+            bool hasPrefix(const std::string &s);
 
 
             /**
@@ -651,12 +711,48 @@ namespace TF
 
 
             /**
+             * @brief returns a boolean value indicating whether the last characters of the string match another
+             *     string
+             * @param s the C-style string to match
+             * @return @c true if the string's last characters match the value of @e s, @c false otherwise.
+             */
+            bool hasSuffix(const char *s);
+
+
+            /**
+             * @brief returns a boolean value indicating whether the last characters of the string match another
+             *     string
+             * @param s the STL-style string to match
+             * @return @c true if the string's last characters match the value of @e s, @c false otherwise.
+             */
+            bool hasSuffix(const std::string &s);
+
+
+            /**
                 @brief returns a boolean value indicating whether the string is equal to another
                        string by doing a literal Unicode-based comparison
                 @param str a string
                 @return @c true if the strings compare equal, otherwise @c false
             */
             bool isEqualToString(const String& str);
+
+
+            /**
+             * @brief returns a boolean value indicating whether the string contents are the same as another
+             *     string.
+             * @param s the C-style string to match
+             * @return @c true if the strings compare equal, @c false otherwise.
+             */
+            bool isEqualToString(const char *s);
+
+
+            /**
+             * @brief returns a boolean value indicating whether the string contents are the same as another
+             *     string.
+             * @param s the STL-style string to match
+             * @return @c true if the strings compare equal, @c false otherwise.
+             */
+            bool isEqualToString(const std::string &s);
 
 #pragma mark - Methods for changing character case
 
