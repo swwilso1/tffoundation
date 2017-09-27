@@ -150,7 +150,7 @@ namespace TF
             /**
                 @brief static method to create a string object using a specified format
                 @param format a C-style string containing the format of the string contents
-                @return a smart pointer to a string object
+                @return a new string object
 
                 The format string is composed of zero or more directives: ordinary characters
                 (not @c %), which are copied unchanged to the output stream; and conversion
@@ -178,7 +178,7 @@ namespace TF
 
                 For the STL string and the String conversion specifiers, the
                 value passed to initWithFormat must be a pointer to a std::string
-                and a pointer to a StringPointer respectively.
+                and a pointer to a String respectively.
 
                 Each conversion specifier may have an optional modifier as described
                 below:
@@ -197,7 +197,6 @@ namespace TF
 #pragma mark - Iterator methods
 
 
-#if 1 // Disabled for now
             /**
                 @brief returns an iterator pointing to the initial character of the string.
             */
@@ -220,9 +219,8 @@ namespace TF
             */
             iterator end() const;
 
-#endif // Disabled iterator methods
 
-    #pragma mark - Equality operators
+#pragma mark - Equality operators
 
             /**
                 @brief compares a string with a C string for equality.
@@ -301,7 +299,7 @@ namespace TF
             /**
                 @brief Returns a new string object with the characters that lie in @e range.
                 @param range the range of characters
-                @return a pointer to a new string object containing the requested range of characters.
+                @return a new string object containing the requested range of characters.
             */
             String getCharactersInRange(const range_type& range);
 
@@ -324,7 +322,7 @@ namespace TF
             /**
                 @brief create a new string object by appending contents as specified in the format
                 @param format a C-Style string containing the format of the string to append
-                @return a smart pointer to the new string object containing the appended results
+                @return a new string object containing the appended results
 
                 stringByAppendingFormat is a variable argument method used to append arbitrary
                 contents to a string.  The format behavior behaves in the same manner as the
@@ -335,8 +333,8 @@ namespace TF
 
             /**
                 @brief create a new string object by appending the contents of the argument string
-                @param str a smart pointer to the string to use for appending
-                @return a smart pointer to the new objected containing the appended results
+                @param str the string to use for appending
+                @return a new string object containing the appended results
             */
             String stringByAppendingString(const String& str) const;
 
@@ -361,7 +359,7 @@ namespace TF
                 @brief create a new string by concatenating two strings.
                 @param s1 the first string
                 @param s2 the second string
-                @return a smart pointer to new string created by joining two strings.
+                @return a new string created by joining two strings.
             */
             static String concatenateStrings(const String& s1, const String& s2);
 
@@ -420,7 +418,7 @@ namespace TF
                 @brief return a new string object representing the characters in the original string starting
                 from the index to the end of the string
                 @param i an integer variable containing the starting index of the sub-string.
-                @return a smart pointer to a new string object that contains the requested sub-string
+                @return a new string object that contains the requested sub-string
             */
             String substringFromIndex(size_type i);
 
@@ -428,7 +426,7 @@ namespace TF
             /**
                 @brief return a substring of the original string represented by the range parameter.
                 @param range a variable containing the location and length of the requested sub-string.
-                @return a smart pointer to a new string object that contains the requested sub-string
+                @return a new string object that contains the requested sub-string
             */
             String substringWithRange(const range_type& range);
 
@@ -445,7 +443,7 @@ namespace TF
                 @brief returns a new string containing the characters of the receiver up to,
                 but not including, the one at a given index.
                 @param i the index of the last desired character in the sub-string
-                @return a smart pointer to a new string object that contains the requested sub-string.
+                @return a new string object that contains the requested sub-string.
             */
             String substringToIndex(size_type i);
 
@@ -478,7 +476,7 @@ namespace TF
             /**
                 @brief return an array of substrings created by splitting the string into chunks separated by @e splitString.
                 @param splitString the string to use for matching
-                @return an array of string pointers containing the substrings
+                @return an array of strings containing the substrings
             */
             string_array_type split(const String& splitString);
 
@@ -501,10 +499,10 @@ namespace TF
 #pragma mark - Methods for finding characters and substrings
 
             /**
-                @brief return a TFRange object containing the location of the first instance of the starting character
+                @brief return a Range object containing the location of the first instance of the starting character
                 and the length of the string given as a parameter
-                @param str a smart pointer to a string object indicating the sub-string to find
-                @return a TFRange object containing the index of the starting character and the length of the sub-string
+                @param str a string object indicating the sub-string to find
+                @return a Range object containing the index of the starting character and the length of the sub-string
             */
             range_type rangeOfString(const String& str);
 
@@ -556,7 +554,7 @@ namespace TF
                 @brief return a string created by replacing instances of a sub-string with another string
                 @param original the sub-string to replace
                 @param replacement the string to insert in place of @e original
-                @return a smart pointer to a new string object
+                @return a new string object
             */
             String stringByReplacingOccurencesOfStringWithString(const String& original, const String& replacement);
 
@@ -584,7 +582,7 @@ namespace TF
                 @brief return a string created by replacing the sub-string in the specified range with another string
                 @param range the origin and length of the sub-string to replace
                 @param str the string to insert in place of the string int @e range
-                @return a smart pointer to a new string object
+                @return a new string object
             */
             String stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str);
 
@@ -609,11 +607,11 @@ namespace TF
 #pragma mark - Methods for comparing strings
 
             /**
-                @brief return a TFComparisonResult indicating the lexical ordering of the string with another string
+                @brief return a ComparisonResult indicating the lexical ordering of the string with another string
                 @param str the string object to compare
-                @return TFOrderedAscending if the string precedes @e str lexically,
-                        TFOrderedSame if the string and @e str have an equivalent lexical value and
-                    TFOrderedDescending if the string lexically follows @e str
+                @return OrderedAscending if the string precedes @e str lexically,
+                        OrderedSame if the string and @e str have an equivalent lexical value and
+                    OrderedDescending if the string lexically follows @e str
             */
             ComparisonResult compare(const String& str) const;
 
@@ -637,13 +635,13 @@ namespace TF
 
 
             /**
-                @brief return a TFComparisonResult indicating the lexical ordering of a sub-string
+                @brief return a ComparisonResult indicating the lexical ordering of a sub-string
                        specified by a range with respect to another string
                 @param range the origin and length of the sub-string to use for comparison
                 @param str the string to use for comparison with the sub-string
-                @return TFOrderedAscending if the sub-string precedes @e str lexically,
-                    TFOrderedSame if the sub-string and @e str have an equivalent lexical value, and
-                        TFOrderedDescending if the sub-string lexically follows @e str
+                @return OrderedAscending if the sub-string precedes @e str lexically,
+                    OrderedSame if the sub-string and @e str have an equivalent lexical value, and
+                        OrderedDescending if the sub-string lexically follows @e str
             */
             ComparisonResult compareRangeWithString(const range_type &range, const String &str);
 
@@ -784,7 +782,7 @@ namespace TF
 #pragma mark - Methods for converting a string to a data object
 
             /**
-                @brief return a Data object pointer with the
+                @brief return a Data object with the
                 contents of the string.
                  @return a new Data object that
                 contains the contents of the string.
@@ -793,33 +791,33 @@ namespace TF
 
 
             /**
-                @brief return a TFData object pointer with the contents of the
+                @brief return a Data object with the contents of the
                 string in ASCII encoding.
-                @return a pointer to a new TFData object that contains a copy
+                @return a new Data object that contains a copy
                 of the string in ASCII encoding.
             */
             data_type getAsDataInASCIIEncoding() const;
 
             /**
-                @brief return a TFData object pointer with the contents of the
+                @brief return a Data object with the contents of the
                 string in UTF-8 encoding.
-                @return a pointer to a new TFData object that contains a copy
+                @return a new Data object that contains a copy
                 of the string in UTF-8 encoding.
             */
             data_type getAsDataInUTF8Encoding() const;
 
             /**
-                @brief return a TFData object pointer with the contents of the
+                @brief return a Data object with the contents of the
                 string in UTF-16 encoding.
-                @return a pointer to a new TFData object that contains a copy
+                @return a new Data object that contains a copy
                 of the string in UTF-16 encoding.
             */
             data_type getAsDataInUTF16Encoding() const;
 
             /**
-                @brief return a TFData object pointer with the contents of the
+                @brief return a Data object with the contents of the
                 string in UTF-32 encoding.
-                @return a pointer to a new TFData object that contains a copy
+                @return a new Data object that contains a copy
                 of the string in UTF-32 encoding.
             */
             data_type getAsDataInUTF32Encoding() const;
@@ -838,7 +836,7 @@ namespace TF
                 @brief static method to create a string object using a specified format
                 @param format a C-style string containing the format of the string contents
                 @param argList a va_list object referencing the other arguments for the format.
-                @return a smart pointer to a string object.
+                @return a new string object.
 
                 initWithFormat is a variable argument method used to create string object
                 according to a format template.   This method behaves in the same manner as
@@ -850,7 +848,7 @@ namespace TF
                 @brief create a new string object by appending contents as specified in the format
                 @param format a C-Style string containing the format of the string to append
                 @param argList a va_list pointer referencing the other arguments for the format.
-                @return a smart pointer to the new string object containing the appended results
+                @return a new string object containing the appended results
 
                 stringByAppendingFormat is a variable argument method used to append arbitrary
                 contents to a string.  The format behavior behaves in the same manner as the
