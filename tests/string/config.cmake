@@ -103,6 +103,11 @@ build_and_run_test(
 )
 
 
+build_and_run_test(
+        encoding-conversion-tests
+        StringEncodingConversionTests
+        tests/string/encoding-conversion-tests.cpp
+)
 
 
 
