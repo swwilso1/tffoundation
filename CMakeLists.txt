@@ -7,7 +7,7 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-project(TXFoundation)
+project(TFFoundation)
 
 include(cmake/config.cmake)
 include(src/config.cmake)
