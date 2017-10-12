@@ -1513,7 +1513,7 @@ namespace TF
         {
             String copy = this->deepCopy();
             String cStr(s);
-            return String::initWithFormat("%@%@", copy, cStr);
+            return String::initWithFormat("%@%@", &copy, &cStr);
         }
 
 
@@ -1521,14 +1521,14 @@ namespace TF
         {
             String copy = this->deepCopy();
             String stlStr(s);
-            return String::initWithFormat("%@%@", copy, stlStr);
+            return String::initWithFormat("%@%@", &copy, &stlStr);
         }
 
 
         String String::operator+(const String &s) const
         {
             String copy = this->deepCopy();
-            return String::initWithFormat("%@%@", copy, s);
+            return String::initWithFormat("%@%@", &copy, &s);
 
         }
 
