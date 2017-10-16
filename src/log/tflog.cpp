@@ -27,7 +27,10 @@ SOFTWARE.
 
 // The contents of this file are currently quite Unix specific.
 
-#include <syslog.h>
+#define NEEDS_IOSTREAM
+#define NEEDS_IOMANIP
+#define NEEDS_FSTREAM
+#include "tfheaders.hpp"
 #include "tflog.hpp"
 
 namespace TF
@@ -36,67 +39,116 @@ namespace TF
 	namespace Foundation
 	{
 
+        std::ostream& operator<<(std::ostream &o, const LogPriority &p)
+        {
+            switch(p)
+            {
+                case LogPriority::Critical:
+                    o << "CRITICAL";
+                    break;
+                case LogPriority::Error:
+                    o << "ERROR";
+                    break;
+                case LogPriority::Fine:
+                    o << "FINE";
+                    break;
+                case LogPriority::Finer:
+                    o << "FINER";
+                    break;
+                case LogPriority::Finest:
+                    o << "FINEST";
+                    break;
+                case LogPriority::Info:
+                    o << "INFO";
+                    break;
+                case LogPriority::Warning:
+                    o << "WARNING";
+                    break;
+            }
 
-#		define TEST_AND_SET_OPTION(eval, sysval) \
-		if(static_cast<LogOption>(options | static_cast<int>(eval)) == eval) \
-			openOptions |= sysval
+            return o;
+        }
 
-		Logger::Logger(int options)
+        Logger::priority_type Logger::defaultPriority;
+
+        Logger::file_map_type Logger::logFiles;
+
+
+        Logger::~Logger()
 		{
-			int openOptions = 0;
-			
-			TEST_AND_SET_OPTION(LogOption::Console, LOG_CONS);
-			TEST_AND_SET_OPTION(LogOption::NoDelay, LOG_NDELAY);
-			TEST_AND_SET_OPTION(LogOption::NoWait, LOG_NOWAIT);
-			TEST_AND_SET_OPTION(LogOption::OpenDelay, LOG_ODELAY);
-			TEST_AND_SET_OPTION(LogOption::Stderr, LOG_ERR);
-			TEST_AND_SET_OPTION(LogOption::ProcessID, LOG_PID);
-				
-			openlog(nullptr, openOptions, LOG_SYSLOG);
-		}
-			
+            if(thePriority >= defaultPriority)
+            {
+                std::ostringstream preamble;
+                preamble << '[' << thePriority << ']';
 
-		Logger::~Logger()
-		{
-			int priority = 0;
-			
-			switch(thePriority)
-			{
-				case LogPriority::Alert:
-					priority = LOG_ALERT;
-					break;
-				case LogPriority::Critical:
-					priority = LOG_CRIT;
-					break;
-				case LogPriority::Debug:
-					priority = LOG_DEBUG;
-					break;
-				case LogPriority::Emergency:
-					priority = LOG_EMERG;
-					break;
-				case LogPriority::Error:
-					priority = LOG_ERR;
-					break;
-				case LogPriority::Info:
-					priority = LOG_INFO;
-					break;
-				case LogPriority::Notice:
-					priority = LOG_NOTICE;
-					break;
-				case LogPriority::Warning:
-					priority = LOG_WARNING;
-					break;
-				default:
-					;
-			}
+                for(auto &member : logFiles)
+                {
+                    try
+                    {
+                        *member.second << std::setw(10) << std::right << preamble.str() << " ";
 
-			syslog(priority, "%s", logMessage.c_str());
-
-			closelog();
+                        *member.second << logMessage.str() << std::flush;
+                    }
+                    catch(...)
+                    {
+                        ;
+                    }
+                }
+            }
 		}
 
 
-	} // Foundation
+        void Logger::logToFileAtPath(const string_type &path)
+        {
+            std::fstream *theStream = new std::fstream(path.c_str(), std::ios::out | std::ios::app);
+            if(theStream != nullptr && theStream->is_open())
+            {
+                logFiles.insert(std::make_pair(path, reinterpret_cast<stream_type *>(theStream)));
+            }
+        }
+
+
+        void Logger::logToFileAtPath(const char *path)
+        {
+            string_type thePath(path);
+            logToFileAtPath(thePath);
+        }
+
+
+        void Logger::closeFiles()
+        {
+            for(auto &member : logFiles)
+            {
+                if(member.first != "stdout" && member.first != "stderr")
+                {
+                    std::fstream *theStream = reinterpret_cast<std::fstream *>(member.second);
+                    theStream->close();
+                    delete theStream;
+                }
+            }
+
+            logFiles.clear();
+        }
+
+
+        void Logger::logToStdOutput()
+        {
+            if(logFiles.count("stdout") == 0)
+            {
+                logFiles.insert(std::make_pair(string_type("stdout"), &std::cout));
+            }
+        }
+
+
+        void Logger::logToStdError()
+        {
+            if(logFiles.count("stderr") == 0)
+            {
+                logFiles.insert(std::make_pair(string_type("stderr"), &std::cerr));
+            }
+        }
+
+    } // Foundation
 
 } // TF
 

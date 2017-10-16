@@ -30,6 +30,8 @@ SOFTWARE.
 
 #define NEEDS_STRING
 #define NEEDS_SSTREAM
+#define NEEDS_OSTREAM
+#define NEEDS_MAP
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -39,54 +41,40 @@ namespace TF
 	
 	namespace Foundation
 	{
-		
-		enum class LogOption
-		{
-			Console = 1,
-			NoDelay,
-			NoWait,
-			OpenDelay,
-			Stderr,
-			ProcessID,
-		};
-
 
 		enum class LogPriority
 		{
-			Emergency,
-			Alert,
-			Critical,
-			Error,
-			Warning,
-			Notice,
-			Info,
-			Debug
+            Finest = 0,
+            Finer,
+            Fine,
+            Info,
+            Warning,
+            Error,
+            Critical
 		};
+
+        std::ostream& operator<<(std::ostream &o, const LogPriority &p);
 
 
 		class Logger : public AllocatorInterface
 		{
 		public:
 		
-			using option_type = LogOption;
-			
 			using priority_type = LogPriority;
 			
 			using string_type = std::string;
 		
-			Logger(int options);
+			explicit Logger(const priority_type &p) : thePriority(p) {};
 			
-			~Logger();
+			~Logger() override;
 			
-			void log(priority_type priority, const string_type &format)
+			void log(const string_type &format)
 			{
-				thePriority = priority;
-				logMessage += format;
+				logMessage << format;
 			}
 
 			template<class Arg, class ...Args>
-			void log(priority_type priority, const string_type &format,
-				Arg value, Args ... args)
+			void log(const string_type &format, Arg value, Args ... args)
 			{
 				
 				for(string_type::size_type i = 0; i < format.size();
@@ -96,31 +84,63 @@ namespace TF
 					{
 						std::stringstream formatter;
 						formatter << value;
-						logMessage += formatter.str();
-						log(priority, format.substr(i + 1),
-							args...);
+						logMessage << formatter.str();
+						log(format.substr(i + 1), args...);
 						return;
 					}
-					logMessage += format[i];
+					logMessage << format[i];
 				}
 			}
 			
+            static priority_type getPriority() { return defaultPriority; }
+
+            static void setPriority(const priority_type &p) { defaultPriority = p; }
+
+            static void logToFileAtPath(const string_type &path);
+
+            static void logToFileAtPath(const char *path);
+
+			static void closeFiles();
+
+            static void logToStdOutput();
+
+            static void logToStdError();
+
 		private:
-		
+
+            using stream_type = std::ostream;
+
+            using file_map_type = std::map<string_type, stream_type *>;
+
+            static priority_type defaultPriority;
+
+            static file_map_type logFiles;
+
 			priority_type thePriority;
 			
-			string_type logMessage;
-
+			std::ostringstream logMessage;
 		};
 		
 	} // Foundation
 
 } // TF
 
-#define LOG(options, priority, format, args...) \
+#define LOG_TO_FILE_AT_PATH(path) \
+		TF::Foundation::Logger::logToFileAtPath(path)
+
+#define LOG_TO_STDOUT() \
+		TF::Foundation::Logger::logToStdOutput()
+
+#define LOG_TO_STDERR() \
+		TF::Foundation::Logger::logToStdError()
+
+#define LOG_SET_PRIORITY(p) \
+		TF::Foundation::Logger::setPriority(p)
+
+#define LOG(priority, format, args...) \
 		{ \
-			TF::Foundation::Logger theLog(static_cast<int>(options)); \
-			theLog.log(priority, format , ##args); \
+			TF::Foundation::Logger theLog(priority); \
+			theLog.log(format , ##args); \
 		}
 
 #endif // TFLOG_HPP

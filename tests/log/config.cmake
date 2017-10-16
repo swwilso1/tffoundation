@@ -5,13 +5,8 @@
 #####
 ################################################################################
 
-list(APPEND FOUNDATION_HEADER_FILES
-	"${CMAKE_CURRENT_SOURCE_DIR}/src/log/tflog.hpp"
+build_and_run_test(
+        log_test
+        LogTest
+        tests/log/log_test.cpp
 )
-
-
-list(APPEND FOUNDATION_SOURCE_FILES
-	"src/log/tflog.cpp"
-	"src/log/tflog.hpp"
-)
-
