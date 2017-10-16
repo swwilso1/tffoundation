@@ -71,7 +71,7 @@ namespace TF
             return o;
         }
 
-        Logger::priority_type Logger::defaultPriority;
+        Logger::priority_type Logger::defaultPriority = LogPriority::Info;
 
         Logger::file_map_type Logger::logFiles;
 
