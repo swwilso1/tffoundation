@@ -27,9 +27,11 @@ SOFTWARE.
 
 // The contents of this file are currently quite Unix specific.
 
+#include <sys/time.h>
 #define NEEDS_IOSTREAM
 #define NEEDS_IOMANIP
 #define NEEDS_FSTREAM
+#define NEEDS_TIME
 #include "tfheaders.hpp"
 #include "tflog.hpp"
 
@@ -79,13 +81,16 @@ namespace TF
             if(thePriority >= defaultPriority)
             {
                 std::ostringstream preamble;
-                preamble << '[' << thePriority << ']';
+                std::ostringstream priority;
+                priority << '[' << thePriority << ']';
+                preamble << std::setw(23) << std::left << calculateTimeForPreamble() << " ";
+                preamble << std::setw(10) << std::right << priority.str();
 
                 for(auto &member : logFiles)
                 {
                     try
                     {
-                        *member.second << std::setw(10) << std::right << preamble.str() << " ";
+                        *member.second << preamble.str() << " ";
 
                         *member.second << logMessage.str() << std::flush;
                     }
@@ -146,6 +151,28 @@ namespace TF
             {
                 logFiles.insert(std::make_pair(string_type("stderr"), &std::cerr));
             }
+        }
+
+
+        Logger::string_type Logger::calculateTimeForPreamble()
+        {
+            char buffer[500];
+            struct timeval theTime;
+            struct tm *brokenDownTime = nullptr;
+            gettimeofday(&theTime, nullptr);
+            time_t timeInSeconds = static_cast<time_t>(theTime.tv_sec);
+            brokenDownTime = localtime(&timeInSeconds);
+            if(brokenDownTime != nullptr)
+            {
+                auto lengthUsed = strftime(buffer, 500, "%F %T", brokenDownTime);
+                if(lengthUsed > 0)
+                {
+                    snprintf(buffer + lengthUsed, 500 - lengthUsed, ":%03ld%c", theTime.tv_usec / 1000, '\0');
+                    return string_type(buffer);
+                }
+            }
+
+            return string_type();
         }
 
     } // Foundation

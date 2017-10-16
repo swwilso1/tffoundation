@@ -116,6 +116,9 @@ namespace TF
 
             static file_map_type logFiles;
 
+			/** This function is only used till tffoundation has a valid date class */
+			string_type calculateTimeForPreamble();
+
 			priority_type thePriority;
 			
 			std::ostringstream logMessage;
