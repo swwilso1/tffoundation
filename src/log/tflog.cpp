@@ -92,7 +92,7 @@ namespace TF
                     {
                         *member.second << preamble.str() << " ";
 
-                        *member.second << logMessage.str() << std::flush;
+                        *member.second << logMessage.str() << std::endl << std::flush;
                     }
                     catch(...)
                     {
