@@ -25,34 +25,32 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
+namespace TF
+{
+
+    namespace Foundation
+    {
+
+        template<class Rep, class Ratio>
+        std::ostream& operator<<(std::ostream &o, const std::chrono::duration<Rep, Ratio> &d)
+        {
+            o << "[";
+            o << d.count();
+            o << " ticks of ";
+            o << Ratio::num << "/" << Ratio::den << " seconds]";
+            return o;
+        };
 
 
+        template<class Dur>
+        std::ostream& operator<<(std::ostream &o, const std::chrono::time_point<Dur> &tp)
+        {
+            auto duration = tp.time_since_epoch();
+            o << duration << " since epoch";
+            return o;
+        }
 
+    } // Foundation
+
+} // TF
 

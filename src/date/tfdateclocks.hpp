@@ -25,34 +25,43 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
+#ifndef TFDATECLOCKS_HPP
+#define TFDATECLOCKS_HPP
+
+#define NEEDS_CHRONO
+#include "tfheaders.hpp"
 #include "tfdate.hxx"
 #include "tfdatecomponent.hxx"
 #include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
+
+namespace TF
+{
+
+    namespace Foundation
+    {
+
+        using SystemDate = Date<std::chrono::system_clock>;
+
+        using HighResolutionDate = Date<std::chrono::high_resolution_clock>;
+
+        using SteadyDate = Date<std::chrono::steady_clock>;
 
 
+        using SystemDateComponents = DateComponents<std::chrono::system_clock>;
+
+        using HighResolutionDateComponents = DateComponents<std::chrono::high_resolution_clock>;
+
+        using SteadyDateComponents = DateComponents<std::chrono::steady_clock>;
 
 
+        using SystemDateFormatter = DateFormatter<std::chrono::system_clock>;
+
+        using HighResolutionDateFormatter = DateFormatter<std::chrono::high_resolution_clock>;
+
+        using SteadyDateFormatter = DateFormatter<std::chrono::steady_clock>;
+
+    } // Foundation
+
+} // TF
+
+#endif //TFDATECLOCKS_HPP

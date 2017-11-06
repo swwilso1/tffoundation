@@ -25,34 +25,45 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
+
+#include "TFFoundation.hpp"
+#include "gtest/gtest.h"
 
 
+using namespace TF::Foundation;
+
+// These tests will fail if the system uses a different epoch.
+
+TEST(DateComponentsTest, MomentTest)
+{
+    SystemDate d(SystemDate::duration(1509136984185151026L));
+    SystemDateComponents dc(d);
+
+    EXPECT_EQ(dc.second(), 4);
+    EXPECT_EQ(dc.minute(), 43);
+    EXPECT_EQ(dc.hour(), 14);
+    EXPECT_EQ(dc.dayOfMonth(), 27);
+    EXPECT_EQ(dc.monthOfYear(), MonthOfYear::October);
+    EXPECT_EQ(dc.year(), 2017);
+    EXPECT_EQ(dc.dayOfWeek(), DayOfWeek::Friday);
+    EXPECT_EQ(dc.dayOfYear(), 299);
+    EXPECT_TRUE(dc.isDaylightSavingsTime());
+    EXPECT_FALSE(dc.isLeapYear());
+}
 
 
+TEST(DateComponentsTest, LeapYearTest)
+{
+    SystemDate d(SystemDate::duration(1580136984185151026L));
+    SystemDateComponents dc(d);
+    EXPECT_TRUE(dc.isLeapYear());
+}
+
+
+TEST(DateComponentsTest, RecoverDateTest)
+{
+    SystemDate d;
+    SystemDateComponents dc(d);
+    SystemDate e = dc.getDate();
+    EXPECT_TRUE(d == e);
+}

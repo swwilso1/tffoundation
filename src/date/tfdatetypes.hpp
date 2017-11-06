@@ -25,34 +25,68 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
+#ifndef TFDATETYPES_HPP
+#define TFDATETYPES_HPP
+
+#define NEEDS_CTIME
+#define NEEDS_OSTREAM
+#include "tfheaders.hpp"
+
+namespace TF
+{
+
+    namespace Foundation
+    {
+
+        enum class DayOfWeek
+        {
+            Sunday,
+            Monday,
+            Tuesday,
+            Wednesday,
+            Thursday,
+            Friday,
+            Saturday
+        };
 
 
+        std::ostream& operator<<(std::ostream &o, const DayOfWeek &d);
 
 
+        enum class MonthOfYear
+        {
+            January,
+            February,
+            March,
+            April,
+            May,
+            June,
+            July,
+            August,
+            September,
+            October,
+            November,
+            December
+        };
+
+
+        std::ostream& operator<<(std::ostream& o, const MonthOfYear &m);
+
+
+        enum class HalfOfDay
+        {
+            AM,
+            PM
+        };
+
+
+        std::ostream& operator<<(std::ostream &o, const HalfOfDay &h);
+
+
+        std::ostream& operator<<(std::ostream &o, const struct tm &t);
+
+    } // Foundation
+
+} // TF
+
+#endif //TFDATETYPES_HPP

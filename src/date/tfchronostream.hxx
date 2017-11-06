@@ -25,34 +25,30 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
+#ifndef TFCHRONOSTREAM_HXX
+#define TFCHRONOSTREAM_HXX
 
+#define NEEDS_CHRONO
+#define NEEDS_OSTREAM
+#define NEEDS_RATIO
+#include "tfheaders.hpp"
 
+namespace TF
+{
 
+    namespace Foundation
+    {
 
+        template<class Rep, class Ratio>
+        std::ostream& operator<<(std::ostream &o, const std::chrono::duration<Rep, Ratio> &d);
+
+        template<class Dur>
+        std::ostream& operator<<(std::ostream &o, const std::chrono::time_point<Dur> &tp);
+
+    } // Foundation
+
+} // TF
+
+#include "tfchronostream.cxx"
+
+#endif //TFCHRONOSTREAM_HXX
