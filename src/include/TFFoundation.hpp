@@ -52,6 +52,7 @@ SOFTWARE.
 #include "tfdatecomponent.hxx"
 #include "tfdateformatter.hxx"
 #include "tfdateclocks.hpp"
+#include "tfenvironmentsettings.hpp"
 
 
 
