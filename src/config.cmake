@@ -11,6 +11,7 @@ include(src/base64/config.cmake)
 include(src/data/config.cmake)
 include(src/date/config.cmake)
 include(src/environment/config.cmake)
+include(src/files/config.cmake)
 include(src/format/config.cmake)
 include(src/include/config.cmake)
 include(src/log/config.cmake)
@@ -27,6 +28,7 @@ include_directories(
     src/data
     src/date
     src/environment
+    src/files
     src/format
     src/include
     src/log
