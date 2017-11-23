@@ -16,6 +16,7 @@ link_directories(
 )
 
 include(tests/cmake/config.cmake)
+include(tests/alarm/config.cmake)
 include(tests/allocator/config.cmake)
 include(tests/array/config.cmake)
 include(tests/data/config.cmake)

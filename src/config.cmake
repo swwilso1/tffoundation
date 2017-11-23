@@ -5,6 +5,7 @@
 #####
 ################################################################################
 
+include(src/alarm/config.cmake)
 include(src/allocator/config.cmake)
 include(src/array/config.cmake)
 include(src/base64/config.cmake)
@@ -22,6 +23,7 @@ include(src/thread/config.cmake)
 include(src/uuid/config.cmake)
 
 include_directories(
+    src/alarm
     src/allocator
     src/array
     src/base64

@@ -25,36 +25,37 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
-#include "tfenvironmentsettings.hpp"
-#include "tffilemanager.hpp"
-#include "tfalarmcenter.hpp"
+
+#include <thread>
+#include <chrono>
+#include "TFFoundation.hpp"
+#include "gtest/gtest.h"
 
 
+using namespace TF::Foundation;
+
+TEST(AlarmTest, SimpleAlarmTest)
+{
+    bool alarmTriggered = false;
+    auto theCenter = AlarmCenter::defaultCenter();
+    SystemDate now;
+    theCenter->setAlarm("SimpleAlarm", [&alarmTriggered](const AlarmCenter::string_type &s){
+        alarmTriggered = true;
+    }, now + duration_cast<SystemDate::duration>(100ms));
+    std::this_thread::sleep_for(2s);
+    EXPECT_TRUE(alarmTriggered);
+}
+
+
+TEST(AlarmTest, CancelTest)
+{
+    bool alarmTriggered = false;
+    auto theCenter = AlarmCenter::defaultCenter();
+    SystemDate now;
+    theCenter->setAlarm("ExtendedAlarm", [&alarmTriggered](const AlarmCenter::string_type &s){
+        alarmTriggered = true;
+    }, now + duration_cast<SystemDate::duration>(2s));
+    theCenter->cancelAlarm("ExtendedAlarm");
+    EXPECT_FALSE(alarmTriggered);
+}
 
