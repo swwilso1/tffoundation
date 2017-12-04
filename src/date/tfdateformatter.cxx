@@ -25,7 +25,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include <TFFoundation/tfdatetypes.hpp>
 #include "tfdatecomponent.hxx"
 #include "tfdatesymbol.hxx"
 #include "tfdatetypes.hpp"
