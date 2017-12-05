@@ -162,6 +162,18 @@ namespace TF
         }
 
 
+        bool FilePermissions::hasSetUserID() const
+        {
+            return CHECK_PERMISSION(permissions, SetUserID);
+        }
+
+
+        bool FilePermissions::hasSetGroupID() const
+        {
+            return CHECK_PERMISSION(permissions, SetGroupID);
+        }
+
+
 #define SET_PERMISSION(value, permission) \
         if(value) \
             permissions = permissions | permission; \
@@ -229,7 +241,19 @@ namespace TF
         }
 
 
-        FilePermissions::string_type FilePermissions::outputFormatter() const
+        void FilePermissions::setSetUserID(bool value)
+        {
+            SET_PERMISSION(value, SetUserID);
+        }
+
+
+        void FilePermissions::setSetGroupID(bool value)
+        {
+            SET_PERMISSION(value, SetGroupID);
+        }
+
+
+        FilePermissions::string_type FilePermissions::unixForm() const
         {
             string_type formattedOutput;
 
@@ -250,6 +274,8 @@ namespace TF
 
             if(hasUserExecutePermission())
                 formattedOutput += "x";
+            else if(hasSetUserID())
+                formattedOutput += "S";
             else
                 formattedOutput += "-";
 
@@ -265,6 +291,8 @@ namespace TF
 
             if(hasGroupExecutePermission())
                 formattedOutput += "x";
+            else if(hasSetGroupID())
+                formattedOutput += "S";
             else
                 formattedOutput += "-";
 

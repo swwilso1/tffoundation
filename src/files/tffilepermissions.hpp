@@ -51,7 +51,9 @@ namespace TF
             OtherRead     = 0x040,
             OtherWrite    = 0x080,
             OtherExecute  = 0x100,
-            Sticky        = 0x200
+            Sticky        = 0x200,
+            SetUserID     = 0x400,
+            SetGroupID    = 0x800
         };
 
 
@@ -61,6 +63,8 @@ namespace TF
         public:
 
             using permission = Permission;
+
+            using string_type = std::string;
 
             FilePermissions();
 
@@ -102,6 +106,10 @@ namespace TF
 
             bool hasStickyBit() const;
 
+            bool hasSetUserID() const;
+
+            bool hasSetGroupID() const;
+
             void setUserReadPermission(bool value);
 
             void setUserWritePermission(bool value);
@@ -122,15 +130,17 @@ namespace TF
 
             void setStickyBit(bool value);
 
+            void setSetUserID(bool value);
+
+            void setSetGroupID(bool value);
+
+            string_type unixForm() const;
+
             std::ostream& description(std::ostream &o) const;
 
         private:
 
             int permissions;
-
-            using string_type = std::string;
-
-            string_type outputFormatter() const;
         };
 
 
