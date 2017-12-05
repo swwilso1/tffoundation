@@ -55,6 +55,7 @@ SOFTWARE.
 #include "tfenvironmentsettings.hpp"
 #include "tffilemanager.hpp"
 #include "tfalarmcenter.hpp"
+#include "tffilepermissions.hpp"
 
 
 
