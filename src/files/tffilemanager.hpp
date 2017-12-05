@@ -34,6 +34,7 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
+#include "tffileproperties.hpp"
 
 namespace TF
 {
@@ -56,6 +57,9 @@ namespace TF
 
             /** @brief basic string list(array) type */
             using string_array_type = std::vector<string_type>;
+
+            /** @brief file properties type */
+            using file_properties_type = FileProperties;
 
 
             /**
@@ -199,6 +203,15 @@ namespace TF
              * @return true if the item exists and is a directory and false otherwise.
              */
             bool directoryExistsAtPath(const string_type &path) const;
+
+
+
+            /**
+             * @brief method to return the properties of the file system object located at @e path.
+             * @param path the location of the file system object
+             * @return the properties for the item at @e path
+             */
+            file_properties_type propertiesForItemAtPath(const string_type &path) const;
 
 
             /**

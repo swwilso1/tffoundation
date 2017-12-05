@@ -313,6 +313,83 @@ namespace TF
         }
 
 
+        FileManager::file_properties_type FileManager::propertiesForItemAtPath(const string_type &path) const
+        {
+            file_properties_type theProperties;
+            struct stat pathData;
+
+            auto result = lstat(path.c_str(), &pathData);
+            if(result < 0)
+                throw std::runtime_error("Unable to query file system object");
+
+            theProperties.size = pathData.st_size;
+
+            if(S_ISREG(pathData.st_mode))
+                theProperties.type = FileType::Regular;
+            else if(S_ISDIR(pathData.st_mode))
+                theProperties.type = FileType::Directory;
+            else if(S_ISCHR(pathData.st_mode))
+                theProperties.type = FileType::CharacterSpecial;
+            else if(S_ISBLK(pathData.st_mode))
+                theProperties.type = FileType::Block;
+            else if(S_ISFIFO(pathData.st_mode))
+                theProperties.type = FileType::Pipe;
+            else if(S_ISLNK(pathData.st_mode))
+                theProperties.type = FileType::Link;
+            else if(S_ISSOCK(pathData.st_mode))
+                theProperties.type = FileType::Socket;
+            else if(S_TYPEISMQ(&pathData))
+                theProperties.type = FileType::MessageQueue;
+            else if(S_TYPEISSEM(&pathData))
+                theProperties.type = FileType::Semaphore;
+            else if(S_TYPEISSEM(&pathData))
+                theProperties.type = FileType::SharedMemory;
+
+            if((pathData.st_mode & S_IRUSR) != 0)
+                theProperties.permission.setUserReadPermission(true);
+            if((pathData.st_mode & S_IWUSR) != 0)
+                theProperties.permission.setUserWritePermission(true);
+            if((pathData.st_mode & S_IXUSR) != 0)
+                theProperties.permission.setUserExecutePermission(true);
+            if((pathData.st_mode & S_IRGRP) != 0)
+                theProperties.permission.setGroupReadPermission(true);
+            if((pathData.st_mode & S_IWGRP) != 0)
+                theProperties.permission.setGroupWritePermission(true);
+            if((pathData.st_mode & S_IXGRP) != 0)
+                theProperties.permission.setGroupExecutePermission(true);
+            if((pathData.st_mode & S_IROTH) != 0)
+                theProperties.permission.setOtherReadPermission(true);
+            if((pathData.st_mode & S_IWOTH) != 0)
+                theProperties.permission.setOtherWritePermission(true);
+            if((pathData.st_mode & S_IXOTH) != 0)
+                theProperties.permission.setOtherExecutePermission(true);
+            if((pathData.st_mode & S_ISVTX) != 0)
+                theProperties.permission.setStickyBit(true);
+
+            theProperties.userID = static_cast<int>(pathData.st_uid);
+            theProperties.groupID = static_cast<int>(pathData.st_gid);
+
+
+            if(theProperties.type == FileType::Link && theProperties.size > 0)
+            {
+                // We want to read the target of the link.
+                char buffer[theProperties.size + 1];
+
+                auto result = readlink(path.c_str(), buffer, theProperties.size);
+
+                if(result < 0)
+                    throw std::runtime_error("Unable to read link target");
+
+                buffer[theProperties.size] = '\0';
+
+                theProperties.linkTarget = buffer;
+            }
+
+
+            return theProperties;
+        }
+
+
         bool FileManager::isReadableAtPath(const string_type &path) const
         {
             struct stat pathData;
