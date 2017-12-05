@@ -321,7 +321,7 @@ namespace TF
             if(formatter != nullptr)
             {
                 formatter->setClassName("FilePermissions");
-                formatter->addClassMember<string_type>("permissions", outputFormatter());
+                formatter->addClassMember<string_type>("string_type", "permissions", unixForm());
                 o << *formatter;
                 delete formatter;
             }

@@ -140,12 +140,12 @@ namespace TF
             if(formatter != nullptr)
             {
                 formatter->setClassName("FileProperties");
-                formatter->addClassMember<size_type>("size", size);
-                formatter->addClassMember<file_type>("type", type);
-                formatter->addClassMember<permissions>("permission",permission);
-                formatter->addClassMember<int>("userID", userID);
-                formatter->addClassMember<int>("groupID", groupID);
-                formatter->addClassMember<string_type>("linkTarget", linkTarget);
+                formatter->addClassMember<size_type>("size_type", "size", size);
+                formatter->addClassMember<file_type>("file_type", "type", type);
+                formatter->addClassMember<permissions>("permissions", "permission",permission);
+                formatter->addClassMember<int>("int", "userID", userID);
+                formatter->addClassMember<int>("int", "groupID", groupID);
+                formatter->addClassMember<string_type>("string_type", "linkTarget", linkTarget);
                 o << *formatter;
                 delete formatter;
             }
