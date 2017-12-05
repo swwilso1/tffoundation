@@ -365,6 +365,10 @@ namespace TF
                 theProperties.permission.setOtherExecutePermission(true);
             if((pathData.st_mode & S_ISVTX) != 0)
                 theProperties.permission.setStickyBit(true);
+            if((pathData.st_mode & S_ISUID) != 0)
+                theProperties.permission.setSetUserID(true);
+            if((pathData.st_mode & S_ISGID) != 0)
+                theProperties.permission.setSetGroupID(true);
 
             theProperties.userID = static_cast<int>(pathData.st_uid);
             theProperties.groupID = static_cast<int>(pathData.st_gid);
@@ -387,6 +391,52 @@ namespace TF
 
 
             return theProperties;
+        }
+
+
+        FileManager::file_permissions_type FileManager::permissionsForItemAtPath(const string_type &path) const
+        {
+            auto properties = propertiesForItemAtPath(path);
+            return properties.permission;
+        }
+
+
+        void FileManager::setPermissionsForItemAtPath(const string_type &path, const file_permissions_type &p) const
+        {
+            mode_t newMode = 0;
+
+            if(p.hasUserReadPermission())
+                newMode |= S_IRUSR;
+            if(p.hasUserWritePermission())
+                newMode |= S_IWUSR;
+            if(p.hasSetUserID())
+                newMode |= S_ISUID;
+            else if(p.hasUserExecutePermission())
+                newMode |= S_IXUSR;
+            if(p.hasGroupReadPermission())
+                newMode |= S_IRGRP;
+            if(p.hasGroupWritePermission())
+                newMode |= S_IWGRP;
+            if(p.hasSetGroupID())
+                newMode |= S_ISGID;
+            else if(p.hasGroupExecutePermission())
+                newMode |= S_IXGRP;
+            if(p.hasOtherReadPermission())
+                newMode |= S_IROTH;
+            if(p.hasOtherWritePermission())
+                newMode |= S_IWOTH;
+            if(p.hasOtherExecutePermission())
+                newMode |= S_IXOTH;
+
+            // Disable the umask so we can get an exact permissions change.
+            auto origUmask = umask(0);
+
+            auto result = chmod(path.c_str(), newMode);
+            if(result < 0)
+                throw std::runtime_error("Unable to change permissions on file system object");
+
+            // Re-enable the umask.
+            umask(origUmask);
         }
 
 

@@ -35,6 +35,7 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tffileproperties.hpp"
+#include "tffilepermissions.hpp"
 
 namespace TF
 {
@@ -60,6 +61,9 @@ namespace TF
 
             /** @brief file properties type */
             using file_properties_type = FileProperties;
+
+            /** @brief file permissions type */
+            using file_permissions_type = FilePermissions;
 
 
             /**
@@ -212,6 +216,22 @@ namespace TF
              * @return the properties for the item at @e path
              */
             file_properties_type propertiesForItemAtPath(const string_type &path) const;
+
+
+            /**
+             * @brief method to return the permissions of the file system object located at @e path
+             * @param path the location of the file system object.
+             * @return the permissions for the item at @e path.
+             */
+            file_permissions_type permissionsForItemAtPath(const string_type &path) const;
+
+
+            /**
+             * @brief method to se the permissions of the file system object located at @e path
+             * @param path the location of the file system object.
+             * @param p the new file permissions
+             */
+            void setPermissionsForItemAtPath(const string_type &path, const file_permissions_type &p) const;
 
 
             /**
