@@ -124,6 +124,8 @@ namespace TF
                 contentsArray.push_back(entryName);
             }
 
+            closedir(opaqueDirHandle);
+
             return contentsArray;
         }
 
