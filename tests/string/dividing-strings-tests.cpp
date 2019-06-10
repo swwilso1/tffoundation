@@ -184,6 +184,13 @@ TEST(StringTest, SubstringToIndexTest2)
 }
 
 
+TEST(StringTest, SubstringToIndexTest3)
+{
+    String s("Basswood wood is best");
+    EXPECT_ANY_THROW(auto t = s.substringToIndex(21));
+}
+
+
 TEST(StringTest, SubstringsThatDoNotMatchStringTest)
 {
     String s("How now brown now cow");
