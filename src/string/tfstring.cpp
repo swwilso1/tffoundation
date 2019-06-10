@@ -1559,7 +1559,7 @@ namespace TF
         String String::substringFromIndex(size_type i)
         {
             UTF8StringEncoder encoder;
-            if(i > this->length())
+            if(i > (this->length() - 1))
                 throw std::runtime_error("substringFromIndex index larger than length of string");
 
             auto index = encoder.arrayIndexOfCharacterAtCharacterIndex(core->data(), core->length(), i);
@@ -1621,7 +1621,7 @@ namespace TF
         {
             UTF8StringEncoder encoder;
 
-            if (i > this->length())
+            if (i > (this->length() - 1))
                 throw std::range_error("substringToIndex given index greater than length of string");
 
             range_type range(0, i);
