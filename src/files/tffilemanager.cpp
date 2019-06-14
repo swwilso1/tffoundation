@@ -112,7 +112,9 @@ namespace TF
             struct dirent *dirEntry;
             DIR *opaqueDirHandle;
 
-            opaqueDirHandle = opendir(path.c_str());
+            auto pathStr = path.cStr();
+
+            opaqueDirHandle = opendir(pathStr.get());
             if(opaqueDirHandle == nullptr)
                 return contentsArray;
 
@@ -173,7 +175,8 @@ namespace TF
 
         void FileManager::createDirectoryAtPath(const string_type &path) const
         {
-            auto result = mkdir(path.c_str(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
+            auto pathStr = path.cStr();
+            auto result = mkdir(pathStr.get(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
             if(result < 0)
                 throw std::runtime_error("Unable to create directory");
         }
@@ -188,17 +191,18 @@ namespace TF
             for(auto &entry : components)
             {
                 subPath += String(pathSeparator) + entry;
-                if(! directoryExistsAtPath(subPath.stlString()))
-                    createDirectoryAtPath(subPath.stlString());
+                if(! directoryExistsAtPath(subPath))
+                    createDirectoryAtPath(subPath);
             }
         }
 
 
         void FileManager::createFileAtPath(const string_type &path) const
         {
+            auto pathStr = path.cStr();
             if(! fileExistsAtPath(path) && ! directoryExistsAtPath(path))
             {
-                auto result = open(path.c_str(), O_RDWR | O_CREAT,
+                auto result = open(pathStr.get(), O_RDWR | O_CREAT,
                     S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(result < 0)
                     throw std::runtime_error("Unable to create file");
@@ -209,15 +213,16 @@ namespace TF
 
         void FileManager::removeItemAtPath(const string_type &path) const
         {
+            auto pathStr = path.cStr();
             if(directoryExistsAtPath(path))
             {
-                auto result = rmdir(path.c_str());
+                auto result = rmdir(pathStr.get());
                 if(result < 0)
                     throw std::runtime_error("Unable to remove directory");
             }
             else if(fileExistsAtPath(path))
             {
-                auto result = unlink(path.c_str());
+                auto result = unlink(pathStr.get());
                 if(result < 0)
                     throw std::runtime_error("Unable to remove file");
             }
@@ -226,8 +231,10 @@ namespace TF
 
         void FileManager::copyItemAtPathToPath(const string_type &sourcePath, const string_type &destPath) const
         {
-            std::ifstream inFile(sourcePath);
-            std::ofstream outFile(sourcePath, std::ios::out|std::ios::trunc);
+            auto sourceStr = sourcePath.cStr();
+            auto destStr = destPath.cStr();
+            std::ifstream inFile(sourceStr.get());
+            std::ofstream outFile(destStr.get(), std::ios::out|std::ios::trunc);
             bool wroteBytes = false;
 
             if(! inFile)
@@ -255,7 +262,9 @@ namespace TF
 
         void FileManager::moveItemAtPathToPath(const string_type &sourcePath, const string_type &destPath) const
         {
-            auto result = rename(sourcePath.c_str(), destPath.c_str());
+            auto sourceStr = sourcePath.cStr();
+            auto destStr = destPath.cStr();
+            auto result = rename(sourceStr.get(), destStr.get());
             if(result < 0)
                 throw std::runtime_error("Unable to move entry to new location");
         }
@@ -264,7 +273,9 @@ namespace TF
         void FileManager::createSymbolicLinkAtPathWithDestinationPath(const string_type &linkPath,
                 const string_type &destPath) const
         {
-            auto result = symlink(destPath.c_str(), linkPath.c_str());
+            auto linkStr = linkPath.cStr();
+            auto destStr = destPath.cStr();
+            auto result = symlink(destStr.get(), linkStr.get());
             if(result < 0)
                 throw std::runtime_error("Unable to create symbolic link");
         }
@@ -273,7 +284,9 @@ namespace TF
         void FileManager::createHardLinkAtPathWithDestinationPath(const string_type &linkPath,
                 const string_type &destPath) const
         {
-            auto result = link(destPath.c_str(), linkPath.c_str());
+            auto linkStr = linkPath.cStr();
+            auto destStr = destPath.cStr();
+            auto result = link(destStr.get(), linkStr.get());
             if(result < 0)
                 throw std::runtime_error("Unable to create hard link");
         }
@@ -283,7 +296,9 @@ namespace TF
         {
             struct stat pathData;
 
-            auto result = lstat(path.c_str(), &pathData);
+            auto pathStr = path.cStr();
+
+            auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
                 return false;
 
@@ -303,7 +318,9 @@ namespace TF
         {
             struct stat pathData;
 
-            auto result = lstat(path.c_str(), &pathData);
+            auto pathStr = path.cStr();
+
+            auto result = lstat(pathStr.get(), &pathData);
 
             if(result < 0)
                 return false; // probably not a standard file or directory.
@@ -320,7 +337,9 @@ namespace TF
             file_properties_type theProperties;
             struct stat pathData;
 
-            auto result = lstat(path.c_str(), &pathData);
+            auto pathStr = path.cStr();
+
+            auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
                 throw std::runtime_error("Unable to query file system object");
 
@@ -381,7 +400,7 @@ namespace TF
                 // We want to read the target of the link.
                 char buffer[theProperties.size + 1];
 
-                auto result = readlink(path.c_str(), buffer, theProperties.size);
+                auto result = readlink(pathStr.get(), buffer, theProperties.size);
 
                 if(result < 0)
                     throw std::runtime_error("Unable to read link target");
@@ -433,7 +452,9 @@ namespace TF
             // Disable the umask so we can get an exact permissions change.
             auto origUmask = umask(0);
 
-            auto result = chmod(path.c_str(), newMode);
+            auto pathStr = path.cStr();
+
+            auto result = chmod(pathStr.get(), newMode);
             if(result < 0)
                 throw std::runtime_error("Unable to change permissions on file system object");
 
@@ -445,7 +466,8 @@ namespace TF
         bool FileManager::isReadableAtPath(const string_type &path) const
         {
             struct stat pathData;
-            auto result = lstat(path.c_str(), &pathData);
+            auto pathStr = path.cStr();
+            auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
                 throw std::runtime_error("Unable to query file");
 
@@ -476,7 +498,8 @@ namespace TF
         bool FileManager::isWritableAtPath(const string_type &path) const
         {
             struct stat pathData;
-            auto result = lstat(path.c_str(), &pathData);
+            auto pathStr = path.cStr();
+            auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
                 throw std::runtime_error("Unable to query file");
 
@@ -507,7 +530,8 @@ namespace TF
         bool FileManager::isExecutableAtPath(const string_type &path) const
         {
             struct stat pathData;
-            auto result = lstat(path.c_str(), &pathData);
+            auto pathStr = path.cStr();
+            auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
                 throw std::runtime_error("Unable to query file");
 
@@ -537,18 +561,16 @@ namespace TF
 
         bool FileManager::isDeletableAtPath(const string_type &path) const
         {
-            String thePath(path);
+            auto components = path.split(pathSeparator);
 
-            auto components = thePath.split(pathSeparator);
-
-            String theDirPath;
+            string_type theDirPath;
 
             for(size_type i = 0; i < (components.size() - 1); i++)
             {
-                theDirPath += String(pathSeparator) + components[i];
+                theDirPath += pathSeparator + components[i];
             }
 
-            if(isWritableAtPath(theDirPath.stlString()) || isExecutableAtPath(theDirPath.stlString()))
+            if(isWritableAtPath(theDirPath) || isExecutableAtPath(theDirPath))
                 return true;
 
             return false;
@@ -560,9 +582,11 @@ namespace TF
             if(sizeofFileAtPath(pathA) != sizeofFileAtPath(pathB))
                 return false;
 
+            auto pathAStr = pathA.cStr();
+            auto pathBStr = pathB.cStr();
 
-            std::ifstream streamA(pathA);
-            std::ifstream streamB(pathB);
+            std::ifstream streamA(pathAStr.get());
+            std::ifstream streamB(pathBStr.get());
 
             if(! streamA)
                 throw std::runtime_error("Unable to read from file 1.");
@@ -584,7 +608,8 @@ namespace TF
 
         void FileManager::changeCurrentWorkingDirectoryToPath(const string_type &path)
         {
-            auto result = chdir(path.c_str());
+            auto pathStr = path.cStr();
+            auto result = chdir(pathStr.get());
             if(result < 0)
                 throw std::runtime_error("Unable to change current working directory");
         }
@@ -619,7 +644,9 @@ namespace TF
         {
             struct stat info;
 
-            auto result = stat(path.c_str(), &info);
+            auto pathStr = path.cStr();
+
+            auto result = stat(pathStr.get(), &info);
 
             if(result < 0)
                 throw std::runtime_error("Unable to get file size");

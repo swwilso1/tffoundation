@@ -28,7 +28,6 @@ SOFTWARE.
 #ifndef TFFILEMANAGER_HPP
 #define TFFILEMANAGER_HPP
 
-#define NEEDS_STRING
 #define NEEDS_OSTREAM
 #define NEEDS_VECTOR
 #include "tfheaders.hpp"
@@ -36,6 +35,7 @@ SOFTWARE.
 #include "tfallocator.hpp"
 #include "tffileproperties.hpp"
 #include "tffilepermissions.hpp"
+#include "tfstring.hpp"
 
 namespace TF
 {
@@ -51,7 +51,7 @@ namespace TF
         public:
 
             /** @brief basic string type */
-            using string_type = std::string;
+            using string_type = String;
 
             /** @brief basic size type */
             using size_type = size_t;

@@ -45,11 +45,11 @@ namespace TF
             while(tmp != nullptr && *tmp != nullptr)
             {
                 string_type entry = *tmp;
-                auto equalsLocation = entry.find('=');
+                auto equalsLocation = entry.rangeOfString("=");
                 string_type key, value;
 
-                key = entry.substr(0, equalsLocation);
-                value = entry.substr(equalsLocation + 1);
+                key = entry.substringToIndex(equalsLocation.position);
+                value = entry.substringFromIndex(equalsLocation.position + equalsLocation.length);
 
                 variableMap.insert(std::make_pair(key,value));
                 tmp++;
@@ -81,7 +81,7 @@ namespace TF
                 return variableMap.at(variable);
 
             // Try using getenv to find the variable.
-            auto value = std::getenv(variable.c_str());
+            auto value = std::getenv(variable.cStr().get());
             if(value != nullptr)
             {
                 return string_type(value);
@@ -96,7 +96,7 @@ namespace TF
             if(variableMap.count(variable) > 0)
                 return true;
 
-            auto value = std::getenv(variable.c_str());
+            auto value = std::getenv(variable.cStr().get());
             if(value != nullptr)
                 return true;
 
@@ -117,7 +117,7 @@ namespace TF
                 variableMap.insert(std::make_pair(variable,value));
             }
 
-            setenv(variable.c_str(), value.c_str(), overwrite ? 1 : 0);
+            setenv(variable.cStr().get(), value.cStr().get(), overwrite ? 1 : 0);
         }
 
 
@@ -135,14 +135,14 @@ namespace TF
             else
                 variableMap.insert(std::make_pair(variable,value));
 
-            setenv(variable.c_str(), value.c_str(), overwrite ? 1 : 0);
+            setenv(variable.cStr().get(), value.cStr().get(), overwrite ? 1 : 0);
         }
 
 
         void EnvironmentSettings::removeVariable(const string_type &variable)
         {
             variableMap.erase(variable);
-            unsetenv(variable.c_str());
+            unsetenv(variable.cStr().get());
         }
 
 

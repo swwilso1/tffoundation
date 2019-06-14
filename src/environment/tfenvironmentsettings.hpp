@@ -28,13 +28,13 @@ SOFTWARE.
 #ifndef TFENVIRONMENTSETTINGS_HPP
 #define TFENVIRONMENTSETTINGS_HPP
 
-#define NEEDS_STRING
 #define NEEDS_OSTREAM
 #define NEEDS_VECTOR
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfmap.hxx"
+#include "tfstring.hpp"
 
 
 namespace TF
@@ -47,7 +47,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
 
             using size_type = size_t;
 
