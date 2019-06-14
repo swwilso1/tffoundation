@@ -28,7 +28,6 @@ SOFTWARE.
 #define TFNOTIFICATIONCENTER_HPP
 
 #define NEEDS_OSTREAM
-#define NEEDS_STRING
 #define NEEDS_FUNCTIONAL
 #define NEEDS_MEMORY
 #define NEEDS_MAP
@@ -41,6 +40,7 @@ SOFTWARE.
 #include "tfthread.hpp"
 #include "tfthreadsafequeue.hxx"
 #include "tfthreadcontroller.hpp"
+#include "tfstring.hpp"
 
 namespace TF
 {
@@ -71,7 +71,7 @@ namespace TF
         public:
 
             /** @brief notification label type */
-            using label_type = std::string;
+            using label_type = String;
 
             /** @brief notification type */
             using notification_type = Notification;

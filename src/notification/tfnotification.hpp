@@ -34,6 +34,7 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfdata.hpp"
+#include "tfstring.hpp"
 
 namespace TF
 {
@@ -54,7 +55,7 @@ namespace TF
         public:
 
             /** @brief basic string type */
-            using string_type = std::string;
+            using string_type = String;
 
             /** @brief notification label type */
             using notification_label = string_type;
