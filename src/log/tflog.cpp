@@ -105,7 +105,8 @@ namespace TF
 
         void Logger::logToFileAtPath(const string_type &path)
         {
-            std::fstream *theStream = new std::fstream(path.c_str(), std::ios::out | std::ios::app);
+            auto pathStr = path.cStr();
+            std::fstream *theStream = new std::fstream(pathStr.get(), std::ios::out | std::ios::app);
             if(theStream != nullptr && theStream->is_open())
             {
                 logFiles.insert(std::make_pair(path, reinterpret_cast<stream_type *>(theStream)));

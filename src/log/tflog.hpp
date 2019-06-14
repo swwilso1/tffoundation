@@ -28,13 +28,13 @@ SOFTWARE.
 #ifndef TFLOG_HPP
 #define TFLOG_HPP
 
-#define NEEDS_STRING
 #define NEEDS_SSTREAM
 #define NEEDS_OSTREAM
 #define NEEDS_MAP
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
+#include "tfstring.hpp"
 
 namespace TF
 {
@@ -62,7 +62,7 @@ namespace TF
 		
 			using priority_type = LogPriority;
 			
-			using string_type = std::string;
+			using string_type = String;
 		
 			explicit Logger(const priority_type &p) : thePriority(p) {};
 			
@@ -77,7 +77,7 @@ namespace TF
 			void log(const string_type &format, Arg value, Args ... args)
 			{
 				
-				for(string_type::size_type i = 0; i < format.size();
+				for(string_type::size_type i = 0; i < format.length();
 					i++)
 				{
 					if(format[i] == '%')
@@ -85,7 +85,7 @@ namespace TF
 						std::stringstream formatter;
 						formatter << value;
 						logMessage << formatter.str();
-						log(format.substr(i + 1), args...);
+						log(format.substringFromIndex(i + 1), args...);
 						return;
 					}
 					logMessage << format[i];
