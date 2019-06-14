@@ -107,7 +107,8 @@ namespace TF
             stack_type theStack;
             symbol *theSymbol = nullptr;
 
-            const char *theFormat = f.c_str();
+            auto tmp = f.cStr();
+            const char *theFormat = tmp.get();
 
             while(*theFormat != '\0')
             {
@@ -348,7 +349,9 @@ namespace TF
                 throw std::runtime_error("date format does not have enough information to reconstruct a date");
 
             DateComponents<Clock> components;
-            auto tmp = s.c_str();
+            auto cPtr = s.cStr();
+            auto tmp = cPtr.get();
+
 
             for(auto symbol : queue)
             {
@@ -358,16 +361,19 @@ namespace TF
                 {
                     if(*tmp == '\0')
                     {
-                        if(symbol->validValueForSymbol(accumulator.str()))
-                            addValueToComponentsForSymbol(accumulator.str(), components, symbol);
+                        string_type str = accumulator.str();
+                        if(symbol->validValueForSymbol(str))
+                            addValueToComponentsForSymbol(str, components, symbol);
                         break;
                     }
 
                     accumulator << *tmp++;
 
-                    if(symbol->validValueForSymbol(accumulator.str()))
+                    string_type str = accumulator.str();
+
+                    if(symbol->validValueForSymbol(str))
                     {
-                        addValueToComponentsForSymbol(accumulator.str(), components, symbol);
+                        addValueToComponentsForSymbol(str, components, symbol);
                         break;
                     }
                 }
@@ -389,7 +395,7 @@ namespace TF
                 accumulator << symbol->convert(c);
             }
 
-            return accumulator.str();
+            return string_type(accumulator.str());
         }
 
 

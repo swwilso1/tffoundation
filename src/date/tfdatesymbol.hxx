@@ -29,7 +29,6 @@ SOFTWARE.
 #define TFDATESYMBOL_HXX
 
 #define NEEDS_OSTREAM
-#define NEEDS_STRING
 #define NEEDS_SSTREAM
 #define NEEDS_CMATH
 #define NEEDS_CSTDLIB
@@ -37,6 +36,7 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfdatecomponent.hxx"
+#include "tfstring.hpp"
 
 namespace TF
 {
@@ -74,7 +74,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
 
             using semantic_type = SymbolSemantic;
 

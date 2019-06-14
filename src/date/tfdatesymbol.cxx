@@ -78,7 +78,7 @@ namespace TF
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
             {
-                formatter->setClassName(className);
+                formatter->setClassName(className.stlString());
                 formatter->addClassMember<int>("count", count);
                 formatter->addClassMember<char>("theCharacter",theCharacter);
                 o << *formatter;
@@ -100,7 +100,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             EraSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "EraSymbol"; }
@@ -236,7 +236,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             YearSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "YearSymbol"; }
@@ -285,7 +285,7 @@ namespace TF
         template<class Clock>
         int YearSymbol<Clock>::convert(const string_type &s)
         {
-            return std::atoi(s.c_str());
+            return std::atoi(s.cStr().get());
         }
 
 
@@ -359,7 +359,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             QuarterSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "QuarterSymbol"; }
@@ -490,7 +490,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             MonthSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "MonthSymbol"; }
@@ -701,7 +701,7 @@ namespace TF
                 case 1:
                 case 2:
                 {
-                    auto theValue = std::atoi(s.c_str());
+                    auto theValue = std::atoi(s.cStr().get());
                     return theValue;
                 }
                     break;
@@ -828,7 +828,7 @@ namespace TF
                 if(theCount == 2 && v.length() == 1)
                     return false;
 
-                auto theValue = std::atoi(v.c_str());
+                auto theValue = std::atoi(v.cStr().get());
                 if(theValue >= 1 && theValue <= 12)
                     return true;
             }
@@ -913,7 +913,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             DayOfMonthSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "DayOfMonthSymbol"; }
@@ -954,7 +954,7 @@ namespace TF
         template<class Clock>
         int DayOfMonthSymbol<Clock>::convert(const string_type &s)
         {
-            return std::atoi(s.c_str());
+            return std::atoi(s.cStr().get());
         }
 
 
@@ -985,7 +985,7 @@ namespace TF
         template<class Clock>
         bool DayOfMonthSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
             auto theCount = DateSymbol<Clock>::count;
 
             if(theCount == 2)
@@ -1005,7 +1005,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             DayOfYearSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "DayOfYearSymbol"; }
@@ -1049,7 +1049,7 @@ namespace TF
         template<class Clock>
         int DayOfYearSymbol<Clock>::convert(const string_type &s)
         {
-            return std::atoi(s.c_str());
+            return std::atoi(s.cStr().get());
         }
 
 
@@ -1084,7 +1084,7 @@ namespace TF
         template<class Clock>
         bool DayOfYearSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
             auto theCount = DateSymbol<Clock>::count;
 
             if(theCount == 2)
@@ -1113,7 +1113,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             DayOfWeekSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "DayOfWeekSymbol"; }
@@ -1364,7 +1364,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             PeriodSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "PeriodSymbol"; }
@@ -1452,7 +1452,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             NormalHourSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "NormalHourSymbol"; }
@@ -1518,7 +1518,7 @@ namespace TF
         template<class Clock>
         bool NormalHourSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
 
             if(DateSymbol<Clock>::count == 2)
             {
@@ -1537,7 +1537,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             MilitaryHourSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "MilitaryHourSymbol"; }
@@ -1577,7 +1577,7 @@ namespace TF
         template<class Clock>
         int MilitaryHourSymbol<Clock>::convert(const string_type &s)
         {
-            auto theValue = std::atoi(s.c_str());
+            auto theValue = std::atoi(s.cStr().get());
             return theValue;
         }
 
@@ -1609,7 +1609,7 @@ namespace TF
         template<class Clock>
         bool MilitaryHourSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
 
             if(DateSymbol<Clock>::count == 2)
             {
@@ -1630,7 +1630,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             NonstandardHourSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "NonstandardHourSymbol"; }
@@ -1693,7 +1693,7 @@ namespace TF
         template<class Clock>
         bool NonstandardHourSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
 
             if(DateSymbol<Clock>::count == 2)
             {
@@ -1714,7 +1714,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             NonstandardMilitaryHourSymbol() : DateSymbol<Clock>()
@@ -1778,7 +1778,7 @@ namespace TF
         template<class Clock>
         bool NonstandardMilitaryHourSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
             if(DateSymbol<Clock>::count == 2)
             {
                 if(v.length() != 2)
@@ -1795,7 +1795,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             MinuteSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "MinuteSymbol"; }
@@ -1834,7 +1834,7 @@ namespace TF
         template<class Clock>
         int MinuteSymbol<Clock>::convert(const string_type &s)
         {
-            return std::atoi(s.c_str());
+            return std::atoi(s.cStr().get());
         }
 
 
@@ -1865,7 +1865,7 @@ namespace TF
         template<class Clock>
         bool MinuteSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
 
             if(DateSymbol<Clock>::count == 2)
             {
@@ -1886,7 +1886,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             SecondSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "SecondSymbol"; }
@@ -1925,7 +1925,7 @@ namespace TF
         template<class Clock>
         int SecondSymbol<Clock>::convert(const string_type &s)
         {
-            return std::atoi(s.c_str());
+            return std::atoi(s.cStr().get());
         }
 
 
@@ -1956,7 +1956,7 @@ namespace TF
         template<class Clock>
         bool SecondSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
 
             if(DateSymbol<Clock>::count == 2)
             {
@@ -1977,7 +1977,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             FractionalSecondSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "FractionalSecondSymbol"; }
@@ -2031,7 +2031,7 @@ namespace TF
         template<class Clock>
         int FractionalSecondSymbol<Clock>::convert(const string_type &s)
         {
-            return std::atoi(s.c_str());
+            return std::atoi(s.cStr().get());
         }
 
 
@@ -2052,7 +2052,7 @@ namespace TF
         template<class Clock>
         bool FractionalSecondSymbol<Clock>::validValueForSymbol(const string_type &v)
         {
-            auto theValue = std::atoi(v.c_str());
+            auto theValue = std::atoi(v.cStr().get());
 
             if(v.length() != DateSymbol<Clock>::count)
                 return false;
@@ -2070,7 +2070,7 @@ namespace TF
         {
         public:
 
-            using string_type = std::string;
+            using string_type = String;
             using semantic_type = SymbolSemantic;
 
             NormalSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "NormalSymbol"; }

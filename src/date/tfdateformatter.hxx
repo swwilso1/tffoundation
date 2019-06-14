@@ -29,7 +29,6 @@ SOFTWARE.
 #define TFDATEFORMATTER_HXX
 
 #define NEEDS_OSTREAM
-#define NEEDS_STRING
 #define NEEDS_DEQUE
 #define NEEDS_STACK
 #define NEEDS_SSTREAM
@@ -39,6 +38,7 @@ SOFTWARE.
 #include "tfallocator.hpp"
 #include "tfdatesymbol.hxx"
 #include "tfdate.hxx"
+#include "tfstring.hpp"
 
 
 namespace TF
@@ -56,7 +56,7 @@ namespace TF
 
             using date = Date<Clock>;
 
-            using string_type = std::string;
+            using string_type = String;
 
             DateFormatter();
 
