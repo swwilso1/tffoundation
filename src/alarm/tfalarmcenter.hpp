@@ -30,7 +30,6 @@ SOFTWARE.
 
 #define NEEDS_OSTREAM
 #define NEEDS_FUNCTIONAL
-#define NEEDS_STRING
 #define NEEDS_MAP
 #define NEEDS_THREAD
 #define NEEDS_MEMORY
@@ -42,6 +41,7 @@ SOFTWARE.
 #include "tfmap.hxx"
 #include "tfdateclocks.hpp"
 #include "tfthreadcontroller.hpp"
+#include "tfstring.hpp"
 
 namespace TF
 {
@@ -63,7 +63,7 @@ namespace TF
         public:
 
             /** @brief basic string type */
-            using string_type = std::string;
+            using string_type = String;
 
             /**
              * @brief basic function callback type.   The callback can be a function pointer or a lambda.
