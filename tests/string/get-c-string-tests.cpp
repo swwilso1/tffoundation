@@ -37,7 +37,7 @@ using namespace TF::Foundation;
 TEST(StringTest, GetCStringTest)
 {
     String s("abcd\\:000080ef\\:004432");
-    auto value = s.c_str();
+    auto value = s.cStr();
     EXPECT_EQ(strncmp(value.get(), "abcd\\:000080ef\\:004432", 22), 0);
 }
 
@@ -53,7 +53,7 @@ TEST(StringTest, GetCStringTest2)
     s[4] = 'a';
 
     String t(s, 5);
-    auto value = t.c_str();
+    auto value = t.cStr();
     EXPECT_EQ(strncmp(value.get(), "\\:009483\\:100332\\:000081a", 25),0);
 }
 

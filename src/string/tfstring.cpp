@@ -1325,20 +1325,6 @@ namespace TF
 #endif // Disabled iterator methods
 
 
-        bool String::operator==(const char *s) const
-        {
-            String theStr{s};
-            return *this == theStr;
-        }
-
-
-        bool String::operator==(const std::string &s) const
-        {
-            String theStr{s};
-            return *this == theStr;
-        }
-
-
         bool String::operator==(const String &s) const
         {
             return *core == *s.core;
@@ -1376,7 +1362,7 @@ namespace TF
         }
 
 
-        String::size_type String::numberOfBytes()
+        String::size_type String::numberOfBytes() const
         {
             return core->length();
         }
@@ -1389,14 +1375,14 @@ namespace TF
         }
 
 
-        String::unicode_point_type String::characterAtIndex(size_type i)
+        String::unicode_point_type String::characterAtIndex(size_type i) const
         {
             UTF8StringEncoder encoder;
             return encoder.unicodeCodePointForCharacterAtIndex(core->data(), core->length(), i);
         }
 
 
-        String String::getCharactersInRange(const range_type &range)
+        String String::getCharactersInRange(const range_type &range) const
         {
             UTF8StringEncoder encoder;
 
@@ -1419,12 +1405,12 @@ namespace TF
         }
 
 
-        std::unique_ptr<const char> String::c_str()
+        std::unique_ptr<const char> String::cStr() const
         {
             ASCIIStringEncoder encoder;
 
             if (core->length() == 0)
-                throw std::runtime_error("c_str unable to create string from empty string");
+                throw std::runtime_error("cStr unable to create string from empty string");
 
             auto asciiData = convertToThisEncoding(*this, &encoder);
 
@@ -1439,9 +1425,9 @@ namespace TF
         }
 
 
-        std::string String::stlString()
+        std::string String::stlString() const
         {
-            std::unique_ptr<const char> cStr = this->c_str();
+            std::unique_ptr<const char> cStr = this->cStr();
             return std::string(cStr.get());
         }
 
@@ -1475,20 +1461,6 @@ namespace TF
         }
 
 
-        String String::stringByAppendingString(const char *s) const
-        {
-            String cStr(s);
-            return concatenateStrings(*this, cStr);
-        }
-
-
-        String String::stringByAppendingString(const std::string &s) const
-        {
-            String stlStr(s);
-            return concatenateStrings(*this, stlStr);
-        }
-
-
         String String::concatenateStrings(const String& s1, const String& s2)
         {
             auto newArrayLength = s1.core->length() + s2.core->length();
@@ -1509,43 +1481,11 @@ namespace TF
         }
 
 
-        String String::operator+(const char *s) const
-        {
-            String copy = this->deepCopy();
-            String cStr(s);
-            return String::initWithFormat("%@%@", &copy, &cStr);
-        }
-
-
-        String String::operator+(const std::string &s) const
-        {
-            String copy = this->deepCopy();
-            String stlStr(s);
-            return String::initWithFormat("%@%@", &copy, &stlStr);
-        }
-
-
         String String::operator+(const String &s) const
         {
             String copy = this->deepCopy();
             return String::initWithFormat("%@%@", &copy, &s);
 
-        }
-
-
-        String& String::operator+=(const char *s)
-        {
-            String cStr(s);
-            *this = concatenateStrings(*this, cStr);
-            return *this;
-        }
-
-
-        String& String::operator+=(const std::string &s)
-        {
-            String stlStr(s);
-            *this = concatenateStrings(*this, stlStr);
-            return *this;
         }
 
 
@@ -1556,7 +1496,7 @@ namespace TF
         }
 
 
-        String String::substringFromIndex(size_type i)
+        String String::substringFromIndex(size_type i) const
         {
             UTF8StringEncoder encoder;
             if(i > (this->length() - 1))
@@ -1570,7 +1510,7 @@ namespace TF
         }
 
 
-        String String::substringWithRange(const range_type& range)
+        String String::substringWithRange(const range_type& range) const
         {
             UTF8StringEncoder encoder;
             if(! encoder.doesRangeOfCharactersLieInString(core->data(), core->length(), range))
@@ -1594,7 +1534,7 @@ namespace TF
         }
 
 
-        String::string_array_type String::substringsNotInRange(const range_type& range)
+        String::string_array_type String::substringsNotInRange(const range_type& range) const
         {
             string_array_type substringArray;
 
@@ -1617,7 +1557,7 @@ namespace TF
         }
 
 
-        String String::substringToIndex(size_type i)
+        String String::substringToIndex(size_type i) const
         {
             UTF8StringEncoder encoder;
 
@@ -1642,7 +1582,7 @@ namespace TF
         }
 
 
-        String::string_array_type String::substringsThatDoNotMatchString(const String& str)
+        String::string_array_type String::substringsThatDoNotMatchString(const String& str) const
         {
             range_array_type rangesOfSubStrings;
             string_array_type theSubStrings;
@@ -1660,39 +1600,13 @@ namespace TF
         }
 
 
-        String::string_array_type String::substringsThatDoNotMatchString(const char *s)
-        {
-            String cStr(s);
-            return substringsThatDoNotMatchString(cStr);
-        }
-
-
-        String::string_array_type String::substringsThatDoNotMatchString(const std::string &s)
-        {
-            String stlStr(s);
-            return substringsThatDoNotMatchString(stlStr);
-        }
-
-
-        String::string_array_type String::split(const String& splitString)
+        String::string_array_type String::split(const String& splitString) const
         {
             return this->substringsThatDoNotMatchString(splitString);
         }
 
 
-        String::string_array_type String::split(const char *s)
-        {
-            return this->substringsThatDoNotMatchString(s);
-        }
-
-
-        String::string_array_type String::split(const std::string &s)
-        {
-            return this->substringsThatDoNotMatchString(s);
-        }
-
-
-        String::range_type String::rangeOfString(const String& str)
+        String::range_type String::rangeOfString(const String& str) const
         {
             range_type theRange;
             UTF8StringEncoder theEncoder;
@@ -1704,21 +1618,7 @@ namespace TF
         }
 
 
-        String::range_type String::rangeOfString(const char *s)
-        {
-            String cStr(s);
-            return rangeOfString(cStr);
-        }
-
-
-        String::range_type String::rangeOfString(const std::string &s)
-        {
-            String stlStr(s);
-            return rangeOfString(stlStr);
-        }
-
-
-        String::range_array_type String::rangesOfString(const String& str)
+        String::range_array_type String::rangesOfString(const String& str) const
         {
             range_array_type theRanges;
             UTF8StringEncoder theEncoder;
@@ -1730,22 +1630,8 @@ namespace TF
         }
 
 
-        String::range_array_type String::rangesOfString(const char *s)
-        {
-            String cStr(s);
-            return rangesOfString(cStr);
-        }
-
-
-        String::range_array_type String::rangesOfString(const std::string &s)
-        {
-            String stlStr(s);
-            return rangesOfString(stlStr);
-        }
-
-
         String String::stringByReplacingOccurencesOfStringWithString(
-            const String& original, const String& replacement)
+            const String& original, const String& replacement)  const
         {
             range_array_type originalStringRanges;
             UTF8StringEncoder theEncoder;
@@ -1768,26 +1654,7 @@ namespace TF
         }
 
 
-        String String::stringByReplacingOccurencesOfStringWithString(const char *original, const char *replacement)
-        {
-            String orig(original);
-            String replace(replacement);
-
-            return stringByReplacingOccurencesOfStringWithString(orig, replace);
-        }
-
-
-        String String::stringByReplacingOccurencesOfStringWithString(const std::string &original,
-            const std::string &replacement)
-        {
-            String orig(original);
-            String replace(replacement);
-
-            return stringByReplacingOccurencesOfStringWithString(orig, replace);
-        }
-
-
-        String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str)
+        String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str) const
         {
             UTF8StringEncoder theEncoder;
 
@@ -1836,22 +1703,6 @@ namespace TF
         }
 
 
-        String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const char *s)
-        {
-            String cStr(s);
-            return stringByReplacingCharactersInRangeWithString(range, cStr);
-        }
-
-
-
-        String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const std::string &s)
-        {
-            String stlStr(s);
-            return stringByReplacingCharactersInRangeWithString(range, stlStr);
-        }
-
-
-
         ComparisonResult String::compare(const String& str) const
         {
             UTF8StringEncoder encoder;
@@ -1860,42 +1711,14 @@ namespace TF
         }
 
 
-        ComparisonResult String::compare(const char *s) const
-        {
-            String cStr(s);
-            return compare(cStr);
-        }
-
-
-        ComparisonResult String::compare(const std::string &s) const
-        {
-            String stlStr(s);
-            return compare(stlStr);
-        }
-
-
-        ComparisonResult String::compareRangeWithString(const range_type &range, const String &str)
+        ComparisonResult String::compareRangeWithString(const range_type &range, const String &str) const
         {
             String rangeOfThisString = this->substringWithRange(range);
             return rangeOfThisString.compare(str);
         }
 
 
-        ComparisonResult String::compareRangeWithString(const range_type &range, const char *s)
-        {
-            String cStr(s);
-            return compareRangeWithString(range, cStr);
-        }
-
-
-        ComparisonResult String::compareRangeWithString(const range_type &range, const std::string &s)
-        {
-            String stlStr(s);
-            return compareRangeWithString(range, stlStr);
-        }
-
-
-        bool String::hasPrefix(const String& str)
+        bool String::hasPrefix(const String& str) const
         {
             if(this->length() < str.length())
                 return false;
@@ -1910,21 +1733,7 @@ namespace TF
         }
 
 
-        bool String::hasPrefix(const char *s)
-        {
-            String cStr(s);
-            return hasPrefix(cStr);
-        }
-
-
-        bool String::hasPrefix(const std::string &s)
-        {
-            String stlStr(s);
-            return hasPrefix(stlStr);
-        }
-
-
-        bool String::hasSuffix(const String& str)
+        bool String::hasSuffix(const String& str) const
         {
             if(this->length() < str.length())
                 return false;
@@ -1940,21 +1749,7 @@ namespace TF
         }
 
 
-        bool String::hasSuffix(const char *s)
-        {
-            String cStr(s);
-            return hasSuffix(cStr);
-        }
-
-
-        bool String::hasSuffix(const std::string &s)
-        {
-            String stlStr(s);
-            return hasSuffix(stlStr);
-        }
-
-
-        bool String::isEqualToString(const String& str)
+        bool String::isEqualToString(const String& str) const
         {
             if(this->compare(str) == OrderedSame)
                 return true;
@@ -1962,21 +1757,7 @@ namespace TF
         }
 
 
-        bool String::isEqualToString(const char *s)
-        {
-            String cStr(s);
-            return isEqualToString(cStr);
-        }
-
-
-        bool String::isEqualToString(const std::string &s)
-        {
-            String stlStr(s);
-            return isEqualToString(stlStr);
-        }
-
-
-        String String::capitalizedString()
+        String String::capitalizedString() const
         {
             UTF8StringEncoder encoder;
 
@@ -2012,7 +1793,7 @@ namespace TF
         }
 
 
-        String String::lowercaseString()
+        String String::lowercaseString() const
         {
             UTF8StringEncoder encoder;
 
@@ -2025,7 +1806,7 @@ namespace TF
         }
 
 
-        String String::uppercaseString()
+        String String::uppercaseString() const
         {
             UTF8StringEncoder encoder;
 
@@ -2038,7 +1819,7 @@ namespace TF
         }
 
 
-        String::data_type String::getAsData()
+        String::data_type String::getAsData() const
         {
             data_type data(reinterpret_cast<char *>(core->data()),
                 core->length());
@@ -2198,6 +1979,37 @@ namespace TF
             return t == s;
         }
 
+
+        bool operator<(const String &a, const String &b)
+        {
+            ComparisonResult result = compareStrings(a, b, nullptr);
+            if(result == OrderedAscending)
+                return true;
+            return false;
+        }
+
+
+        bool operator>(const String &a, const String &b)
+        {
+            ComparisonResult result = compareStrings(a, b, nullptr);
+            if(result == OrderedDescending)
+                return true;
+            return false;
+        }
+
+
+        String operator+(const char *a, const String &b)
+        {
+            String theA(a);
+            return theA + b;
+        }
+
+
+        String operator+(const std::string &a, const String &b)
+        {
+            String theA(a);
+            return theA + b;
+        }
 
     } // Foundation
 

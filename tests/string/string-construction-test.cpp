@@ -45,7 +45,7 @@ TEST(StringTest, DefaultConstructorTest)
 TEST(StringTest, CStyleStringConstructor1Test)
 {
     String s1(TEST_STRING);
-    auto ptr = s1.c_str();
+    auto ptr = s1.cStr();
     EXPECT_TRUE(strncmp(TEST_STRING, ptr.get(), s1.length()) == 0);
 }
 
@@ -54,7 +54,7 @@ TEST(StringTest, CStyleStringConstructor1Test)
 TEST(StringTest, CStyleStringConstructor2Test)
 {
     String s(TEST2_STRING);
-    auto ptr = s.c_str();
+    auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(TEST2_STRING, ptr.get(), s.length()) == 0);
 }
 
@@ -76,8 +76,15 @@ TEST(StringTest, CStringConstructorWithLengthTest)
                     const_cast<char *>(HELLO_WORLD)),
         strlen(HELLO_WORLD));
     String s(tmp, strlen(HELLO_WORLD));
-    auto ptr = s.c_str();
+    auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
+}
+
+
+TEST(StringTest, CStringConstructorAssignmentTest)
+{
+    String s = "Hello World";
+    EXPECT_EQ(s, "Hello World");
 }
 
 
@@ -85,7 +92,7 @@ TEST(StringTest, CXXStyleStringConstructorTest)
 {
     std::string ss(HELLO_WORLD);
     String s(ss);
-    auto ptr = s.c_str();
+    auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
 }
 
@@ -165,7 +172,7 @@ String RValueHelper(String a)
 TEST(StringTest, RValueConstructorTest)
 {
     String s = RValueHelper(String::initWithFormat("foo bar"));
-    auto ptr = s.c_str();
+    auto ptr = s.cStr();
     EXPECT_TRUE(strncmp("foo bar", ptr.get(), s.length()) == 0);
 }
 

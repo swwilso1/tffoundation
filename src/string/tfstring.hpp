@@ -95,7 +95,7 @@ namespace TF
                 @param str a pointer to a C-style string
                 @return a new string object
             */
-            explicit String(const char *str);
+            String(const char *str);
 
             /**
                 @brief C-style string constructor with length parameter.
@@ -110,7 +110,7 @@ namespace TF
                 @param str a STL string
                 @return a new string object.
             */
-            explicit String(const std::string& s);
+            String(const std::string& s);
 
             /**
                 @brief UTF-8 string constructor
@@ -223,20 +223,6 @@ namespace TF
 #pragma mark - Equality operators
 
             /**
-                @brief compares a string with a C string for equality.
-                @param s the C-style string.
-                @return true if the contents of the strings match, false otherwise.
-            */
-            bool operator==(const char *s) const;
-
-            /**
-                @brief compares a string with a STL string for equality.
-                @param s the STL string.
-                @return true if the contents of the strings match, false otherwise.
-            */
-            bool operator==(const std::string& s) const;
-
-            /**
                 @brief Compares two strings for equality.
                 @param s the string to compare.
                 @return true if the two strings contain identical content, false otherwise.
@@ -251,7 +237,7 @@ namespace TF
             */
             bool operator!=(const String& s) const;
 
-#pragma mark - Overloaded operators
+#pragma mark - Assignment operators
 
             /**
                 @brief Assignment operator
@@ -276,7 +262,7 @@ namespace TF
                 @brief returns the number of bytes used to encode the string
                 @return the number of bytes
             */
-            size_type numberOfBytes();
+            size_type numberOfBytes() const;
 
 #pragma mark - Methods for getting characters
 
@@ -293,7 +279,7 @@ namespace TF
                 @param i the index
                 @return the character at the specified index
             */
-            unicode_point_type characterAtIndex(size_type i);
+            unicode_point_type characterAtIndex(size_type i) const;
 
 
             /**
@@ -301,21 +287,21 @@ namespace TF
                 @param range the range of characters
                 @return a new string object containing the requested range of characters.
             */
-            String getCharactersInRange(const range_type& range);
+            String getCharactersInRange(const range_type& range) const;
 
 #pragma mark - Methods for getting C strings
 
             /**
                 @brief return a C string version (if possible) of the string object.
-                @return a pointer to a C-style string.
+                @return a smart pointer to a C-style string.
             */
-            std::unique_ptr<const char> c_str();
+            std::unique_ptr<const char> cStr() const;
 
             /**
                 @brief return a STL string version (if possible) of the string object.
                 @return a STL string.
             */
-            std::string stlString();
+            std::string stlString() const;
 
 #pragma mark - Methods for combining strings
 
@@ -340,22 +326,6 @@ namespace TF
 
 
             /**
-             * @brief create a new string object by appending the contents of a C-style string
-             * @param s the C-style string.
-             * @return the newly joined string object.
-             */
-            String stringByAppendingString(const char *s) const;
-
-
-            /**
-             * create a new string object by appending the contents of STL style string
-             * @param s the STL style string
-             * @return the newly joined string object.
-             */
-            String stringByAppendingString(const std::string &s) const;
-
-
-            /**
                 @brief create a new string by concatenating two strings.
                 @param s1 the first string
                 @param s2 the second string
@@ -365,44 +335,12 @@ namespace TF
 
 
             /**
-             * @brief method to create a new string by 'adding/appending' a C-style string
-             * @param s the C-style string
-             * @return a new string with the original string's contents augmented with @e s.
-             */
-            String operator+(const char *s) const;
-
-
-            /**
-             * @brief method to create a new string by 'adding/appending' a STL style string
-             * @param s the STL style string
-             * @return a new string with the original string's contents augmented with @e s.
-             */
-            String operator+(const std::string &s) const;
-
-
-            /**
              * @brief method to create a new string by 'adding/appending' the contents of
              * another string.
              * @brief s the other string
              * @return a new string with the original string's contents augemented with @s.
              */
             String operator+(const String &s) const;
-
-
-            /**
-             * @brief method to append a string with the contents of a C-style string.
-             * @param s the C-style string.
-             * @return this string with the contents of s appended.
-             */
-            String& operator+=(const char *s);
-
-
-            /**
-             * @brief method to append a string with the contents of a STL style string.
-             * @param s the STL style string.
-             * @return this string with the contents of s appended.
-             */
-            String& operator+=(const std::string &s);
 
 
             /**
@@ -420,7 +358,7 @@ namespace TF
                 @param i an integer variable containing the starting index of the sub-string.
                 @return a new string object that contains the requested sub-string
             */
-            String substringFromIndex(size_type i);
+            String substringFromIndex(size_type i) const;
 
 
             /**
@@ -428,7 +366,7 @@ namespace TF
                 @param range a variable containing the location and length of the requested sub-string.
                 @return a new string object that contains the requested sub-string
             */
-            String substringWithRange(const range_type& range);
+            String substringWithRange(const range_type& range) const;
 
 
             /**
@@ -436,7 +374,7 @@ namespace TF
                 @param range the range of substring not to match.
                 @return an array of substrings from the string that are not in the specified @e range.
             */
-            string_array_type substringsNotInRange(const range_type& range);
+            string_array_type substringsNotInRange(const range_type& range) const;
 
 
             /**
@@ -445,7 +383,7 @@ namespace TF
                 @param i the index of the last desired character in the sub-string
                 @return a new string object that contains the requested sub-string.
             */
-            String substringToIndex(size_type i);
+            String substringToIndex(size_type i) const;
 
 
             /**
@@ -454,23 +392,7 @@ namespace TF
                 @param str the substring to match.
                 @return an array of substrings from the string that do not match @e str.
             */
-            string_array_type substringsThatDoNotMatchString(const String& str);
-
-
-            /**
-             * @brief method to return array of substrings that do not match a C-style string
-             * @param s the C-style string to match
-             * @return the array of substrings that do not match @e s.
-             */
-            string_array_type substringsThatDoNotMatchString(const char *s);
-
-
-            /**
-             * @brief method to return array of substrings that do not match a STL style string
-             * @param s the STL-style string to match.
-             * @return the array of substrings that do not match @e s.
-             */
-            string_array_type substringsThatDoNotMatchString(const std::string &s);
+            string_array_type substringsThatDoNotMatchString(const String& str) const;
 
 
             /**
@@ -478,23 +400,8 @@ namespace TF
                 @param splitString the string to use for matching
                 @return an array of strings containing the substrings
             */
-            string_array_type split(const String& splitString);
+            string_array_type split(const String& splitString) const;
 
-
-            /**
-             * @brief return an array of substrings created by splitting the string into chuncks separated by @s.
-             * @param s the C-style string to use for the split match.
-             * @return the array of substrings.
-             */
-            string_array_type split(const char *s);
-
-
-            /**
-             * @brief return an array of substrings created by splitting the string into chunks separated by @s.
-             * @param s the STL Style string string to use for the split match.
-             * @return the array of substrings.
-             */
-            string_array_type split(const std::string &s);
 
 #pragma mark - Methods for finding characters and substrings
 
@@ -504,48 +411,15 @@ namespace TF
                 @param str a string object indicating the sub-string to find
                 @return a Range object containing the index of the starting character and the length of the sub-string
             */
-            range_type rangeOfString(const String& str);
+            range_type rangeOfString(const String& str) const;
 
-
-            /**
-             * @brief return a Range object containing the location of the first instance of the substring @e s
-             * in the string.
-             * @param s the C-style string
-             * @return the range object.
-             */
-            range_type rangeOfString(const char *s);
-
-
-            /**
-             * @brief return a Range object containing the location of the first instance of the substring @e s
-             * in the string.
-             * @param s the STL style string
-             * @return the range object.
-             */
-            range_type rangeOfString(const std::string &s);
 
             /**
                 @brief return an array of TFRange objects containing the locations of the substring in the string.
                 @param str the substring.
                 @return an array of ranges.
             */
-            range_array_type rangesOfString(const String& str);
-
-
-            /**
-             * @brief return an array of Range objects containing the locations of the substring @e s in the string.
-             * @param s the C-style substring
-             * @return the array of Range objects.
-             */
-            range_array_type rangesOfString(const char *s);
-
-
-            /**
-             * @brief return an array of Range objects containing the locations of the substring @e s in the string.
-             * @param s the STL style string
-             * @return the array of Range objects.
-             */
-            range_array_type rangesOfString(const std::string &s);
+            range_array_type rangesOfString(const String& str) const;
 
 
 #pragma mark - Methods for replacing substrings
@@ -556,26 +430,8 @@ namespace TF
                 @param replacement the string to insert in place of @e original
                 @return a new string object
             */
-            String stringByReplacingOccurencesOfStringWithString(const String& original, const String& replacement);
-
-
-            /**
-             * @brief return a string created by replacing instances of a sub-string with another string
-             * @param original the C-style sub-string to replace
-             * @param replacement the C-style string to insert in place of @e original
-             * @return The new string object.
-             */
-            String stringByReplacingOccurencesOfStringWithString(const char *original, const char *replacement);
-
-
-            /**
-             * @brief return a string created by replacing instances of a sub-string with another string.
-             * @param original the STL style string to replace
-             * @param replacement the STL style string to insert in place of @e original
-             * @return the new string object.
-             */
-            String stringByReplacingOccurencesOfStringWithString(const std::string &original,
-                const std::string &replacement);
+            String stringByReplacingOccurencesOfStringWithString(const String& original,
+                    const String& replacement) const;
 
 
             /**
@@ -584,25 +440,8 @@ namespace TF
                 @param str the string to insert in place of the string int @e range
                 @return a new string object
             */
-            String stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str);
+            String stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str) const;
 
-
-            /**
-             * @brief return a string created by replacing the sub-string in the specified range with another string
-             * @param range the position and length of the sub-string to replace.
-             * @param s the C-style string to insert in place of the original string.
-             * @return the new string object.
-             */
-            String stringByReplacingCharactersInRangeWithString(const range_type &range, const char *s);
-
-
-            /**
-             * @brief return a string created by replacing the sub-string in the specified range with another string
-             * @param range the position and length of the sub-string to replace.
-             * @param s the STL style string to insert in place of the original string.
-             * @return the new string object.
-             */
-            String stringByReplacingCharactersInRangeWithString(const range_type &range, const std::string &s);
 
 #pragma mark - Methods for comparing strings
 
@@ -617,24 +456,6 @@ namespace TF
 
 
             /**
-             * return a ComparisonResult indicating the lexical ordering of the string with another string
-             * @param s the C-style string to compare
-             * @return OrderedAscending if the string precedes @s lexically, OrderedSame if the string and @e s have
-             *     an equivalent lexical value and OrderedDescending if the string lexically follows @e s.
-             */
-            ComparisonResult compare(const char *s) const;
-
-
-            /**
-             * return a ComparisonResult indicating the lexical ordering of the string with another string
-             * @param s the STL-style string to compare
-             * @return OrderedAscending if the string precedes @s lexically, OrderedSame if the string and @e s have
-             *     an equivalent lexical value and OrderedDescending if the string lexically follows @e s.
-             */
-            ComparisonResult compare(const std::string &s) const;
-
-
-            /**
                 @brief return a ComparisonResult indicating the lexical ordering of a sub-string
                        specified by a range with respect to another string
                 @param range the origin and length of the sub-string to use for comparison
@@ -643,31 +464,7 @@ namespace TF
                     OrderedSame if the sub-string and @e str have an equivalent lexical value, and
                         OrderedDescending if the sub-string lexically follows @e str
             */
-            ComparisonResult compareRangeWithString(const range_type &range, const String &str);
-
-
-            /**
-             * @brief return a ComparisonResult indicating the lexical ordering of a sub-string specified by a range
-             *      with respect to another string
-             * @param range the origin and length of the sub-string to use for comparison
-             * @param s the C-style string to compare with the sub-string.
-             * @return OrderedAscending if the sub-string precedes @e s lexically, OrderedSame if the sub-string and
-             *      @e s have an equivalent lexical value, and OrderedDescending if the substring lexically follows
-             *      @e s.
-             */
-            ComparisonResult compareRangeWithString(const range_type &range, const char *s);
-
-
-            /**
-             * @brief return a ComparisonResult indicating the lexical ordering of a sub-string specified by a range
-             *      with respect to another string
-             * @param range the origin and length of the sub-string to use for comparison
-             * @param s the STL-style string to compare with the sub-string.
-             * @return OrderedAscending if the sub-string precedes @e s lexically, OrderedSame if the sub-string and
-             *      @e s have an equivalent lexical value, and OrderedDescending if the substring lexically follows
-             *      @e s.
-             */
-            ComparisonResult compareRangeWithString(const range_type &range, const std::string &s);
+            ComparisonResult compareRangeWithString(const range_type &range, const String &str) const;
 
 
             /**
@@ -677,25 +474,7 @@ namespace TF
                 @return @c true if the string's first characters match the values in @e str, @c false if
                         the string's first characters do not match the values in @e str
             */
-            bool hasPrefix(const String& str);
-
-
-            /**
-             * @brief returns a boolean value indicating whether the initial characters of the string match
-             *     another string.
-             * @param s the C-style string to match
-             * @return @c true if the strings' first characters match the value of @e s, @c false otherwise.
-             */
-            bool hasPrefix(const char *s);
-
-
-            /**
-             * @brief returns a boolean value indicating whether the initial characters of the string match
-             *     another string.
-             * @param s the STL-style string to match
-             * @return @c true if the strings' first characters match the value of @e s, @c false otherwise.
-             */
-            bool hasPrefix(const std::string &s);
+            bool hasPrefix(const String& str) const;
 
 
             /**
@@ -705,25 +484,7 @@ namespace TF
                 @return @c true if the string's last characters match the values in @e str, @c false if
                         the string's last characters do not match the values in @e str
             */
-            bool hasSuffix(const String& str);
-
-
-            /**
-             * @brief returns a boolean value indicating whether the last characters of the string match another
-             *     string
-             * @param s the C-style string to match
-             * @return @c true if the string's last characters match the value of @e s, @c false otherwise.
-             */
-            bool hasSuffix(const char *s);
-
-
-            /**
-             * @brief returns a boolean value indicating whether the last characters of the string match another
-             *     string
-             * @param s the STL-style string to match
-             * @return @c true if the string's last characters match the value of @e s, @c false otherwise.
-             */
-            bool hasSuffix(const std::string &s);
+            bool hasSuffix(const String& str) const;
 
 
             /**
@@ -732,25 +493,7 @@ namespace TF
                 @param str a string
                 @return @c true if the strings compare equal, otherwise @c false
             */
-            bool isEqualToString(const String& str);
-
-
-            /**
-             * @brief returns a boolean value indicating whether the string contents are the same as another
-             *     string.
-             * @param s the C-style string to match
-             * @return @c true if the strings compare equal, @c false otherwise.
-             */
-            bool isEqualToString(const char *s);
-
-
-            /**
-             * @brief returns a boolean value indicating whether the string contents are the same as another
-             *     string.
-             * @param s the STL-style string to match
-             * @return @c true if the strings compare equal, @c false otherwise.
-             */
-            bool isEqualToString(const std::string &s);
+            bool isEqualToString(const String& str) const;
 
 #pragma mark - Methods for changing character case
 
@@ -760,7 +503,7 @@ namespace TF
                         changed to its corresponding uppercase value, and all remaining characters
                         changed to their corresponding lowercase values
             */
-            String capitalizedString();
+            String capitalizedString() const;
 
 
             /**
@@ -768,7 +511,7 @@ namespace TF
                 @return A string with each character of the original replaced by its corresponding
                     lowercase value
             */
-            String lowercaseString();
+            String lowercaseString() const;
 
 
             /**
@@ -776,7 +519,7 @@ namespace TF
                 @return A string with each character of the original replaced by its corresponding
                         uppercase value
              */
-            String uppercaseString();
+            String uppercaseString() const;
 
             
 #pragma mark - Methods for converting a string to a data object
@@ -787,7 +530,7 @@ namespace TF
                  @return a new Data object that
                 contains the contents of the string.
             */
-            data_type getAsData();
+            data_type getAsData() const;
 
 
             /**
@@ -873,11 +616,63 @@ namespace TF
         std::ostream& operator<<(std::ostream& o, const String& s);
 
 
+        /**
+         * @brief function to compare two strings
+         * @param stringOne
+         * @param stringTwo
+         * @param context a user supplied string context.
+         * @return OrderedAscending if @e stringOne is lexically less than @e stringTwo, OrderedDescending if
+         *   @e stringOne is lexically greater than @e stringTwo and OrderedSame if @e stringOne equals @e stringTwo.
+         */
         ComparisonResult compareStrings(const String& stringOne, const String& stringTwo, void *context);
 
+        /**
+         * @brief overloaded == operator to compare a C-style string and a String.
+         * @param s the C-style string
+         * @param t the String object.
+         * @return true if the two strings are lexically equal and false otherwise.
+         */
         bool operator==(const char *s, const String &t);
 
+        /**
+         * @brief overloaded == operator to compare a STL string and a String
+         * @param s the STL string
+         * @param t the String object
+         * @return true if the two strings are lexiccally equal and false otherwise.
+         */
         bool operator==(const std::string &s, const String &t);
+
+        /**
+         * @brief overloaded < operator to compare two String objects
+         * @param a the first String object
+         * @param b the second String object
+         * @return true if @e a is lexically less than @e b and false otherwise.
+         */
+        bool operator<(const String &a, const String &b);
+
+        /**
+         * @brief overloaded > operator to compare two String objects
+         * @param a the first String object
+         * @param b the second String object
+         * @return true if @e a is lexically greater than @e b and false otherwise.
+         */
+        bool operator>(const String &a, const String &b);
+
+        /**
+         * @brief overloaded + operator to concatenate a C-style string and a String.
+         * @param a the C-style string
+         * @param b the String object
+         * @return a String object with @e a concatenated with @e b
+         */
+        String operator+(const char *a, const String &b);
+
+        /**
+         * @brief overloaded + operator to concatenate a STL string and a String
+         * @param a the STL string
+         * @param b the String object
+         * @return a String object with @e a concatenated with @e b.
+         */
+        String operator+(const std::string &a, const String &b);
 
     } // Foundation
 
