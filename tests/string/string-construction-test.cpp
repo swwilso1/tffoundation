@@ -119,6 +119,16 @@ TEST(StringTest, UTF8StringConstructorTest)
 }
 
 
+TEST(StringTest, UTF8StringConstructorTest2)
+{
+    const unsigned char *tmp = reinterpret_cast<const unsigned char *>("㆚㆛ぁあぃいぅうぇ");
+
+    String s(tmp, 27);
+
+    EXPECT_TRUE(s.length() == 9);
+}
+
+
 TEST(StringTest, UTF16StringConstructorTest)
 {
     unsigned short tmp [7];
