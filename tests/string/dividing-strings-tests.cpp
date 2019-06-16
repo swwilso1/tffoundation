@@ -74,7 +74,7 @@ TEST(StringTest, SubstringFromIndexTest2)
 
 TEST(StringTest, SubstringFromIndexTest3)
 {
-    String s("abc\\:103333\\:00003445");
+    String s = String::initWithASCIIEncodedUnicode("abc\\:103333\\:00003445");
 
     const char *a[8];
 
@@ -89,7 +89,7 @@ TEST(StringTest, SubstringFromIndexTest3)
 
     for(size_t i = 0; i < s.length(); i++)
     {
-        EXPECT_EQ(s.substringFromIndex(i), a[i]);
+        EXPECT_EQ(s.substringFromIndex(i), String::initWithASCIIEncodedUnicode(a[i]));
     }
 }
 
@@ -118,9 +118,9 @@ TEST(StringTest, SubstringWithRangeTest2)
 
 TEST(StringTest, SubstringWithRangeTest3)
 {
-    String s("Would you \\:004432 like to play \\:000034 a game?");
+    String s = String::initWithASCIIEncodedUnicode("Would you \\:004432 like to play \\:000034 a game?");
     auto v = s.substringWithRange(Range(10,18));
-    EXPECT_EQ(v, "\\:004432 like to play 4 a");
+    EXPECT_EQ(v, "䐲 like to play 4 a");
 }
 
 
@@ -153,10 +153,10 @@ TEST(StringTest, SubstringsNotInRangeTest3)
 
 TEST(StringTest, SubstringsNotInRangeTest4)
 {
-    String s("Hello \\:002233, W\\:000035orldish");
+    String s = String::initWithASCIIEncodedUnicode("Hello \\:002233, W\\:000035orldish");
     auto substrings = s.substringsNotInRange(Range(7,2));
     EXPECT_EQ(substrings.size(), 2);
-    EXPECT_EQ(substrings[0], "Hello \\:002233");
+    EXPECT_EQ(substrings[0], String::initWithASCIIEncodedUnicode("Hello \\:002233"));
     EXPECT_EQ(substrings[1], "W5orldish");
 }
 
@@ -216,8 +216,9 @@ TEST(StringTest, SubstringsThatDoNotMatchStringTest2)
 
 TEST(StringTest, SubstringsThatDoNotMatchStringTest3)
 {
-    String s("H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
-    auto substrings = s.substringsThatDoNotMatchString("\\:004455\\:003421");
+    String s = String::initWithASCIIEncodedUnicode(
+            "H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
+    auto substrings = s.substringsThatDoNotMatchString("䑕㐡");
     EXPECT_EQ(substrings.size(), 4);
     EXPECT_EQ(substrings[0], "H");
     EXPECT_EQ(substrings[1], " n");
@@ -252,8 +253,9 @@ TEST(StringTest, SplitTest2)
 
 TEST(StringTest, SplitTest3)
 {
-    String s("H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
-    auto substrings = s.split("\\:004455\\:003421");
+    String s = String::initWithASCIIEncodedUnicode(
+            "H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
+    auto substrings = s.split("䑕㐡");
     EXPECT_EQ(substrings.size(), 4);
     EXPECT_EQ(substrings[0], "H");
     EXPECT_EQ(substrings[1], " n");

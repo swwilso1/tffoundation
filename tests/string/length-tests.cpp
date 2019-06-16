@@ -43,7 +43,8 @@ TEST(StringTest, LengthTest1)
 
 TEST(StringTest, LengthTest2)
 {
-    String s("The happy red \\:002343 fox j\\:103323umped o\\:003344ver the brown log.");
+    String s = String::initWithASCIIEncodedUnicode(
+            "The happy red \\:002343 fox j\\:103323umped o\\:003344ver the brown log.");
     EXPECT_EQ(s.length(),48);
 }
 
@@ -57,7 +58,8 @@ TEST(StringTest, ByteLengthTest1)
 
 TEST(StringTest, ByteLengthTest2)
 {
-    String s("The happy red \\:002343 fox j\\:103323umped o\\:003344ver the brown log.");
+    String s = String::initWithASCIIEncodedUnicode(
+            "The happy red \\:002343 fox j\\:103323umped o\\:003344ver the brown log.");
     EXPECT_EQ(s.numberOfBytes(),55);
 }
 

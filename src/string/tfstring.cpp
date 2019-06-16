@@ -68,103 +68,26 @@ namespace TF
 
         String::String(const char *str)
         {
-            ASCIIStringEncoder asciiEncoder;
-            auto stringLength = std::strlen(str);
-            auto charactersInString = asciiEncoder.numberOfCharacters(
-                    reinterpret_cast<const char_type *>(str), stringLength);
+            UTF8StringEncoder encoder;
+            const UTF8StringEncoder::char_type *tmp = reinterpret_cast<const UTF8StringEncoder::char_type *>(str);
+            auto theLength = strlen(str);
 
-            auto characters = new unicode_point_type[charactersInString];
-            auto endian = asciiEncoder.thisSystemEndianness();
+            if (!encoder.checkStringForCorrectness(tmp, theLength))
+                throw std::runtime_error("String UTF-8 constructor cannot create string from bad UTF-8");
 
-            char_type *tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
-            size_type i = 0;
-
-            // Use the ASCII encoder to convert the argument to unicode points.
-            while (stringLength > 0)
-            {
-                auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
-                characters[i++] = result.first;
-                tmp += result.second;
-                stringLength -= result.second;
-            }
-
-            UTF8StringEncoder utf8Encoder;
-
-            // Now convert the unicode points to UTF-8
-            size_type bytesRequiredForUTF8 = 0;
-
-            for (size_type i = 0; i < charactersInString; ++i)
-            {
-                bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
-            }
-
-            auto theArray = new char_type[bytesRequiredForUTF8];
-            tmp = theArray;
-            auto tmpLength = bytesRequiredForUTF8;
-
-            for (size_type i = 0; i < charactersInString; ++i)
-            {
-                auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
-                tmp += result;
-                tmpLength -= result;
-            }
-
-            delete[] characters;
-
-            core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
-
-            delete[] theArray;
+            core = std::make_shared<core_type>(tmp, theLength);
         }
 
 
         String::String(const char *str, size_type length)
         {
-            ASCIIStringEncoder asciiEncoder;
-            auto stringLength = length;
-            auto charactersInString = asciiEncoder.numberOfCharacters(
-                    reinterpret_cast<const char_type *>(str), stringLength);
+            UTF8StringEncoder encoder;
+            const UTF8StringEncoder::char_type *tmp = reinterpret_cast<const UTF8StringEncoder::char_type *>(str);
 
-            auto characters = new unicode_point_type[charactersInString];
-            auto endian = asciiEncoder.thisSystemEndianness();
+            if (!encoder.checkStringForCorrectness(tmp, length))
+                throw std::runtime_error("String UTF-8 constructor cannot create string from bad UTF-8");
 
-            char_type *tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
-            size_type i = 0;
-
-            // Use the ASCII encoder to convert the argument to unicode points.
-            while (stringLength > 0)
-            {
-                auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
-                characters[i++] = result.first;
-                tmp += result.second;
-                stringLength -= result.second;
-            }
-
-            UTF8StringEncoder utf8Encoder;
-
-            // Now convert the unicode points to UTF-8
-            size_type bytesRequiredForUTF8 = 0;
-
-            for (size_type i = 0; i < charactersInString; ++i)
-            {
-                bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
-            }
-
-            auto theArray = new char_type[bytesRequiredForUTF8];
-            tmp = theArray;
-            auto tmpLength = bytesRequiredForUTF8;
-
-            for (size_type i = 0; i < charactersInString; ++i)
-            {
-                auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
-                tmp += result;
-                tmpLength -= result;
-            }
-
-            delete[] characters;
-
-            core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
-
-            delete[] theArray;
+            core = std::make_shared<core_type>(tmp, length);
         }
 
 
@@ -1293,6 +1216,61 @@ namespace TF
         }
 
 
+        String String::initWithASCIIEncodedUnicode(const char *str)
+        {
+            String theString;
+
+            ASCIIStringEncoder asciiEncoder;
+            auto stringLength = std::strlen(str);
+            auto charactersInString = asciiEncoder.numberOfCharacters(
+                    reinterpret_cast<const char_type *>(str), stringLength);
+
+            auto characters = new unicode_point_type[charactersInString];
+            auto endian = asciiEncoder.thisSystemEndianness();
+
+            char_type *tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
+            size_type i = 0;
+
+            // Use the ASCII encoder to convert the argument to unicode points.
+            while (stringLength > 0)
+            {
+                auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
+                characters[i++] = result.first;
+                tmp += result.second;
+                stringLength -= result.second;
+            }
+
+            UTF8StringEncoder utf8Encoder;
+
+            // Now convert the unicode points to UTF-8
+            size_type bytesRequiredForUTF8 = 0;
+
+            for (size_type i = 0; i < charactersInString; ++i)
+            {
+                bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
+            }
+
+            auto theArray = new char_type[bytesRequiredForUTF8];
+            tmp = theArray;
+            auto tmpLength = bytesRequiredForUTF8;
+
+            for (size_type i = 0; i < charactersInString; ++i)
+            {
+                auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
+                tmp += result;
+                tmpLength -= result;
+            }
+
+            delete[] characters;
+
+            theString.core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
+
+            delete[] theArray;
+
+            return theString;
+        }
+
+
 #if 1 // Disabled for now
 
         String::iterator String::begin(void)
@@ -1816,6 +1794,18 @@ namespace TF
                 StringCase::UpperCase);
 
             return theCopy;
+        }
+
+
+        std::string String::getAsASCIIEncodedSTLString(void) const
+        {
+            auto data = getAsDataInASCIIEncoding();
+            char * newData = new char[data.length() + 1];
+            memcpy(newData, data.bytes(), data.length());
+            newData[data.length()] = 0x0;
+            std::string newString(newData);
+            delete newData;
+            return newString;
         }
 
 

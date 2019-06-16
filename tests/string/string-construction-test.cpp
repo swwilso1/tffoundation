@@ -42,7 +42,7 @@ TEST(StringTest, DefaultConstructorTest)
 
 #define TEST_STRING "test string"
 
-TEST(StringTest, CStyleStringConstructor1Test)
+TEST(StringTest, UTF8CStyleStringConstructorBasicTest)
 {
     String s1(TEST_STRING);
     auto ptr = s1.cStr();
@@ -51,7 +51,7 @@ TEST(StringTest, CStyleStringConstructor1Test)
 
 #define TEST2_STRING "test 2 string with a bunch more characters in the string"
 
-TEST(StringTest, CStyleStringConstructor2Test)
+TEST(StringTest, UTF8CStyleStringConstructorBasic2Test)
 {
     String s(TEST2_STRING);
     auto ptr = s.cStr();
@@ -59,11 +59,28 @@ TEST(StringTest, CStyleStringConstructor2Test)
 }
 
 
-TEST(StringTest, CStyleStringConstructorTest3)
+TEST(StringTest, UTF8CStyleStringConstructorWithUnicodeTest)
 {
-    String s("abc\\:002387def\\:002231");
+    String s("ЀЁЂЃЄЅфЉШ");
+    EXPECT_TRUE(s.length() == 9);
+    EXPECT_TRUE(s[0] == 0x400);
+    EXPECT_TRUE(s[1] == 0x401);
+    EXPECT_TRUE(s[2] == 0x402);
+    EXPECT_TRUE(s[3] == 0x403);
+    EXPECT_TRUE(s[4] == 0x404);
+    EXPECT_TRUE(s[5] == 0x405);
+    EXPECT_TRUE(s[6] == 0x444);
+    EXPECT_TRUE(s[7] == 0x409);
+    EXPECT_TRUE(s[8] == 0x428);
+    EXPECT_TRUE(s == "ЀЁЂЃЄЅфЉШ");
+}
+
+
+TEST(StringTest, ASCIIEncodedUnicodeInitializerTest)
+{
+    String s = String::initWithASCIIEncodedUnicode("abc\\:002387def\\:002231");
     EXPECT_EQ(s.length(), 8);
-    EXPECT_EQ(s, "abc\\:002387def\\:002231");
+    EXPECT_TRUE(s == "abc⎇def∱");
 }
 
 
@@ -78,6 +95,13 @@ TEST(StringTest, CStringConstructorWithLengthTest)
     String s(tmp, strlen(HELLO_WORLD));
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
+}
+
+
+TEST(StringTest, CStringConstuctorWithLength2Test)
+{
+    String s("㆚㆛ぁあぃいぅうぇ",27);
+    EXPECT_EQ(s, "㆚㆛ぁあぃいぅうぇ");
 }
 
 
@@ -116,6 +140,7 @@ TEST(StringTest, UTF8StringConstructorTest)
     String s(tmp, 10);
 
     EXPECT_TRUE(s.length() == 3);
+    EXPECT_EQ(s.getCharactersInRange(Range(0,2)), "☃☄");
 }
 
 

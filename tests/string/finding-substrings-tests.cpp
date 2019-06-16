@@ -43,8 +43,8 @@ TEST(StringTest, RangeOfStringTest)
 
 TEST(StringTest, RangeOfStringTest2)
 {
-    String s("Might as well \\:004443 jump");
-    auto theRange = s.rangeOfString(String("\\:004443 j"));
+    String s = String::initWithASCIIEncodedUnicode("Might as well \\:004443 jump");
+    auto theRange = s.rangeOfString(String::initWithASCIIEncodedUnicode("\\:004443 j"));
     EXPECT_EQ(theRange, Range(14,3));
 }
 
@@ -106,7 +106,8 @@ TEST(StringTest, RangesOfSTLStringTest)
 
 TEST(StringTest, RangeOfUnicodeStringTest)
 {
-    String s("Terrence \\:00006F\\:000066 Eragon, Howard \\:00006F\\:000066 Manchester");
+    String s = String::initWithASCIIEncodedUnicode(
+            "Terrence \\:00006F\\:000066 Eragon, Howard \\:00006F\\:000066 Manchester");
     auto theRanges = s.rangesOfString("of");
     EXPECT_EQ(theRanges.size(), 2);
     EXPECT_EQ(theRanges[0], Range(9,2));

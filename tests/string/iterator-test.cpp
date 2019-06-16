@@ -94,7 +94,7 @@ TEST(StringTest, IteratorValueTest)
 
 TEST(StringTest, UnicodeValueTest)
 {
-    String s("a\\:002387\\:002231");
+    String s = String::initWithASCIIEncodedUnicode("a\\:002387\\:002231");
     auto b = s.begin();
 
     EXPECT_EQ(*b, 'a');
@@ -112,7 +112,7 @@ TEST(StringTest, UnicodeValueTest)
 
 TEST(StringTest, SimpleForLoopTest)
 {
-    String s("abcdefg\\:10FFFAq\\:005422");
+    String s = String::initWithASCIIEncodedUnicode("abcdefg\\:10FFFAq\\:005422");
     for(auto i = s.begin(); i != s.end(); ++i)
     {
         EXPECT_NE(i,s.end());
@@ -122,7 +122,7 @@ TEST(StringTest, SimpleForLoopTest)
 
 TEST(StringTest, StrongerForLoopTest)
 {
-    String s("\\:003293aqqweiewi\\:10ADD3");
+    String s = String::initWithASCIIEncodedUnicode("\\:003293aqqweiewi\\:10ADD3");
     for(auto u : s)
     {
         EXPECT_NE(u, 0);

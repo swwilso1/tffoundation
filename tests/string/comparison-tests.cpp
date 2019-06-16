@@ -61,87 +61,87 @@ TEST(StringTest, CompareTest3)
 
 TEST(StringTest, CompareTest4)
 {
-    String s("\\:001234\\:002332\\:004889");
-    String t("\\:001234\\:002333\\:004434");
+    String s = String::initWithASCIIEncodedUnicode("\\:001234\\:002332\\:004889");
+    String t = String::initWithASCIIEncodedUnicode("\\:001234\\:002333\\:004434");
     EXPECT_EQ(s.compare(t), OrderedAscending);
 }
 
 
 TEST(StringTest, CompareTest5)
 {
-    String s("\\:001234\\:002332\\:004889");
-    String t("\\:001234\\:002332\\:004889");
+    String s = String::initWithASCIIEncodedUnicode("\\:001234\\:002332\\:004889");
+    String t = String::initWithASCIIEncodedUnicode("\\:001234\\:002332\\:004889");
     EXPECT_EQ(s.compare(t), OrderedSame);
 }
 
 
 TEST(StringTest, CompareTest6)
 {
-    String s("\\:001234\\:002332\\:004435");
-    String t("\\:001234\\:002332\\:004434");
+    String s = String::initWithASCIIEncodedUnicode("\\:001234\\:002332\\:004435");
+    String t = String::initWithASCIIEncodedUnicode("\\:001234\\:002332\\:004434");
     EXPECT_EQ(s.compare(t), OrderedDescending);
 }
 
 
 TEST(StringTest, CompareRangeWithStringTest)
 {
-    String s("Mostly cloud, 52 \\:0000B0F");
+    String s("Mostly cloud, 52 ଏ");
     EXPECT_EQ(s.compareRangeWithString(Range(0,6), "Lastly"), OrderedDescending);
 }
 
 
 TEST(StringTest, CompareRangeWithStringTest2)
 {
-    String s("Mostly cloud, 52 \\:0000B0F");
+    String s("Mostly cloud, 52 ଏ");
     EXPECT_EQ(s.compareRangeWithString(Range(7,5), "club"), OrderedAscending);
 }
 
 
 TEST(StringTest, CompareRangeWithStringTest3)
 {
-    String s("Mostly cloud, 52 \\:0000B0F");
-    EXPECT_EQ(s.compareRangeWithString(Range(17,2), "\\:0000B0F"), OrderedSame);
+    String s("Mostly cloud, 52 ଏ");
+    EXPECT_EQ(s.compareRangeWithString(Range(17,1), "ଏ"), OrderedSame);
 }
 
 
 TEST(StringTest, HasPrefixTest)
 {
-    String s("Mostly cloudy, 52 \\:0000B0F");
+    String s("Mostly cloudy, 52 ଏ");
     EXPECT_TRUE(s.hasPrefix("Mostly"));
 }
 
 
 TEST(StringTest, HasPrefixTest2)
 {
-    String s("Mostly cloudy, 52 \\:0000B0F");
+    String s("Mostly cloudy, 52 ଏ");
     EXPECT_FALSE(s.hasPrefix("cloudy2"));
 }
 
 
 TEST(StringTest, HasSuffixTest)
 {
-    String s("Mostly cloudy, 52 \\:0000B0F");
-    EXPECT_TRUE(s.hasSuffix(" \\:0000B0F"));
+    String s("Mostly cloudy, 52 ଏ");
+    EXPECT_TRUE(s.hasSuffix(" ଏ"));
 }
 
 
 TEST(StringTest, HasSuffixTest2)
 {
-    String s("Mostly cloudy, 52 \\:0000B0F");
+    String s("Mostly cloudy, 52 ଏ");
     EXPECT_FALSE(s.hasPrefix("52"));
 }
 
 
 TEST(StringTest, IsEqualToStringTest)
 {
-    String s("Mostly cloudy, 52 \\:0000B0F");
-    EXPECT_TRUE(s.isEqualToString("Mostly cloudy, 52 \\:0000B0F"));
+    String s("Mostly cloudy, 52 ଏ");
+    EXPECT_TRUE(s.isEqualToString("Mostly cloudy, 52 ଏ"));
 }
 
 
 TEST(StringTest, IsEqualToStringTest2)
 {
-    String s("Mostly cloudy, 52 \\:0000B0F");
+    String s("Mostly cloudy, 52 ଏ");
     EXPECT_FALSE(s.isEqualToString("Mostly"));
 }
 

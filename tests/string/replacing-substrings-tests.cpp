@@ -68,8 +68,9 @@ TEST(StringTest, ReplacingOccurencesOfSubstringTest4)
 
 TEST(StringTest, ReplacingOccurencesOfSubstringTest5)
 {
-    String s("Mostly \\:006689\\:005854\\:104432\\:004241, 46F");
-    auto t = s.stringByReplacingOccurencesOfStringWithString("\\:006689\\:005854\\:104432\\:004241", "sunny");
+    String s = String::initWithASCIIEncodedUnicode("Mostly \\:006689\\:005854\\:104432\\:004241, 46F");
+    auto t = s.stringByReplacingOccurencesOfStringWithString(
+            String::initWithASCIIEncodedUnicode("\\:006689\\:005854\\:104432\\:004241"), "sunny");
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
@@ -100,7 +101,8 @@ TEST(StringTest, ReplaceCharactersInRangeTest3)
 
 TEST(StringTest, ReplaceCharactersInRangeTest4)
 {
-    String s("Mostly \\:006689\\:005854\\:104432\\:004241 with a chance for meatballs.");
+    String s = String::initWithASCIIEncodedUnicode(
+            "Mostly \\:006689\\:005854\\:104432\\:004241 with a chance for meatballs.");
     auto t = s.stringByReplacingCharactersInRangeWithString(Range(7,4), String("sunny"));
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }

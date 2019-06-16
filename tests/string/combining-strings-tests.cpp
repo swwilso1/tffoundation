@@ -45,8 +45,8 @@ TEST(StringTest, AppendFormatTest)
 TEST(StringTest, AppendFormatTest2)
 {
     String s("foo");
-    String t = s.stringByAppendingFormat("%d bar \\:002341", 10);
-    EXPECT_EQ(t, "foo10 bar \\:002341");
+    String t = s.stringByAppendingFormat("%d bar ⍁", 10);
+    EXPECT_EQ(t, "foo10 bar ⍁");
 }
 
 
@@ -97,7 +97,9 @@ TEST(StringTest, ConcatenateStringTest)
     String s(arr, 5);
     String t(barr, 5);
     String u = String::concatenateStrings(s, t);
-    EXPECT_EQ(u, "\\:005848\\:103333\\:00FFFFJ4\\:000200\\:001123K");
+    auto stlStr = u.getAsASCIIEncodedSTLString();
+
+    EXPECT_EQ(stlStr, "\\:005848\\:103333\\:00FFFFJ4\\:000200\\:001123K");
 }
 
 

@@ -36,7 +36,7 @@ using namespace TF::Foundation;
 
 TEST(StringTest, BracketOperatorTest)
 {
-    String s("Hello \\:004435\\:003848\\:101234");
+    String s = String::initWithASCIIEncodedUnicode("Hello \\:004435\\:003848\\:101234");
     EXPECT_EQ(s[0], 'H');
     EXPECT_EQ(s[1], 'e');
     EXPECT_EQ(s[2], 'l');
@@ -51,7 +51,7 @@ TEST(StringTest, BracketOperatorTest)
 
 TEST(StringTest, CharacterAtIndexTest)
 {
-    String s("Hello \\:004435\\:003848\\:101234");
+    String s = String::initWithASCIIEncodedUnicode("Hello \\:004435\\:003848\\:101234");
     EXPECT_EQ(s.characterAtIndex(0), 'H');
     EXPECT_EQ(s.characterAtIndex(1), 'e');
     EXPECT_EQ(s.characterAtIndex(2), 'l');
@@ -90,9 +90,9 @@ TEST(StringTest, CharactersInRangeTest3)
 
 TEST(StringTest, CharactersInRangeTest4)
 {
-    String s("The large ho\\:000129use on the left.");
+    String s = String::initWithASCIIEncodedUnicode("The large ho\\:000129use on the left.");
     String t = s.getCharactersInRange(Range(5, 10));
-    String u("arge ho\\:000129us");
+    String u = String::initWithASCIIEncodedUnicode("arge ho\\:000129us");
     EXPECT_EQ(t,u);
 }
 

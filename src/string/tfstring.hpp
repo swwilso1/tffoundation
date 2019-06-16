@@ -91,15 +91,15 @@ namespace TF
             String(String&& s) noexcept;
 
             /**
-                @brief C-style string constructor.
-                @param str a pointer to a C-style string
+                @brief Constructor with UTF-8 C-style string argument (NULL terminated).
+                @param str a pointer to a UTF-8 C-style string.
                 @return a new string object
             */
             String(const char *str);
 
             /**
-                @brief C-style string constructor with length parameter.
-                @param str a pointer to a C-style string
+                @brief UTF-8 C-style string constructor with length parameter.
+                @param str a pointer to a UTF-8 C-style string
                 @param length the length of @e str array.
                 @return a new string object.
             */
@@ -193,6 +193,21 @@ namespace TF
                 @c - Left aligns the formatted value.
             */
             static String initWithFormat(const char *format,...);
+
+
+            /**
+             * @brief Initializes a String object using ASCII encoded strings.
+             * @param str the ASCII encoded string
+             * @return the initialized String
+             *
+             * The init string can contain standard ASCII as well as escaped unicode characters
+             * with the following form: \:000001 -> u0001
+             *
+             * @code
+             * String s = String::initWithASCIIEncodedUnicode("Hello World of \\:003049 \\:003050 Unicode");
+             * @endcode
+             */
+            static String initWithASCIIEncodedUnicode(const char *str);
 
 #pragma mark - Iterator methods
 
@@ -312,7 +327,7 @@ namespace TF
 
                 stringByAppendingFormat is a variable argument method used to append arbitrary
                 contents to a string.  The format behavior behaves in the same manner as the
-                printf() family of functions.
+                initWithFormat() function.
             */
             String stringByAppendingFormat(const char *format, ...) const;
 
@@ -521,7 +536,10 @@ namespace TF
              */
             String uppercaseString() const;
 
-            
+#pragma mark - Methods for converting to ASCII encoded string
+
+            std::string getAsASCIIEncodedSTLString(void) const;
+
 #pragma mark - Methods for converting a string to a data object
 
             /**
@@ -602,8 +620,6 @@ namespace TF
             using encoder_type = StringEncoder;
 
             static data_type convertToThisEncoding(const String &s, encoder_type *encoder);
-
-            using code_array_type = std::shared_ptr<unicode_point_type>;
 
             using core_type = StringCore;
 
