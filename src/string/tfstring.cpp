@@ -51,7 +51,7 @@ namespace TF
 
         String::String()
         {
-            core = std::make_shared<core_type>();
+            core = std::make_shared<core_type>(0);
         }
 
         String::String(const String &s)
@@ -267,6 +267,9 @@ namespace TF
 
         String String::deepCopy() const
         {
+            if(core->length() == 0)
+                return String();
+
             String s(core->data(), core->length());
             return s;
         }
@@ -1741,6 +1744,9 @@ namespace TF
 
             String theCopy = this->deepCopy();
 
+            if(theCopy.core->length() == 0)
+                return theCopy;
+
             auto tmp = theCopy.core->data();
             auto bytesLeft = theCopy.core->length();
             auto thisEndian = encoder.thisSystemEndianness();
@@ -1777,6 +1783,9 @@ namespace TF
 
             String theCopy = this->deepCopy();
 
+            if(theCopy.core->length() == 0)
+                return theCopy;
+
             encoder.convertStringCharacters(theCopy.core->data(), theCopy.core->length(),
                 StringCase::LowerCase);
 
@@ -1789,6 +1798,9 @@ namespace TF
             UTF8StringEncoder encoder;
 
             String theCopy = this->deepCopy();
+
+            if(theCopy.core->length() == 0)
+                return theCopy;
 
             encoder.convertStringCharacters(theCopy.core->data(), theCopy.core->length(),
                 StringCase::UpperCase);
