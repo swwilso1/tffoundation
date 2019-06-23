@@ -127,6 +127,22 @@ TEST(StringTest, OperatorPlusStringTest)
 }
 
 
+TEST(StringTest, OperatorPlusCharacterTest)
+{
+    String s("foo");
+    String t("foob");
+    String y = s + 'b';
+    EXPECT_EQ(y,t);
+}
+
+
+TEST(StringTest, OperatorPlusEqualCharacterTest)
+{
+    String s("foo");
+    String t("foob");
+    s += 'b';
+    EXPECT_EQ(s,t);
+}
 
 
 

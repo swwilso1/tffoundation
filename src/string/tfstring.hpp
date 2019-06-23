@@ -359,11 +359,27 @@ namespace TF
 
 
             /**
+             * @brief method to create a new string by 'adding/appending' a character.
+             * @param c the other character
+             * @return a new string with the original string's contents with @e c appended.
+             */
+            String operator+(const char c) const;
+
+
+            /**
              * @brief method to append a string to the current string.
              * @param s the other string
              * @return this string with the contents of s appended.
              */
             String& operator+=(const String &s);
+
+
+            /**
+             * @brief method to append a string to the current string.
+             * @param c the other character
+             * @return this string with the character @e c appended.
+             */
+            String& operator+=(const char c);
 
 #pragma mark - Methods for dividing strings
 

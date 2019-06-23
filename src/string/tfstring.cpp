@@ -1466,13 +1466,26 @@ namespace TF
         {
             String copy = this->deepCopy();
             return String::initWithFormat("%@%@", &copy, &s);
+        }
 
+
+        String String::operator+(const char c) const
+        {
+            String copy = this->deepCopy();
+            return String::initWithFormat("%@%c", &copy, c);
         }
 
 
         String& String::operator+=(const String &s)
         {
             *this = concatenateStrings(*this, s);
+            return *this;
+        }
+
+
+        String& String::operator+=(const char c)
+        {
+            *this = *this + c;
             return *this;
         }
 
