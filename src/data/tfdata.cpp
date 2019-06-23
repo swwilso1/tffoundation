@@ -462,6 +462,26 @@ namespace TF
 		}
 
 
+        Data Data::subdataWithRange(const range_type &r) const
+        {
+            // TODO: The current implementation of this method is not ideal.   It involves a copy
+            // of the data to get the bytes all into one contiguous array.   That step is
+            // expensive.   A better way would be to copy the bytes into the subData object
+            // by walking the chunks.
+            Data subData;
+            Data copyOfData;
+
+            if(r.position >= theLength || (r.position + (r.length - 1)) >= theLength)
+                throw std::range_error("subdataWithRange given range of data that lies outside of the data");
+
+            copyOfData = *this;
+            auto bytes = copyOfData.bytes();
+
+            subData.append(bytes + r.position, r.length);
+            return subData;
+        }
+
+
 		std::ostream& Data::description(std::ostream &o) const
 		{
 			ClassFormatter *formatter = FormatterFactory::getFormatter();

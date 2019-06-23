@@ -161,6 +161,10 @@ namespace TF
 			using size_type = Size_t;
 
 
+			/** @brief range type */
+			using range_type = Range;
+
+
 			/** @brief type to used represent an individucal byte value from the data object */
 			using byte_type = unsigned char;
 
@@ -304,6 +308,14 @@ namespace TF
 			 *  @param d the other Data object.
 			 **/
 			void prepend(Data &&d);
+
+
+			/**
+			 * @brief method to return a subset of the data described by a range.
+			 * @param r the range
+			 * @return the subset of data described by @e r
+			 */
+			Data subdataWithRange(const range_type &r) const;
 
 			/**
 			 *  @brief method to write the object contents to a stream object

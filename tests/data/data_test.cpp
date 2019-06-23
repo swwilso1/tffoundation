@@ -410,3 +410,54 @@ TEST(DataTest, PrependDataObjectMoveTest)
 		ASSERT_EQ(d[i], j);
 	}
 }
+
+
+TEST(DataTest, SubdataWithRangeTest)
+{
+    char data[kDataSize];
+
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
+
+    Data d(data, kDataSize);
+    Data subData = d.subdataWithRange(Range(0, 10));
+
+    EXPECT_EQ(subData.length(), 10);
+
+    for(int i = 0; i < 10; i++)
+    {
+        EXPECT_EQ(subData[i], i);
+    }
+
+
+    subData = d.subdataWithRange(Range(10,10));
+
+    EXPECT_EQ(subData.length(), 10);
+
+    for(int i = 10; i < 20; i++)
+    {
+        // Don't index subData at i, remember subData's indexing goes from 0-9.
+        EXPECT_EQ(subData[i-10], i);
+    }
+
+    subData = d.subdataWithRange(Range(100,100));
+
+    EXPECT_EQ(subData.length(), 100);
+
+    for(int i = 100; i < 200; i++)
+    {
+        EXPECT_EQ(subData[i-100], i);
+    }
+}
+
+
+TEST(DataTest, SubdataWithRangeExceptionTest)
+{
+    char data[kDataSize];
+    Data d(data, kDataSize);
+
+    EXPECT_ANY_THROW(d.subdataWithRange(Range(kDataSize+1,1)));
+    EXPECT_ANY_THROW(d.subdataWithRange(Range(100,200)));
+}
