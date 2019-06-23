@@ -5,12 +5,8 @@
 #####
 ################################################################################
 
-list(APPEND FOUNDATION_HEADER_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/base64/tfbase64.hpp"
-        )
-
-list(APPEND FOUNDATION_SOURCE_FILES
-        src/base64/tfbase64.cpp
-        src/base64/tfbase64.hpp
-        )
-
+build_and_run_test(
+        base64_test
+        Base64Test
+        tests/base64/base64_test.cpp
+)

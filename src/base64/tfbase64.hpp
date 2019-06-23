@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2017 Tectiform Inc.
+Copyright (c) 2019 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,39 +25,60 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
+#ifndef TFBASE64_HPP
+#define TFBASE64_HPP
+
+#define NEEDS_MAP
+#include "tfheaders.hpp"
 #include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tfbase64.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
+#include "tfallocator.hpp"
 #include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
 #include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
-#include "tfenvironmentsettings.hpp"
-#include "tffilemanager.hpp"
-#include "tfalarmcenter.hpp"
-#include "tffilepermissions.hpp"
-#include "tffileproperties.hpp"
+
+namespace TF
+{
+
+    namespace Foundation
+    {
+
+        class Base64 : public AllocatorInterface
+        {
+        public:
+
+            using data_type = Data;
+
+            using string_type = String;
+
+            static string_type encode(const data_type &data);
+
+            static data_type decode(const string_type &s);
+
+        private:
+
+            using encoding_map_type = std::map<int, char>;
+
+            using decoding_map_type = std::map<char, int>;
+
+            static encoding_map_type sEncodingMap;
+            static encoding_map_type loadEncodingMap();
+
+            static decoding_map_type sDecodingMap;
+            static decoding_map_type loadDecodingMap();
+
+            static const int sBaseNumberOfBytes = 3;
+
+            static const int sBitMask = 0x3f;
+
+            static const int sByteMask = 0xff;
+
+            static const char sPadChar = '=';
+
+        };
 
 
 
+    } // Foundation
+
+} // TF
+
+#endif //TFBASE64_HPP
