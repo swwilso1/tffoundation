@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2017 Tectiform Inc.
+Copyright (c) 2019 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,40 +25,23 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfplatform.hpp"
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tfbase64.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
-#include "tfenvironmentsettings.hpp"
-#include "tffilemanager.hpp"
-#include "tfalarmcenter.hpp"
-#include "tffilepermissions.hpp"
-#include "tffileproperties.hpp"
+#ifndef TFPLATFORM_HPP
+#define TFPLATFORM_HPP
 
+#if defined(__linux) || defined(__linux__) || defined(linux__)
+#  define TFLINUX
+#  define TFUNIX
 
+#elif defined(__MACH) || defined(__MACH__) || defined(MACH__)
+#  define TFMACOS
+#  define TFUNIX
+
+#elif defined(WIN32) || defined(WIN64)
+#  define TFWINDOWS
+
+#else
+#  error "TFPLATFORM does not recognize platform"
+#endif
+
+#endif // TFPLATFORM_HPP
 
