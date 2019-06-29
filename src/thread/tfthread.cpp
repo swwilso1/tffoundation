@@ -87,6 +87,8 @@ namespace TF
 				handleValid = true;
 				t.handleValid = false;
 			}
+
+			return *this;
 		}
 
 
