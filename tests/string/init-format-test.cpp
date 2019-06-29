@@ -198,7 +198,7 @@ TEST(StringTest, CStyleStringTest)
 TEST(StringTest, STLStyleStringTest)
 {
     std::string j("Hello World");
-    String s = String::initWithFormat("%S", j);
+    String s = String::initWithFormat("%S", &j);
     String t("Hello World");
     EXPECT_EQ(s,t);
 }
@@ -256,7 +256,7 @@ TEST(StringTest, StringConverterTest)
 TEST(StringTest, StringConverterTest2)
 {
     String s("Hello World!");
-    String t = String::initWithFormat("%@",s);
+    String t = String::initWithFormat("%@",&s);
     String u("Hello World!");
     EXPECT_EQ(t,u);
 }
@@ -313,7 +313,7 @@ TEST(StringTest, LongLongTest)
 
 TEST(StringTest, HDTest)
 {
-    short v = 32768;
+    short v = static_cast<short>(32768);
     String s = String::initWithFormat("%hd", v);
     String t("-32768");
     EXPECT_EQ(s, t);

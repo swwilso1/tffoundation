@@ -1829,7 +1829,7 @@ namespace TF
             memcpy(newData, data.bytes(), data.length());
             newData[data.length()] = 0x0;
             std::string newString(newData);
-            delete newData;
+            delete[] newData;
             return newString;
         }
 

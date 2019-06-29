@@ -67,17 +67,25 @@ namespace TF
 
         StringIterator &StringIterator::operator=(const StringIterator &i)
         {
-            core = i.core;
-            theEncoder = i.theEncoder;
-            currentIndex = i.currentIndex;
+            if(this != &i)
+            {
+                core = i.core;
+                theEncoder = i.theEncoder;
+                currentIndex = i.currentIndex;
+            }
+            return *this;
         }
 
 
         StringIterator &StringIterator::operator=(StringIterator &&i) noexcept
         {
-            core = i.core;
-            theEncoder = i.theEncoder;
-            currentIndex = i.currentIndex;
+            if(this != &i)
+            {
+                core = i.core;
+                theEncoder = i.theEncoder;
+                currentIndex = i.currentIndex;
+            }
+            return *this;
         }
 
 
