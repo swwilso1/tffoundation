@@ -163,7 +163,7 @@ namespace TF
             using entry_type = AlarmEntry;
 
             /** @brief map type that maps labels to alarm entries. */
-            using map_type = Map<string_type, entry_type>;
+            using map_type = std::map<string_type, entry_type>;
 
             /** @brief basic mutex type */
             using mutex_type = std::mutex;

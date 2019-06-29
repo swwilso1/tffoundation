@@ -26,6 +26,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #include "tfdatetypes.hpp"
+#include "tfformatter.hpp"
 
 namespace TF
 {
@@ -128,16 +129,22 @@ namespace TF
 
         std::ostream& operator<<(std::ostream &o, const struct tm &t)
         {
-            o << "[";
-            o << t.tm_sec << ",";
-            o << t.tm_min << ",";
-            o << t.tm_hour << ",";
-            o << t.tm_mday << ",";
-            o << t.tm_mon << ",";
-            o << t.tm_year << ",";
-            o << t.tm_wday << ",";
-            o << t.tm_yday << ",";
-            o << t.tm_isdst << "]";
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
+            if(formatter != nullptr)
+            {
+                formatter->setClassName("struct tm");
+                formatter->addClassMember<int>("tm_sec", t.tm_sec);
+                formatter->addClassMember<int>("tm_min", t.tm_min);
+                formatter->addClassMember<int>("tm_hour", t.tm_hour);
+                formatter->addClassMember<int>("tm_mday", t.tm_mday);
+                formatter->addClassMember<int>("tm_mon", t.tm_mon);
+                formatter->addClassMember<int>("tm_year", t.tm_year);
+                formatter->addClassMember<int>("tm_wday", t.tm_wday);
+                formatter->addClassMember<int>("tm_yday", t.tm_yday);
+                formatter->addClassMember<int>("tm_isdst", t.tm_isdst);
+                o << *formatter;
+                delete formatter;
+            }
             return o;
         }
 

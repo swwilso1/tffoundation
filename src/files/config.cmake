@@ -20,3 +20,12 @@ list(APPEND FOUNDATION_SOURCE_FILES
         src/files/tffileproperties.cpp
         src/files/tffileproperties.hpp
         )
+
+if(UNIX)
+    include(src/files/unix/config.cmake)
+endif()
+
+if(WIN32)
+    include(src/files/win32/config.cmake)
+endif()
+

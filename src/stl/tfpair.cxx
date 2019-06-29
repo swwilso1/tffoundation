@@ -34,41 +34,19 @@ namespace TF
 	{
 
 		template<class A, class B>
-		Pair<A,B>::Pair() : parent()
-		{
-		}
-
-
-		template<class A, class B>
-		Pair<A,B>::Pair(const A &a, const B &b) : parent(a, b)
-		{
-		}
-
-
-		template<class A, class B>
-		std::ostream& Pair<A,B>::description(std::ostream &o) const
-		{
-			ClassFormatter *formatter =
-				FormatterFactory::getFormatter();
-			if(formatter != nullptr)
-			{
-				formatter->setClassName("Pair");
-				formatter->addClassMember<A>(
-					"first", this->first);
-				formatter->addClassMember<B>(
-					"second", this->second);
-				o << *formatter;
-				delete formatter;
-			}
-			return o;
-		}
-		
-		
-		template<class A, class B>
-		std::ostream& operator<<(std::ostream &o, const Pair<A,B> &p)
-		{
-			return p.description(o);
-		}
+		std::ostream& operator<<(std::ostream &o, const std::pair<A,B> &p)
+        {
+		    ClassFormatter *formatter = FormatterFactory::getFormatter();
+		    if(formatter != nullptr)
+            {
+		        formatter->setClassName("std::pair");
+		        formatter->addClassMember<A>("first", p.first);
+		        formatter->addClassMember<B>("second",p.second);
+		        o << *formatter;
+		        delete formatter;
+            }
+		    return o;
+        }
 
 	} // Foundation
 

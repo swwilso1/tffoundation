@@ -150,6 +150,7 @@ namespace TF
                 else if(DateSymbol<Clock>::count == 5)
                     return string_type("B");
             }
+            return "";
         }
 
 
@@ -1213,6 +1214,9 @@ namespace TF
                     case DayOfWeek::Friday:
                         accumulator << "F";
                         break;
+                    case DayOfWeek::Saturday:
+                        accumulator << "Sa";
+                        break;
                 }
             }
 
@@ -1474,7 +1478,7 @@ namespace TF
         typename NormalHourSymbol<Clock>::string_type NormalHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2);
+            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
                 if(DateSymbol<Clock>::count == 2)
                 {

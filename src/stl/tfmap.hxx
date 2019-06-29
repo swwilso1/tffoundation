@@ -44,23 +44,8 @@ namespace TF
 	namespace Foundation
 	{
 
-		template<class Key, class T, class Compare = std::less<Key>,
-			class Allocator = std::allocator<Pair<const Key,T>>>
-		class Map : public std::map<Key, T, Compare, Allocator>
-		{
-		public:
-		
-			using pair_type = Pair<Key, T>;
-		
-			std::ostream& description(std::ostream &o) const;
-		};
-		
-		
-		template<class Key, class T, class Compare = std::less<Key>,
-			class Allocator = std::allocator<std::pair<const Key, T>>>
-		std::ostream& operator<<(std::ostream &o,
-			const Map<Key, T, Compare, Allocator> &m);
-
+		template<class Key, class T, class Compare, class Allocator>
+		std::ostream& operator<<(std::ostream &o, const std::map<Key, T, Compare, Allocator> &m);
 
 	} // Foundation
 

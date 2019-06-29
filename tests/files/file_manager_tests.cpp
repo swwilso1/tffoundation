@@ -52,7 +52,11 @@ TEST(FileManagerTest, HomeDirectoryForCurrentUserTest)
 TEST(FileManagerTest, HomeDirectoryForUserTest)
 {
     FileManager fm;
+#if defined(TFLINUX)
     EXPECT_EQ(fm.homeDirectoryForUser("root"), "/root");
+#elif defined(TFMACOS)
+    EXPECT_EQ(fm.homeDirectoryForUser("root"), "/var/root");
+#endif
 }
 
 
@@ -205,8 +209,13 @@ TEST(FileManagerTest, IsExecutableAtPathTest)
 TEST(FileManagerTest, ChangeCurrentWorkingDirectoryToPathTest)
 {
     FileManager fm;
+#if defined(TFLINUX)
     fm.changeCurrentWorkingDirectoryToPath("/tmp");
     EXPECT_EQ(fm.currentWorkingDirectoryPath(), "/tmp");
+#elif defined(TFMACOS)
+    fm.changeCurrentWorkingDirectoryToPath("/private/tmp");
+    EXPECT_EQ(fm.currentWorkingDirectoryPath(), "/private/tmp");
+#endif
 }
 
 

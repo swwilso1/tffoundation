@@ -28,7 +28,7 @@ SOFTWARE.
 
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
-
+#include <chrono>
 
 using namespace TF::Foundation;
 
@@ -36,7 +36,8 @@ using namespace TF::Foundation;
 
 TEST(DateComponentsTest, MomentTest)
 {
-    SystemDate d(SystemDate::duration(1509136984185151026L));
+    std::chrono::nanoseconds ns(1509136984185151026L);
+    SystemDate::duration d = std::chrono::duration_cast<SystemDate::duration>(ns);
     SystemDateComponents dc(d);
 
     EXPECT_EQ(dc.second(), 4);
@@ -54,7 +55,8 @@ TEST(DateComponentsTest, MomentTest)
 
 TEST(DateComponentsTest, LeapYearTest)
 {
-    SystemDate d(SystemDate::duration(1580136984185151026L));
+    std::chrono::nanoseconds ns(1580136984185151026L);
+    SystemDate::duration d = std::chrono::duration_cast<SystemDate::duration>(ns);
     SystemDateComponents dc(d);
     EXPECT_TRUE(dc.isLeapYear());
 }

@@ -40,21 +40,7 @@ namespace TF
 	{
 
 		template<class A, class B>
-		class Pair : public std::pair<A,B>
-		{
-		public:
-		
-			using parent = std::pair<A,B>;
-			
-			Pair();
-		
-			Pair(const A &a, const B &b);
-		
-			std::ostream& description(std::ostream &o) const;
-		};
-		
-		template<class A, class B>
-		std::ostream& operator<<(std::ostream &o, const Pair<A,B> &p);
+		std::ostream& operator<<(std::ostream &o, const std::pair<A,B> &p);
 
 	} // Foundation
 

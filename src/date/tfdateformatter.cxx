@@ -301,6 +301,8 @@ namespace TF
                     auto theValue = symbol->convert(value);
                     components.setFractionalSecond(theValue);
                 }
+                default:
+                    break;
             }
         }
 
@@ -341,6 +343,8 @@ namespace TF
                     case SymbolSemantic::Second:
                         if(symbol->getCount() == 2)
                             hasSecond = true;
+                        break;
+                    default:
                         break;
                 }
             }

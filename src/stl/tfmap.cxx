@@ -33,35 +33,24 @@ namespace TF
 	namespace Foundation
 	{
 
-		template<class Key, class T, class Compare, class Allocator>
-		std::ostream& Map<Key, T, Compare, Allocator>::description(
-			std::ostream &o) const
-		{
-			ClassFormatter *formatter =
-				FormatterFactory::getFormatter();
-			if(formatter != nullptr)
-			{
-				formatter->setClassName("Map");
-				Size_t i = 0;
-				for(auto entry : *this)
-				{
-					Pair<Key, T> p(entry.first, entry.second);
-					formatter->addClassMember<pair_type>(i++,p);
-				}
-				o << *formatter;
-				delete formatter;
-			}
-
-			return o;
-		}
-		
-		
-		template<class Key, class T, class Compare, class Allocator>
-		std::ostream& operator<<(std::ostream &o,
-			const Map<Key, T, Compare, Allocator> &m)
-		{
-			return m.description(o);
-		}
+        template<class Key, class T, class Compare, class Allocator>
+        std::ostream& operator<<(std::ostream &o, const std::map<Key, T, Compare, Allocator> &m)
+        {
+            ClassFormatter *formatter =
+                    FormatterFactory::getFormatter();
+            if(formatter != nullptr)
+            {
+                formatter->setClassName("std::map");
+                Size_t i = 0;
+                for(auto entry : m)
+                {
+                    formatter->addClassMember<std::pair<Key,T>>(i++,entry);
+                }
+                o << *formatter;
+                delete formatter;
+            }
+            return o;
+        }
 
 	} // Foundation
 

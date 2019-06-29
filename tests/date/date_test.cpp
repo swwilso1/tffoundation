@@ -34,7 +34,8 @@ using namespace TF::Foundation;
 
 TEST(DateTest, NotEqualTest)
 {
-    SystemDate d;
+    SystemDate::duration dur(1293939);
+    SystemDate d(dur);
     SystemDate e;
     EXPECT_NE(d, e);
 }

@@ -30,6 +30,7 @@ SOFTWARE.
 
 #define NEEDS_OSTREAM
 #define NEEDS_VECTOR
+#define NEEDS_MAP
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -86,7 +87,7 @@ namespace TF
 
         private:
 
-            using map_type = Map<string_type,string_type>;
+            using map_type = std::map<string_type,string_type>;
 
             map_type variableMap;
 

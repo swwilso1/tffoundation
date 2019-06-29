@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2017 Tectiform Inc.
+Copyright (c) 2019 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,31 +25,47 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFCHRONOSTREAM_HXX
-#define TFCHRONOSTREAM_HXX
-
-#define NEEDS_CHRONO
-#define NEEDS_OSTREAM
-#define NEEDS_RATIO
-#define NEEDS_CTIME
-#include "tfheaders.hpp"
+#include "tffilemanager.hpp"
 
 namespace TF
 {
 
     namespace Foundation
     {
+        FileManager::string_type FileManager::homeDirectoryForUser(const string_type &user) const
+        {
+            String passwdFileContents;
 
-        template<class Rep, class Ratio>
-        std::ostream& operator<<(std::ostream &o, const std::chrono::duration<Rep, Ratio> &d);
+            std::ifstream passwdFile("/etc/passwd");
+            if(! passwdFile)
+            {
+                throw std::runtime_error("Unable to open /etc/passwd");
+            }
 
-        template<class Dur>
-        std::ostream& operator<<(std::ostream &o, const std::chrono::time_point<Dur> &tp);
+            char c;
+            while(passwdFile.get(c))
+            {
+                passwdFileContents = passwdFileContents.stringByAppendingFormat("%c", c);
+            }
 
-    } // Foundation
+            auto linesFromFile = passwdFileContents.split("\n");
 
-} // TF
+            for(auto &line : linesFromFile)
+            {
+                auto elementsFromLine = line.split(":");
 
-#include "tfchronostream.cxx"
+                if(elementsFromLine.size() == 0)
+                    continue;
 
-#endif //TFCHRONOSTREAM_HXX
+                if(elementsFromLine[0] == user)
+                    return elementsFromLine[5].stlString();
+            }
+
+            throw std::runtime_error("User not found on system");
+        }
+
+    }
+
+}
+
+

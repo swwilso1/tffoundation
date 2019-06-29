@@ -58,7 +58,9 @@ TEST(DateFormatter, EraTest)
 TEST(DateFormatter, YearTest)
 {
     SystemDateFormatter formatter("y");
-    SystemDate d(SystemDate::duration(1509136984185151026L));
+    std::chrono::nanoseconds ns(1509136984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "2017");
 
     SystemDateFormatter formatter2("yy");
@@ -78,7 +80,9 @@ TEST(DateFormatter, YearTest)
 TEST(DateFormatter, QuarterTest)
 {
     SystemDateFormatter formatter("Q");
-    SystemDate d(SystemDate::duration(1509136984185151026L));
+    std::chrono::nanoseconds ns(1509136984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "4");
 
     SystemDateFormatter formatter2("QQ");
@@ -95,7 +99,9 @@ TEST(DateFormatter, QuarterTest)
 TEST(DateFormatter, MonthTest)
 {
     SystemDateFormatter formatter("M");
-    SystemDate d(SystemDate::duration(1505136984185151026L));
+    std::chrono::nanoseconds ns(1505136984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "9");
 
     SystemDateFormatter formatter2("MM");
@@ -115,7 +121,9 @@ TEST(DateFormatter, MonthTest)
 TEST(DateFormatter, DayOfMonthTest)
 {
     SystemDateFormatter formatter("d");
-    SystemDate d(SystemDate::duration(1505016984185151026L));
+    std::chrono::nanoseconds ns(1505016984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "9");
 
     SystemDateFormatter formatter2("dd");
@@ -126,7 +134,9 @@ TEST(DateFormatter, DayOfMonthTest)
 TEST(DateFormatter, DayOfYearTest)
 {
     SystemDateFormatter formatter("D");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d),"5");
 
     SystemDateFormatter formatter2("DD");
@@ -140,7 +150,9 @@ TEST(DateFormatter, DayOfYearTest)
 TEST(DateFormatter, WeekDayTest)
 {
     SystemDateFormatter formatter("E");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "Tues");
 
     SystemDateFormatter formatter2("EE");
@@ -160,7 +172,9 @@ TEST(DateFormatter, WeekDayTest)
 TEST(DateFormatter, PeriodTest)
 {
     SystemDateFormatter formatter("a");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "AM");
 
     SystemDateFormatter formatter2("aaa");
@@ -177,7 +191,9 @@ TEST(DateFormatter, PeriodTest)
 TEST(DateFormatter, StandardHourTest)
 {
     SystemDateFormatter formatter("h");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d),"2");
 
     SystemDateFormatter formatter2("hh");
@@ -187,7 +203,9 @@ TEST(DateFormatter, StandardHourTest)
 TEST(DateFormatter, MilitaryHourTest)
 {
     SystemDateFormatter formatter("H");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "2");
 
     SystemDateFormatter formatter2("HH");
@@ -198,7 +216,9 @@ TEST(DateFormatter, MilitaryHourTest)
 TEST(DateFormatter, NonstandardHourTest)
 {
     SystemDateFormatter formatter("K");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "2");
 
     SystemDateFormatter formatter2("KK");
@@ -209,7 +229,9 @@ TEST(DateFormatter, NonstandardHourTest)
 TEST(DateFormatter, NonstandardMilitaryHourTest)
 {
     SystemDateFormatter formatter("k");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d),"3");
 
     SystemDateFormatter formatter2("kk");
@@ -220,7 +242,9 @@ TEST(DateFormatter, NonstandardMilitaryHourTest)
 TEST(DateFormatter, MinuteTest)
 {
     SystemDateFormatter formatter("m");
-    SystemDate d(SystemDate::duration(1420531684185151026L));
+    std::chrono::nanoseconds ns(1420531684185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d),"8");
 
     SystemDateFormatter formatter2("mm");
@@ -231,7 +255,9 @@ TEST(DateFormatter, MinuteTest)
 TEST(DateFormatter, SecondTest)
 {
     SystemDateFormatter formatter("s");
-    SystemDate d(SystemDate::duration(1420536966185151026L));
+    std::chrono::nanoseconds ns(1420536966185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d),"6");
 
     SystemDateFormatter formatter2("ss");
@@ -239,10 +265,22 @@ TEST(DateFormatter, SecondTest)
 }
 
 
+// Helper function for FractionalSecondTest.  Some machines have system clocks
+// with a duration period in the microseconds rather than the nanoseconds.
+// We use this function to recover the period denominator to check for microseconds.
+template<typename T>
+std::intmax_t period_check(void)
+{
+    return T::den;
+}
+
+
 TEST(DateFormatter, FractionalSecondTest)
 {
     SystemDateFormatter formatter("SSSSS");
-    SystemDate d(SystemDate::duration(1420536984185151026L));
+    std::chrono::nanoseconds ns(1420536984185151026L);
+    SystemDate::duration dur = std::chrono::duration_cast<SystemDate::duration>(ns);
+    SystemDate d(dur);
     EXPECT_EQ(formatter.stringFromDate(d), "18515");
 
     SystemDateFormatter formatter2("SSSSSS");
@@ -251,11 +289,17 @@ TEST(DateFormatter, FractionalSecondTest)
     SystemDateFormatter formatter3("SSSSSSS");
     EXPECT_EQ(formatter3.stringFromDate(d), "1851510");
 
-    SystemDateFormatter formatter4("SSSSSSSS");
-    EXPECT_EQ(formatter4.stringFromDate(d),"18515103");
+    // If the system clock is not a nanosecond clock, then the following two tests
+    // will fail due a lack of precision in the clock.   So only test
+    // if the duration period is in the nanoseconds.
+    if(period_check<SystemDate::duration::period>() >= 1000000000L)
+    {
+        SystemDateFormatter formatter4("SSSSSSSS");
+        EXPECT_EQ(formatter4.stringFromDate(d), "18515103");
 
-    SystemDateFormatter formatter5("SSSSSSSSS");
-    EXPECT_EQ(formatter5.stringFromDate(d),"185151026");
+        SystemDateFormatter formatter5("SSSSSSSSS");
+        EXPECT_EQ(formatter5.stringFromDate(d),"185151026");
+    }
 }
 
 

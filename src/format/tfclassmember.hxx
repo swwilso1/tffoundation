@@ -36,6 +36,16 @@ SOFTWARE.
 #include "tfallocator.hpp"
 #include "tftypes.hpp"
 
+// On macOS, using clang, the Clock::time_point and duration types
+// must have an operator<< defined prior to their use in a template
+// object.  That means for the Date formatter code used in the
+// Date::description method to function correctly, the operator<<
+// functions need declared prior to their use in the template.  This
+// must happen at template declaration time, not template use time.
+#include "tfchronostream.hxx"
+// Included for operator<< for struct tm.
+#include "tfdatetypes.hpp"
+
 namespace TF
 {
 
