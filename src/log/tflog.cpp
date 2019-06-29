@@ -109,7 +109,7 @@ namespace TF
             std::fstream *theStream = new std::fstream(pathStr.get(), std::ios::out | std::ios::app);
             if(theStream != nullptr && theStream->is_open())
             {
-                logFiles.insert(std::make_pair(path, reinterpret_cast<stream_type *>(theStream)));
+                logFiles.insert(std::make_pair(path, static_cast<stream_type *>(theStream)));
             }
         }
 
@@ -127,7 +127,7 @@ namespace TF
             {
                 if(member.first != "stdout" && member.first != "stderr")
                 {
-                    std::fstream *theStream = reinterpret_cast<std::fstream *>(member.second);
+                    std::fstream *theStream = static_cast<std::fstream *>(member.second);
                     theStream->close();
                     delete theStream;
                 }
@@ -168,7 +168,7 @@ namespace TF
                 auto lengthUsed = strftime(buffer, 500, "%F %T", brokenDownTime);
                 if(lengthUsed > 0)
                 {
-                    snprintf(buffer + lengthUsed, 500 - lengthUsed, ":%03ld%c", theTime.tv_usec / 1000, '\0');
+                    snprintf(buffer + lengthUsed, 500 - lengthUsed, ":%03d%c", theTime.tv_usec / 1000, '\0');
                     return string_type(buffer);
                 }
             }
