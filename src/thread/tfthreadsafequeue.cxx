@@ -313,6 +313,7 @@ namespace TF
 				o << *formatter;
 				delete formatter;
 			}
+			return o;
 		}
 
 
