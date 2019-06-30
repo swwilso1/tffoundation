@@ -27,6 +27,9 @@ SOFTWARE.
 
 #include "tffilemanager.hpp"
 
+#define NEEDS_FSTREAM
+#include "tfheaders.hpp"
+
 namespace TF
 {
 
