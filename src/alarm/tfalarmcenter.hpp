@@ -68,7 +68,7 @@ namespace TF
             /**
              * @brief basic function callback type.   The callback can be a function pointer or a lambda.
              */
-            using receiver_type = std::function<void(const string_type &label)>;;
+            using receiver_type = std::function<void(const string_type &label)>;
 
             /**
              * @brief pointer type used to refer to an AlarmCenter instance.
