@@ -34,6 +34,7 @@ SOFTWARE.
 #define NEEDS_TIME
 #include "tfheaders.hpp"
 #include "tflog.hpp"
+#include "tfdateclocks.hpp"
 
 namespace TF
 {
@@ -157,23 +158,12 @@ namespace TF
 
         Logger::string_type Logger::calculateTimeForPreamble()
         {
-            char buffer[500];
-            struct timeval theTime;
-            struct tm *brokenDownTime = nullptr;
-            gettimeofday(&theTime, nullptr);
-            time_t timeInSeconds = static_cast<time_t>(theTime.tv_sec);
-            brokenDownTime = localtime(&timeInSeconds);
-            if(brokenDownTime != nullptr)
-            {
-                auto lengthUsed = strftime(buffer, 500, "%F %T", brokenDownTime);
-                if(lengthUsed > 0)
-                {
-                    snprintf(buffer + lengthUsed, 500 - lengthUsed, ":%03d%c", theTime.tv_usec / 1000, '\0');
-                    return string_type(buffer);
-                }
-            }
+            SystemDate now;
+            SystemDateFormatter formatter("yyyy-MM-dd HH:mm:ss:SSSS");
 
-            return string_type();
+            auto theFormattedDate = formatter.stringFromDate(now);
+
+            return theFormattedDate;
         }
 
     } // Foundation
