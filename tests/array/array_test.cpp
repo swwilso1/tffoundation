@@ -63,7 +63,7 @@ TEST(ArrayTest, SizeConstructorTest)
 
 TEST(ArrayTest, LargeSizeConstructorTest)
 {
-    Size_t i = -1;
+    unsigned int i = 2147483646;
     Array<char> a(i);
     EXPECT_EQ(i, a.size());
     EXPECT_NE(nullptr, a.data());
