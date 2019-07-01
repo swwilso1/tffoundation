@@ -102,31 +102,31 @@ TEST(Base64Test, PaddingDecodeTest)
     String b("any carnal pleasure.");
     Data bAsData = b.getAsDataInASCIIEncoding();
     Data out = Base64::decode(a);
-    EXPECT_EQ(bAsData,out);
+    EXPECT_EQ(bAsData, out);
 
     a = "YW55IGNhcm5hbCBwbGVhc3VyZQ==";
     b = "any carnal pleasure";
     bAsData = b.getAsDataInASCIIEncoding();
     out = Base64::decode(a);
-    EXPECT_EQ(bAsData,out);
+    EXPECT_EQ(bAsData, out);
 
     a = "YW55IGNhcm5hbCBwbGVhc3Vy";
     b = "any carnal pleasur";
     bAsData = b.getAsDataInASCIIEncoding();
     out = Base64::decode(a);
-    EXPECT_EQ(bAsData,out);
+    EXPECT_EQ(bAsData, out);
 
     a = "YW55IGNhcm5hbCBwbGVhc3U=";
     b = "any carnal pleasu";
     bAsData = b.getAsDataInASCIIEncoding();
     out = Base64::decode(a);
-    EXPECT_EQ(bAsData,out);
+    EXPECT_EQ(bAsData, out);
 
     a = "YW55IGNhcm5hbCBwbGVhcw==";
     b = "any carnal pleas";
     bAsData = b.getAsDataInASCIIEncoding();
     out = Base64::decode(a);
-    EXPECT_EQ(bAsData,out);
+    EXPECT_EQ(bAsData, out);
 
     a = "SGVsbG8gV29ybGQsIGhvdyBhcmUgeW91Pw==";
     b = "Hello World, how are you?";
@@ -134,4 +134,3 @@ TEST(Base64Test, PaddingDecodeTest)
     out = Base64::decode(a);
     EXPECT_EQ(bAsData, out);
 }
-

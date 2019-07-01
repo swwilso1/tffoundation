@@ -38,12 +38,12 @@ SOFTWARE.
 
 namespace TF
 {
-	
-	namespace Foundation
-	{
 
-		enum class LogPriority
-		{
+    namespace Foundation
+    {
+
+        enum class LogPriority
+        {
             Finest = 0,
             Finer,
             Fine,
@@ -51,63 +51,66 @@ namespace TF
             Warning,
             Error,
             Critical
-		};
+        };
 
-        std::ostream& operator<<(std::ostream &o, const LogPriority &p);
+        std::ostream &operator<<(std::ostream &o, const LogPriority &p);
 
 
-		class Logger : public AllocatorInterface
-		{
-		public:
-		
-			using priority_type = LogPriority;
-			
-			using string_type = String;
-		
-			explicit Logger(const priority_type &p) : thePriority(p) {};
-			
-			~Logger() override;
-			
-			void log(const string_type &format)
-			{
-				logMessage << format;
-			}
+        class Logger : public AllocatorInterface
+        {
+        public:
+            using priority_type = LogPriority;
 
-			template<class Arg, class ...Args>
-			void log(const string_type &format, Arg value, Args ... args)
-			{
-				
-				for(string_type::size_type i = 0; i < format.length();
-					i++)
-				{
-					if(format[i] == '%')
-					{
-						std::stringstream formatter;
-						formatter << value;
-						logMessage << formatter.str();
-						log(format.substringFromIndex(i + 1), args...);
-						return;
-					}
-					logMessage << format[i];
-				}
-			}
-			
-            static priority_type getPriority() { return defaultPriority; }
+            using string_type = String;
 
-            static void setPriority(const priority_type &p) { defaultPriority = p; }
+            explicit Logger(const priority_type &p) : thePriority(p) {};
+
+            ~Logger() override;
+
+            void log(const string_type &format)
+            {
+                logMessage << format;
+            }
+
+            template<class Arg, class... Args>
+            void log(const string_type &format, Arg value, Args... args)
+            {
+
+                for(string_type::size_type i = 0; i < format.length(); i++)
+                {
+                    if(format[i] == '%')
+                    {
+                        std::stringstream formatter;
+                        formatter << value;
+                        logMessage << formatter.str();
+                        log(format.substringFromIndex(i + 1), args...);
+                        return;
+                    }
+                    logMessage << format[i];
+                }
+            }
+
+            static priority_type getPriority()
+            {
+                return defaultPriority;
+            }
+
+            static void setPriority(const priority_type &p)
+            {
+                defaultPriority = p;
+            }
 
             static void logToFileAtPath(const string_type &path);
 
             static void logToFileAtPath(const char *path);
 
-			static void closeFiles();
+            static void closeFiles();
 
             static void logToStdOutput();
 
             static void logToStdError();
 
-		private:
-
+        private:
             using stream_type = std::ostream;
 
             using file_map_type = std::map<string_type, stream_type *>;
@@ -116,35 +119,30 @@ namespace TF
 
             static file_map_type logFiles;
 
-			/** This function is only used till tffoundation has a valid date class */
-			string_type calculateTimeForPreamble();
+            /** This function is only used till tffoundation has a valid date class */
+            string_type calculateTimeForPreamble();
 
-			priority_type thePriority;
-			
-			std::ostringstream logMessage;
-		};
-		
-	} // Foundation
+            priority_type thePriority;
 
-} // TF
+            std::ostringstream logMessage;
+        };
 
-#define LOG_TO_FILE_AT_PATH(path) \
-		TF::Foundation::Logger::logToFileAtPath(path)
+    }    // namespace Foundation
 
-#define LOG_TO_STDOUT() \
-		TF::Foundation::Logger::logToStdOutput()
+}    // namespace TF
 
-#define LOG_TO_STDERR() \
-		TF::Foundation::Logger::logToStdError()
+#define LOG_TO_FILE_AT_PATH(path) TF::Foundation::Logger::logToFileAtPath(path)
 
-#define LOG_SET_PRIORITY(p) \
-		TF::Foundation::Logger::setPriority(p)
+#define LOG_TO_STDOUT() TF::Foundation::Logger::logToStdOutput()
 
-#define LOG(priority, format, args...) \
-		{ \
-			TF::Foundation::Logger theLog(priority); \
-			theLog.log(format , ##args); \
-		}
+#define LOG_TO_STDERR() TF::Foundation::Logger::logToStdError()
 
-#endif // TFLOG_HPP
+#define LOG_SET_PRIORITY(p) TF::Foundation::Logger::setPriority(p)
 
+#define LOG(priority, format, args...)                                                                                 \
+    {                                                                                                                  \
+        TF::Foundation::Logger theLog(priority);                                                                       \
+        theLog.log(format, ##args);                                                                                    \
+    }
+
+#endif    // TFLOG_HPP

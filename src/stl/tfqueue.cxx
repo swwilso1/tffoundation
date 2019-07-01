@@ -31,41 +31,39 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		template<class T, class Container>
-		std::ostream& Queue<T, Container>::description(std::ostream &o) const
-		{
-			ClassFormatter *formatter = FormatterFactory::getFormatter();
-			if(formatter != nullptr)
-			{
-				Queue &modSelf = const_cast<Queue &>(*this);
+        template<class T, class Container>
+        std::ostream &Queue<T, Container>::description(std::ostream &o) const
+        {
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
+            if(formatter != nullptr)
+            {
+                Queue &modSelf = const_cast<Queue &>(*this);
 
-				formatter->setClassName("Queue");
-				Size_t theSize = this->size();
-				for(Size_t i = 0; i < theSize; i++)
-				{
-					auto theValue = modSelf.front();
-					formatter->addClassMember<T>(i, theValue);
-					modSelf.pop();
-					modSelf.push(theValue);
-				}
-				o << *formatter;
-				delete formatter;
-			}
-			return o;
-		}
-		
+                formatter->setClassName("Queue");
+                Size_t theSize = this->size();
+                for(Size_t i = 0; i < theSize; i++)
+                {
+                    auto theValue = modSelf.front();
+                    formatter->addClassMember<T>(i, theValue);
+                    modSelf.pop();
+                    modSelf.push(theValue);
+                }
+                o << *formatter;
+                delete formatter;
+            }
+            return o;
+        }
 
-		template<class T, class Container>
-		std::ostream& operator<<(std::ostream &o,
-			const Queue<T,Container> &q)
-		{
-			return q.description(o);
-		}
 
-	} // Foundation
+        template<class T, class Container>
+        std::ostream &operator<<(std::ostream &o, const Queue<T, Container> &q)
+        {
+            return q.description(o);
+        }
 
-} // TF
+    }    // namespace Foundation
 
+}    // namespace TF

@@ -45,7 +45,6 @@ namespace TF
         class StringIterator : public AllocatorInterface
         {
         public:
-
             /** @brief unicode point */
             using unicode_point_type = unsigned int;
 
@@ -77,16 +76,16 @@ namespace TF
             StringIterator(encoder_pointer_type e, const core_pointer_type &c, size_type index = 0);
 
             /** @brief default destructor */
-            ~StringIterator() override  = default;
+            ~StringIterator() override = default;
 
             /** @brief assignment operator */
-            StringIterator& operator=(const StringIterator &i);
+            StringIterator &operator=(const StringIterator &i);
 
             /** @brief rvalue assignment operator */
-            StringIterator& operator=(StringIterator &&i) noexcept;
+            StringIterator &operator=(StringIterator &&i) noexcept;
 
             /** @brief pre-increment operator */
-            StringIterator& operator++();
+            StringIterator &operator++();
 
             /** @brief post-increment opewrator */
             StringIterator operator++(int);
@@ -101,10 +100,9 @@ namespace TF
             bool operator!=(const StringIterator &i) const;
 
             /** @brief std::ostream method */
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
             std::pair<unicode_point_type, size_type> getNextCodePoint();
 
             core_pointer_type core;
@@ -115,11 +113,11 @@ namespace TF
         };
 
 
-        std::ostream& operator<<(std::ostream &o, const StringIterator &i);
+        std::ostream &operator<<(std::ostream &o, const StringIterator &i);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 
-#endif //TFSTRINGITERATOR_HPP
+#endif    // TFSTRINGITERATOR_HPP

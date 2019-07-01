@@ -90,7 +90,7 @@ namespace TF
         }
 
 
-        Notification & Notification::operator=(const Notification &n)
+        Notification &Notification::operator=(const Notification &n)
         {
             if(this != &n)
             {
@@ -103,7 +103,7 @@ namespace TF
         }
 
 
-        Notification & Notification::operator=(Notification &&n)
+        Notification &Notification::operator=(Notification &&n)
         {
             theLabel = n.theLabel;
             theData = n.theData;
@@ -136,7 +136,7 @@ namespace TF
         }
 
 
-        std::ostream & Notification::description(std::ostream &o) const
+        std::ostream &Notification::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -152,13 +152,12 @@ namespace TF
         }
 
 
-        std::ostream & operator<<(std::ostream &o, const Notification &n)
+        std::ostream &operator<<(std::ostream &o, const Notification &n)
         {
             return n.description(o);
         }
 
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

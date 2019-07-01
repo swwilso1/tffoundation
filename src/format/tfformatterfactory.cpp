@@ -30,13 +30,11 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		FormatterFactory::formatter_type FormatterFactory::formatterType =
-			FormatterType::DefaultFormatterType;
+        FormatterFactory::formatter_type FormatterFactory::formatterType = FormatterType::DefaultFormatterType;
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

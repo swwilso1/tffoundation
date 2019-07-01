@@ -65,12 +65,11 @@ TEST(StringTest, ReplacingOccurencesOfSubstringTest4)
 }
 
 
-
 TEST(StringTest, ReplacingOccurencesOfSubstringTest5)
 {
     String s = String::initWithASCIIEncodedUnicode("Mostly \\:006689\\:005854\\:104432\\:004241, 46F");
     auto t = s.stringByReplacingOccurencesOfStringWithString(
-            String::initWithASCIIEncodedUnicode("\\:006689\\:005854\\:104432\\:004241"), "sunny");
+        String::initWithASCIIEncodedUnicode("\\:006689\\:005854\\:104432\\:004241"), "sunny");
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
@@ -78,7 +77,7 @@ TEST(StringTest, ReplacingOccurencesOfSubstringTest5)
 TEST(StringTest, ReplaceCharactersInRangeTest)
 {
     String s("Mostly cloudy with a chance for meatballs.");
-    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7,6), String("sunny"));
+    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7, 6), String("sunny"));
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }
 
@@ -86,7 +85,7 @@ TEST(StringTest, ReplaceCharactersInRangeTest)
 TEST(StringTest, ReplaceCharactersInRangeTest2)
 {
     String s("Mostly cloudy with a chance for meatballs.");
-    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7,6), "sunny");
+    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7, 6), "sunny");
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }
 
@@ -94,21 +93,15 @@ TEST(StringTest, ReplaceCharactersInRangeTest2)
 TEST(StringTest, ReplaceCharactersInRangeTest3)
 {
     String s("Mostly cloudy with a chance for meatballs.");
-    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7,6), std::string("sunny"));
+    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7, 6), std::string("sunny"));
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }
 
 
 TEST(StringTest, ReplaceCharactersInRangeTest4)
 {
-    String s = String::initWithASCIIEncodedUnicode(
-            "Mostly \\:006689\\:005854\\:104432\\:004241 with a chance for meatballs.");
-    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7,4), String("sunny"));
+    String s =
+        String::initWithASCIIEncodedUnicode("Mostly \\:006689\\:005854\\:104432\\:004241 with a chance for meatballs.");
+    auto t = s.stringByReplacingCharactersInRangeWithString(Range(7, 4), String("sunny"));
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }
-
-
-
-
-
-

@@ -131,7 +131,7 @@ TEST(FileManagerTest, CopyItemAtPathToPathTest)
     FileManager fm;
     fm.createFileAtPath("/tmp/fileA");
     fm.copyItemAtPathToPath("/tmp/fileA", "/tmp/fileB");
-    EXPECT_TRUE(fm.contentsEqualAtPathAndPath("/tmp/fileA","/tmp/fileB"));
+    EXPECT_TRUE(fm.contentsEqualAtPathAndPath("/tmp/fileA", "/tmp/fileB"));
     fm.removeItemAtPath("/tmp/fileB");
     fm.removeItemAtPath("/tmp/fileA");
 }
@@ -141,7 +141,7 @@ TEST(FileManagerTest, MoveItemAtPathToPathTest)
 {
     FileManager fm;
     fm.createFileAtPath("/tmp/mvA");
-    fm.moveItemAtPathToPath("/tmp/mvA","/tmp/mvB");
+    fm.moveItemAtPathToPath("/tmp/mvA", "/tmp/mvB");
     EXPECT_FALSE(fm.fileExistsAtPath("/tmp/mvA"));
     EXPECT_TRUE(fm.fileExistsAtPath("/tmp/mvB"));
     fm.removeItemAtPath("/tmp/mvB");
@@ -152,7 +152,7 @@ TEST(FileManagerTest, CreateSymbolicLinkAtPathWithDestinationPathTest)
 {
     FileManager fm;
     fm.createFileAtPath("/tmp/destinationPath");
-    fm.createSymbolicLinkAtPathWithDestinationPath("/tmp/linkPath","/tmp/destinationPath");
+    fm.createSymbolicLinkAtPathWithDestinationPath("/tmp/linkPath", "/tmp/destinationPath");
     EXPECT_TRUE(fm.fileExistsAtPath("/tmp/linkPath"));
     fm.removeItemAtPath("/tmp/linkPath");
     fm.removeItemAtPath("/tmp/destinationPath");
@@ -163,7 +163,7 @@ TEST(FileManagerTest, CreateHardLinkAtPathWithDestinationPathTest)
 {
     FileManager fm;
     fm.createFileAtPath("/tmp/destinationPath");
-    fm.createHardLinkAtPathWithDestinationPath("/tmp/linkPath","/tmp/destinationPath");
+    fm.createHardLinkAtPathWithDestinationPath("/tmp/linkPath", "/tmp/destinationPath");
     EXPECT_TRUE(fm.fileExistsAtPath("/tmp/linkPath"));
     fm.removeItemAtPath("/tmp/linkPath");
     fm.removeItemAtPath("/tmp/destinationPath");

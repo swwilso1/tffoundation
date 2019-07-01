@@ -38,7 +38,7 @@ namespace TF
             // The controller type has elements that do not have copy constructors or
             // assignment operators.   So, in order to copy around a controller, we just
             // make one instances per thread and copy a pointer to it.
-            controller = std::make_shared<thread_controller_type >(false);
+            controller = std::make_shared<thread_controller_type>(false);
         }
 
         AlarmCenter::AlarmEntry::AlarmEntry(const AlarmEntry &e)
@@ -48,7 +48,7 @@ namespace TF
         }
 
 
-        AlarmCenter::AlarmEntry& AlarmCenter::AlarmEntry::operator=(const AlarmEntry &e)
+        AlarmCenter::AlarmEntry &AlarmCenter::AlarmEntry::operator=(const AlarmEntry &e)
         {
             if(this != &e)
             {
@@ -59,7 +59,7 @@ namespace TF
             return *this;
         }
 
-        std::ostream& AlarmCenter::AlarmEntry::description(std::ostream &o) const
+        std::ostream &AlarmCenter::AlarmEntry::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -72,7 +72,7 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const AlarmCenter::AlarmEntry &e)
+        std::ostream &operator<<(std::ostream &o, const AlarmCenter::AlarmEntry &e)
         {
             return e.description(o);
         }
@@ -85,7 +85,7 @@ namespace TF
 
         AlarmCenter::pointer AlarmCenter::defaultCenter()
         {
-            if(! initializedCenter)
+            if(!initializedCenter)
             {
                 // Use new here (rather than std::make_shared),because AlarmCenter
                 // constructor is a private class member.
@@ -105,8 +105,7 @@ namespace TF
             // around (std::thread doesn't support copy construction or assignment operations).
             // Use a lambda function to run the alarm thread.   Make sure to copy entry d, r, and
             // l in the lambda rather than use a reference.
-            entry.thread = std::shared_ptr<std::thread>(new std::thread([this,entry,d,r,l](){
-
+            entry.thread = std::shared_ptr<std::thread>(new std::thread([this, entry, d, r, l]() {
                 // Assume the provided date is some time in the future.  So we calculate how long to
                 // wait till we reach that time from now.
                 auto timeToWait = d - date_type();
@@ -134,7 +133,7 @@ namespace TF
             // state otherwise and if it has not finished throws an exception.
             entry.thread->detach();
 
-            alarmMap.insert(std::make_pair(l,entry));
+            alarmMap.insert(std::make_pair(l, entry));
         }
 
 
@@ -153,13 +152,13 @@ namespace TF
         }
 
 
-        std::ostream& AlarmCenter::description(std::ostream& o) const
+        std::ostream &AlarmCenter::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
             {
                 formatter->setClassName("AlarmCenter");
-                formatter->addClassMember<map_type>("alarmMap",alarmMap);
+                formatter->addClassMember<map_type>("alarmMap", alarmMap);
                 formatter->addClassMember<bool>("initializedCenter", initializedCenter);
                 o << *formatter;
                 delete formatter;
@@ -168,12 +167,11 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const AlarmCenter &c)
+        std::ostream &operator<<(std::ostream &o, const AlarmCenter &c)
         {
             return c.description(o);
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

@@ -31,35 +31,30 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		std::ostream& ThreadController::description(std::ostream &o)
-			const
-		{
-			ClassFormatter *formatter = FormatterFactory::getFormatter();
-			if(formatter != nullptr)
-			{
-				formatter->setClassName("ThreadController");
-				formatter->addClassMember<bool>("theSignal",
-					theSignal);
-				formatter->addClassMember<bool>("autoReset",
-					autoReset);
-				formatter->addClassMember<bool>("theStop", theStop);
-				o << *formatter;
-				delete formatter;
-			}
-			return o;
-		}
-		
-		
-		std::ostream& operator<<(std::ostream &o,
-			const ThreadController &c)
-		{
-			return c.description(o);
-		}
+        std::ostream &ThreadController::description(std::ostream &o) const
+        {
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
+            if(formatter != nullptr)
+            {
+                formatter->setClassName("ThreadController");
+                formatter->addClassMember<bool>("theSignal", theSignal);
+                formatter->addClassMember<bool>("autoReset", autoReset);
+                formatter->addClassMember<bool>("theStop", theStop);
+                o << *formatter;
+                delete formatter;
+            }
+            return o;
+        }
 
-	} // Foundation
 
-} // TF
+        std::ostream &operator<<(std::ostream &o, const ThreadController &c)
+        {
+            return c.description(o);
+        }
 
+    }    // namespace Foundation
+
+}    // namespace TF

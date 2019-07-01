@@ -69,7 +69,6 @@ namespace TF
         class NotificationCenter : public AllocatorInterface
         {
         public:
-
             /** @brief notification label type */
             using label_type = String;
 
@@ -109,7 +108,7 @@ namespace TF
              * removed at some later point.
              */
             void registerForNotificationFromSender(const label_type &label, sender_type sender,
-                                                  const label_type &cblabel, callback_type callback);
+                                                   const label_type &cblabel, callback_type callback);
 
 
             /**
@@ -118,9 +117,7 @@ namespace TF
              * @param cblabel the handler label
              * @param callback the callback handler to call to handle the notification.
              */
-            void registerForNotification(const label_type &label, const label_type &cblabel,
-                                         callback_type callback);
-
+            void registerForNotification(const label_type &label, const label_type &cblabel, callback_type callback);
 
 
             void removeRegistrationForNotification(const label_type &label, const label_type &cblabel);
@@ -138,11 +135,10 @@ namespace TF
              * @param o the stream object
              * @return the stream object @e o
              */
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
-            friend void * processNotifications(void *arg);
+            friend void *processNotifications(void *arg);
 
 
             /** @brief list type for list of senders */
@@ -158,7 +154,9 @@ namespace TF
                 callback_type handler;
                 sender_list_type senders;
 
-                HandlerEntry() {}
+                HandlerEntry()
+                {
+                }
 
                 HandlerEntry(callback_type h, sender_type s)
                 {
@@ -253,10 +251,10 @@ namespace TF
          * @param c the NotificationCenter object
          * @return the stream object @e o
          */
-        std::ostream & operator<<(std::ostream &o, const NotificationCenter &c);
+        std::ostream &operator<<(std::ostream &o, const NotificationCenter &c);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif // TFNOTIFICATIONCENTER_HPP
+#endif    // TFNOTIFICATIONCENTER_HPP

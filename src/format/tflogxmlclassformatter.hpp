@@ -33,19 +33,17 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		class LogXMLClassFormatter : public ClassFormatter
-		{
-		public:
+        class LogXMLClassFormatter : public ClassFormatter
+        {
+        public:
+            std::ostream &writeToStream(std::ostream &o) const override;
+        };
 
-			std::ostream& writeToStream(std::ostream &o) const override;
-		};
+    }    // namespace Foundation
 
-	} // Foundation
+}    // namespace TF
 
-} // TF
-
-#endif // TFLOGXMLCLASSFORMATTER_HPP
-
+#endif    // TFLOGXMLCLASSFORMATTER_HPP

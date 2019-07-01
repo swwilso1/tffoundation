@@ -51,7 +51,6 @@ namespace TF
         class DateFormatter : public AllocatorInterface
         {
         public:
-
             using symbol = DateSymbol<Clock>;
 
             using date = Date<Clock>;
@@ -70,10 +69,9 @@ namespace TF
 
             string_type stringFromDate(const date &d);
 
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
             using queue_type = std::deque<DateSymbol<Clock> *>;
 
             using stack_type = std::stack<DateSymbol<Clock> *, queue_type>;
@@ -83,18 +81,18 @@ namespace TF
             void processDateFormat(const string_type &f);
 
             void addValueToComponentsForSymbol(const string_type &value, DateComponents<Clock> &components,
-                DateSymbol<Clock> *symbol);
+                                               DateSymbol<Clock> *symbol);
 
             queue_type queue;
 
             string_type formatString;
         };
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 
 #include "tfdateformatter.cxx"
 
-#endif //TFDATEFORMATTER_HXX
+#endif    // TFDATEFORMATTER_HXX

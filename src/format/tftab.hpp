@@ -38,70 +38,80 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		class Tab : public AllocatorInterface
-		{
-		public:
+        class Tab : public AllocatorInterface
+        {
+        public:
+            /** @brief simple string type */
+            using string_type = std::string;
 
-			/** @brief simple string type */
-			using string_type = std::string;
+            /** @brief simple size type */
+            using size_type = Size_t;
 
-			/** @brief simple size type */
-			using size_type = Size_t;
+            /** @brief default constructor */
+            Tab()
+            {
+                tabs = 1;
+                tabWidth = 4;
+            }
 
-			/** @brief default constructor */
-			Tab() { tabs = 1; tabWidth = 4; }
+            /**
+             *  @brief constructor with number of tabs.
+             *  @param t the number of tabs.
+             */
+            Tab(const size_type &t)
+            {
+                tabs = t;
+            }
 
-			/**
-			 *  @brief constructor with number of tabs.
-			 *  @param t the number of tabs.
-			 */
-			Tab(const size_type &t) { tabs = t; }
+            /**
+             *  @brief constructor with number of tabs and tab width.
+             *  @param t the number of tabs.
+             *  @param w the width of each tab in spaces.
+             */
+            Tab(const size_type &t, const size_type &w)
+            {
+                tabs = t;
+                tabWidth = w;
+            }
 
-			/**
-			 *  @brief constructor with number of tabs and tab width.
-			 *  @param t the number of tabs.
-			 *  @param w the width of each tab in spaces.
-			 */
-			Tab(const size_type &t, const size_type &w)
-			{ tabs = t; tabWidth = w; }
+            string_type str() const
+            {
+                std::stringstream collector;
+                for(size_type i = 0; i < (tabs * tabWidth); i++)
+                    collector << " ";
+                return collector.str();
+            }
 
-			string_type str() const
-			{
-				std::stringstream collector;
-				for (size_type i = 0; i < (tabs * tabWidth); i++) collector << " ";
-				return collector.str();
-			}
+            size_type size(void) const
+            {
+                return tabs * tabWidth;
+            }
 
-			size_type size(void) const { return tabs * tabWidth; }
+            std::ostream &writeToStream(std::ostream &o) const
+            {
+                o << str();
+                return o;
+            }
 
-			std::ostream& writeToStream(std::ostream &o) const
-			{
-				o << str();
-				return o;
-			}
-
-		private:
-
-			size_type tabs;
-			size_type tabWidth;
-
-		};
+        private:
+            size_type tabs;
+            size_type tabWidth;
+        };
 
 
-		/**
-		 *  @brief overloaded operator<< for writing tabs to streams
-		 *  @param o the stream.
-		 *  @param t the tab.
-		 *  @return @e o the stream.
-		 */
-		std::ostream& operator<<(std::ostream &o, const Tab &t);
+        /**
+         *  @brief overloaded operator<< for writing tabs to streams
+         *  @param o the stream.
+         *  @param t the tab.
+         *  @return @e o the stream.
+         */
+        std::ostream &operator<<(std::ostream &o, const Tab &t);
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif // TFTAB_HPP
-
+#endif    // TFTAB_HPP

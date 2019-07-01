@@ -30,20 +30,20 @@ SOFTWARE.
 
 namespace TF
 {
-	namespace Foundation
-	{
-	
-		enum comparison_result
-		{
-			OrderedAscending = -1,
-			OrderedSame,
-			OrderedDescending
-		};
+    namespace Foundation
+    {
 
-		using ComparisonResult = comparison_result;
-	
-	} // Foundation
-	
-}
+        enum comparison_result
+        {
+            OrderedAscending = -1,
+            OrderedSame,
+            OrderedDescending
+        };
+
+        using ComparisonResult = comparison_result;
+
+    }    // namespace Foundation
+
+}    // namespace TF
 
 #endif /* TFCOMPARISON_HPP */

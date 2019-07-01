@@ -53,7 +53,6 @@ namespace TF
         class Notification : public AllocatorInterface
         {
         public:
-
             /** @brief basic string type */
             using string_type = String;
 
@@ -87,7 +86,7 @@ namespace TF
              * @param l the label.
              * @param s the sender.
              */
-             Notification(const notification_label &l, object_type s);
+            Notification(const notification_label &l, object_type s);
 
 
             /**
@@ -102,7 +101,7 @@ namespace TF
              * @brief message constructor without data object or sender
              * @param l the label.
              */
-             Notification(const notification_label &l);
+            Notification(const notification_label &l);
 
 
             /**
@@ -130,7 +129,7 @@ namespace TF
              * @param n the other Notification
              * @return this object updated with the contents of @e n
              */
-            Notification & operator=(const Notification &n);
+            Notification &operator=(const Notification &n);
 
 
             /**
@@ -138,7 +137,7 @@ namespace TF
              * @param n the other Notification
              * @return this object with the exact contents of &e n
              */
-            Notification & operator=(Notification &&n);
+            Notification &operator=(Notification &&n);
 
 
             /**
@@ -161,21 +160,30 @@ namespace TF
              * @brief method to get the notification label
              * @return a copy of the notification label
              */
-            notification_label label() const { return theLabel; }
+            notification_label label() const
+            {
+                return theLabel;
+            }
 
 
             /**
              * @brief method to get the notification data
              * @return a copy of the notification data
              */
-            notification_data data() const { return theData; }
+            notification_data data() const
+            {
+                return theData;
+            }
 
 
             /**
              * @brief method to get the sender object
              * @return the notification sender
              */
-            object_type sender() const { return theSender; }
+            object_type sender() const
+            {
+                return theSender;
+            }
 
 
             /**
@@ -183,10 +191,9 @@ namespace TF
              * @param o the stream object
              * @return the stream object @e o.
              */
-            std::ostream & description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
             /** @brief the label */
             notification_label theLabel;
 
@@ -195,7 +202,6 @@ namespace TF
 
             /** @brief the sender */
             object_type theSender;
-
         };
 
 
@@ -205,10 +211,10 @@ namespace TF
          * @param n the notification object
          * @return @e o the stream object
          */
-        std::ostream & operator<<(std::ostream &o, const Notification &n);
+        std::ostream &operator<<(std::ostream &o, const Notification &n);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif // TFNOTIFICATION_HPP
+#endif    // TFNOTIFICATION_HPP

@@ -35,32 +35,28 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
-	
-		template<
-			class T,
-			class Allocator = std::allocator<T>
-		>
-		class List : public std::list<T, Allocator>
-		{
-		public:
+    namespace Foundation
+    {
 
-			using parent = std::list<T, Allocator>;
+        template<class T, class Allocator = std::allocator<T>>
+        class List : public std::list<T, Allocator>
+        {
+        public:
+            using parent = std::list<T, Allocator>;
 
-			using iterator = typename parent::iterator;
+            using iterator = typename parent::iterator;
 
-			std::ostream& description(std::ostream &o) const;		
-		};
+            std::ostream &description(std::ostream &o) const;
+        };
 
 
-		template<class T, class Allocator = std::allocator<T>>
-		std::ostream& operator<<(std::ostream &o, const List<T, Allocator> &l);
-	
-	} // Foundation
-	
+        template<class T, class Allocator = std::allocator<T>>
+        std::ostream &operator<<(std::ostream &o, const List<T, Allocator> &l);
 
-} // TF
+    }    // namespace Foundation
+
+
+}    // namespace TF
 
 #include "tflist.cxx"
 

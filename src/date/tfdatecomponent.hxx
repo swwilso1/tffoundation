@@ -50,7 +50,6 @@ namespace TF
         class DateComponents : public AllocatorInterface
         {
         public:
-
             using clock = Clock;
 
             using date = Date<clock>;
@@ -93,19 +92,21 @@ namespace TF
             /**
              * @brief destructor
              */
-            ~DateComponents() override {}
+            ~DateComponents() override
+            {
+            }
 
 
             /**
              * @brief assignment operator
              */
-            DateComponents& operator=(const DateComponents &c);
+            DateComponents &operator=(const DateComponents &c);
 
 
             /**
              * @brief rvalue (move) assignment operator
              */
-            DateComponents& operator=(DateComponents &&c);
+            DateComponents &operator=(DateComponents &&c);
 
 
             /**
@@ -243,10 +244,9 @@ namespace TF
             date getDate() const;
 
 
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
             void retrieveComponents(const typename clock::time_point &p);
 
             /**
@@ -261,13 +261,13 @@ namespace TF
         };
 
         template<class Clock>
-        std::ostream& operator<<(std::ostream &o, const DateComponents<Clock> &c);
+        std::ostream &operator<<(std::ostream &o, const DateComponents<Clock> &c);
 
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 #include "tfdatecomponent.cxx"
 
-#endif //TFDATECOMPONENT_HPP
+#endif    // TFDATECOMPONENT_HPP

@@ -44,7 +44,7 @@ namespace TF
         extern "C"
         {
             /** @brief C-style allocator function type */
-            typedef void * (*AllocatorType)(Size_t n);
+            typedef void *(*AllocatorType)(Size_t n);
 
             /** @brief C-style deallocator function type */
             typedef void (*DeallocatorType)(void *p);
@@ -61,11 +61,10 @@ namespace TF
             // Allow the new/delete operators to have access to this interface.
             friend void * ::operator new(TF::Foundation::Size_t s) noexcept(false);
             friend void * ::operator new[](TF::Foundation::Size_t s) noexcept(false);
-            friend void ::operator delete(void *) noexcept;
+            friend void ::operator delete(void *)noexcept;
             friend void ::operator delete[](void *) noexcept;
 
         public:
-
             /** @brief type used to calculate and store memory buffer lengths */
             using size_type = Size_t;
 
@@ -80,7 +79,9 @@ namespace TF
 
             /** @brief virtual destructor. This class anchors a whole chain of classes
              * that need access to the allocators */
-            virtual ~AllocatorInterface() {}
+            virtual ~AllocatorInterface()
+            {
+            }
 
             /**
              *  @brief static method for setting the root allocator function
@@ -131,7 +132,7 @@ namespace TF
              *  @param s the number of bytes to allocate for the new object.
              *  @return a pointer to an object of the new type.
              */
-            void * operator new(size_type s);
+            void *operator new(size_type s);
 
 
             /**
@@ -139,7 +140,7 @@ namespace TF
              *  @param s the number of bytes to allocate for the new array.
              *  @return a pointer to an array of new objects
              */
-            void * operator new[](size_type s);
+            void *operator new[](size_type s);
 
 
             /**
@@ -148,7 +149,7 @@ namespace TF
              *  @param p the byte array to use as the basis for the new object.
              *  @return the pointer to p.
              */
-            void * operator new(size_type s, void *p);
+            void *operator new(size_type s, void *p);
 
 
             /**
@@ -157,7 +158,7 @@ namespace TF
              *  @param p the byte byte array to use as the memory for the new array.
              *  @return the pointer to p.
              */
-            void * operator new[](size_type s, void *p);
+            void *operator new[](size_type s, void *p);
 
 
             /**
@@ -186,7 +187,6 @@ namespace TF
             void operator delete[](void *p, void *q);
 
         private:
-
             /** @brief mutex type */
             using mutex_type = std::mutex;
 
@@ -201,9 +201,8 @@ namespace TF
             static deallocator_type getBlockDeallocator(void);
         };
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif // TFALLOCATORINTERFACE_HPP
-
+#endif    // TFALLOCATORINTERFACE_HPP

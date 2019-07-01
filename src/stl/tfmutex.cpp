@@ -32,28 +32,27 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		std::ostream& Mutex::description(std::ostream &o) const
-		{
-			ClassFormatter *formatter = FormatterFactory::getFormatter();
-			if(formatter != nullptr)
-			{
-				formatter->setClassName("Mutex");
-				o << *formatter;
-				delete formatter;
-			}
-			return o;
-		}
-		
-		
-		std::ostream& operator<<(std::ostream &o, const Mutex &m)
-		{
-			return m.description(o);
-		}
+        std::ostream &Mutex::description(std::ostream &o) const
+        {
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
+            if(formatter != nullptr)
+            {
+                formatter->setClassName("Mutex");
+                o << *formatter;
+                delete formatter;
+            }
+            return o;
+        }
 
-	} // Foundation
 
-} // TF
+        std::ostream &operator<<(std::ostream &o, const Mutex &m)
+        {
+            return m.description(o);
+        }
 
+    }    // namespace Foundation
+
+}    // namespace TF

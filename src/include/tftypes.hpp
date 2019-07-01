@@ -58,15 +58,18 @@ namespace TF
 
             /** @brief default constructor */
             Size() : width(0.0), height(0.0)
-            { }
+            {
+            }
 
             /** @brief lvalue constructor */
             Size(const Float &w, const Float &h) : width(w), height(h)
-            { }
+            {
+            }
 
             /** @brief rvalue constructor */
             Size(const Float &&w, const Float &&h) : width(w), height(h)
-            { }
+            {
+            }
 
             bool operator==(const Size &s) const
             {
@@ -91,15 +94,18 @@ namespace TF
 
             /** @brief default constructor */
             Point() : x(0.0), y(0.0)
-            { }
+            {
+            }
 
             /** @brief lvalue constructor */
             Point(const Float &a, const Float &b) : x(a), y(b)
-            { }
+            {
+            }
 
             /** @brief rvalue constructor */
             Point(const Float &&a, const Float &&b) : x(a), y(b)
-            { }
+            {
+            }
 
 
             bool operator==(const Point &p) const
@@ -125,12 +131,13 @@ namespace TF
 
             /** @brief point/size constructor */
             Rectangle(const Point &p, const Size &s) : origin(p), size(s)
-            { }
+            {
+            }
 
             /** @brief width/height, x/y constructor */
-            Rectangle(const Float &w, const Float &h, const Float &x, const Float &y) :
-                    origin(w, h), size(x, y)
-            { }
+            Rectangle(const Float &w, const Float &h, const Float &x, const Float &y) : origin(w, h), size(x, y)
+            {
+            }
 
 
             bool operator==(const Rectangle &r) const
@@ -156,12 +163,13 @@ namespace TF
 
             /** @brief default constructor */
             Range() : position(0), length(0)
-            { }
+            {
+            }
 
             /** @brief lvalue constructor */
-            Range(const Size_t &p, const Size_t &l) : position(p),
-                                                                        length(l)
-            { }
+            Range(const Size_t &p, const Size_t &l) : position(p), length(l)
+            {
+            }
 
 
             bool operator==(const Range &r) const
@@ -178,8 +186,8 @@ namespace TF
             }
         };
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 #endif /* TFTYPES_HPP */

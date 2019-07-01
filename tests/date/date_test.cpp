@@ -109,8 +109,8 @@ TEST(DateTest, OperatorGreaterThanEqualToTest)
     SystemDate::duration dur(2349239239);
     SystemDate d(dur);
     SystemDate e(dur + SystemDate::duration(10));
-    EXPECT_TRUE( e >= d);
-    EXPECT_TRUE( e >= (d + SystemDate::duration(10)));
+    EXPECT_TRUE(e >= d);
+    EXPECT_TRUE(e >= (d + SystemDate::duration(10)));
 }
 
 
@@ -166,7 +166,7 @@ TEST(DateTest, DateMinusTest)
 }
 
 
-//TEST(DateTest, OstreamTest)
+// TEST(DateTest, OstreamTest)
 //{
 //    SystemDate d;
 //    std::cout << d << std::endl;

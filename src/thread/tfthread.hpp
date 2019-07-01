@@ -40,69 +40,66 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
-	
-		class ThreadID;
+    namespace Foundation
+    {
 
-		extern "C"
-		{
-			typedef void * (*thread_function)(void *);
-		}
+        class ThreadID;
 
-		class Thread : public AllocatorInterface
-		{
-		public:
+        extern "C"
+        {
+            typedef void *(*thread_function)(void *);
+        }
 
-			using id = ThreadID;
+        class Thread : public AllocatorInterface
+        {
+        public:
+            using id = ThreadID;
 
-			using native_handle_type = pthread_t;
+            using native_handle_type = pthread_t;
 
-			using thread_function_type = thread_function;
+            using thread_function_type = thread_function;
 
-			Thread();
+            Thread();
 
-			Thread(Thread &&t);
+            Thread(Thread &&t);
 
-			Thread(thread_function_type f, void *arg);
+            Thread(thread_function_type f, void *arg);
 
-			Thread(const Thread &t) = delete;
+            Thread(const Thread &t) = delete;
 
-			~Thread();
+            ~Thread();
 
-			Thread& operator=(Thread &&t);
+            Thread &operator=(Thread &&t);
 
-			bool joinable() const;
+            bool joinable() const;
 
-			id get_id() const;
+            id get_id() const;
 
-			native_handle_type native_handle();
+            native_handle_type native_handle();
 
-			static unsigned hardware_concurrency();
+            static unsigned hardware_concurrency();
 
-			void join();
+            void join();
 
-			void detach();
+            void detach();
 
-			void swap(Thread &t);
+            void swap(Thread &t);
 
-			std::ostream& description(std::ostream &o) const;
-
-
-		private:
-
-			native_handle_type nativeHandle;
-			bool handleValid;
-
-		};
+            std::ostream &description(std::ostream &o) const;
 
 
-		std::ostream& operator<<(std::ostream &o, const Thread &t);
+        private:
+            native_handle_type nativeHandle;
+            bool handleValid;
+        };
 
-	} // Foundation
-	
 
-} // TF
+        std::ostream &operator<<(std::ostream &o, const Thread &t);
+
+    }    // namespace Foundation
+
+
+}    // namespace TF
 
 
 #endif /* TFTHREAD_HPP */

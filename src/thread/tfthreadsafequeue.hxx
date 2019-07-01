@@ -39,112 +39,108 @@ SOFTWARE.
 
 namespace TF
 {
-	
-	namespace Foundation
-	{
 
-		/**
-		 * @brief The ThreadSafeQueue class provides a container
-		 * that gives queue semantics while also providing thread
-		 * safety.  This means that multiple threads can access the
-		 * queue simultaneously without causing data corruption
-		 */
-		template<class T, class Container = std::deque<T>>
-		class ThreadSafeQueue : public AllocatorInterface
-		{
-		public:
+    namespace Foundation
+    {
 
-			using container_type = Container;
-			
-			using value_type = typename Container::value_type;
-			
-			using size_type = typename Container::size_type;
-			
-			using reference = typename Container::reference;
-			
-			using const_reference = typename Container::const_reference;
-			
-			ThreadSafeQueue() {}
+        /**
+         * @brief The ThreadSafeQueue class provides a container
+         * that gives queue semantics while also providing thread
+         * safety.  This means that multiple threads can access the
+         * queue simultaneously without causing data corruption
+         */
+        template<class T, class Container = std::deque<T>>
+        class ThreadSafeQueue : public AllocatorInterface
+        {
+        public:
+            using container_type = Container;
 
-			explicit ThreadSafeQueue(const container_type &container);
+            using value_type = typename Container::value_type;
 
-			ThreadSafeQueue(const ThreadSafeQueue &other);
-			
-			ThreadSafeQueue(ThreadSafeQueue &&other);
-			
-			~ThreadSafeQueue();
-			
-			ThreadSafeQueue& operator=(const ThreadSafeQueue &other);
-			
-			ThreadSafeQueue& operator=(ThreadSafeQueue &&other);
-			
-			bool operator==(const ThreadSafeQueue &other) const;
-			
-			bool operator!=(const ThreadSafeQueue &other) const;
-			
-			bool operator<(const ThreadSafeQueue &other) const;
-			
-			bool operator<=(const ThreadSafeQueue &other) const;
-			
-			bool operator>=(const ThreadSafeQueue &other) const;
-			
-			bool operator>(const ThreadSafeQueue &other) const;
-			
-			reference front();
-			
-			const_reference front() const;
-			
-			reference back();
-			
-			const_reference back() const;
-			
-			bool empty() const;
-			
-			size_type size() const;
-			
-			void push(const value_type &v);
-			
-			void push(value_type &&v);
-			
-			template<typename... Args>
-			void emplace(Args&&... args)
-			{
-				lock_guard_type guard(theMutex);
-				theQueue.emplace(args...);
-			}
+            using size_type = typename Container::size_type;
 
-			void pop();
-			
-			void swap(ThreadSafeQueue &other);
-			
-			std::ostream& description(std::ostream &o) const;
-			
-		private:
-		
-			using queue_type = Queue<T, Container>;
-			
-			using mutex_type = Mutex;
-			
-			using lock_guard_type = std::lock_guard<mutex_type>;
-			
-			queue_type theQueue;
+            using reference = typename Container::reference;
 
-			mutex_type theMutex;
+            using const_reference = typename Container::const_reference;
 
-		};
-		
-		
-		template<class T, class Container = std::deque<T>>
-		std::ostream& operator<<(std::ostream &o,
-			const ThreadSafeQueue<T, Container> &q);
+            ThreadSafeQueue()
+            {
+            }
+
+            explicit ThreadSafeQueue(const container_type &container);
+
+            ThreadSafeQueue(const ThreadSafeQueue &other);
+
+            ThreadSafeQueue(ThreadSafeQueue &&other);
+
+            ~ThreadSafeQueue();
+
+            ThreadSafeQueue &operator=(const ThreadSafeQueue &other);
+
+            ThreadSafeQueue &operator=(ThreadSafeQueue &&other);
+
+            bool operator==(const ThreadSafeQueue &other) const;
+
+            bool operator!=(const ThreadSafeQueue &other) const;
+
+            bool operator<(const ThreadSafeQueue &other) const;
+
+            bool operator<=(const ThreadSafeQueue &other) const;
+
+            bool operator>=(const ThreadSafeQueue &other) const;
+
+            bool operator>(const ThreadSafeQueue &other) const;
+
+            reference front();
+
+            const_reference front() const;
+
+            reference back();
+
+            const_reference back() const;
+
+            bool empty() const;
+
+            size_type size() const;
+
+            void push(const value_type &v);
+
+            void push(value_type &&v);
+
+            template<typename... Args>
+            void emplace(Args &&... args)
+            {
+                lock_guard_type guard(theMutex);
+                theQueue.emplace(args...);
+            }
+
+            void pop();
+
+            void swap(ThreadSafeQueue &other);
+
+            std::ostream &description(std::ostream &o) const;
+
+        private:
+            using queue_type = Queue<T, Container>;
+
+            using mutex_type = Mutex;
+
+            using lock_guard_type = std::lock_guard<mutex_type>;
+
+            queue_type theQueue;
+
+            mutex_type theMutex;
+        };
 
 
+        template<class T, class Container = std::deque<T>>
+        std::ostream &operator<<(std::ostream &o, const ThreadSafeQueue<T, Container> &q);
 
-	} // Foundation
 
-} // TF
+    }    // namespace Foundation
+
+}    // namespace TF
 
 #include "tfthreadsafequeue.cxx"
 
-#endif // TFTHREADSAFEQUEUE_HXX
-
+#endif    // TFTHREADSAFEQUEUE_HXX

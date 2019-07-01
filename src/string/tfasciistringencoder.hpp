@@ -39,103 +39,118 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		class ASCIIStringEncoder : public StringEncoder
-		{
-		public:
-			using parent_type = StringEncoder;
+        class ASCIIStringEncoder : public StringEncoder
+        {
+        public:
+            using parent_type = StringEncoder;
 
-			using size_type = parent_type::size_type;
+            using size_type = parent_type::size_type;
 
-			using range_type = parent_type::range_type;
+            using range_type = parent_type::range_type;
 
-			using range_array_type = parent_type::range_array_type;
+            using range_array_type = parent_type::range_array_type;
 
-			using byte_order_query_type = parent_type::byte_order_query_type;
+            using byte_order_query_type = parent_type::byte_order_query_type;
 
-			using data_type = char;
+            using data_type = char;
 
-			~ASCIIStringEncoder();
+            ~ASCIIStringEncoder();
 
-			StringEncoder * clone(void) override;
+            StringEncoder *clone(void) override;
 
-			size_type basicCodeLengthInBytes(void) override;
+            size_type basicCodeLengthInBytes(void) override;
 
-			bool hasFixedCodeLength(void) override;
+            bool hasFixedCodeLength(void) override;
 
-			size_type numberOfBytesRequiredForLargestCharacterValue(void) override;
+            size_type numberOfBytesRequiredForLargestCharacterValue(void) override;
 
-			bool canUseByteOrderMark(void) override;
+            bool canUseByteOrderMark(void) override;
 
-			bool usesByteOrderMark(void) override;
+            bool usesByteOrderMark(void) override;
 
-			size_type lengthOfByteOrderMarkInBytes(void) override;
+            size_type lengthOfByteOrderMarkInBytes(void) override;
 
-			void writeByteOrderMark(char_type *start, size_type length) override;
+            void writeByteOrderMark(char_type *start, size_type length) override;
 
-			byte_order_query_type hasByteOrderMark(const char_type *start, size_type length) override;
-			
-			size_type numberOfCharacters(const char_type *start, size_type length) override;
+            byte_order_query_type hasByteOrderMark(const char_type *start, size_type length) override;
 
-			bool checkStringForCorrectness(const char_type *start, size_type length) override;
+            size_type numberOfCharacters(const char_type *start, size_type length) override;
 
-			std::pair<unicode_point_type, size_type> nextCodePoint(const char_type *start, size_type length, Endian endian) override;
+            bool checkStringForCorrectness(const char_type *start, size_type length) override;
 
-			std::pair<unicode_point_type, size_type> nextCode(const char_type *start, size_type length, Endian endian) override;
+            std::pair<unicode_point_type, size_type> nextCodePoint(const char_type *start, size_type length,
+                                                                   Endian endian) override;
 
-			unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type *start, size_type length, size_type index) override;
+            std::pair<unicode_point_type, size_type> nextCode(const char_type *start, size_type length,
+                                                              Endian endian) override;
 
-			size_type bytesNeededForRepresentationOfCode(unicode_point_type code) override;
+            unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type *start, size_type length,
+                                                                   size_type index) override;
 
-			size_type encodeCodePoint(char_type *start, size_type length, unicode_point_type code, Endian endian) override;
+            size_type bytesNeededForRepresentationOfCode(unicode_point_type code) override;
 
-			size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length, size_type index) override;
+            size_type encodeCodePoint(char_type *start, size_type length, unicode_point_type code,
+                                      Endian endian) override;
 
-			size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
-				const range_type& range) override;
+            size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length,
+                                                            size_type index) override;
 
-			bool containsCharacterWithZeroValue(const char_type *start, size_type length) override;
+            size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
+                                                              const range_type &range) override;
 
-			bool containsCharacterNotInASCIIRange(const char_type *start, size_type length) override;
+            bool containsCharacterWithZeroValue(const char_type *start, size_type length) override;
 
-			range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength) override;
-			
-			range_array_type findByteRangesOfSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength) override;
+            bool containsCharacterNotInASCIIRange(const char_type *start, size_type length) override;
 
-			range_type findCharacterRangeForSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength) override;
+            range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
+                                                        const char_type *substringStart,
+                                                        size_type substringLength) override;
 
-			range_array_type findCharacterRangesForSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength) override;
+            range_array_type findByteRangesOfSubstringInString(const char_type *stringStart, size_type stringLength,
+                                                               const char_type *substringStart,
+                                                               size_type substringLength) override;
 
-			range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength) override;
-			
-			void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase) override;
+            range_type findCharacterRangeForSubstringInString(const char_type *stringStart, size_type stringLength,
+                                                              const char_type *substringStart,
+                                                              size_type substringLength) override;
 
-			size_type computeArraySizeInBytesForStringByReplacingSubstrings(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength, 
-				const char_type *replaceStringStart, size_type replaceStringLength, range_array_type& ranges) override;
-			
-			void replaceOccurancesOfStringWithString(const char_type *originalStringStart, size_type originalStringLength, 
-				char_type *newStringStart, size_type newStringLength, const char_type *replacementStringStart,
-				size_type replacementStringLength, range_array_type& substringRanges) override;
+            range_array_type findCharacterRangesForSubstringInString(const char_type *stringStart,
+                                                                     size_type stringLength,
+                                                                     const char_type *substringStart,
+                                                                     size_type substringLength) override;
 
-			unicode_point_type correctValueForPlatform(const char_type *start, size_type length, Endian endian) override;
+            range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type *stringStart,
+                                                                                    size_type stringLength,
+                                                                                    const char_type *substringStart,
+                                                                                    size_type substringLength) override;
 
-			bool operator==(const StringEncoder& e) override;
-			
-			std::ostream& description(std::ostream& o) const override;
+            void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase) override;
 
-		};
+            size_type computeArraySizeInBytesForStringByReplacingSubstrings(
+                const char_type *stringStart, size_type stringLength, const char_type *substringStart,
+                size_type substringLength, const char_type *replaceStringStart, size_type replaceStringLength,
+                range_array_type &ranges) override;
 
-	} // Foundation
+            void replaceOccurancesOfStringWithString(const char_type *originalStringStart,
+                                                     size_type originalStringLength, char_type *newStringStart,
+                                                     size_type newStringLength, const char_type *replacementStringStart,
+                                                     size_type replacementStringLength,
+                                                     range_array_type &substringRanges) override;
 
-} // TF
+            unicode_point_type correctValueForPlatform(const char_type *start, size_type length,
+                                                       Endian endian) override;
+
+            bool operator==(const StringEncoder &e) override;
+
+            std::ostream &description(std::ostream &o) const override;
+        };
+
+    }    // namespace Foundation
+
+}    // namespace TF
 
 
 #endif /* TFASCIISTRINGENCODER_HPP */

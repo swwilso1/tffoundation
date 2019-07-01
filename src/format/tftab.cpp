@@ -30,14 +30,14 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		std::ostream& operator<<(std::ostream &o, const Tab &t)
-		{
-			return t.writeToStream(o);
-		}
+        std::ostream &operator<<(std::ostream &o, const Tab &t)
+        {
+            return t.writeToStream(o);
+        }
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF

@@ -35,23 +35,21 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
-	
-		class Mutex : public std::mutex
-		{
-		public:
-		
-			using parent = std::mutex;
-			
-			std::ostream& description(std::ostream &o) const;
-		};
+    namespace Foundation
+    {
 
-		std::ostream& operator<<(std::ostream &o, const Mutex &m);
+        class Mutex : public std::mutex
+        {
+        public:
+            using parent = std::mutex;
 
-	} // Foundation
+            std::ostream &description(std::ostream &o) const;
+        };
 
-} // TF
+        std::ostream &operator<<(std::ostream &o, const Mutex &m);
 
-#endif // TFMUTEX_HPP
+    }    // namespace Foundation
 
+}    // namespace TF
+
+#endif    // TFMUTEX_HPP

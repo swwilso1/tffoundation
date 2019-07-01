@@ -34,7 +34,7 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream& operator<<(std::ostream &o, const DayOfWeek &d)
+        std::ostream &operator<<(std::ostream &o, const DayOfWeek &d)
         {
             switch(d)
             {
@@ -65,7 +65,7 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const MonthOfYear &m)
+        std::ostream &operator<<(std::ostream &o, const MonthOfYear &m)
         {
             switch(m)
             {
@@ -111,7 +111,7 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const HalfOfDay &h)
+        std::ostream &operator<<(std::ostream &o, const HalfOfDay &h)
         {
             switch(h)
             {
@@ -127,7 +127,7 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const struct tm &t)
+        std::ostream &operator<<(std::ostream &o, const struct tm &t)
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -149,8 +149,6 @@ namespace TF
         }
 
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
-
+}    // namespace TF

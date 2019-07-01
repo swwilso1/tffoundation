@@ -30,6 +30,4 @@ SOFTWARE.
 
 #cmakedefine SKIP_CXX_ALLOCATORS
 
-#endif // TFUSEALLOCATOR_HPP
-
-
+#endif    // TFUSEALLOCATOR_HPP

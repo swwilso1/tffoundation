@@ -29,7 +29,7 @@ SOFTWARE.
 #include "tfcxxallocator.hpp"
 
 
-void * operator new(TF::Foundation::Size_t s) noexcept(false)
+void *operator new(TF::Foundation::Size_t s) noexcept(false)
 {
     auto allocator = TF::Foundation::AllocatorInterface::getBlockAllocator();
     if(allocator != nullptr)
@@ -43,7 +43,7 @@ void * operator new(TF::Foundation::Size_t s) noexcept(false)
 }
 
 
-void * operator new[](TF::Foundation::Size_t s) noexcept(false)
+void *operator new[](TF::Foundation::Size_t s) noexcept(false)
 {
     auto allocator = TF::Foundation::AllocatorInterface::getBlockAllocator();
     if(allocator != nullptr)
@@ -81,4 +81,3 @@ void operator delete[](void *p) noexcept
         deallocator(p);
     }
 }
-

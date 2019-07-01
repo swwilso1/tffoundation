@@ -31,48 +31,48 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		std::ostream& XMLClassFormatter::writeToStream(std::ostream &o) const
-		{
-			o << std::endl << Tab(indentLevel, tabWidth) << "<" << className;
-			if(classTemplateList.size() > 0)
-			{
-				size_type i = 0;
-				size_type max = classTemplateList.size();
-				o << " template_types=\"";
-				for(auto templateType : classTemplateList)
-				{
-					o << templateType;
-					if(i++ < (max - 1))
-						o << ",";
-				}
-				o << "\"";
-			}
-			o << ">";
-			indentLevel++;
-			for(auto member : classMemberList)
-			{
-				string_type theValue = member->value();
-				bool doIndent = theValue.find("\n") != string_type::npos ? true : false;
-				o << std::endl << Tab(indentLevel, tabWidth);
-				o << "<" << member->name() << " type=\"" << member->type() << "\">";
-				if(doIndent)
-					indentLevel++;
-				o << member->value();
-				if(doIndent)
-				{
-					indentLevel--;
-					o << std::endl << Tab(indentLevel, tabWidth);
-				}
-				o << "</" << member->name() << ">";
-			}
-			indentLevel--;
-			o << std::endl << Tab(indentLevel, tabWidth) << "</" << className << ">";
-			return o;
-		}
+        std::ostream &XMLClassFormatter::writeToStream(std::ostream &o) const
+        {
+            o << std::endl << Tab(indentLevel, tabWidth) << "<" << className;
+            if(classTemplateList.size() > 0)
+            {
+                size_type i = 0;
+                size_type max = classTemplateList.size();
+                o << " template_types=\"";
+                for(auto templateType : classTemplateList)
+                {
+                    o << templateType;
+                    if(i++ < (max - 1))
+                        o << ",";
+                }
+                o << "\"";
+            }
+            o << ">";
+            indentLevel++;
+            for(auto member : classMemberList)
+            {
+                string_type theValue = member->value();
+                bool doIndent = theValue.find("\n") != string_type::npos ? true : false;
+                o << std::endl << Tab(indentLevel, tabWidth);
+                o << "<" << member->name() << " type=\"" << member->type() << "\">";
+                if(doIndent)
+                    indentLevel++;
+                o << member->value();
+                if(doIndent)
+                {
+                    indentLevel--;
+                    o << std::endl << Tab(indentLevel, tabWidth);
+                }
+                o << "</" << member->name() << ">";
+            }
+            indentLevel--;
+            o << std::endl << Tab(indentLevel, tabWidth) << "</" << className << ">";
+            return o;
+        }
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF

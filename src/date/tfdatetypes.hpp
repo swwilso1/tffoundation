@@ -50,7 +50,7 @@ namespace TF
         };
 
 
-        std::ostream& operator<<(std::ostream &o, const DayOfWeek &d);
+        std::ostream &operator<<(std::ostream &o, const DayOfWeek &d);
 
 
         enum class MonthOfYear
@@ -70,7 +70,7 @@ namespace TF
         };
 
 
-        std::ostream& operator<<(std::ostream& o, const MonthOfYear &m);
+        std::ostream &operator<<(std::ostream &o, const MonthOfYear &m);
 
 
         enum class HalfOfDay
@@ -80,13 +80,13 @@ namespace TF
         };
 
 
-        std::ostream& operator<<(std::ostream &o, const HalfOfDay &h);
+        std::ostream &operator<<(std::ostream &o, const HalfOfDay &h);
 
 
-        std::ostream& operator<<(std::ostream &o, const struct tm &t);
+        std::ostream &operator<<(std::ostream &o, const struct tm &t);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif //TFDATETYPES_HPP
+#endif    // TFDATETYPES_HPP

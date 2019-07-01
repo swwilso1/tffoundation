@@ -33,9 +33,9 @@ using namespace TF::Foundation;
 
 TEST(DataTest, DefaultConstructorTest)
 {
-	Data d;
-	EXPECT_EQ(0,d.length());
-	EXPECT_EQ(nullptr,d.bytes());
+    Data d;
+    EXPECT_EQ(0, d.length());
+    EXPECT_EQ(nullptr, d.bytes());
 }
 
 
@@ -44,371 +44,368 @@ TEST(DataTest, DefaultConstructorTest)
 
 TEST(DataTest, ByteConstructorTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
 
-	Data d(data, kDataSize);
+    Data d(data, kDataSize);
 
-	EXPECT_EQ(kDataSize, d.length());
+    EXPECT_EQ(kDataSize, d.length());
 
-	const char *tmp = d.bytes();
+    const char *tmp = d.bytes();
 
-	for(int i = 0; i < d.length(); i++)
-	{
-		EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
-	}
+    for(int i = 0; i < d.length(); i++)
+    {
+        EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
+    }
 }
 
 
 TEST(DataTest, CopyConstructorTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	Data d(data, kDataSize);
+    Data d(data, kDataSize);
 
-	Data copyOfD(d);
+    Data copyOfD(d);
 
-	EXPECT_EQ(d.length(), copyOfD.length());
+    EXPECT_EQ(d.length(), copyOfD.length());
 
-	EXPECT_EQ(kDataSize, copyOfD.length());
+    EXPECT_EQ(kDataSize, copyOfD.length());
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		EXPECT_EQ(d[i], copyOfD[i]);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        EXPECT_EQ(d[i], copyOfD[i]);
+    }
 }
 
 
 TEST(DataTest, RValueConstructorTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	Data d(Data(data, kDataSize));	
+    Data d(Data(data, kDataSize));
 
-	EXPECT_EQ(kDataSize, d.length());
+    EXPECT_EQ(kDataSize, d.length());
 
-	const char *tmp = d.bytes();
+    const char *tmp = d.bytes();
 
-	for(int i = 0; i < d.length(); i++)
-	{
-		EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
-	}
+    for(int i = 0; i < d.length(); i++)
+    {
+        EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
+    }
 }
 
 
 TEST(DataTest, AssignmentOperatorTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	Data d(data, kDataSize);
+    Data d(data, kDataSize);
 
-	Data assignedD = d;
+    Data assignedD = d;
 
-	EXPECT_EQ(kDataSize, assignedD.length());
+    EXPECT_EQ(kDataSize, assignedD.length());
 
-	const char *tmp = assignedD.bytes();
+    const char *tmp = assignedD.bytes();
 
-	for(int i = 0; i < assignedD.length(); i++)
-	{
-		EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
-	}
+    for(int i = 0; i < assignedD.length(); i++)
+    {
+        EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
+    }
 }
 
 
 TEST(DataTest, RValueAssignmentOperatorTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	Data d(Data(data, kDataSize));
+    Data d(Data(data, kDataSize));
 
-	EXPECT_EQ(kDataSize, d.length());
+    EXPECT_EQ(kDataSize, d.length());
 
-	const char *tmp = d.bytes();
+    const char *tmp = d.bytes();
 
-	for(int i = 0; i < d.length(); i++)
-	{
-		EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
-	}
+    for(int i = 0; i < d.length(); i++)
+    {
+        EXPECT_EQ(i, static_cast<unsigned char>(*(tmp + i)));
+    }
 }
 
 
 TEST(DataTest, OperatorEqualTest)
 {
-	char data[kDataSize];
-	char data2[kDataSize];
+    char data[kDataSize];
+    char data2[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-		data2[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+        data2[i] = i;
+    }
 
 
-	Data d(data, kDataSize);
-	Data d2(data2, kDataSize);
-	Data d3;
+    Data d(data, kDataSize);
+    Data d2(data2, kDataSize);
+    Data d3;
 
-	EXPECT_EQ(d, d2);
-	EXPECT_NE(d, d3);
-	EXPECT_NE(d2, d3);
-
+    EXPECT_EQ(d, d2);
+    EXPECT_NE(d, d3);
+    EXPECT_NE(d2, d3);
 }
 
 
 TEST(DataTest, OperatorNotEqualTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	Data d(data, kDataSize);
-	Data other;
+    Data d(data, kDataSize);
+    Data other;
 
-	EXPECT_NE(d, other);
+    EXPECT_NE(d, other);
 }
 
 
 TEST(DataTest, OperatorBracketTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	Data d(data, kDataSize);
+    Data d(data, kDataSize);
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		EXPECT_EQ(d[i],i);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        EXPECT_EQ(d[i], i);
+    }
 }
 
 
 TEST(DataTest, LengthMethodTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	Data d(data, kDataSize);
-	EXPECT_EQ(d.length(), kDataSize);
+    Data d(data, kDataSize);
+    EXPECT_EQ(d.length(), kDataSize);
 }
-
 
 
 TEST(DataTest, BytesMethodTest)
 {
-	char data[kDataSize];
+    char data[kDataSize];
 
-	Data d(data, kDataSize);
+    Data d(data, kDataSize);
 
-	const char *bytes = d.bytes();
+    const char *bytes = d.bytes();
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		EXPECT_EQ(data[i], *(bytes + i));
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        EXPECT_EQ(data[i], *(bytes + i));
+    }
 }
 
 
 TEST(DataTest, AppendByteArrayTest)
 {
-	char data[kDataSize];
-	char data2[kDataSize];
+    char data[kDataSize];
+    char data2[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = data2[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = data2[i] = i;
+    }
 
-	Data d(data,kDataSize);
+    Data d(data, kDataSize);
 
-	d.append(data2, kDataSize);
+    d.append(data2, kDataSize);
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		ASSERT_EQ(d[i],i);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        ASSERT_EQ(d[i], i);
+    }
 
-	for(int i = kDataSize; i < (2 * kDataSize); i++)
-	{
-		ASSERT_EQ(d[i], i - kDataSize);
-	}
+    for(int i = kDataSize; i < (2 * kDataSize); i++)
+    {
+        ASSERT_EQ(d[i], i - kDataSize);
+    }
 }
 
 
 TEST(DataTest, AppendDataObjectTest)
 {
-	char data[kDataSize];
-	char data2[kDataSize];
+    char data[kDataSize];
+    char data2[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = data2[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = data2[i] = i;
+    }
 
-	Data d(data, kDataSize);
-	Data d2(data, kDataSize);
+    Data d(data, kDataSize);
+    Data d2(data, kDataSize);
 
-	d.append(d2);
+    d.append(d2);
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		ASSERT_EQ(d[i],i);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        ASSERT_EQ(d[i], i);
+    }
 
-	for(int i = kDataSize; i < (2 * kDataSize); i++)
-	{
-		ASSERT_EQ(d[i], i - kDataSize);
-	}
+    for(int i = kDataSize; i < (2 * kDataSize); i++)
+    {
+        ASSERT_EQ(d[i], i - kDataSize);
+    }
 }
 
 
 TEST(DataTest, AppendDataMoveTest)
 {
-	char data[kDataSize];
-	char data2[kDataSize];
+    char data[kDataSize];
+    char data2[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = data2[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = data2[i] = i;
+    }
 
-	Data d(data, kDataSize);
+    Data d(data, kDataSize);
 
-	d.append(Data(data2, kDataSize));
+    d.append(Data(data2, kDataSize));
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		ASSERT_EQ(d[i],i);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        ASSERT_EQ(d[i], i);
+    }
 
-	for(int i = kDataSize; i < (2 * kDataSize); i++)
-	{
-		ASSERT_EQ(d[i], i - kDataSize);
-	}	
+    for(int i = kDataSize; i < (2 * kDataSize); i++)
+    {
+        ASSERT_EQ(d[i], i - kDataSize);
+    }
 }
 
 
 TEST(DataTest, PrependByteArrayTest)
 {
-	char data[kDataSize];
-	char data2[kDataSize];
+    char data[kDataSize];
+    char data2[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
-	{
-		data2[i] = j;
-	}
+    for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
+    {
+        data2[i] = j;
+    }
 
-	Data d(data, kDataSize);
+    Data d(data, kDataSize);
 
-	d.prepend(data2, kDataSize);
+    d.prepend(data2, kDataSize);
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		ASSERT_EQ(d[i], kDataSize - i - 1);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        ASSERT_EQ(d[i], kDataSize - i - 1);
+    }
 
-	for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
-	{
-		ASSERT_EQ(d[i], j);
-	}
+    for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
+    {
+        ASSERT_EQ(d[i], j);
+    }
 }
-
 
 
 TEST(DataTest, PrependDataObjectTest)
 {
-	char data[kDataSize];
-	char data2[kDataSize];
+    char data[kDataSize];
+    char data2[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
-	{
-		data2[i] = j;
-	}
+    for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
+    {
+        data2[i] = j;
+    }
 
-	Data d(data, kDataSize);
-	Data d2(data2, kDataSize);
+    Data d(data, kDataSize);
+    Data d2(data2, kDataSize);
 
-	d.prepend(d2);
+    d.prepend(d2);
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		ASSERT_EQ(d[i], kDataSize - i - 1);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        ASSERT_EQ(d[i], kDataSize - i - 1);
+    }
 
-	for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
-	{
-		ASSERT_EQ(d[i], j);
-	}
+    for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
+    {
+        ASSERT_EQ(d[i], j);
+    }
 }
 
 
 TEST(DataTest, PrependDataObjectMoveTest)
 {
-	char data[kDataSize];
-	char data2[kDataSize];
+    char data[kDataSize];
+    char data2[kDataSize];
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		data[i] = i;
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        data[i] = i;
+    }
 
-	for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
-	{
-		data2[i] = j;
-	}
+    for(int i = 0, j = kDataSize - 1; i < kDataSize; i++, j--)
+    {
+        data2[i] = j;
+    }
 
-	Data d(data, kDataSize);
-	d.prepend(Data(data2, kDataSize));
+    Data d(data, kDataSize);
+    d.prepend(Data(data2, kDataSize));
 
-	for(int i = 0; i < kDataSize; i++)
-	{
-		ASSERT_EQ(d[i], kDataSize - i - 1);
-	}
+    for(int i = 0; i < kDataSize; i++)
+    {
+        ASSERT_EQ(d[i], kDataSize - i - 1);
+    }
 
-	for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
-	{
-		ASSERT_EQ(d[i], j);
-	}
+    for(int i = kDataSize, j = 0; i < (2 * kDataSize); i++, j++)
+    {
+        ASSERT_EQ(d[i], j);
+    }
 }
 
 
@@ -432,23 +429,23 @@ TEST(DataTest, SubdataWithRangeTest)
     }
 
 
-    subData = d.subdataWithRange(Range(10,10));
+    subData = d.subdataWithRange(Range(10, 10));
 
     EXPECT_EQ(subData.length(), 10);
 
     for(int i = 10; i < 20; i++)
     {
         // Don't index subData at i, remember subData's indexing goes from 0-9.
-        EXPECT_EQ(subData[i-10], i);
+        EXPECT_EQ(subData[i - 10], i);
     }
 
-    subData = d.subdataWithRange(Range(100,100));
+    subData = d.subdataWithRange(Range(100, 100));
 
     EXPECT_EQ(subData.length(), 100);
 
     for(int i = 100; i < 200; i++)
     {
-        EXPECT_EQ(subData[i-100], i);
+        EXPECT_EQ(subData[i - 100], i);
     }
 }
 
@@ -458,6 +455,6 @@ TEST(DataTest, SubdataWithRangeExceptionTest)
     char data[kDataSize];
     Data d(data, kDataSize);
 
-    EXPECT_ANY_THROW(d.subdataWithRange(Range(kDataSize+1,1)));
-    EXPECT_ANY_THROW(d.subdataWithRange(Range(100,200)));
+    EXPECT_ANY_THROW(d.subdataWithRange(Range(kDataSize + 1, 1)));
+    EXPECT_ANY_THROW(d.subdataWithRange(Range(100, 200)));
 }

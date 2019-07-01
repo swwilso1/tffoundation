@@ -67,15 +67,15 @@ TEST(StringTest, CharacterAtIndexTest)
 TEST(StringTest, CharactersInRangeTest1)
 {
     String s("The large house on the left.");
-    String t = s.getCharactersInRange(Range(0,1));
-    EXPECT_EQ(t,"T");
+    String t = s.getCharactersInRange(Range(0, 1));
+    EXPECT_EQ(t, "T");
 }
 
 
 TEST(StringTest, CharactersInRangeTest2)
 {
     String s("The large house on the left.");
-    String t = s.getCharactersInRange(Range(0,10));
+    String t = s.getCharactersInRange(Range(0, 10));
     EXPECT_EQ(t, "The large ");
 }
 
@@ -93,8 +93,5 @@ TEST(StringTest, CharactersInRangeTest4)
     String s = String::initWithASCIIEncodedUnicode("The large ho\\:000129use on the left.");
     String t = s.getCharactersInRange(Range(5, 10));
     String u = String::initWithASCIIEncodedUnicode("arge ho\\:000129us");
-    EXPECT_EQ(t,u);
+    EXPECT_EQ(t, u);
 }
-
-
-

@@ -54,7 +54,6 @@ namespace TF
         class ArrayIterator : public AllocatorInterface
         {
         public:
-
             /** @brief type of data contained in the array iterator */
             using value_type = T;
 
@@ -97,13 +96,13 @@ namespace TF
             /**
              * @brief assignment operator
              */
-            ArrayIterator& operator=(const ArrayIterator &i);
+            ArrayIterator &operator=(const ArrayIterator &i);
 
 
             /**
              * @brief rvalue assignment operator
              */
-            ArrayIterator& operator=(ArrayIterator &&i);
+            ArrayIterator &operator=(ArrayIterator &&i);
 
 
             /**
@@ -153,7 +152,7 @@ namespace TF
             /**
              * @brief prefix increment operator
              */
-            ArrayIterator& operator++();
+            ArrayIterator &operator++();
 
 
             /**
@@ -165,7 +164,7 @@ namespace TF
             /**
              * @brief prefix decrement operator
              */
-            ArrayIterator& operator--();
+            ArrayIterator &operator--();
 
 
             /**
@@ -188,13 +187,13 @@ namespace TF
             /**
              * @brief operator +=
              */
-            ArrayIterator& operator+=(int i);
+            ArrayIterator &operator+=(int i);
 
 
             /**
              * @brief operator-=
              */
-            ArrayIterator& operator-=(int i);
+            ArrayIterator &operator-=(int i);
 
 
             /**
@@ -206,7 +205,7 @@ namespace TF
             /**
              * @brief pointer access operator
              */
-            value_type * operator->();
+            value_type *operator->();
 
 
             /**
@@ -214,11 +213,10 @@ namespace TF
              * @param o the stream object
              * @return @e o the stream object
              */
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
 
         private:
-
             enum class ArrayIteratorKind
             {
                 Normal,
@@ -230,9 +228,7 @@ namespace TF
             Array<value_type> theArray;
             size_type theLocation;
             iterator_kind theKind;
-
         };
-
 
 
         /**
@@ -243,7 +239,7 @@ namespace TF
          * @return @e o the stream object
          */
         template<class T>
-        std::ostream& operator<<(std::ostream &o, const ArrayIterator<T> &i);
+        std::ostream &operator<<(std::ostream &o, const ArrayIterator<T> &i);
 
 
         /**
@@ -256,7 +252,6 @@ namespace TF
             friend class ArrayIterator<T>;
 
         public:
-
             /** @brief type of data contained in the array */
             using value_type = T;
 
@@ -337,7 +332,7 @@ namespace TF
              *
              * Overwrites each element with the elements from the @e a array.
              */
-            Array& operator=(const Array &a);
+            Array &operator=(const Array &a);
 
 
             /**
@@ -345,7 +340,7 @@ namespace TF
              * @param a the other array.
              * @return this array object with the stolen contents of @e a.
              */
-             Array& operator=(Array &&a);
+            Array &operator=(Array &&a);
 
 
             /**
@@ -426,7 +421,7 @@ namespace TF
              * @param i the index
              * @return a constant reference to the element.
              */
-             const_reference operator[](size_type i) const;
+            const_reference operator[](size_type i) const;
 
 
             /**
@@ -479,7 +474,6 @@ namespace TF
             const_pointer data() const;
 
 
-
             /**
              * @brief check if the Array has no elements.
              * @return true if the Array has no elements and false otherwise.
@@ -520,14 +514,12 @@ namespace TF
              * @param o the stream object
              * @return @e o the stream object
              */
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
 
         private:
-
             std::shared_ptr<value_type> theArray;
             size_type theLength;
-
         };
 
 
@@ -539,13 +531,13 @@ namespace TF
          * @return @e o the stream object
          */
         template<class T>
-        std::ostream& operator<<(std::ostream &o, const Array<T> &a);
+        std::ostream &operator<<(std::ostream &o, const Array<T> &a);
 
 
-    }
+    }    // namespace Foundation
 
-}
+}    // namespace TF
 
 #include "tfarray.cxx"
 
-#endif //TFARRAY_HXX
+#endif    // TFARRAY_HXX

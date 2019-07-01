@@ -35,25 +35,22 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		class ConditionVariable : public std::condition_variable
-		{
-		public:
-		
-			using parent = std::condition_variable;
-			
-			std::ostream& description(std::ostream &o) const;
-		};
-		
-		std::ostream& operator<<(std::ostream &o,
-			const ConditionVariable &v);
+        class ConditionVariable : public std::condition_variable
+        {
+        public:
+            using parent = std::condition_variable;
 
-	} // Foundation
+            std::ostream &description(std::ostream &o) const;
+        };
 
-} // TF
+        std::ostream &operator<<(std::ostream &o, const ConditionVariable &v);
+
+    }    // namespace Foundation
+
+}    // namespace TF
 
 
-#endif // TFCONDITIONVARIABLE_HPP
-
+#endif    // TFCONDITIONVARIABLE_HPP

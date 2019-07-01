@@ -30,21 +30,20 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
         template<class Key, class T, class Compare, class Allocator>
-        std::ostream& operator<<(std::ostream &o, const std::map<Key, T, Compare, Allocator> &m)
+        std::ostream &operator<<(std::ostream &o, const std::map<Key, T, Compare, Allocator> &m)
         {
-            ClassFormatter *formatter =
-                    FormatterFactory::getFormatter();
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
             {
                 formatter->setClassName("std::map");
                 Size_t i = 0;
                 for(auto entry : m)
                 {
-                    formatter->addClassMember<std::pair<Key,T>>(i++,entry);
+                    formatter->addClassMember<std::pair<Key, T>>(i++, entry);
                 }
                 o << *formatter;
                 delete formatter;
@@ -52,7 +51,6 @@ namespace TF
             return o;
         }
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

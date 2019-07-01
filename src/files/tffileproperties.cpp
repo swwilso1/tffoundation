@@ -34,7 +34,7 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream& operator<<(std::ostream &o, const FileType &t)
+        std::ostream &operator<<(std::ostream &o, const FileType &t)
         {
             switch(t)
             {
@@ -89,7 +89,7 @@ namespace TF
         }
 
 
-        FileProperties& FileProperties::operator=(const FileProperties &p)
+        FileProperties &FileProperties::operator=(const FileProperties &p)
         {
             if(this != &p)
             {
@@ -134,7 +134,7 @@ namespace TF
         }
 
 
-        std::ostream& FileProperties::description(std::ostream &o) const
+        std::ostream &FileProperties::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -142,7 +142,7 @@ namespace TF
                 formatter->setClassName("FileProperties");
                 formatter->addClassMember<size_type>("size_type", "size", size);
                 formatter->addClassMember<file_type>("file_type", "type", type);
-                formatter->addClassMember<permissions>("permissions", "permission",permission);
+                formatter->addClassMember<permissions>("permissions", "permission", permission);
                 formatter->addClassMember<int>("int", "userID", userID);
                 formatter->addClassMember<int>("int", "groupID", groupID);
                 formatter->addClassMember<string_type>("string_type", "linkTarget", linkTarget);
@@ -153,13 +153,11 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const FileProperties &p)
+        std::ostream &operator<<(std::ostream &o, const FileProperties &p)
         {
             return p.description(o);
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
-
+}    // namespace TF

@@ -104,14 +104,14 @@ TEST(StringTest, SubstringFromIndexTest4)
 TEST(StringTest, SubstringWithRangeTest)
 {
     String s("abc");
-    EXPECT_ANY_THROW(auto v = s.substringWithRange(Range(0,4)));
+    EXPECT_ANY_THROW(auto v = s.substringWithRange(Range(0, 4)));
 }
 
 
 TEST(StringTest, SubstringWithRangeTest2)
 {
     String s("Would you like to play a game?");
-    auto v = s.substringWithRange(Range(5,5));
+    auto v = s.substringWithRange(Range(5, 5));
     EXPECT_EQ(v, " you ");
 }
 
@@ -119,7 +119,7 @@ TEST(StringTest, SubstringWithRangeTest2)
 TEST(StringTest, SubstringWithRangeTest3)
 {
     String s = String::initWithASCIIEncodedUnicode("Would you \\:004432 like to play \\:000034 a game?");
-    auto v = s.substringWithRange(Range(10,18));
+    auto v = s.substringWithRange(Range(10, 18));
     EXPECT_EQ(v, "䐲 like to play 4 a");
 }
 
@@ -127,7 +127,7 @@ TEST(StringTest, SubstringWithRangeTest3)
 TEST(StringTest, SubstringsNotInRangeTest)
 {
     String s("The quick brown fox jumped over the log.");
-    auto substrings = s.substringsNotInRange(Range(16,3));
+    auto substrings = s.substringsNotInRange(Range(16, 3));
     EXPECT_EQ(substrings.size(), 2);
     EXPECT_EQ(substrings[0], "The quick brown ");
     EXPECT_EQ(substrings[1], " jumped over the log.");
@@ -137,7 +137,7 @@ TEST(StringTest, SubstringsNotInRangeTest)
 TEST(StringTest, SubstringsNotInRangeTest2)
 {
     String s("The quick brown fox jumped over the log.");
-    auto substrings = s.substringsNotInRange(Range(0,5));
+    auto substrings = s.substringsNotInRange(Range(0, 5));
     EXPECT_EQ(substrings.size(), 1);
     EXPECT_EQ(substrings[0], "uick brown fox jumped over the log.");
 }
@@ -146,7 +146,7 @@ TEST(StringTest, SubstringsNotInRangeTest2)
 TEST(StringTest, SubstringsNotInRangeTest3)
 {
     String s("The quick brown fox jumped over the log.");
-    auto substrings = s.substringsNotInRange(Range(15,25));
+    auto substrings = s.substringsNotInRange(Range(15, 25));
     EXPECT_EQ(substrings.size(), 1);
     EXPECT_EQ(substrings[0], "The quick brown");
 }
@@ -154,7 +154,7 @@ TEST(StringTest, SubstringsNotInRangeTest3)
 TEST(StringTest, SubstringsNotInRangeTest4)
 {
     String s = String::initWithASCIIEncodedUnicode("Hello \\:002233, W\\:000035orldish");
-    auto substrings = s.substringsNotInRange(Range(7,2));
+    auto substrings = s.substringsNotInRange(Range(7, 2));
     EXPECT_EQ(substrings.size(), 2);
     EXPECT_EQ(substrings[0], String::initWithASCIIEncodedUnicode("Hello \\:002233"));
     EXPECT_EQ(substrings[1], "W5orldish");
@@ -164,8 +164,8 @@ TEST(StringTest, SubstringsNotInRangeTest4)
 TEST(StringTest, SubstringsNotInRangeTest5)
 {
     String s("Hello World");
-    auto substrings = s.substringsNotInRange(Range(0,40));
-    EXPECT_EQ(substrings.size(),0);
+    auto substrings = s.substringsNotInRange(Range(0, 40));
+    EXPECT_EQ(substrings.size(), 0);
 }
 
 
@@ -217,7 +217,7 @@ TEST(StringTest, SubstringsThatDoNotMatchStringTest2)
 TEST(StringTest, SubstringsThatDoNotMatchStringTest3)
 {
     String s = String::initWithASCIIEncodedUnicode(
-            "H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
+        "H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
     auto substrings = s.substringsThatDoNotMatchString("䑕㐡");
     EXPECT_EQ(substrings.size(), 4);
     EXPECT_EQ(substrings[0], "H");
@@ -225,7 +225,6 @@ TEST(StringTest, SubstringsThatDoNotMatchStringTest3)
     EXPECT_EQ(substrings[2], " br");
     EXPECT_EQ(substrings[3], "n c");
 }
-
 
 
 TEST(StringTest, SplitTest)
@@ -254,7 +253,7 @@ TEST(StringTest, SplitTest2)
 TEST(StringTest, SplitTest3)
 {
     String s = String::initWithASCIIEncodedUnicode(
-            "H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
+        "H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
     auto substrings = s.split("䑕㐡");
     EXPECT_EQ(substrings.size(), 4);
     EXPECT_EQ(substrings[0], "H");
@@ -262,6 +261,3 @@ TEST(StringTest, SplitTest3)
     EXPECT_EQ(substrings[2], " br");
     EXPECT_EQ(substrings[3], "n c");
 }
-
-
-

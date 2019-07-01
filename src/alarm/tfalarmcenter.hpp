@@ -61,7 +61,6 @@ namespace TF
         class AlarmCenter : public AllocatorInterface
         {
         public:
-
             /** @brief basic string type */
             using string_type = String;
 
@@ -107,10 +106,9 @@ namespace TF
              * @param o the stream object
              * @return the stream object @e o.
              */
-            std::ostream& description(std::ostream& o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
             /**
              * The AlarmEntry class provides handles to the thread controller and the thread
              * that runs the alarm.
@@ -142,14 +140,14 @@ namespace TF
                  * @param e the other AlarmEntry
                  * @return this AlarmEntry updated with the contents of @e e.
                  */
-                AlarmEntry& operator=(const AlarmEntry &e);
+                AlarmEntry &operator=(const AlarmEntry &e);
 
                 /**
                  * @brief method to write an AlarmEntry object to a stream.
                  * @param o the stream object.
                  * @return the stream object @e o.
                  */
-                std::ostream& description(std::ostream &o) const;
+                std::ostream &description(std::ostream &o) const;
             };
 
 
@@ -157,7 +155,7 @@ namespace TF
              * declaration of friendship with operator<< for AlarmEntry class.  Needed
              * because AlarmEntry is a private internal class.
              */
-            friend std::ostream& operator<<(std::ostream &o, const AlarmEntry &e);
+            friend std::ostream &operator<<(std::ostream &o, const AlarmEntry &e);
 
             /** @brief entry type for the alarm map */
             using entry_type = AlarmEntry;
@@ -212,7 +210,7 @@ namespace TF
          *
          * Writes the AlarmEntry contents to the stream and returns the stream object.
          */
-        std::ostream& operator<<(std::ostream &o, const AlarmCenter::AlarmEntry &e);
+        std::ostream &operator<<(std::ostream &o, const AlarmCenter::AlarmEntry &e);
 
 
         /**
@@ -221,11 +219,11 @@ namespace TF
          * @param c the AlarmCenter object.
          * @return the stream object.
          */
-        std::ostream& operator<<(std::ostream &o, const AlarmCenter &c);
+        std::ostream &operator<<(std::ostream &o, const AlarmCenter &c);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 
-#endif //TFALARMCENTER_HPP
+#endif    // TFALARMCENTER_HPP

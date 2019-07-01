@@ -61,12 +61,12 @@ namespace TF
              *  @brief Memory allocator function that allocates a MemoryBlock and caches
              *  the deallocator function
              */
-            void * MemoryBlockAllocator(Size_t n);
+            void *MemoryBlockAllocator(Size_t n);
             void MemoryBlockDeallocator(void *p);
         }
 
 
-        void * MemoryBlockAllocator(Size_t n)
+        void *MemoryBlockAllocator(Size_t n)
         {
             auto allocator = AllocatorInterface::getAllocator();
             if(allocator != nullptr)
@@ -88,8 +88,8 @@ namespace TF
             if(p != nullptr)
             {
                 // Recover the MemoryBlock.
-                MemoryBlock *theBlock = reinterpret_cast<MemoryBlock *>(
-                        reinterpret_cast<char *>(p) - offsetof(MemoryBlock, theBuffer));
+                MemoryBlock *theBlock =
+                    reinterpret_cast<MemoryBlock *>(reinterpret_cast<char *>(p) - offsetof(MemoryBlock, theBuffer));
                 if(theBlock != nullptr)
                 {
                     if(theBlock->deallocator != nullptr)
@@ -148,25 +148,25 @@ namespace TF
         }
 
 
-        void * AllocatorInterface::operator new(size_type s)
+        void *AllocatorInterface::operator new(size_type s)
         {
             return MemoryBlockAllocator(s);
         }
 
 
-        void * AllocatorInterface::operator new[](size_type s)
+        void *AllocatorInterface::operator new[](size_type s)
         {
             return MemoryBlockAllocator(s);
         }
 
 
-        void * AllocatorInterface::operator new(size_type s, void *p)
+        void *AllocatorInterface::operator new(size_type s, void *p)
         {
             return p;
         }
 
 
-        void * AllocatorInterface::operator new[](size_type s, void *p)
+        void *AllocatorInterface::operator new[](size_type s, void *p)
         {
             return p;
         }
@@ -189,7 +189,6 @@ namespace TF
         }
 
 
-
         void AllocatorInterface::operator delete[](void *p, void *q)
         {
         }
@@ -207,6 +206,6 @@ namespace TF
         }
 
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF

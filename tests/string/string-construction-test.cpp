@@ -89,9 +89,8 @@ TEST(StringTest, ASCIIEncodedUnicodeInitializerTest)
 TEST(StringTest, CStringConstructorWithLengthTest)
 {
     auto tmp = new char[40];
-    std::memcpy(reinterpret_cast<void *>(tmp), reinterpret_cast<void *>(
-                    const_cast<char *>(HELLO_WORLD)),
-        strlen(HELLO_WORLD));
+    std::memcpy(reinterpret_cast<void *>(tmp), reinterpret_cast<void *>(const_cast<char *>(HELLO_WORLD)),
+                strlen(HELLO_WORLD));
     String s(tmp, strlen(HELLO_WORLD));
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
@@ -100,7 +99,7 @@ TEST(StringTest, CStringConstructorWithLengthTest)
 
 TEST(StringTest, CStringConstuctorWithLength2Test)
 {
-    String s("㆚㆛ぁあぃいぅうぇ",27);
+    String s("㆚㆛ぁあぃいぅうぇ", 27);
     EXPECT_EQ(s, "㆚㆛ぁあぃいぅうぇ");
 }
 
@@ -121,7 +120,6 @@ TEST(StringTest, CXXStyleStringConstructorTest)
 }
 
 
-
 TEST(StringTest, UTF8StringConstructorTest)
 {
     unsigned char tmp[10];
@@ -140,7 +138,7 @@ TEST(StringTest, UTF8StringConstructorTest)
     String s(tmp, 10);
 
     EXPECT_TRUE(s.length() == 3);
-    EXPECT_EQ(s.getCharactersInRange(Range(0,2)), "☃☄");
+    EXPECT_EQ(s.getCharactersInRange(Range(0, 2)), "☃☄");
 }
 
 
@@ -156,7 +154,7 @@ TEST(StringTest, UTF8StringConstructorTest2)
 
 TEST(StringTest, UTF16StringConstructorTest)
 {
-    unsigned short tmp [7];
+    unsigned short tmp[7];
 
     tmp[0] = 0xFEFF;
     tmp[1] = 0x3E6;
@@ -210,4 +208,3 @@ TEST(StringTest, RValueConstructorTest)
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp("foo bar", ptr.get(), s.length()) == 0);
 }
-

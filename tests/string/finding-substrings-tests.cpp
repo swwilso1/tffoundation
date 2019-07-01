@@ -37,7 +37,7 @@ TEST(StringTest, RangeOfStringTest)
 {
     String s("Permission is hereby granted");
     auto theRange = s.rangeOfString(String("hereby"));
-    EXPECT_EQ(theRange, Range(14,6));
+    EXPECT_EQ(theRange, Range(14, 6));
 }
 
 
@@ -45,7 +45,7 @@ TEST(StringTest, RangeOfStringTest2)
 {
     String s = String::initWithASCIIEncodedUnicode("Might as well \\:004443 jump");
     auto theRange = s.rangeOfString(String::initWithASCIIEncodedUnicode("\\:004443 j"));
-    EXPECT_EQ(theRange, Range(14,3));
+    EXPECT_EQ(theRange, Range(14, 3));
 }
 
 
@@ -53,7 +53,7 @@ TEST(StringTest, RangeOfCStringTest)
 {
     String s("Permission is hereby granted");
     auto theRange = s.rangeOfString("hereby");
-    EXPECT_EQ(theRange, Range(14,6));
+    EXPECT_EQ(theRange, Range(14, 6));
 }
 
 
@@ -61,7 +61,7 @@ TEST(StringTest, RangeOfSTLStringTest)
 {
     String s("Permission is hereby granted");
     auto theRange = s.rangeOfString(std::string("hereby"));
-    EXPECT_EQ(theRange, Range(14,6));
+    EXPECT_EQ(theRange, Range(14, 6));
 }
 
 
@@ -70,7 +70,7 @@ TEST(StringTest, RangesOfStringTest)
     String s("the dog ate the homework after the cat licked the bowl of the food");
     auto theRanges = s.rangesOfString(String("the"));
     EXPECT_EQ(theRanges.size(), 5);
-    EXPECT_EQ(theRanges[0], Range(0,3));
+    EXPECT_EQ(theRanges[0], Range(0, 3));
     EXPECT_EQ(theRanges[1], Range(12, 3));
     EXPECT_EQ(theRanges[2], Range(31, 3));
     EXPECT_EQ(theRanges[3], Range(46, 3));
@@ -83,7 +83,7 @@ TEST(StringTest, RangesOfCStyleStringTest)
     String s("the dog ate the homework after the cat licked the bowl of the food");
     auto theRanges = s.rangesOfString("the");
     EXPECT_EQ(theRanges.size(), 5);
-    EXPECT_EQ(theRanges[0], Range(0,3));
+    EXPECT_EQ(theRanges[0], Range(0, 3));
     EXPECT_EQ(theRanges[1], Range(12, 3));
     EXPECT_EQ(theRanges[2], Range(31, 3));
     EXPECT_EQ(theRanges[3], Range(46, 3));
@@ -96,7 +96,7 @@ TEST(StringTest, RangesOfSTLStringTest)
     String s("the dog ate the homework after the cat licked the bowl of the food");
     auto theRanges = s.rangesOfString(std::string("the"));
     EXPECT_EQ(theRanges.size(), 5);
-    EXPECT_EQ(theRanges[0], Range(0,3));
+    EXPECT_EQ(theRanges[0], Range(0, 3));
     EXPECT_EQ(theRanges[1], Range(12, 3));
     EXPECT_EQ(theRanges[2], Range(31, 3));
     EXPECT_EQ(theRanges[3], Range(46, 3));
@@ -106,11 +106,10 @@ TEST(StringTest, RangesOfSTLStringTest)
 
 TEST(StringTest, RangeOfUnicodeStringTest)
 {
-    String s = String::initWithASCIIEncodedUnicode(
-            "Terrence \\:00006F\\:000066 Eragon, Howard \\:00006F\\:000066 Manchester");
+    String s =
+        String::initWithASCIIEncodedUnicode("Terrence \\:00006F\\:000066 Eragon, Howard \\:00006F\\:000066 Manchester");
     auto theRanges = s.rangesOfString("of");
     EXPECT_EQ(theRanges.size(), 2);
-    EXPECT_EQ(theRanges[0], Range(9,2));
-    EXPECT_EQ(theRanges[1], Range(27,2));
+    EXPECT_EQ(theRanges[0], Range(9, 2));
+    EXPECT_EQ(theRanges[1], Range(27, 2));
 }
-

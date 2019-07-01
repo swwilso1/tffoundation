@@ -52,7 +52,7 @@ TEST(EnvironmentTest, GetValueForVariableTest)
 TEST(EnvironmentTest, SetValueForVariableTest)
 {
     EnvironmentSettings es;
-    es.setValueForVariable("HORSE","THOR");
+    es.setValueForVariable("HORSE", "THOR");
     EXPECT_EQ(es.getValueForVariable("HORSE"), "THOR");
 }
 
@@ -60,8 +60,8 @@ TEST(EnvironmentTest, SetValueForVariableTest)
 TEST(EnvironmentTest, AddToValueForVariableTest)
 {
     EnvironmentSettings es;
-    es.setValueForVariable("HORSE","THOR");
-    es.addToValueForVariable("HORSE","MJOLNIR");
+    es.setValueForVariable("HORSE", "THOR");
+    es.addToValueForVariable("HORSE", "MJOLNIR");
     EXPECT_EQ(es.getValueForVariable("HORSE"), "THOR:MJOLNIR");
 }
 
@@ -69,7 +69,7 @@ TEST(EnvironmentTest, AddToValueForVariableTest)
 TEST(EnvironmentTest, RemoveVariableTest)
 {
     EnvironmentSettings es;
-    es.setValueForVariable("HORSE","THOR");
+    es.setValueForVariable("HORSE", "THOR");
     EXPECT_TRUE(es.hasVariable("HORSE"));
     es.removeVariable("HORSE");
     EXPECT_FALSE(es.hasVariable("HORSE"));
@@ -80,7 +80,7 @@ TEST(EnvironmentTest, NumberOfVariablesTest)
 {
     EnvironmentSettings es;
     auto numVariables = es.numberOfVariables();
-    es.setValueForVariable("HORSE","THOR");
+    es.setValueForVariable("HORSE", "THOR");
     EXPECT_EQ(es.numberOfVariables(), numVariables + 1);
 }
 
@@ -91,4 +91,3 @@ TEST(EnvironmentTest, EnvironmentVariablesTest)
     auto variables = es.environmentVariables();
     EXPECT_EQ(variables.size(), es.numberOfVariables());
 }
-

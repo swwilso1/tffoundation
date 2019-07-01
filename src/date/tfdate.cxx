@@ -59,7 +59,7 @@ namespace TF
 
 
         template<class Clock>
-        Date<Clock>& Date<Clock>::operator=(const Date &d)
+        Date<Clock> &Date<Clock>::operator=(const Date &d)
         {
             if(this != &d)
             {
@@ -70,7 +70,7 @@ namespace TF
 
 
         template<class Clock>
-        Date<Clock>& Date<Clock>::operator=(Date &&d)
+        Date<Clock> &Date<Clock>::operator=(Date &&d)
         {
             theTime = d.theTime;
             return *this;
@@ -136,7 +136,7 @@ namespace TF
 
 
         template<class Clock>
-        Date<Clock>& Date<Clock>::operator+=(const duration &d)
+        Date<Clock> &Date<Clock>::operator+=(const duration &d)
         {
             Date newDate = *this + d;
             theTime = newDate.theTime;
@@ -145,7 +145,7 @@ namespace TF
 
 
         template<class Clock>
-        Date<Clock>& Date<Clock>::operator-=(const duration &d)
+        Date<Clock> &Date<Clock>::operator-=(const duration &d)
         {
             duration epicDuration = theTime.time_since_epoch();
             duration newDuration = epicDuration - d;
@@ -162,7 +162,7 @@ namespace TF
 
 
         template<class Clock>
-        std::ostream& Date<Clock>::description(std::ostream &o) const
+        std::ostream &Date<Clock>::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -177,14 +177,13 @@ namespace TF
 
 
         template<class Clock>
-        std::ostream& operator<<(std::ostream &o, const Date<Clock> &d)
+        std::ostream &operator<<(std::ostream &o, const Date<Clock> &d)
         {
             return d.description(o);
         }
 
 
-    } // Foundation
+    }    // namespace Foundation
 
 
-} // TF
-
+}    // namespace TF

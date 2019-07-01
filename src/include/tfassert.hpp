@@ -38,15 +38,14 @@ namespace TF
     {
 
 #ifdef TFDEBUG
-#   define TFASSERT(p) assert(p)
+#    define TFASSERT(p) assert(p)
 #else
-#   define TFASSERT(p)
+#    define TFASSERT(p)
 #endif
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 
-#endif // TFASSERT_HPP
-
+#endif    // TFASSERT_HPP

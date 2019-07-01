@@ -42,9 +42,8 @@ namespace TF
 
         using StringCase = stringcase;
 
-    }  // Foundation
+    }    // namespace Foundation
 
-}  // TF
+}    // namespace TF
 
 #endif /* TFSTRINGCASE_HPP */
-

@@ -36,17 +36,16 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		template<class A, class B>
-		std::ostream& operator<<(std::ostream &o, const std::pair<A,B> &p);
+        template<class A, class B>
+        std::ostream &operator<<(std::ostream &o, const std::pair<A, B> &p);
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 #include "tfpair.cxx"
 
-#endif // TFPAIR_HXX
-
+#endif    // TFPAIR_HXX

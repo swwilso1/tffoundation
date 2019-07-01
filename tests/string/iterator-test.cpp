@@ -38,7 +38,7 @@ TEST(StringTest, EmptyStringIteratorsTest)
     String s;
     auto b = s.begin();
     auto e = s.end();
-    EXPECT_EQ(b,e);
+    EXPECT_EQ(b, e);
 }
 
 
@@ -47,7 +47,7 @@ TEST(StringTest, BeginEndIteratorsTest)
     String s("Hello World");
     auto b = s.begin();
     auto e = s.end();
-    EXPECT_NE(b,e);
+    EXPECT_NE(b, e);
 }
 
 
@@ -115,7 +115,7 @@ TEST(StringTest, SimpleForLoopTest)
     String s = String::initWithASCIIEncodedUnicode("abcdefg\\:10FFFAq\\:005422");
     for(auto i = s.begin(); i != s.end(); ++i)
     {
-        EXPECT_NE(i,s.end());
+        EXPECT_NE(i, s.end());
     }
 }
 

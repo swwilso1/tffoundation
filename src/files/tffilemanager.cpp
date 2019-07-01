@@ -47,7 +47,6 @@ namespace TF
     {
 
 
-
         FileManager::string_array_type FileManager::subpathsOfDirectoryAtPath(const string_type &path) const
         {
             string_array_type subPaths;
@@ -98,7 +97,7 @@ namespace TF
             for(auto &entry : components)
             {
                 subPath += String(pathSeparator) + entry;
-                if(! directoryExistsAtPath(subPath))
+                if(!directoryExistsAtPath(subPath))
                     createDirectoryAtPath(subPath);
             }
         }
@@ -109,13 +108,13 @@ namespace TF
             auto sourceStr = sourcePath.cStr();
             auto destStr = destPath.cStr();
             std::ifstream inFile(sourceStr.get());
-            std::ofstream outFile(destStr.get(), std::ios::out|std::ios::trunc);
+            std::ofstream outFile(destStr.get(), std::ios::out | std::ios::trunc);
             bool wroteBytes = false;
 
-            if(! inFile)
+            if(!inFile)
                 throw std::runtime_error("Unable to read from input file");
 
-            if(! outFile)
+            if(!outFile)
                 throw std::runtime_error("Unable to write to output file");
 
             char c;
@@ -123,11 +122,11 @@ namespace TF
             while(inFile.get(c))
             {
                 outFile.put(c);
-                if (!wroteBytes)
+                if(!wroteBytes)
                     wroteBytes = true;
             }
 
-            if(! wroteBytes)
+            if(!wroteBytes)
             {
                 // The source file was empty so we have to create an empty output file.
                 createFileAtPath(destPath);
@@ -135,15 +134,11 @@ namespace TF
         }
 
 
-
-
         FileManager::file_permissions_type FileManager::permissionsForItemAtPath(const string_type &path) const
         {
             auto properties = propertiesForItemAtPath(path);
             return properties.permission;
         }
-
-
 
 
         bool FileManager::isDeletableAtPath(const string_type &path) const
@@ -175,10 +170,10 @@ namespace TF
             std::ifstream streamA(pathAStr.get());
             std::ifstream streamB(pathBStr.get());
 
-            if(! streamA)
+            if(!streamA)
                 throw std::runtime_error("Unable to read from file 1.");
 
-            if(! streamB)
+            if(!streamB)
                 throw std::runtime_error("Unable to read from file 2.");
 
             char a, b;
@@ -193,7 +188,7 @@ namespace TF
         }
 
 
-        std::ostream& FileManager::description(std::ostream &o) const
+        std::ostream &FileManager::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -206,13 +201,11 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const FileManager &m)
+        std::ostream &operator<<(std::ostream &o, const FileManager &m)
         {
             return m.description(o);
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
-
+}    // namespace TF

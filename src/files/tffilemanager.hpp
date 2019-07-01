@@ -49,7 +49,6 @@ namespace TF
         class FileManager
         {
         public:
-
             /** @brief basic string type */
             using string_type = String;
 
@@ -180,8 +179,8 @@ namespace TF
              * @param linkPath the location for the new symbolic link
              * @param destPath the source item referred to by @e linkPath.
              */
-            void createSymbolicLinkAtPathWithDestinationPath(const string_type &linkPath, const string_type &destPath)
-                    const;
+            void createSymbolicLinkAtPathWithDestinationPath(const string_type &linkPath,
+                                                             const string_type &destPath) const;
 
 
             /**
@@ -189,8 +188,8 @@ namespace TF
              * @param linkPath the location for the new link to the file
              * @param destPath the source item to use for the new link.
              */
-            void createHardLinkAtPathWithDestinationPath(const string_type &linkPath, const string_type &destPath)
-                    const;
+            void createHardLinkAtPathWithDestinationPath(const string_type &linkPath,
+                                                         const string_type &destPath) const;
 
 
             /**
@@ -207,7 +206,6 @@ namespace TF
              * @return true if the item exists and is a directory and false otherwise.
              */
             bool directoryExistsAtPath(const string_type &path) const;
-
 
 
             /**
@@ -297,16 +295,16 @@ namespace TF
             size_type sizeofFileAtPath(const string_type &path) const;
 
 
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
             static string_type pathSeparator;
         };
 
 
-        std::ostream& operator<<(std::ostream &o, const FileManager &m);
+        std::ostream &operator<<(std::ostream &o, const FileManager &m);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif //TFFILEMANAGER_HPP
+#endif    // TFFILEMANAGER_HPP

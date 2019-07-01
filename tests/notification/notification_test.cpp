@@ -40,18 +40,15 @@ TEST(NotificationTest, RegisterCallbackHandlerForSenderTest)
 {
     NotificationCenter::pointer theCenter = NotificationCenter::DefaultCenter();
     theCenter->registerForNotificationFromSender("T1", nullptr, "foo_handler1",
-        [](const Notification &n){
-            std::cout << n << std::endl;
-        });
+                                                 [](const Notification &n) { std::cout << n << std::endl; });
 }
 
 
 TEST(NotificationTest, RegisterCallbackHandlerTest)
 {
     NotificationCenter::pointer theCenter = NotificationCenter::DefaultCenter();
-    theCenter->registerForNotification("T2", "foo_handler2", [](const Notification &n){
-        std::cout << n << std::endl;
-    });
+    theCenter->registerForNotification("T2", "foo_handler2",
+                                       [](const Notification &n) { std::cout << n << std::endl; });
 }
 
 
@@ -61,8 +58,7 @@ TEST(NotificationTest, FullNotificationTest)
     bool succeeded = false;
     ThreadController controller;
 
-    theCenter->registerForNotification("T3","foo_handler3",[&succeeded, &controller](const Notification &n){
-
+    theCenter->registerForNotification("T3", "foo_handler3", [&succeeded, &controller](const Notification &n) {
         if(n.label() == "T3")
         {
             succeeded = true;
@@ -75,5 +71,4 @@ TEST(NotificationTest, FullNotificationTest)
     controller.wait();
 
     EXPECT_EQ(true, succeeded);
-
 }

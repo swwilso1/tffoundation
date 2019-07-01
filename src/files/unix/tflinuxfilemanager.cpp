@@ -40,7 +40,7 @@ namespace TF
             String passwdFileContents;
 
             std::ifstream passwdFile("/etc/passwd");
-            if(! passwdFile)
+            if(!passwdFile)
             {
                 throw std::runtime_error("Unable to open /etc/passwd");
             }
@@ -67,8 +67,6 @@ namespace TF
             throw std::runtime_error("User not found on system");
         }
 
-    }
+    }    // namespace Foundation
 
-}
-
-
+}    // namespace TF

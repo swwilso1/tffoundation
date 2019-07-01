@@ -52,7 +52,6 @@ namespace TF
         class String : public AllocatorInterface
         {
         public:
-
             static bool useObjectFormattingOutput;
 
             /** @brief array type */
@@ -85,10 +84,10 @@ namespace TF
             String();
 
             /** Copy constructor */
-            String(const String& s);
+            String(const String &s);
 
             /** RValue constructor */
-            String(String&& s) noexcept;
+            String(String &&s) noexcept;
 
             /**
                 @brief Constructor with UTF-8 C-style string argument (NULL terminated).
@@ -110,7 +109,7 @@ namespace TF
                 @param str a STL string
                 @return a new string object.
             */
-            String(const std::string& s);
+            String(const std::string &s);
 
             /**
                 @brief UTF-8 string constructor
@@ -192,7 +191,7 @@ namespace TF
                 @c hh Makes @c d and @c i modifiers user type signed char, and @c o, @c u, @c x, @c X an unsigned char.
                 @c - Left aligns the formatted value.
             */
-            static String initWithFormat(const char *format,...);
+            static String initWithFormat(const char *format, ...);
 
 
             /**
@@ -242,7 +241,7 @@ namespace TF
                 @param s the string to compare.
                 @return true if the two strings contain identical content, false otherwise.
             */
-            bool operator==(const String& s) const;
+            bool operator==(const String &s) const;
 
 
             /**
@@ -250,7 +249,7 @@ namespace TF
                 @param s the string to compare.
                 @return true if the two strings contain differing characters, false otherwise.
             */
-            bool operator!=(const String& s) const;
+            bool operator!=(const String &s) const;
 
 #pragma mark - Assignment operators
 
@@ -259,11 +258,11 @@ namespace TF
                 @param s the string to assign.
                 @return a reference to the current string updated with the contents of s.
             */
-            String& operator=(const String& s);
+            String &operator=(const String &s);
 
 
             /** @brief overloaded rvalue assignment operator */
-            String& operator=(String&& s) noexcept;
+            String &operator=(String &&s) noexcept;
 
 #pragma mark - Length and size methods
 
@@ -302,7 +301,7 @@ namespace TF
                 @param range the range of characters
                 @return a new string object containing the requested range of characters.
             */
-            String getCharactersInRange(const range_type& range) const;
+            String getCharactersInRange(const range_type &range) const;
 
 #pragma mark - Methods for getting C strings
 
@@ -337,7 +336,7 @@ namespace TF
                 @param str the string to use for appending
                 @return a new string object containing the appended results
             */
-            String stringByAppendingString(const String& str) const;
+            String stringByAppendingString(const String &str) const;
 
 
             /**
@@ -346,7 +345,7 @@ namespace TF
                 @param s2 the second string
                 @return a new string created by joining two strings.
             */
-            static String concatenateStrings(const String& s1, const String& s2);
+            static String concatenateStrings(const String &s1, const String &s2);
 
 
             /**
@@ -371,7 +370,7 @@ namespace TF
              * @param s the other string
              * @return this string with the contents of s appended.
              */
-            String& operator+=(const String &s);
+            String &operator+=(const String &s);
 
 
             /**
@@ -379,7 +378,7 @@ namespace TF
              * @param c the other character
              * @return this string with the character @e c appended.
              */
-            String& operator+=(const char c);
+            String &operator+=(const char c);
 
 #pragma mark - Methods for dividing strings
 
@@ -397,7 +396,7 @@ namespace TF
                 @param range a variable containing the location and length of the requested sub-string.
                 @return a new string object that contains the requested sub-string
             */
-            String substringWithRange(const range_type& range) const;
+            String substringWithRange(const range_type &range) const;
 
 
             /**
@@ -405,7 +404,7 @@ namespace TF
                 @param range the range of substring not to match.
                 @return an array of substrings from the string that are not in the specified @e range.
             */
-            string_array_type substringsNotInRange(const range_type& range) const;
+            string_array_type substringsNotInRange(const range_type &range) const;
 
 
             /**
@@ -423,15 +422,16 @@ namespace TF
                 @param str the substring to match.
                 @return an array of substrings from the string that do not match @e str.
             */
-            string_array_type substringsThatDoNotMatchString(const String& str) const;
+            string_array_type substringsThatDoNotMatchString(const String &str) const;
 
 
             /**
-                @brief return an array of substrings created by splitting the string into chunks separated by @e splitString.
+                @brief return an array of substrings created by splitting the string into chunks separated by @e
+               splitString.
                 @param splitString the string to use for matching
                 @return an array of strings containing the substrings
             */
-            string_array_type split(const String& splitString) const;
+            string_array_type split(const String &splitString) const;
 
 
 #pragma mark - Methods for finding characters and substrings
@@ -442,7 +442,7 @@ namespace TF
                 @param str a string object indicating the sub-string to find
                 @return a Range object containing the index of the starting character and the length of the sub-string
             */
-            range_type rangeOfString(const String& str) const;
+            range_type rangeOfString(const String &str) const;
 
 
             /**
@@ -450,7 +450,7 @@ namespace TF
                 @param str the substring.
                 @return an array of ranges.
             */
-            range_array_type rangesOfString(const String& str) const;
+            range_array_type rangesOfString(const String &str) const;
 
 
 #pragma mark - Methods for replacing substrings
@@ -461,8 +461,8 @@ namespace TF
                 @param replacement the string to insert in place of @e original
                 @return a new string object
             */
-            String stringByReplacingOccurencesOfStringWithString(const String& original,
-                    const String& replacement) const;
+            String stringByReplacingOccurencesOfStringWithString(const String &original,
+                                                                 const String &replacement) const;
 
 
             /**
@@ -471,7 +471,7 @@ namespace TF
                 @param str the string to insert in place of the string int @e range
                 @return a new string object
             */
-            String stringByReplacingCharactersInRangeWithString(const range_type &range, const String& str) const;
+            String stringByReplacingCharactersInRangeWithString(const range_type &range, const String &str) const;
 
 
 #pragma mark - Methods for comparing strings
@@ -483,7 +483,7 @@ namespace TF
                         OrderedSame if the string and @e str have an equivalent lexical value and
                     OrderedDescending if the string lexically follows @e str
             */
-            ComparisonResult compare(const String& str) const;
+            ComparisonResult compare(const String &str) const;
 
 
             /**
@@ -505,7 +505,7 @@ namespace TF
                 @return @c true if the string's first characters match the values in @e str, @c false if
                         the string's first characters do not match the values in @e str
             */
-            bool hasPrefix(const String& str) const;
+            bool hasPrefix(const String &str) const;
 
 
             /**
@@ -515,7 +515,7 @@ namespace TF
                 @return @c true if the string's last characters match the values in @e str, @c false if
                         the string's last characters do not match the values in @e str
             */
-            bool hasSuffix(const String& str) const;
+            bool hasSuffix(const String &str) const;
 
 
             /**
@@ -524,7 +524,7 @@ namespace TF
                 @param str a string
                 @return @c true if the strings compare equal, otherwise @c false
             */
-            bool isEqualToString(const String& str) const;
+            bool isEqualToString(const String &str) const;
 
 #pragma mark - Methods for changing character case
 
@@ -603,10 +603,9 @@ namespace TF
 
 
             /** @brief std::ostream& interaction method */
-            std::ostream& description(std::ostream& o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
 #pragma mark - Shadow methods for variadic argument functions
 
             /**
@@ -645,7 +644,7 @@ namespace TF
         };
 
 
-        std::ostream& operator<<(std::ostream& o, const String& s);
+        std::ostream &operator<<(std::ostream &o, const String &s);
 
 
         /**
@@ -656,7 +655,7 @@ namespace TF
          * @return OrderedAscending if @e stringOne is lexically less than @e stringTwo, OrderedDescending if
          *   @e stringOne is lexically greater than @e stringTwo and OrderedSame if @e stringOne equals @e stringTwo.
          */
-        ComparisonResult compareStrings(const String& stringOne, const String& stringTwo, void *context);
+        ComparisonResult compareStrings(const String &stringOne, const String &stringTwo, void *context);
 
         /**
          * @brief overloaded == operator to compare a C-style string and a String.
@@ -706,10 +705,8 @@ namespace TF
          */
         String operator+(const std::string &a, const String &b);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 #endif /* TFSTRING_HPP */
-
-

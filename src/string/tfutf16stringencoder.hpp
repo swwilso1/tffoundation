@@ -38,109 +38,121 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
-	
-		class UTF16StringEncoder : public StringEncoder
-		{
-		public:
-			using parent_type = StringEncoder;
+    namespace Foundation
+    {
 
-			using size_type = parent_type::size_type;
+        class UTF16StringEncoder : public StringEncoder
+        {
+        public:
+            using parent_type = StringEncoder;
 
-			using range_type = parent_type::range_type;
+            using size_type = parent_type::size_type;
 
-			using range_array_type = parent_type::range_array_type;
-	
-			using byte_order_query_type = parent_type::byte_order_query_type;
+            using range_type = parent_type::range_type;
 
-			using data_type = unsigned short;
-			
-			~UTF16StringEncoder() {}
+            using range_array_type = parent_type::range_array_type;
 
-			StringEncoder * clone(void);
+            using byte_order_query_type = parent_type::byte_order_query_type;
 
-			size_type basicCodeLengthInBytes(void);
+            using data_type = unsigned short;
 
-			bool hasFixedCodeLength(void);
+            ~UTF16StringEncoder()
+            {
+            }
 
-			size_type numberOfBytesRequiredForLargestCharacterValue(void);
+            StringEncoder *clone(void);
 
-			bool canUseByteOrderMark(void);
+            size_type basicCodeLengthInBytes(void);
 
-			bool usesByteOrderMark(void);
+            bool hasFixedCodeLength(void);
 
-			size_type lengthOfByteOrderMarkInBytes(void);
+            size_type numberOfBytesRequiredForLargestCharacterValue(void);
 
-			void writeByteOrderMark(char_type *start, size_type length);
+            bool canUseByteOrderMark(void);
 
-			byte_order_query_type hasByteOrderMark(const char_type *start, size_type length);
-			
-			size_type numberOfCharacters(const char_type *start, size_type length);
+            bool usesByteOrderMark(void);
 
-			bool checkStringForCorrectness(const char_type *start, size_type length);
+            size_type lengthOfByteOrderMarkInBytes(void);
 
-			std::pair<unicode_point_type, size_type> nextCodePoint(const char_type *start, size_type length, Endian endian);
+            void writeByteOrderMark(char_type *start, size_type length);
 
-			std::pair<unicode_point_type, size_type> nextCode(const char_type *start, size_type length, Endian endian);
+            byte_order_query_type hasByteOrderMark(const char_type *start, size_type length);
 
-			unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type *start, size_type length, size_type index);
+            size_type numberOfCharacters(const char_type *start, size_type length);
 
-			size_type bytesNeededForRepresentationOfCode(unicode_point_type code);
+            bool checkStringForCorrectness(const char_type *start, size_type length);
 
-			size_type encodeCodePoint(char_type *start, size_type length, unicode_point_type code, Endian endian);
+            std::pair<unicode_point_type, size_type> nextCodePoint(const char_type *start, size_type length,
+                                                                   Endian endian);
 
-			size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length, size_type index);
+            std::pair<unicode_point_type, size_type> nextCode(const char_type *start, size_type length, Endian endian);
 
-			size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
-				const range_type& range);
+            unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type *start, size_type length,
+                                                                   size_type index);
 
-			bool containsCharacterWithZeroValue(const char_type *start, size_type length);
+            size_type bytesNeededForRepresentationOfCode(unicode_point_type code);
 
-			bool containsCharacterNotInASCIIRange(const char_type *start, size_type length);
+            size_type encodeCodePoint(char_type *start, size_type length, unicode_point_type code, Endian endian);
 
-			range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength);
-			
-			range_array_type findByteRangesOfSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength);
+            size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length, size_type index);
 
-			range_type findCharacterRangeForSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength);
+            size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
+                                                              const range_type &range);
 
-			range_array_type findCharacterRangesForSubstringInString(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength);
+            bool containsCharacterWithZeroValue(const char_type *start, size_type length);
 
-			range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength);
-			
-			void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase);
+            bool containsCharacterNotInASCIIRange(const char_type *start, size_type length);
 
-			size_type computeArraySizeInBytesForStringByReplacingSubstrings(const char_type *stringStart, size_type stringLength,
-				const char_type *substringStart, size_type substringLength, 
-				const char_type *replaceStringStart, size_type replaceStringLength, range_array_type& ranges);
-			
-			void replaceOccurancesOfStringWithString(const char_type *originalStringStart, size_type originalStringLength, 
-				char_type *newStringStart, size_type newStringLength, const char_type *replacementStringStart,
-				size_type replacementStringLength, range_array_type& substringRanges);
+            range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
+                                                        const char_type *substringStart, size_type substringLength);
 
-			unicode_point_type correctValueForPlatform(const char_type *start, size_type length, Endian endian);
+            range_array_type findByteRangesOfSubstringInString(const char_type *stringStart, size_type stringLength,
+                                                               const char_type *substringStart,
+                                                               size_type substringLength);
 
-			bool operator==(const StringEncoder& e);
+            range_type findCharacterRangeForSubstringInString(const char_type *stringStart, size_type stringLength,
+                                                              const char_type *substringStart,
+                                                              size_type substringLength);
 
-			std::ostream& description(std::ostream& o) const;
-		
-		private:
+            range_array_type findCharacterRangesForSubstringInString(const char_type *stringStart,
+                                                                     size_type stringLength,
+                                                                     const char_type *substringStart,
+                                                                     size_type substringLength);
 
-			static const size_type byteOrderMarkLength;
+            range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type *stringStart,
+                                                                                    size_type stringLength,
+                                                                                    const char_type *substringStart,
+                                                                                    size_type substringLength);
 
-			unicode_point_type convertSurrogatePairToCodePoint(data_type highSurrogate, data_type lowSurrogate);
+            void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase);
 
-			data_type correctUTF16CodeForPlatform(data_type theCode, Endian endian);
-		};
+            size_type computeArraySizeInBytesForStringByReplacingSubstrings(
+                const char_type *stringStart, size_type stringLength, const char_type *substringStart,
+                size_type substringLength, const char_type *replaceStringStart, size_type replaceStringLength,
+                range_array_type &ranges);
 
-	} // Foundation
+            void replaceOccurancesOfStringWithString(const char_type *originalStringStart,
+                                                     size_type originalStringLength, char_type *newStringStart,
+                                                     size_type newStringLength, const char_type *replacementStringStart,
+                                                     size_type replacementStringLength,
+                                                     range_array_type &substringRanges);
 
-} /* TF */
+            unicode_point_type correctValueForPlatform(const char_type *start, size_type length, Endian endian);
+
+            bool operator==(const StringEncoder &e);
+
+            std::ostream &description(std::ostream &o) const;
+
+        private:
+            static const size_type byteOrderMarkLength;
+
+            unicode_point_type convertSurrogatePairToCodePoint(data_type highSurrogate, data_type lowSurrogate);
+
+            data_type correctUTF16CodeForPlatform(data_type theCode, Endian endian);
+        };
+
+    }    // namespace Foundation
+
+}    // namespace TF
 
 #endif /* TFUTF16STRINGENCODER_HPP */

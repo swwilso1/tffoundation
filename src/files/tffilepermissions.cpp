@@ -52,7 +52,7 @@ namespace TF
         }
 
 
-        FilePermissions& FilePermissions::operator=(const FilePermissions &p)
+        FilePermissions &FilePermissions::operator=(const FilePermissions &p)
         {
             if(this != &p)
             {
@@ -62,7 +62,7 @@ namespace TF
         }
 
 
-        FilePermissions& FilePermissions::operator=(const int &p)
+        FilePermissions &FilePermissions::operator=(const int &p)
         {
             permissions = p;
             return *this;
@@ -174,11 +174,11 @@ namespace TF
         }
 
 
-#define SET_PERMISSION(value, permission) \
-        if(value) \
-            permissions = permissions | permission; \
-        else \
-            permissions = permissions & ~permission
+#define SET_PERMISSION(value, permission)                                                                              \
+    if(value)                                                                                                          \
+        permissions = permissions | permission;                                                                        \
+    else                                                                                                               \
+        permissions = permissions & ~permission
 
 
         void FilePermissions::setUserReadPermission(bool value)
@@ -315,7 +315,7 @@ namespace TF
         }
 
 
-        std::ostream& FilePermissions::description(std::ostream &o) const
+        std::ostream &FilePermissions::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -329,13 +329,12 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const FilePermissions &p)
+        std::ostream &operator<<(std::ostream &o, const FilePermissions &p)
         {
             return p.description(o);
         }
 
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

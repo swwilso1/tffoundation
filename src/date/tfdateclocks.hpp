@@ -60,8 +60,8 @@ namespace TF
 
         using SteadyDateFormatter = DateFormatter<std::chrono::steady_clock>;
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif //TFDATECLOCKS_HPP
+#endif    // TFDATECLOCKS_HPP

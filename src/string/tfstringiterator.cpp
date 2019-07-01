@@ -57,7 +57,7 @@ namespace TF
         }
 
 
-        StringIterator::StringIterator(encoder_pointer_type  e, const core_pointer_type &c, size_type index)
+        StringIterator::StringIterator(encoder_pointer_type e, const core_pointer_type &c, size_type index)
         {
             core = c;
             theEncoder = e;
@@ -89,7 +89,7 @@ namespace TF
         }
 
 
-        StringIterator& StringIterator::operator++()
+        StringIterator &StringIterator::operator++()
         {
             auto nextCodePoint = getNextCodePoint();
             currentIndex += nextCodePoint.second;
@@ -113,8 +113,7 @@ namespace TF
             if(currentIndex == core->length())
                 throw std::runtime_error("End of iteration in getNextCodePoint");
 
-            return theEncoder->nextCodePoint(core->data() + currentIndex, core->length()
-                    - currentIndex, theEndian);
+            return theEncoder->nextCodePoint(core->data() + currentIndex, core->length() - currentIndex, theEndian);
         }
 
 
@@ -142,15 +141,15 @@ namespace TF
         }
 
 
-        std::ostream& StringIterator::description(std::ostream &o) const
+        std::ostream &StringIterator::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
             {
                 formatter->setClassName("StringIterator");
-                formatter->addClassMember("core_type","core",*core);
-                formatter->addClassMember("encoder","theEncoder",theEncoder);
-                formatter->addClassMember<size_type>("currentIndex",currentIndex);
+                formatter->addClassMember("core_type", "core", *core);
+                formatter->addClassMember("encoder", "theEncoder", theEncoder);
+                formatter->addClassMember<size_type>("currentIndex", currentIndex);
                 o << *formatter;
                 delete formatter;
             }
@@ -158,12 +157,11 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const StringIterator &i)
+        std::ostream &operator<<(std::ostream &o, const StringIterator &i)
         {
             return i.description(o);
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

@@ -33,126 +33,122 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		ClassFormatter::size_type ClassFormatter::columnWidth = 80;
+        ClassFormatter::size_type ClassFormatter::columnWidth = 80;
 
-		ClassFormatter::size_type ClassFormatter::currentColumn = 0;
+        ClassFormatter::size_type ClassFormatter::currentColumn = 0;
 
-		ClassFormatter::size_type ClassFormatter::tabWidth = 4;
+        ClassFormatter::size_type ClassFormatter::tabWidth = 4;
 
-		ClassFormatter::size_type ClassFormatter::indentLevel = 0;
+        ClassFormatter::size_type ClassFormatter::indentLevel = 0;
 
-		ClassFormatter::~ClassFormatter()
-		{
-			for(auto member : classMemberList)
-				delete member;
-		}
-
-
-		void ClassFormatter::setColumnWidth(size_type w)
-		{
-			columnWidth = w;
-		}
+        ClassFormatter::~ClassFormatter()
+        {
+            for(auto member : classMemberList)
+                delete member;
+        }
 
 
-		ClassFormatter::size_type ClassFormatter::getColumnWidth(void)
-		{
-			return columnWidth;
-		}
+        void ClassFormatter::setColumnWidth(size_type w)
+        {
+            columnWidth = w;
+        }
 
 
-		void ClassFormatter::setTabWidth(size_type w)
-		{
-			tabWidth = w;
-		}
+        ClassFormatter::size_type ClassFormatter::getColumnWidth(void)
+        {
+            return columnWidth;
+        }
 
 
-		ClassFormatter::size_type ClassFormatter::getTabWidth(void)
-		{
-			return tabWidth;
-		}
+        void ClassFormatter::setTabWidth(size_type w)
+        {
+            tabWidth = w;
+        }
 
 
-		void ClassFormatter::setClassName(const string_type &name)
-		{
-			className = name;
-		}
+        ClassFormatter::size_type ClassFormatter::getTabWidth(void)
+        {
+            return tabWidth;
+        }
 
 
-		void ClassFormatter::addClassMember(const string_type &type, const string_type &name,
-				const string_type &value)
-		{
-			TemplateClassMemberWithType<string_type> *newMember =
-				new TemplateClassMemberWithType<string_type>(type, name, value);
-			classMemberList.push_back(newMember);
-		}
+        void ClassFormatter::setClassName(const string_type &name)
+        {
+            className = name;
+        }
 
 
-		 void ClassFormatter::addClassMember(size_type i, const string_type &type,
-		 	const string_type &value)
-		 {
-		 	std::stringstream converter;
-		 	converter << i;
-		 	TemplateClassMemberWithType<string_type> *newMember =
-		 		new TemplateClassMemberWithType<string_type>(type, converter.str(), value);
-             classMemberList.push_back(newMember);
-		 }
+        void ClassFormatter::addClassMember(const string_type &type, const string_type &name, const string_type &value)
+        {
+            TemplateClassMemberWithType<string_type> *newMember =
+                new TemplateClassMemberWithType<string_type>(type, name, value);
+            classMemberList.push_back(newMember);
+        }
 
 
-		void ClassFormatter::addClassMember(const string_type &n, void *value)
-		{
-			VoidClassMember *voidMember = new VoidClassMember(n, value);
-			classMemberList.push_back(voidMember);
-		}
+        void ClassFormatter::addClassMember(size_type i, const string_type &type, const string_type &value)
+        {
+            std::stringstream converter;
+            converter << i;
+            TemplateClassMemberWithType<string_type> *newMember =
+                new TemplateClassMemberWithType<string_type>(type, converter.str(), value);
+            classMemberList.push_back(newMember);
+        }
 
 
-
-		void ClassFormatter::addClassTemplateType(const string_type &t)
-		{
-			classTemplateList.push_back(t);
-		}
-
-
-		std::ostream& ClassFormatter::writeToStream(std::ostream &o) const
-		{
-			o << std::endl; // Might need to change this line.
-			indentLevel++;
-			if(classTemplateList.size() > 0)
-			{
-				o << Tab(indentLevel,tabWidth) << className << " template options<";
-				size_type i = 0;
-				size_type max = classTemplateList.size();
-				for(auto templateValue : classTemplateList)
-				{
-					o << templateValue;
-					if(i++ < (max - 1))
-						o << ",";
-				}
-				o << ">" << std::endl;
-			}
-			else
-				o << Tab(indentLevel,tabWidth) << className << std::endl;
-			indentLevel++;
-			for(auto member : classMemberList)
-			{
-				o << std::endl << Tab(indentLevel, tabWidth);
-				o << member->type() << " " << member->name() << ": ";
-				o << member->value();
-			}
-			indentLevel--;
-			indentLevel--;
-			return o;
-		}
+        void ClassFormatter::addClassMember(const string_type &n, void *value)
+        {
+            VoidClassMember *voidMember = new VoidClassMember(n, value);
+            classMemberList.push_back(voidMember);
+        }
 
 
-		std::ostream& operator<<(std::ostream &o, const ClassFormatter &f)
-		{
-			return f.writeToStream(o);
-		}
+        void ClassFormatter::addClassTemplateType(const string_type &t)
+        {
+            classTemplateList.push_back(t);
+        }
 
-	} // Foundation
 
-} // TF
+        std::ostream &ClassFormatter::writeToStream(std::ostream &o) const
+        {
+            o << std::endl;    // Might need to change this line.
+            indentLevel++;
+            if(classTemplateList.size() > 0)
+            {
+                o << Tab(indentLevel, tabWidth) << className << " template options<";
+                size_type i = 0;
+                size_type max = classTemplateList.size();
+                for(auto templateValue : classTemplateList)
+                {
+                    o << templateValue;
+                    if(i++ < (max - 1))
+                        o << ",";
+                }
+                o << ">" << std::endl;
+            }
+            else
+                o << Tab(indentLevel, tabWidth) << className << std::endl;
+            indentLevel++;
+            for(auto member : classMemberList)
+            {
+                o << std::endl << Tab(indentLevel, tabWidth);
+                o << member->type() << " " << member->name() << ": ";
+                o << member->value();
+            }
+            indentLevel--;
+            indentLevel--;
+            return o;
+        }
 
+
+        std::ostream &operator<<(std::ostream &o, const ClassFormatter &f)
+        {
+            return f.writeToStream(o);
+        }
+
+    }    // namespace Foundation
+
+}    // namespace TF

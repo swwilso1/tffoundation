@@ -31,37 +31,37 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		std::ostream& LogXMLClassFormatter::writeToStream(std::ostream &o) const
-		{
-			o << Tab(indentLevel, tabWidth) << "<" << className;
-			if(classTemplateList.size() > 0)
-			{
-				size_type i = 0;
-				size_type max = classTemplateList.size();
-				o << " template_types=\"";
-				for(auto templateType : classTemplateList)
-				{
-					o << templateType;
-					if(i++ < (max - 1))
-						o << ",";
-				}
-				o << "\"";
-			}
-			o << ">";
-			for(auto member : classMemberList)
-			{
-				string_type theValue = member->value();
-				o << "<" << member->name() << " type=\"" << member->type() << "\">";
-				o << member->value();
-				o << "</" << member->name() << ">";
-			}
-			o << "</" << className << ">";
-			return o;
-		}
+        std::ostream &LogXMLClassFormatter::writeToStream(std::ostream &o) const
+        {
+            o << Tab(indentLevel, tabWidth) << "<" << className;
+            if(classTemplateList.size() > 0)
+            {
+                size_type i = 0;
+                size_type max = classTemplateList.size();
+                o << " template_types=\"";
+                for(auto templateType : classTemplateList)
+                {
+                    o << templateType;
+                    if(i++ < (max - 1))
+                        o << ",";
+                }
+                o << "\"";
+            }
+            o << ">";
+            for(auto member : classMemberList)
+            {
+                string_type theValue = member->value();
+                o << "<" << member->name() << " type=\"" << member->type() << "\">";
+                o << member->value();
+                o << "</" << member->name() << ">";
+            }
+            o << "</" << className << ">";
+            return o;
+        }
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF

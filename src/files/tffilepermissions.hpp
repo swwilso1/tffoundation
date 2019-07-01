@@ -42,26 +42,24 @@ namespace TF
 
         enum Permission
         {
-            UserRead      = 0x001,
-            UserWrite     = 0x002,
-            UserExecute   = 0x004,
-            GroupRead     = 0x008,
-            GroupWrite    = 0x010,
-            GroupExecute  = 0x020,
-            OtherRead     = 0x040,
-            OtherWrite    = 0x080,
-            OtherExecute  = 0x100,
-            Sticky        = 0x200,
-            SetUserID     = 0x400,
-            SetGroupID    = 0x800
+            UserRead = 0x001,
+            UserWrite = 0x002,
+            UserExecute = 0x004,
+            GroupRead = 0x008,
+            GroupWrite = 0x010,
+            GroupExecute = 0x020,
+            OtherRead = 0x040,
+            OtherWrite = 0x080,
+            OtherExecute = 0x100,
+            Sticky = 0x200,
+            SetUserID = 0x400,
+            SetGroupID = 0x800
         };
-
 
 
         class FilePermissions : public AllocatorInterface
         {
         public:
-
             using permission = Permission;
 
             using string_type = std::string;
@@ -72,11 +70,13 @@ namespace TF
 
             FilePermissions(const FilePermissions &p);
 
-            ~FilePermissions() {}
+            ~FilePermissions()
+            {
+            }
 
-            FilePermissions& operator=(const FilePermissions &p);
+            FilePermissions &operator=(const FilePermissions &p);
 
-            FilePermissions& operator=(const int &p);
+            FilePermissions &operator=(const int &p);
 
             bool operator==(const FilePermissions &p) const;
 
@@ -136,19 +136,18 @@ namespace TF
 
             string_type unixForm() const;
 
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
             int permissions;
         };
 
 
-        std::ostream& operator<<(std::ostream &o, const FilePermissions &p);
+        std::ostream &operator<<(std::ostream &o, const FilePermissions &p);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 
-#endif //TFFILEPERMISSIONS_HPP
+#endif    // TFFILEPERMISSIONS_HPP

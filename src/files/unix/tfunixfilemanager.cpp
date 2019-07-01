@@ -106,10 +106,9 @@ namespace TF
         void FileManager::createFileAtPath(const string_type &path) const
         {
             auto pathStr = path.cStr();
-            if(! fileExistsAtPath(path) && ! directoryExistsAtPath(path))
+            if(!fileExistsAtPath(path) && !directoryExistsAtPath(path))
             {
-                auto result = open(pathStr.get(), O_RDWR | O_CREAT,
-                                   S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+                auto result = open(pathStr.get(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(result < 0)
                     throw std::runtime_error("Unable to create file");
                 close(result);
@@ -176,12 +175,8 @@ namespace TF
             if(result < 0)
                 return false;
 
-            if(S_ISREG(pathData.st_mode)
-               || S_ISCHR(pathData.st_mode)
-               || S_ISBLK(pathData.st_mode)
-               || S_ISFIFO(pathData.st_mode)
-               || S_ISLNK(pathData.st_mode)
-               || S_ISSOCK(pathData.st_mode))
+            if(S_ISREG(pathData.st_mode) || S_ISCHR(pathData.st_mode) || S_ISBLK(pathData.st_mode) ||
+               S_ISFIFO(pathData.st_mode) || S_ISLNK(pathData.st_mode) || S_ISSOCK(pathData.st_mode))
                 return true;
 
             return false;
@@ -197,7 +192,7 @@ namespace TF
             auto result = lstat(pathStr.get(), &pathData);
 
             if(result < 0)
-                return false; // probably not a standard file or directory.
+                return false;    // probably not a standard file or directory.
 
             if(S_ISDIR(pathData.st_mode))
                 return true;
@@ -485,6 +480,5 @@ namespace TF
 
             return info.st_size;
         }
-    }
-}
-
+    }    // namespace Foundation
+}    // namespace TF

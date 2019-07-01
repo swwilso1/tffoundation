@@ -41,17 +41,16 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		template<class Key, class T, class Compare, class Allocator>
-		std::ostream& operator<<(std::ostream &o, const std::map<Key, T, Compare, Allocator> &m);
+        template<class Key, class T, class Compare, class Allocator>
+        std::ostream &operator<<(std::ostream &o, const std::map<Key, T, Compare, Allocator> &m);
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 #include "tfmap.cxx"
 
-#endif // TFMAP_HXX
-
+#endif    // TFMAP_HXX

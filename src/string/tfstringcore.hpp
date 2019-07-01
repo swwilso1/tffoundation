@@ -43,7 +43,6 @@ namespace TF
         class StringCore : public AllocatorInterface
         {
         public:
-
             /** @brief size type */
             using size_type = size_t;
 
@@ -73,10 +72,10 @@ namespace TF
 
 
             /** @brief assignment operator */
-            StringCore& operator=(const StringCore &c);
+            StringCore &operator=(const StringCore &c);
 
             /** @brief rvalue assignment operator */
-            StringCore& operator=(StringCore &&c) noexcept;
+            StringCore &operator=(StringCore &&c) noexcept;
 
             /** @brief equality operator */
             bool operator==(const StringCore &c) const;
@@ -88,23 +87,22 @@ namespace TF
             size_type length() const;
 
             /** @brief getter for byte array */
-            char_type * data();
+            char_type *data();
 
             /** @brief ostream method */
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
 
         private:
-
             char_type *theBytes;
 
             size_type numberOfBytes;
         };
 
-        std::ostream& operator<<(std::ostream &o, const StringCore &c);
+        std::ostream &operator<<(std::ostream &o, const StringCore &c);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
-#endif // TFSTRINGCORE_HPP
+#endif    // TFSTRINGCORE_HPP

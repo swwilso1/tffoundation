@@ -37,78 +37,79 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		enum class FormatterType
-		{
-			DefaultFormatterType,
-			XMLFormatterType,
-			LogXMLFormatterType
-		};
+        enum class FormatterType
+        {
+            DefaultFormatterType,
+            XMLFormatterType,
+            LogXMLFormatterType
+        };
 
 
-		class FormatterFactory : public AllocatorInterface
-		{
-		public:
+        class FormatterFactory : public AllocatorInterface
+        {
+        public:
+            /** @brief default formatter type */
+            using default_formatter_type = ClassFormatter;
 
-			/** @brief default formatter type */
-			using default_formatter_type = ClassFormatter;
+            /** @brief xml formatter type */
+            using xml_formatter_type = XMLClassFormatter;
 
-			/** @brief xml formatter type */
-			using xml_formatter_type = XMLClassFormatter;
-			
-			/** @brief log xml formatter type */
-			using log_xml_formatter_type = LogXMLClassFormatter;
+            /** @brief log xml formatter type */
+            using log_xml_formatter_type = LogXMLClassFormatter;
 
-			/** @brief type for indicating which formatter to select. */
-			using formatter_type = FormatterType;
+            /** @brief type for indicating which formatter to select. */
+            using formatter_type = FormatterType;
 
-			/**
-			 *  @brief function to set the factory formatter type.
-			 *  @param t the type of formatter to enable.
-			 */
-			static void setFormatterType(formatter_type t) { formatterType = t; }
+            /**
+             *  @brief function to set the factory formatter type.
+             *  @param t the type of formatter to enable.
+             */
+            static void setFormatterType(formatter_type t)
+            {
+                formatterType = t;
+            }
 
-			/**
-			 *  @brief function to get the type of formatter enabled in the factor.
-			 *  @return the type of the formatter.
-			 */
-			static formatter_type getFormatterType(void) { return formatterType; }
+            /**
+             *  @brief function to get the type of formatter enabled in the factor.
+             *  @return the type of the formatter.
+             */
+            static formatter_type getFormatterType(void)
+            {
+                return formatterType;
+            }
 
-			/**
-			 *  @brief function to get a object of the current formatter type.
-			 *  @return a pointer to an object of the current formatter type.
-			 */
-			static default_formatter_type * getFormatter()
-			{
-				default_formatter_type *theFormatter = nullptr;
-				switch(formatterType)
-				{
-					case FormatterType::XMLFormatterType:
-						theFormatter = dynamic_cast<default_formatter_type *>(
-							new xml_formatter_type());
-						break;
-					case FormatterType::LogXMLFormatterType:
-						theFormatter = dynamic_cast<default_formatter_type *>(
-							new log_xml_formatter_type());
-						break;
-					default:
-						theFormatter = new default_formatter_type();
-				}
+            /**
+             *  @brief function to get a object of the current formatter type.
+             *  @return a pointer to an object of the current formatter type.
+             */
+            static default_formatter_type *getFormatter()
+            {
+                default_formatter_type *theFormatter = nullptr;
+                switch(formatterType)
+                {
+                    case FormatterType::XMLFormatterType:
+                        theFormatter = dynamic_cast<default_formatter_type *>(new xml_formatter_type());
+                        break;
+                    case FormatterType::LogXMLFormatterType:
+                        theFormatter = dynamic_cast<default_formatter_type *>(new log_xml_formatter_type());
+                        break;
+                    default:
+                        theFormatter = new default_formatter_type();
+                }
 
-				return theFormatter;
-			}
+                return theFormatter;
+            }
 
-		private:
+        private:
+            /** @brief the current formatterType used by the formatter */
+            static formatter_type formatterType;
+        };
 
-			/** @brief the current formatterType used by the formatter */
-			static formatter_type formatterType;
-		};
+    }    // namespace Foundation
 
-	} // Foundation
+}    // namespace TF
 
-} // TF
-
-#endif // TFFORMATTERFACTORY_HPP
-
+#endif    // TFFORMATTERFACTORY_HPP

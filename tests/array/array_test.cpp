@@ -34,7 +34,7 @@ using namespace TF::Foundation;
 TEST(ArrayTest, DefaultConstructorTest)
 {
     Array<int> a;
-    EXPECT_EQ(0,a.size());
+    EXPECT_EQ(0, a.size());
     EXPECT_EQ(nullptr, a.data());
 }
 
@@ -60,7 +60,6 @@ TEST(ArrayTest, SizeConstructorTest)
 }
 
 
-
 TEST(ArrayTest, LargeSizeConstructorTest)
 {
     unsigned int i = 2147483646;
@@ -73,7 +72,7 @@ TEST(ArrayTest, LargeSizeConstructorTest)
 TEST(ArrayTest, CopyConstructorTest)
 {
     Array<int> a(10);
-    for(int i = 0 ; i < 10; i++)
+    for(int i = 0; i < 10; i++)
         a[i] = i;
 
     Array<int> b(a);
@@ -155,7 +154,6 @@ TEST(ArrayTest, NonConstIteratorTest)
 }
 
 
-
 TEST(ArrayTest, NonConstIteratorAutoTest)
 {
     Array<double> a(300);
@@ -166,7 +164,7 @@ TEST(ArrayTest, NonConstIteratorAutoTest)
     int i = 0;
     for(auto e : a)
     {
-        EXPECT_EQ(static_cast<double>(i),e);
+        EXPECT_EQ(static_cast<double>(i), e);
         i++;
     }
 }
@@ -264,8 +262,8 @@ TEST(ArrayTest, SwapTest)
 
     a.swap(b);
 
-    EXPECT_EQ(100,a.size());
-    EXPECT_EQ(40,b.size());
+    EXPECT_EQ(100, a.size());
+    EXPECT_EQ(40, b.size());
 
     for(int i = 0; i < 100; i++)
         EXPECT_EQ(i, a[i]);

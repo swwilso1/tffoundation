@@ -54,7 +54,7 @@ TEST(StringTest, GetCStringTest2)
 
     String t(s, 5);
     auto value = t.cStr();
-    EXPECT_EQ(strncmp(value.get(), "\\:009483\\:100332\\:000081a", 25),0);
+    EXPECT_EQ(strncmp(value.get(), "\\:009483\\:100332\\:000081a", 25), 0);
 }
 
 
@@ -63,7 +63,6 @@ TEST(StringTest, GetSTLStringTest)
     String s("abcd\\:000080ef\\:004432");
     auto value = s.stlString();
     EXPECT_EQ(value, "abcd\\:000080ef\\:004432");
-
 }
 
 
@@ -81,5 +80,3 @@ TEST(StringTest, GetSTLStringTest2)
     auto value = t.stlString();
     EXPECT_EQ(value, "\\:009483\\:100332\\:000081a");
 }
-
-

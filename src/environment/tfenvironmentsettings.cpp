@@ -51,7 +51,7 @@ namespace TF
                 key = entry.substringToIndex(equalsLocation.position);
                 value = entry.substringFromIndex(equalsLocation.position + equalsLocation.length);
 
-                variableMap.insert(std::make_pair(key,value));
+                variableMap.insert(std::make_pair(key, value));
                 tmp++;
             }
         }
@@ -114,7 +114,7 @@ namespace TF
             }
             else
             {
-                variableMap.insert(std::make_pair(variable,value));
+                variableMap.insert(std::make_pair(variable, value));
             }
 
             setenv(variable.cStr().get(), value.cStr().get(), overwrite ? 1 : 0);
@@ -133,7 +133,7 @@ namespace TF
                 overwrite = true;
             }
             else
-                variableMap.insert(std::make_pair(variable,value));
+                variableMap.insert(std::make_pair(variable, value));
 
             setenv(variable.cStr().get(), value.cStr().get(), overwrite ? 1 : 0);
         }
@@ -152,7 +152,7 @@ namespace TF
         }
 
 
-        std::ostream& EnvironmentSettings::description(std::ostream &o) const
+        std::ostream &EnvironmentSettings::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -166,12 +166,11 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const EnvironmentSettings &s)
+        std::ostream &operator<<(std::ostream &o, const EnvironmentSettings &s)
         {
             return s.description(o);
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

@@ -46,7 +46,6 @@ namespace TF
         class Date : public AllocatorInterface
         {
         public:
-
             using clock = Clock;
 
             using duration = typename Clock::duration;
@@ -86,7 +85,9 @@ namespace TF
             /**
              * @brief destructor
              */
-            ~Date() override {}
+            ~Date() override
+            {
+            }
 
 
             /**
@@ -94,7 +95,7 @@ namespace TF
              * @param d the date to assign
              * @return the current date updated with the contents of @e d.
              */
-            Date& operator=(const Date &d);
+            Date &operator=(const Date &d);
 
 
             /**
@@ -102,7 +103,7 @@ namespace TF
              * @param d the date to move
              * @return the current date updated with the contents of @e d.
              */
-            Date& operator=(Date &&d);
+            Date &operator=(Date &&d);
 
 
             /**
@@ -175,7 +176,7 @@ namespace TF
              * @param d the duration
              * @return this date object updated by the offset duration @e d.
              */
-            Date& operator+=(const duration &d);
+            Date &operator+=(const duration &d);
 
 
             /**
@@ -183,7 +184,7 @@ namespace TF
              * @param d the duration
              * @return this date object moved to an earlier point in time by the duration @e d.
              */
-            Date& operator-=(const duration &d);
+            Date &operator-=(const duration &d);
 
 
             /**
@@ -209,22 +210,20 @@ namespace TF
              * @param o the stream
              * @return @e o
              */
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
         private:
-
             time_point theTime;
-
         };
 
 
         template<class Clock>
-        std::ostream& operator<<(std::ostream &o, const Date<Clock> &d);
+        std::ostream &operator<<(std::ostream &o, const Date<Clock> &d);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 #include "tfdate.cxx"
 
-#endif //TFDATE_HPP
+#endif    // TFDATE_HPP

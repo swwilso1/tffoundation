@@ -40,7 +40,7 @@ TEST(StringTest, AssignmentTest)
 
     t = s;
 
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -53,4 +53,3 @@ TEST(StringTest, AssignmentTest2)
 
     EXPECT_EQ(s, t);
 }
-

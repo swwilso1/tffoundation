@@ -44,9 +44,9 @@ namespace TF
 
 
         template<class Clock>
-        DateSymbol <Clock> &DateSymbol<Clock>::operator=(const DateSymbol &s)
+        DateSymbol<Clock> &DateSymbol<Clock>::operator=(const DateSymbol &s)
         {
-            if (this != &s)
+            if(this != &s)
             {
                 count = s.count;
                 className = s.className;
@@ -58,7 +58,7 @@ namespace TF
 
 
         template<class Clock>
-        typename DateSymbol<Clock>::string_type DateSymbol<Clock>::convert(const DateComponents <Clock> &c)
+        typename DateSymbol<Clock>::string_type DateSymbol<Clock>::convert(const DateComponents<Clock> &c)
         {
             return string_type("");
         }
@@ -71,16 +71,15 @@ namespace TF
         }
 
 
-
         template<class Clock>
-        std::ostream& DateSymbol<Clock>::description(std::ostream &o) const
+        std::ostream &DateSymbol<Clock>::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
             {
                 formatter->setClassName(className.stlString());
                 formatter->addClassMember<int>("count", count);
-                formatter->addClassMember<char>("theCharacter",theCharacter);
+                formatter->addClassMember<char>("theCharacter", theCharacter);
                 o << *formatter;
                 delete formatter;
             }
@@ -89,7 +88,7 @@ namespace TF
 
 
         template<class Clock>
-        std::ostream& operator<<(std::ostream &o, const DateSymbol<Clock> &s)
+        std::ostream &operator<<(std::ostream &o, const DateSymbol<Clock> &s)
         {
             return s.description(o);
         }
@@ -99,28 +98,42 @@ namespace TF
         class EraSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            EraSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "EraSymbol"; }
+            EraSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "EraSymbol";
+            }
 
-            EraSymbol(const EraSymbol &s) : DateSymbol<Clock>(s) {}
+            EraSymbol(const EraSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~EraSymbol() {}
+            ~EraSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Era; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Era;
+            }
 
-            static void useCommonEra() { commonEra = true; }
-            static void useAnnoDomini() { commonEra = false; }
+            static void useCommonEra()
+            {
+                commonEra = true;
+            }
+            static void useAnnoDomini()
+            {
+                commonEra = false;
+            }
 
         private:
-
             static bool commonEra;
         };
 
@@ -162,9 +175,9 @@ namespace TF
                 case 1:
                 case 2:
                 case 3:
-                    return 2; // 2 for CE/AD/BC
+                    return 2;    // 2 for CE/AD/BC
                 case 4:
-                    return 10; // 10 for 'Common Era'
+                    return 10;    // 10 for 'Common Era'
                 case 5:
                     return 1;
             }
@@ -181,9 +194,9 @@ namespace TF
                 case 1:
                 case 2:
                 case 3:
-                    return 3; // 3  for BCE
+                    return 3;    // 3  for BCE
                 case 4:
-                    return 17; // 17 for 'Before Common Era'
+                    return 17;    // 17 for 'Before Common Era'
                 case 5:
                     return 1;
             }
@@ -213,7 +226,7 @@ namespace TF
             if(v == "Anno Domini")
                 return true;
 
-            if( v == "Before Common Era")
+            if(v == "Before Common Era")
                 return true;
 
             if(v == "Before Christ")
@@ -236,15 +249,21 @@ namespace TF
         class YearSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            YearSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "YearSymbol"; }
+            YearSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "YearSymbol";
+            }
 
-            YearSymbol(const YearSymbol &s) : DateSymbol<Clock>(s) {}
+            YearSymbol(const YearSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~YearSymbol() {}
+            ~YearSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -252,7 +271,10 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Year; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Year;
+            }
         };
 
 
@@ -296,7 +318,7 @@ namespace TF
             switch(DateSymbol<Clock>::count)
             {
                 case 1:
-                    return 4; // at least four because our year value should not go below 1900.
+                    return 4;    // at least four because our year value should not go below 1900.
                 case 2:
                     return 2;
                 default:
@@ -313,7 +335,7 @@ namespace TF
             switch(DateSymbol<Clock>::count)
             {
                 case 1:
-                    return 4; // Not happy with a maximum of four, but don't know how to tell otherwise.
+                    return 4;    // Not happy with a maximum of four, but don't know how to tell otherwise.
                 case 2:
                     return 2;
                 default:
@@ -330,7 +352,7 @@ namespace TF
             // Check to make sure all the characters are digit characters.
             for(auto c : v)
             {
-                if(! (c >= '0' && c <= '9'))
+                if(!(c >= '0' && c <= '9'))
                     return false;
             }
 
@@ -338,7 +360,7 @@ namespace TF
             if(DateSymbol<Clock>::count == 1)
             {
                 if(v.length() != 4)
-                    return false; // Not happy with four.
+                    return false;    // Not happy with four.
             }
 
             if(DateSymbol<Clock>::count == 2)
@@ -359,40 +381,49 @@ namespace TF
         class QuarterSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            QuarterSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "QuarterSymbol"; }
+            QuarterSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "QuarterSymbol";
+            }
 
-            QuarterSymbol(const QuarterSymbol &s) : DateSymbol<Clock>(s) {}
+            QuarterSymbol(const QuarterSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~QuarterSymbol() {}
+            ~QuarterSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Quarter; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Quarter;
+            }
         };
 
 
-#       define SET_QUARTER(quarter, phrase) \
-        { \
-           if(DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5) \
-               accumulator << quarter; \
-           else if(DateSymbol<Clock>::count == 2) \
-           { \
-               accumulator.width(2); \
-               accumulator.fill('0'); \
-               accumulator << quarter; \
-           } \
-           else if(DateSymbol<Clock>::count == 3) \
-               accumulator << "Q" << quarter; \
-           else if(DateSymbol<Clock>::count == 4) \
-               accumulator << phrase; \
-        }
+#define SET_QUARTER(quarter, phrase)                                                                                   \
+    {                                                                                                                  \
+        if(DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5)                                             \
+            accumulator << quarter;                                                                                    \
+        else if(DateSymbol<Clock>::count == 2)                                                                         \
+        {                                                                                                              \
+            accumulator.width(2);                                                                                      \
+            accumulator.fill('0');                                                                                     \
+            accumulator << quarter;                                                                                    \
+        }                                                                                                              \
+        else if(DateSymbol<Clock>::count == 3)                                                                         \
+            accumulator << "Q" << quarter;                                                                             \
+        else if(DateSymbol<Clock>::count == 4)                                                                         \
+            accumulator << phrase;                                                                                     \
+    }
 
 
         template<class Clock>
@@ -421,7 +452,7 @@ namespace TF
             else if(DateSymbol<Clock>::count == 2 || DateSymbol<Clock>::count == 3)
                 return 2;
             else if(DateSymbol<Clock>::count == 4)
-                return 11; // 11 characters for 'xth quarter'
+                return 11;    // 11 characters for 'xth quarter'
 
             return 0;
         }
@@ -490,15 +521,21 @@ namespace TF
         class MonthSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            MonthSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "MonthSymbol"; }
+            MonthSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "MonthSymbol";
+            }
 
-            MonthSymbol(const MonthSymbol &s) : DateSymbol<Clock>(s) {}
+            MonthSymbol(const MonthSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~MonthSymbol() {}
+            ~MonthSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -506,7 +543,10 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Month; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Month;
+            }
         };
 
 
@@ -521,7 +561,7 @@ namespace TF
                     accumulator.width(2);
                     accumulator.fill('0');
                 }
-                switch (c.monthOfYear())
+                switch(c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << 1;
@@ -563,7 +603,7 @@ namespace TF
             }
             else if(DateSymbol<Clock>::count == 3)
             {
-                switch (c.monthOfYear())
+                switch(c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << "Jan";
@@ -605,7 +645,7 @@ namespace TF
             }
             else if(DateSymbol<Clock>::count == 4)
             {
-                switch (c.monthOfYear())
+                switch(c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << "January";
@@ -647,7 +687,7 @@ namespace TF
             }
             else if(DateSymbol<Clock>::count == 5)
             {
-                switch (c.monthOfYear())
+                switch(c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << 'J';
@@ -705,7 +745,7 @@ namespace TF
                     auto theValue = std::atoi(s.cStr().get());
                     return theValue;
                 }
-                    break;
+                break;
                 case 3:
                 {
                     if(s == "Jan")
@@ -783,7 +823,7 @@ namespace TF
         int MonthSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            
+
             if(theCount == 1)
                 return 1;
             if(theCount == 2)
@@ -794,7 +834,7 @@ namespace TF
                 return 3;
             if(theCount == 5)
                 return 1;
-            
+
             return 0;
         }
 
@@ -805,13 +845,13 @@ namespace TF
             auto theCount = DateSymbol<Clock>::count;
 
             if(theCount == 1)
-                return 2; // Double digit month value.
+                return 2;    // Double digit month value.
             if(theCount == 2)
-                return 2; // always 2 characters.
+                return 2;    // always 2 characters.
             if(theCount == 3)
-                return 4; // June/July/Sept all have 4 characters
+                return 4;    // June/July/Sept all have 4 characters
             if(theCount == 4)
-                return 9; // September has 9 characters
+                return 9;    // September has 9 characters
             if(theCount == 5)
                 return 1;
 
@@ -913,15 +953,21 @@ namespace TF
         class DayOfMonthSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            DayOfMonthSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "DayOfMonthSymbol"; }
+            DayOfMonthSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "DayOfMonthSymbol";
+            }
 
-            DayOfMonthSymbol(const DayOfMonthSymbol &s) : DateSymbol<Clock>(s) {}
+            DayOfMonthSymbol(const DayOfMonthSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~DayOfMonthSymbol() {}
+            ~DayOfMonthSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -929,13 +975,15 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::DayOfMonth; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::DayOfMonth;
+            }
         };
 
 
         template<class Clock>
-        typename DayOfMonthSymbol<Clock>::string_type DayOfMonthSymbol<Clock>::convert(
-                const DateComponents<Clock> &c)
+        typename DayOfMonthSymbol<Clock>::string_type DayOfMonthSymbol<Clock>::convert(const DateComponents<Clock> &c)
         {
             std::stringstream accumulator;
             if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
@@ -963,7 +1011,7 @@ namespace TF
         int DayOfMonthSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount ==  1)
+            if(theCount == 1)
                 return 1;
             if(theCount == 2)
                 return 2;
@@ -975,7 +1023,7 @@ namespace TF
         int DayOfMonthSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount ==  1)
+            if(theCount == 1)
                 return 2;
             if(theCount == 2)
                 return 2;
@@ -1005,15 +1053,21 @@ namespace TF
         class DayOfYearSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            DayOfYearSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "DayOfYearSymbol"; }
+            DayOfYearSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "DayOfYearSymbol";
+            }
 
-            DayOfYearSymbol(const DayOfYearSymbol &s) : DateSymbol<Clock>(s) {}
+            DayOfYearSymbol(const DayOfYearSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~DayOfYearSymbol() {}
+            ~DayOfYearSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -1021,7 +1075,10 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::DayOfYear; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::DayOfYear;
+            }
         };
 
 
@@ -1101,9 +1158,7 @@ namespace TF
 
             if(theValue >= 1 && theValue <= 365)
                 return true;
-            if(theValue == 0 && (v == "0"
-                || v == "00"
-                || v == "000"))
+            if(theValue == 0 && (v == "0" || v == "00" || v == "000"))
                 return true;
             return false;
         }
@@ -1113,15 +1168,21 @@ namespace TF
         class DayOfWeekSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            DayOfWeekSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "DayOfWeekSymbol"; }
+            DayOfWeekSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "DayOfWeekSymbol";
+            }
 
-            DayOfWeekSymbol(const DayOfWeekSymbol &s) : DateSymbol<Clock>(s) {}
+            DayOfWeekSymbol(const DayOfWeekSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~DayOfWeekSymbol() {}
+            ~DayOfWeekSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -1129,7 +1190,10 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::DayOfWeek; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::DayOfWeek;
+            }
         };
 
 
@@ -1367,22 +1431,31 @@ namespace TF
         class PeriodSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            PeriodSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "PeriodSymbol"; }
+            PeriodSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "PeriodSymbol";
+            }
 
-            PeriodSymbol(const PeriodSymbol &s) : DateSymbol<Clock>(s) {}
+            PeriodSymbol(const PeriodSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~PeriodSymbol() {}
+            ~PeriodSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Period; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Period;
+            }
         };
 
 
@@ -1455,22 +1528,31 @@ namespace TF
         class NormalHourSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            NormalHourSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "NormalHourSymbol"; }
+            NormalHourSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "NormalHourSymbol";
+            }
 
-            NormalHourSymbol(const NormalHourSymbol &s) : DateSymbol<Clock>(s) {}
+            NormalHourSymbol(const NormalHourSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~NormalHourSymbol() {}
+            ~NormalHourSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::NormalHour; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::NormalHour;
+            }
         };
 
 
@@ -1540,15 +1622,21 @@ namespace TF
         class MilitaryHourSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            MilitaryHourSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "MilitaryHourSymbol"; }
+            MilitaryHourSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "MilitaryHourSymbol";
+            }
 
-            MilitaryHourSymbol(const MilitaryHourSymbol &s) : DateSymbol<Clock>(s) {}
+            MilitaryHourSymbol(const MilitaryHourSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~MilitaryHourSymbol() {}
+            ~MilitaryHourSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -1556,13 +1644,16 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::MilitaryHour; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::MilitaryHour;
+            }
         };
 
 
         template<class Clock>
-        typename MilitaryHourSymbol<Clock>::string_type MilitaryHourSymbol<Clock>::convert(
-                const DateComponents<Clock> &c)
+        typename MilitaryHourSymbol<Clock>::string_type
+            MilitaryHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
         {
             std::stringstream accumulator;
             if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
@@ -1633,28 +1724,37 @@ namespace TF
         class NonstandardHourSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            NonstandardHourSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "NonstandardHourSymbol"; }
+            NonstandardHourSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "NonstandardHourSymbol";
+            }
 
-            NonstandardHourSymbol(const NonstandardHourSymbol &s) : DateSymbol<Clock>(s) {}
+            NonstandardHourSymbol(const NonstandardHourSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~NonstandardHourSymbol() {}
+            ~NonstandardHourSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::NonStandardHour; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::NonStandardHour;
+            }
         };
 
 
         template<class Clock>
-        typename NonstandardHourSymbol<Clock>::string_type NonstandardHourSymbol<Clock>::convert(
-                const DateComponents<Clock> &c)
+        typename NonstandardHourSymbol<Clock>::string_type
+            NonstandardHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
         {
             std::stringstream accumulator;
             if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
@@ -1717,29 +1817,37 @@ namespace TF
         class NonstandardMilitaryHourSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
             NonstandardMilitaryHourSymbol() : DateSymbol<Clock>()
-            { DateSymbol<Clock>::className = "NonstandardMilitaryHourSymbol"; }
+            {
+                DateSymbol<Clock>::className = "NonstandardMilitaryHourSymbol";
+            }
 
-            NonstandardMilitaryHourSymbol(const NonstandardMilitaryHourSymbol &s) : DateSymbol<Clock>(s) {}
+            NonstandardMilitaryHourSymbol(const NonstandardMilitaryHourSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~NonstandardMilitaryHourSymbol() {}
+            ~NonstandardMilitaryHourSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::NonStandardMilitaryHour; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::NonStandardMilitaryHour;
+            }
         };
 
 
         template<class Clock>
-        typename NonstandardMilitaryHourSymbol<Clock>::string_type NonstandardMilitaryHourSymbol<Clock>::convert(
-                const DateComponents<Clock> &c)
+        typename NonstandardMilitaryHourSymbol<Clock>::string_type
+            NonstandardMilitaryHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
         {
             std::stringstream accumulator;
             if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
@@ -1798,15 +1906,21 @@ namespace TF
         class MinuteSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            MinuteSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "MinuteSymbol"; }
+            MinuteSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "MinuteSymbol";
+            }
 
-            MinuteSymbol(const MinuteSymbol &s) : MinuteSymbol<Clock>(s) {}
+            MinuteSymbol(const MinuteSymbol &s) : MinuteSymbol<Clock>(s)
+            {
+            }
 
-            ~MinuteSymbol() {}
+            ~MinuteSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -1814,7 +1928,10 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Minute; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Minute;
+            }
         };
 
 
@@ -1889,15 +2006,21 @@ namespace TF
         class SecondSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            SecondSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "SecondSymbol"; }
+            SecondSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "SecondSymbol";
+            }
 
-            SecondSymbol(const SecondSymbol &s) : DateSymbol<Clock>(s) {}
+            SecondSymbol(const SecondSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~SecondSymbol() {}
+            ~SecondSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -1905,7 +2028,10 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Second; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Second;
+            }
         };
 
 
@@ -1980,15 +2106,21 @@ namespace TF
         class FractionalSecondSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            FractionalSecondSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "FractionalSecondSymbol"; }
+            FractionalSecondSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "FractionalSecondSymbol";
+            }
 
-            FractionalSecondSymbol(const FractionalSecondSymbol &s) : DateSymbol<Clock>(s) {}
+            FractionalSecondSymbol(const FractionalSecondSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~FractionalSecondSymbol() {}
+            ~FractionalSecondSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
             int convert(const string_type &s) override;
@@ -1996,13 +2128,16 @@ namespace TF
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::FractionalSecond; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::FractionalSecond;
+            }
         };
 
 
         template<class Clock>
-        typename FractionalSecondSymbol<Clock>::string_type FractionalSecondSymbol<Clock>::convert(
-                const DateComponents<Clock> &c)
+        typename FractionalSecondSymbol<Clock>::string_type
+            FractionalSecondSymbol<Clock>::convert(const DateComponents<Clock> &c)
         {
             std::stringstream accumulator;
             std::stringstream converter;
@@ -2073,22 +2208,31 @@ namespace TF
         class NormalSymbol : public DateSymbol<Clock>
         {
         public:
-
             using string_type = String;
             using semantic_type = SymbolSemantic;
 
-            NormalSymbol() : DateSymbol<Clock>() { DateSymbol<Clock>::className = "NormalSymbol"; }
+            NormalSymbol() : DateSymbol<Clock>()
+            {
+                DateSymbol<Clock>::className = "NormalSymbol";
+            }
 
-            NormalSymbol(const NormalSymbol &s) : DateSymbol<Clock>(s) {}
+            NormalSymbol(const NormalSymbol &s) : DateSymbol<Clock>(s)
+            {
+            }
 
-            ~NormalSymbol() {}
+            ~NormalSymbol()
+            {
+            }
 
             string_type convert(const DateComponents<Clock> &c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
             bool validValueForSymbol(const string_type &v) override;
-            semantic_type semanticValue() const override { return SymbolSemantic::Normal; }
+            semantic_type semanticValue() const override
+            {
+                return SymbolSemantic::Normal;
+            }
         };
 
 
@@ -2125,118 +2269,116 @@ namespace TF
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForEra()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForEra()
         {
             return new EraSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForYear()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForYear()
         {
             return new YearSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForQuarter()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForQuarter()
         {
             return new QuarterSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForMonth()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForMonth()
         {
             return new MonthSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForDayOfMonth()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForDayOfMonth()
         {
             return new DayOfMonthSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForDayOfYear()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForDayOfYear()
         {
             return new DayOfYearSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForDayOfWeek()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForDayOfWeek()
         {
             return new DayOfWeekSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForPeriod()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForPeriod()
         {
             return new PeriodSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForStandardHour()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForStandardHour()
         {
             return new NormalHourSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForMilitaryHour()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForMilitaryHour()
         {
             return new MilitaryHourSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForNonStandardHour()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForNonStandardHour()
         {
             return new NonstandardHourSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForNonStandardMilitaryHour()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForNonStandardMilitaryHour()
         {
             return new NonstandardMilitaryHourSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForMinute()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForMinute()
         {
             return new MinuteSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForStandardSecond()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForStandardSecond()
         {
             return new SecondSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForFractionalSecond()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForFractionalSecond()
         {
             return new FractionalSecondSymbol<Clock>();
         }
 
 
         template<class Clock>
-        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForNormalCharacter()
+        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForNormalCharacter()
         {
             return new NormalSymbol<Clock>();
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
-
+}    // namespace TF

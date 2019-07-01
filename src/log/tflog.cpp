@@ -39,10 +39,10 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-        std::ostream& operator<<(std::ostream &o, const LogPriority &p)
+        std::ostream &operator<<(std::ostream &o, const LogPriority &p)
         {
             switch(p)
             {
@@ -78,7 +78,7 @@ namespace TF
 
 
         Logger::~Logger()
-		{
+        {
             if(thePriority >= defaultPriority)
             {
                 std::ostringstream preamble;
@@ -101,7 +101,7 @@ namespace TF
                     }
                 }
             }
-		}
+        }
 
 
         void Logger::logToFileAtPath(const string_type &path)
@@ -166,7 +166,6 @@ namespace TF
             return theFormattedDate;
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

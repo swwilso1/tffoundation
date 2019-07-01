@@ -47,7 +47,6 @@ namespace TF
         class EnvironmentSettings : public AllocatorInterface
         {
         public:
-
             using string_type = String;
 
             using size_type = size_t;
@@ -82,23 +81,21 @@ namespace TF
             size_type numberOfVariables() const;
 
 
-            std::ostream& description(std::ostream &o) const;
+            std::ostream &description(std::ostream &o) const;
 
 
         private:
-
-            using map_type = std::map<string_type,string_type>;
+            using map_type = std::map<string_type, string_type>;
 
             map_type variableMap;
-
         };
 
 
-        std::ostream& operator<<(std::ostream &o, const EnvironmentSettings &s);
+        std::ostream &operator<<(std::ostream &o, const EnvironmentSettings &s);
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
+}    // namespace TF
 
 
-#endif //TFENVIRONMENTSETTINGS_HPP
+#endif    // TFENVIRONMENTSETTINGS_HPP

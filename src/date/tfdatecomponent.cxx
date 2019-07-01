@@ -43,7 +43,7 @@ namespace TF
             std::time_t theTime = secs.count();
             fractionOfSecond = nanos.count() % 1000000000;
             struct tm *brokenDownTime = std::localtime(&theTime);
-            if (brokenDownTime != nullptr)
+            if(brokenDownTime != nullptr)
             {
                 components = *brokenDownTime;
             }
@@ -98,7 +98,7 @@ namespace TF
         template<class Clock>
         DateComponents<Clock> &DateComponents<Clock>::operator=(const DateComponents &c)
         {
-            if (this != &c)
+            if(this != &c)
             {
                 components = c.components;
                 fractionOfSecond = c.fractionOfSecond;
@@ -288,7 +288,6 @@ namespace TF
         }
 
 
-
         template<class Clock>
         int DateComponents<Clock>::year() const
         {
@@ -358,15 +357,18 @@ namespace TF
         bool DateComponents<Clock>::isLeapYear() const
         {
             int theYear = year();
-            if(theYear % 400 == 0) return true;
-            if(theYear % 100 == 0) return false;
-            if(theYear % 4 == 0) return true;
+            if(theYear % 400 == 0)
+                return true;
+            if(theYear % 100 == 0)
+                return false;
+            if(theYear % 4 == 0)
+                return true;
             return false;
         }
 
 
         template<class Clock>
-        std::ostream& DateComponents<Clock>::description(std::ostream &o) const
+        std::ostream &DateComponents<Clock>::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -382,13 +384,12 @@ namespace TF
 
 
         template<class Clock>
-        std::ostream& operator<<(std::ostream &o, const DateComponents<Clock> &d)
+        std::ostream &operator<<(std::ostream &o, const DateComponents<Clock> &d)
         {
             return d.description(o);
         }
 
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

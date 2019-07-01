@@ -62,7 +62,7 @@ TEST(StringTest, DecimalNumberTest3)
 
 TEST(StringTest, OctalNumberTest)
 {
-    int f{10};
+    int f {10};
     String s = String::initWithFormat("%o", f);
     String t("12");
     EXPECT_TRUE(s == t);
@@ -90,7 +90,7 @@ TEST(StringTest, OctalNumberTest3)
 TEST(StringTest, LowerCaseHexNumberTest)
 {
     int f {10};
-    String s = String::initWithFormat("%x",f);
+    String s = String::initWithFormat("%x", f);
     String t("a");
     EXPECT_TRUE(s == t);
 }
@@ -114,11 +114,10 @@ TEST(StringTest, LowerCaseHexNumberTest3)
 }
 
 
-
 TEST(StringTest, UpperCaseHexNumberTest)
 {
     int f {10};
-    String s = String::initWithFormat("%X",f);
+    String s = String::initWithFormat("%X", f);
     String t("A");
     EXPECT_TRUE(s == t);
 }
@@ -183,7 +182,7 @@ TEST(StringTest, SingleCharacterTest)
     char c = '9';
     String s = String::initWithFormat("%c", c);
     String t("9");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -191,7 +190,7 @@ TEST(StringTest, CStyleStringTest)
 {
     String s = String::initWithFormat("%s", "Hello World");
     String t("Hello World");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -200,7 +199,7 @@ TEST(StringTest, STLStyleStringTest)
     std::string j("Hello World");
     String s = String::initWithFormat("%S", &j);
     String t("Hello World");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -209,7 +208,7 @@ TEST(StringTest, FRealNumberTest)
     float f {3.141561};
     String s = String::initWithFormat("%f", f);
     String t("3.141561");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -218,7 +217,7 @@ TEST(StringTest, GRealNumberTest)
     float f {3.141561};
     String s = String::initWithFormat("%g", f);
     String t("3.14156");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -227,7 +226,7 @@ TEST(StringTest, ERealNumberTest)
     auto f {3.141561};
     String s = String::initWithFormat("%e", f);
     String t("3.141561e+00");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -256,9 +255,9 @@ TEST(StringTest, StringConverterTest)
 TEST(StringTest, StringConverterTest2)
 {
     String s("Hello World!");
-    String t = String::initWithFormat("%@",&s);
+    String t = String::initWithFormat("%@", &s);
     String u("Hello World!");
-    EXPECT_EQ(t,u);
+    EXPECT_EQ(t, u);
 }
 
 
@@ -266,7 +265,7 @@ TEST(StringTest, ZeroModifierTest)
 {
     String s = String::initWithFormat("%04d", 1);
     String t("0001");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -274,15 +273,15 @@ TEST(StringTest, PaddingTest)
 {
     String s = String::initWithFormat("%8d", 12);
     String t("      12");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, PrecisionTest)
 {
-    String s = String::initWithFormat("%.2f",3.1415);
+    String s = String::initWithFormat("%.2f", 3.1415);
     String t("3.14");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -290,24 +289,24 @@ TEST(StringTest, PaddingPrecisionTest)
 {
     String s = String::initWithFormat("%5.2f", 3.14159);
     String t(" 3.14");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, LongTest)
 {
-    String s = String::initWithFormat("%lu",18446744073709551615UL);
+    String s = String::initWithFormat("%lu", 18446744073709551615UL);
     String t("18446744073709551615");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, LongLongTest)
 {
     long long v = 18446744073709551615UL;
-    String s = String::initWithFormat("%llu",v);
+    String s = String::initWithFormat("%llu", v);
     String t("18446744073709551615");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -332,15 +331,15 @@ TEST(StringTest, HUTest)
 {
     String s = String::initWithFormat("%hu", 65536);
     String t("0");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, HxTest)
 {
-    String s = String::initWithFormat("%hx",32778);
+    String s = String::initWithFormat("%hx", 32778);
     String t("800a");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -348,47 +347,47 @@ TEST(StringTest, HXTest)
 {
     String s = String::initWithFormat("%hX", 32778);
     String t("800A");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, HHDTest)
 {
-    String s = String::initWithFormat("%hhd",65);
+    String s = String::initWithFormat("%hhd", 65);
     String t("A");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, HHOTest)
 {
-    String s = String::initWithFormat("%hho",65);
+    String s = String::initWithFormat("%hho", 65);
     String t("A");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, HHUTest)
 {
-    String s = String::initWithFormat("%hhu",66);
+    String s = String::initWithFormat("%hhu", 66);
     String t("B");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, HHxTest)
 {
-    String s = String::initWithFormat("%hhx",67);
+    String s = String::initWithFormat("%hhx", 67);
     String t("C");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
 TEST(StringTest, HHXTest)
 {
-    String s = String::initWithFormat("%hhX",68);
+    String s = String::initWithFormat("%hhX", 68);
     String t("D");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
 
 
@@ -396,8 +395,5 @@ TEST(StringTest, LeftJustifyTest)
 {
     String s = String::initWithFormat("%-5d", 25);
     String t("25   ");
-    EXPECT_EQ(s,t);
+    EXPECT_EQ(s, t);
 }
-
-
-

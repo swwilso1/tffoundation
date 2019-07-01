@@ -29,19 +29,18 @@ SOFTWARE.
 #define TFPLATFORM_HPP
 
 #if defined(__linux) || defined(__linux__) || defined(linux__)
-#  define TFLINUX
-#  define TFUNIX
+#    define TFLINUX
+#    define TFUNIX
 
 #elif defined(__MACH) || defined(__MACH__) || defined(MACH__)
-#  define TFMACOS
-#  define TFUNIX
+#    define TFMACOS
+#    define TFUNIX
 
 #elif defined(WIN32) || defined(WIN64)
-#  define TFWINDOWS
+#    define TFWINDOWS
 
 #else
-#  error "TFPLATFORM does not recognize platform"
+#    error "TFPLATFORM does not recognize platform"
 #endif
 
-#endif // TFPLATFORM_HPP
-
+#endif    // TFPLATFORM_HPP

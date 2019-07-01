@@ -33,110 +33,111 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		template<> TemplateArrayClassMember<unsigned char>::string_type
-			TemplateArrayClassMember<unsigned char>::value()
-		{
-			std::stringstream collector;
-			if(theLength > 0)
-			{
-				collector << "{";
-				for(size_type i = 0; i < theLength; i++)
-				{
-					int value = static_cast<int>(theValue[i]);
-					collector << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
-					if(i < (theLength - 1))
-						collector << ",";
-				}
-				collector << "}";
-			}
-			return collector.str();
-
-		}
-
-
-		template<> std::ostream& TemplateArrayClassMember<unsigned char>::writeToStream(std::ostream &o) const
-		{
-			o << theType << " " << theName << "[" << theLength << "]";
-			if(theLength > 0)
-			{
-				o << " {";
-				for(size_type i = 0; i < theLength; i++)
-				{
-					int value = static_cast<int>(theValue[i]);
-					o << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
-					if(i < (theLength - 1))
-						o << ",";
-				}
-				o << "}";
-			}
-			return o;
-		}
+        template<>
+        TemplateArrayClassMember<unsigned char>::string_type TemplateArrayClassMember<unsigned char>::value()
+        {
+            std::stringstream collector;
+            if(theLength > 0)
+            {
+                collector << "{";
+                for(size_type i = 0; i < theLength; i++)
+                {
+                    int value = static_cast<int>(theValue[i]);
+                    collector << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
+                    if(i < (theLength - 1))
+                        collector << ",";
+                }
+                collector << "}";
+            }
+            return collector.str();
+        }
 
 
-		template<> TemplateArrayClassMemberWithType<unsigned char>::string_type
-			TemplateArrayClassMemberWithType<unsigned char>::value()
-		{
-			std::stringstream collector;
-			if(theLength > 0)
-			{
-				collector << "{";
-				for(size_type i = 0; i < theLength; i++)
-				{
-					int value = static_cast<int>(theValue[i]);
-					collector << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
-					if(i < (theLength - 1))
-						collector << ",";
-				}
-				collector << "}";
-			}
-			return collector.str();
-		}
+        template<>
+        std::ostream &TemplateArrayClassMember<unsigned char>::writeToStream(std::ostream &o) const
+        {
+            o << theType << " " << theName << "[" << theLength << "]";
+            if(theLength > 0)
+            {
+                o << " {";
+                for(size_type i = 0; i < theLength; i++)
+                {
+                    int value = static_cast<int>(theValue[i]);
+                    o << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
+                    if(i < (theLength - 1))
+                        o << ",";
+                }
+                o << "}";
+            }
+            return o;
+        }
 
 
-		template<> std::ostream& TemplateArrayClassMemberWithType<unsigned char>::writeToStream(std::ostream &o) const
-		{
-			o << theType << " " << theName << "[" << theLength << "]";
-			if(theLength > 0)
-			{
-				o << " {";
-				for(size_type i = 0; i < theLength; i++)
-				{
-					int value = static_cast<int>(theValue[i]);
-					o << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
-					if(i < (theLength - 1))
-						o << ",";
-				}
-				o << "}";
-			}
-			return o;
-		}
+        template<>
+        TemplateArrayClassMemberWithType<unsigned char>::string_type
+            TemplateArrayClassMemberWithType<unsigned char>::value()
+        {
+            std::stringstream collector;
+            if(theLength > 0)
+            {
+                collector << "{";
+                for(size_type i = 0; i < theLength; i++)
+                {
+                    int value = static_cast<int>(theValue[i]);
+                    collector << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
+                    if(i < (theLength - 1))
+                        collector << ",";
+                }
+                collector << "}";
+            }
+            return collector.str();
+        }
 
 
-		std::ostream& ClassMember::writeToStream(std::ostream &o) const
-		{
-			o << theType << " " << theName;
-			return o;
-		}
+        template<>
+        std::ostream &TemplateArrayClassMemberWithType<unsigned char>::writeToStream(std::ostream &o) const
+        {
+            o << theType << " " << theName << "[" << theLength << "]";
+            if(theLength > 0)
+            {
+                o << " {";
+                for(size_type i = 0; i < theLength; i++)
+                {
+                    int value = static_cast<int>(theValue[i]);
+                    o << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
+                    if(i < (theLength - 1))
+                        o << ",";
+                }
+                o << "}";
+            }
+            return o;
+        }
 
 
-		std::ostream& VoidClassMember::writeToStream(std::ostream &o) const
-		{
-			std::stringstream converter;
-			converter << theValue;
-			o << theType << " " << theName << " " << converter.str();
-			return o;
-		}
+        std::ostream &ClassMember::writeToStream(std::ostream &o) const
+        {
+            o << theType << " " << theName;
+            return o;
+        }
 
 
-		std::ostream& operator<<(std::ostream &o, const ClassMember &m)
-		{
-			return m.writeToStream(o);
-		}
+        std::ostream &VoidClassMember::writeToStream(std::ostream &o) const
+        {
+            std::stringstream converter;
+            converter << theValue;
+            o << theType << " " << theName << " " << converter.str();
+            return o;
+        }
 
-	} // Foundation
 
-} // TF
+        std::ostream &operator<<(std::ostream &o, const ClassMember &m)
+        {
+            return m.writeToStream(o);
+        }
 
+    }    // namespace Foundation
+
+}    // namespace TF

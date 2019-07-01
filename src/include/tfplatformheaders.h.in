@@ -148,9 +148,8 @@ namespace TF
 #cmakedefine HAS_VARIANT
 #cmakedefine HAS_VECTOR
 
-    }
+    }    // namespace Foundation
 
-}
+}    // namespace TF
 
-#endif // TFPLATFORMHEADERS_H
-
+#endif    // TFPLATFORMHEADERS_H

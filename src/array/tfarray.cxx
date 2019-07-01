@@ -45,7 +45,7 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator<T>::ArrayIterator(Array <value_type> &a, size_type i)
+        ArrayIterator<T>::ArrayIterator(Array<value_type> &a, size_type i)
         {
             theArray = a;
             theLocation = i;
@@ -78,9 +78,9 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> &ArrayIterator<T>::operator=(const ArrayIterator &i)
+        ArrayIterator<T> &ArrayIterator<T>::operator=(const ArrayIterator &i)
         {
-            if (this != &i)
+            if(this != &i)
             {
                 theArray = i.theArray;
                 theLocation = i.theLocation;
@@ -92,9 +92,9 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> &ArrayIterator<T>::operator=(ArrayIterator &&i)
+        ArrayIterator<T> &ArrayIterator<T>::operator=(ArrayIterator &&i)
         {
-            if (this != &i)
+            if(this != &i)
             {
                 theArray = i.theArray;
                 theLocation = i.theLocation;
@@ -108,15 +108,15 @@ namespace TF
         template<class T>
         bool ArrayIterator<T>::operator==(const ArrayIterator &i) const
         {
-            if (this != &i)
+            if(this != &i)
             {
-                if (theArray != i.theArray)
+                if(theArray != i.theArray)
                     return false;
-                if (theKind != i.theKind)
+                if(theKind != i.theKind)
                     return false;
-                if (theKind == iterator_kind::Normal)
+                if(theKind == iterator_kind::Normal)
                 {
-                    if (theLocation != i.theLocation)
+                    if(theLocation != i.theLocation)
                         return false;
                 }
             }
@@ -128,7 +128,7 @@ namespace TF
         template<class T>
         bool ArrayIterator<T>::operator!=(const ArrayIterator &i) const
         {
-            if (*this == i)
+            if(*this == i)
                 return false;
             return true;
         }
@@ -137,14 +137,14 @@ namespace TF
         template<class T>
         bool ArrayIterator<T>::operator<(const ArrayIterator &i) const
         {
-            if (this != &i)
+            if(this != &i)
             {
-                if (theArray != i.theArray)
+                if(theArray != i.theArray)
                     return false;
 
-                if (theKind != i.theKind)
+                if(theKind != i.theKind)
                 {
-                    if (theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
+                    if(theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
                         return true;
                     else
                         return false;
@@ -160,14 +160,14 @@ namespace TF
         template<class T>
         bool ArrayIterator<T>::operator<=(const ArrayIterator &i) const
         {
-            if (this != &i)
+            if(this != &i)
             {
-                if (theArray != i.theArray)
+                if(theArray != i.theArray)
                     return false;
 
-                if (theKind != i.theKind)
+                if(theKind != i.theKind)
                 {
-                    if (theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
+                    if(theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
                         return true;
                     else
                         return false;
@@ -183,14 +183,14 @@ namespace TF
         template<class T>
         bool ArrayIterator<T>::operator>=(const ArrayIterator &i) const
         {
-            if (this != &i)
+            if(this != &i)
             {
-                if (theArray != i.theArray)
+                if(theArray != i.theArray)
                     return false;
 
-                if (theKind != i.theKind)
+                if(theKind != i.theKind)
                 {
-                    if (theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
+                    if(theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
                         return true;
                     else
                         return false;
@@ -206,14 +206,14 @@ namespace TF
         template<class T>
         bool ArrayIterator<T>::operator>(const ArrayIterator &i) const
         {
-            if (this != &i)
+            if(this != &i)
             {
-                if (theArray != i.theArray)
+                if(theArray != i.theArray)
                     return false;
 
-                if (theKind != i.theKind)
+                if(theKind != i.theKind)
                 {
-                    if (theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
+                    if(theKind == iterator_kind::Normal && i.theKind == iterator_kind::End)
                         return true;
                     else
                         return false;
@@ -227,11 +227,11 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> &ArrayIterator<T>::operator++()
+        ArrayIterator<T> &ArrayIterator<T>::operator++()
         {
-            if (theKind == iterator_kind::Normal)
+            if(theKind == iterator_kind::Normal)
             {
-                if (theLocation == (theArray.size() - 1))
+                if(theLocation == (theArray.size() - 1))
                     theKind = iterator_kind::End;
                 else
                     theLocation++;
@@ -242,13 +242,13 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> ArrayIterator<T>::operator++(int)
+        ArrayIterator<T> ArrayIterator<T>::operator++(int)
         {
             ArrayIterator copyIterator(*this);
 
-            if (theKind == iterator_kind::Normal)
+            if(theKind == iterator_kind::Normal)
             {
-                if (theLocation == (theArray.size() - 1))
+                if(theLocation == (theArray.size() - 1))
                     theKind = iterator_kind::End;
                 else
                     theLocation++;
@@ -259,13 +259,14 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> &ArrayIterator<T>::operator--()
+        ArrayIterator<T> &ArrayIterator<T>::operator--()
         {
-            if (theKind == iterator_kind::Normal)
+            if(theKind == iterator_kind::Normal)
             {
-                if (theLocation != 0)
+                if(theLocation != 0)
                     theLocation--;
-            } else if (theKind == iterator_kind::End && theArray.size() > 0)
+            }
+            else if(theKind == iterator_kind::End && theArray.size() > 0)
                 theLocation = theArray.size() - 1;
 
             return *this;
@@ -273,15 +274,16 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> ArrayIterator<T>::operator--(int)
+        ArrayIterator<T> ArrayIterator<T>::operator--(int)
         {
             ArrayIterator copyIterator(*this);
 
-            if (theKind == iterator_kind::Normal)
+            if(theKind == iterator_kind::Normal)
             {
-                if (theLocation != 0)
+                if(theLocation != 0)
                     theLocation--;
-            } else if (theKind == iterator_kind::End && theArray.size() > 0)
+            }
+            else if(theKind == iterator_kind::End && theArray.size() > 0)
                 theLocation = theArray.size() - 1;
 
             return copyIterator;
@@ -289,13 +291,13 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> ArrayIterator<T>::operator+(int i)
+        ArrayIterator<T> ArrayIterator<T>::operator+(int i)
         {
             ArrayIterator copyIterator(*this);
 
-            if (copyIterator.theKind == iterator_kind::Normal)
+            if(copyIterator.theKind == iterator_kind::Normal)
             {
-                if ((copyIterator.theLocation + i) > (copyIterator.theArray.size() - 1))
+                if((copyIterator.theLocation + i) > (copyIterator.theArray.size() - 1))
                     copyIterator.theKind = iterator_kind::End;
                 else
                     copyIterator.theLocation += i;
@@ -306,22 +308,23 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> ArrayIterator<T>::operator-(int i)
+        ArrayIterator<T> ArrayIterator<T>::operator-(int i)
         {
             ArrayIterator copyIterator(*this);
 
-            if (copyIterator.theKind == iterator_kind::Normal)
+            if(copyIterator.theKind == iterator_kind::Normal)
             {
-                if (copyIterator.theLocation <= i)
+                if(copyIterator.theLocation <= i)
                     copyIterator.theLocation = 0;
                 else
                     copyIterator.theLocation -= i;
-            } else if (copyIterator.theKind == iterator_kind::End && theArray.size() > 0)
+            }
+            else if(copyIterator.theKind == iterator_kind::End && theArray.size() > 0)
             {
                 copyIterator.theLocation = theArray.size() - 1;
                 i--;
 
-                if (copyIterator.theLocation <= i)
+                if(copyIterator.theLocation <= i)
                     copyIterator.theLocation = 0;
                 else
                     copyIterator.theLocation -= i;
@@ -332,11 +335,11 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> &ArrayIterator<T>::operator+=(int i)
+        ArrayIterator<T> &ArrayIterator<T>::operator+=(int i)
         {
-            if (theKind == iterator_kind::Normal)
+            if(theKind == iterator_kind::Normal)
             {
-                if ((theLocation + i) > (theArray.size() - 1))
+                if((theLocation + i) > (theArray.size() - 1))
                     theKind = iterator_kind::End;
                 else
                     theLocation += i;
@@ -347,20 +350,21 @@ namespace TF
 
 
         template<class T>
-        ArrayIterator <T> &ArrayIterator<T>::operator-=(int i)
+        ArrayIterator<T> &ArrayIterator<T>::operator-=(int i)
         {
-            if (theKind == iterator_kind::Normal)
+            if(theKind == iterator_kind::Normal)
             {
-                if (theLocation <= i)
+                if(theLocation <= i)
                     theLocation = 0;
                 else
                     theLocation -= i;
-            } else if (theKind == iterator_kind::End && theArray.size() > 0)
+            }
+            else if(theKind == iterator_kind::End && theArray.size() > 0)
             {
                 theLocation = theArray.size() - 1;
                 i--;
 
-                if (theLocation <= i)
+                if(theLocation <= i)
                     theLocation = 0;
                 else
                     theLocation -= i;
@@ -385,15 +389,15 @@ namespace TF
 
 
         template<class T>
-        std::ostream& ArrayIterator<T>::description(std::ostream &o) const
+        std::ostream &ArrayIterator<T>::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
             {
                 formatter->setClassName("ArrayIterator");
                 formatter->addClassTemplateType<value_type>();
-                formatter->addClassMember<Array<T>>("theArray",theArray);
-                formatter->addClassMember<size_type>("theLocation",theLocation);
+                formatter->addClassMember<Array<T>>("theArray", theArray);
+                formatter->addClassMember<size_type>("theLocation", theLocation);
                 if(theKind == iterator_kind::Normal)
                     formatter->addClassMember("ArrayIteratorKind", "theKind", std::string("Normal"));
                 else if(theKind == iterator_kind::End)
@@ -406,7 +410,7 @@ namespace TF
 
 
         template<class T>
-        std::ostream& operator<<(std::ostream &o, const ArrayIterator<T> &i)
+        std::ostream &operator<<(std::ostream &o, const ArrayIterator<T> &i)
         {
             return i.description(o);
         }
@@ -483,7 +487,7 @@ namespace TF
 
 
         template<class T>
-        Array<T>& Array<T>::operator=(const Array &a)
+        Array<T> &Array<T>::operator=(const Array &a)
         {
             if(this != &a)
             {
@@ -495,7 +499,7 @@ namespace TF
                 if(a.theLength > 0)
                 {
                     theArray = std::shared_ptr<value_type>(new value_type[a.theLength]);
-                    for (size_type i = 0; i < a.theLength; i++)
+                    for(size_type i = 0; i < a.theLength; i++)
                         *(theArray.get() + i) = *(a.theArray.get() + i);
                     theLength = a.theLength;
                 }
@@ -506,7 +510,7 @@ namespace TF
 
 
         template<class T>
-        Array<T>& Array<T>::operator=(Array &&a)
+        Array<T> &Array<T>::operator=(Array &&a)
         {
             if(this != &a)
             {
@@ -535,7 +539,7 @@ namespace TF
 
                 for(size_type i = 0; i < theLength; i++)
                 {
-                    if (*(theArray.get() + i) != *(a.theArray.get() + i))
+                    if(*(theArray.get() + i) != *(a.theArray.get() + i))
                         return false;
                 }
             }
@@ -712,14 +716,13 @@ namespace TF
         {
             Data theData;
 
-            theData.append(reinterpret_cast<const char *>(theArray.get()),
-                theLength * sizeof(value_type));
+            theData.append(reinterpret_cast<const char *>(theArray.get()), theLength * sizeof(value_type));
             return theData;
         }
 
 
         template<class T>
-        std::ostream& Array<T>::description(std::ostream &o) const
+        std::ostream &Array<T>::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -727,7 +730,7 @@ namespace TF
                 formatter->setClassName("Array");
                 formatter->addClassTemplateType<value_type>();
                 formatter->addClassMember<value_type>("theArray", theArray.get(), theLength);
-                formatter->addClassMember<size_type>("theLength",theLength);
+                formatter->addClassMember<size_type>("theLength", theLength);
                 o << *formatter;
                 delete formatter;
             }
@@ -736,13 +739,11 @@ namespace TF
 
 
         template<class T>
-        std::ostream& operator<<(std::ostream &o, const Array<T> &a)
+        std::ostream &operator<<(std::ostream &o, const Array<T> &a)
         {
             return a.description(o);
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
-
+}    // namespace TF

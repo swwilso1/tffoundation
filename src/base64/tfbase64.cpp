@@ -167,22 +167,22 @@ namespace TF
             for(string_type::size_type i = 0; i < s.length(); i++)
             {
                 auto code = s[i++];
-                padCharsFound += code == sPadChar  ? 1 : 0;
+                padCharsFound += code == sPadChar ? 1 : 0;
                 auto value = code == sPadChar ? 0 : sDecodingMap[code];
                 decodeHelper = value;
 
                 code = s[i++];
-                padCharsFound += code == sPadChar  ? 1 : 0;
+                padCharsFound += code == sPadChar ? 1 : 0;
                 value = code == sPadChar ? 0 : sDecodingMap[code];
                 decodeHelper = (decodeHelper << 6) | value;
 
                 code = s[i++];
-                padCharsFound += code == sPadChar  ? 1 : 0;
+                padCharsFound += code == sPadChar ? 1 : 0;
                 value = code == sPadChar ? 0 : sDecodingMap[code];
                 decodeHelper = (decodeHelper << 6) | value;
 
                 code = s[i];
-                padCharsFound += code == sPadChar  ? 1 : 0;
+                padCharsFound += code == sPadChar ? 1 : 0;
                 value = code == sPadChar ? 0 : sDecodingMap[code];
                 decodeHelper = (decodeHelper << 6) | value;
 
@@ -198,12 +198,11 @@ namespace TF
                 decodeHelper = 0;
             }
 
-            d = d.subdataWithRange(Range(0, d.length()- padCharsFound));
+            d = d.subdataWithRange(Range(0, d.length() - padCharsFound));
 
             return d;
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

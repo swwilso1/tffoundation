@@ -31,7 +31,7 @@ namespace TF
 
     namespace Foundation
     {
-        void * processNotifications(void *arg);
+        void *processNotifications(void *arg);
 
         NotificationCenter::pointer NotificationCenter::singleCenter = nullptr;
 
@@ -65,7 +65,7 @@ namespace TF
 
 
         void NotificationCenter::registerForNotificationFromSender(const label_type &label, sender_type sender,
-                                               const label_type &cblabel, callback_type callback)
+                                                                   const label_type &cblabel, callback_type callback)
         {
             // We lock the mutex here so that the notification sending thread can't access the table at the same
             // time we are updating it.
@@ -111,11 +111,10 @@ namespace TF
 
 
         void NotificationCenter::registerForNotification(const label_type &label, const label_type &cblabel,
-                                     callback_type callback)
+                                                         callback_type callback)
         {
             registerForNotificationFromSender(label, nullptr, cblabel, callback);
         }
-
 
 
         void NotificationCenter::removeRegistrationForNotification(const label_type &label, const label_type &cblabel)
@@ -142,7 +141,7 @@ namespace TF
             threadController.signal();
         }
 
-        std::ostream& NotificationCenter::description(std::ostream &o) const
+        std::ostream &NotificationCenter::description(std::ostream &o) const
         {
             return o;
         }
@@ -150,7 +149,7 @@ namespace TF
 
         void NotificationCenter::sendNotifications()
         {
-            while(! notificationQueue.empty())
+            while(!notificationQueue.empty())
             {
                 auto &notification = notificationQueue.front();
                 sendNotification(notification);
@@ -173,8 +172,8 @@ namespace TF
                 // Now iterate through the map and try to send the actual notifications.
                 for(auto &entry : callbackMap)
                 {
-                    if((n.sender() != nullptr && listHasSender(entry.second.senders, n.sender()))
-                        || entry.second.senders.size() == 0)
+                    if((n.sender() != nullptr && listHasSender(entry.second.senders, n.sender())) ||
+                       entry.second.senders.size() == 0)
                         entry.second.handler(n);
                 }
             }
@@ -185,7 +184,7 @@ namespace TF
         {
             for(auto s : l)
             {
-                if (s == sender)
+                if(s == sender)
                     return true;
             }
 
@@ -193,20 +192,20 @@ namespace TF
         }
 
 
-        std::ostream& operator<<(std::ostream &o, const NotificationCenter &c)
+        std::ostream &operator<<(std::ostream &o, const NotificationCenter &c)
         {
             return c.description(o);
         }
 
 
-        void * processNotifications(void *arg)
+        void *processNotifications(void *arg)
         {
             NotificationCenter *theCenter = reinterpret_cast<NotificationCenter *>(arg);
 
             if(theCenter == nullptr)
                 return nullptr;
 
-            while(! theCenter->threadController.shouldStop())
+            while(!theCenter->threadController.shouldStop())
             {
                 theCenter->sendNotifications();
                 theCenter->threadController.wait();
@@ -216,7 +215,6 @@ namespace TF
         }
 
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

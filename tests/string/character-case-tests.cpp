@@ -52,6 +52,3 @@ TEST(StringTest, UppercaseStringTest)
     String s("hello how are you?");
     EXPECT_EQ(s.uppercaseString(), "HELLO HOW ARE YOU?");
 }
-
-
-

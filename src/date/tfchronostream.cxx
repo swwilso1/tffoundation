@@ -32,7 +32,7 @@ namespace TF
     {
 
         template<class Rep, class Ratio>
-        std::ostream& operator<<(std::ostream &o, const std::chrono::duration<Rep, Ratio> &d)
+        std::ostream &operator<<(std::ostream &o, const std::chrono::duration<Rep, Ratio> &d)
         {
             o << "[";
             o << d.count();
@@ -43,14 +43,13 @@ namespace TF
 
 
         template<class Dur>
-        std::ostream& operator<<(std::ostream &o, const std::chrono::time_point<Dur> &tp)
+        std::ostream &operator<<(std::ostream &o, const std::chrono::time_point<Dur> &tp)
         {
             auto duration = tp.time_since_epoch();
             o << duration << " since epoch";
             return o;
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

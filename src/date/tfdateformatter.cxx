@@ -35,54 +35,54 @@ namespace TF
     namespace Foundation
     {
 
-#       define RESET_PROCESSING() \
-        { \
-            processingEra = false; \
-            processingYear = false; \
-            processingQuarter = false; \
-            processingMonth = false; \
-            processingMonth = false; \
-            processingDayOfMonth = false; \
-            processingDayOfYear = false; \
-            processingDayOfWeek = false; \
-            processingPeriod = false; \
-            processingStandardHour = false; \
-            processingMilitaryHour = false; \
-            processingNonstandardHour = false; \
-            processingNonstandardMilitaryHour = false; \
-            processingMinute = false; \
-            processingStandardSecond = false; \
-            processingFractionalSecond = false; \
-        }
+#define RESET_PROCESSING()                                                                                             \
+    {                                                                                                                  \
+        processingEra = false;                                                                                         \
+        processingYear = false;                                                                                        \
+        processingQuarter = false;                                                                                     \
+        processingMonth = false;                                                                                       \
+        processingMonth = false;                                                                                       \
+        processingDayOfMonth = false;                                                                                  \
+        processingDayOfYear = false;                                                                                   \
+        processingDayOfWeek = false;                                                                                   \
+        processingPeriod = false;                                                                                      \
+        processingStandardHour = false;                                                                                \
+        processingMilitaryHour = false;                                                                                \
+        processingNonstandardHour = false;                                                                             \
+        processingNonstandardMilitaryHour = false;                                                                     \
+        processingMinute = false;                                                                                      \
+        processingStandardSecond = false;                                                                              \
+        processingFractionalSecond = false;                                                                            \
+    }
 
-#       define PUT_SYMBOL_IN_QUEUE() \
-        if(theStack.size() > 0) \
-        { \
-            theSymbol = theStack.top(); \
-            theStack.pop(); \
-            queue.push_back(theSymbol); \
-            RESET_PROCESSING(); \
-        }
+#define PUT_SYMBOL_IN_QUEUE()                                                                                          \
+    if(theStack.size() > 0)                                                                                            \
+    {                                                                                                                  \
+        theSymbol = theStack.top();                                                                                    \
+        theStack.pop();                                                                                                \
+        queue.push_back(theSymbol);                                                                                    \
+        RESET_PROCESSING();                                                                                            \
+    }
 
-#       define INCREMENT_COUNT() \
-        theSymbol = theStack.top(); \
-        theSymbol->incrementCount()
+#define INCREMENT_COUNT()                                                                                              \
+    theSymbol = theStack.top();                                                                                        \
+    theSymbol->incrementCount()
 
-#       define PUSH_NEW_SYMBOL(processor, method) \
-        processor = true; \
-        theSymbol = symbol_factory_type::method(); \
-        theStack.push(theSymbol)
+#define PUSH_NEW_SYMBOL(processor, method)                                                                             \
+    processor = true;                                                                                                  \
+    theSymbol = symbol_factory_type::method();                                                                         \
+    theStack.push(theSymbol)
 
-#       define MANAGE_STATE(processor, method) \
-        if(processor) \
-        { \
-            INCREMENT_COUNT(); \
-        } \
-        else \
-        { \
-            PUT_SYMBOL_IN_QUEUE(); \
-            PUSH_NEW_SYMBOL(processor, method); \
-        }
+#define MANAGE_STATE(processor, method)                                                                                \
+    if(processor)                                                                                                      \
+    {                                                                                                                  \
+        INCREMENT_COUNT();                                                                                             \
+    }                                                                                                                  \
+    else                                                                                                               \
+    {                                                                                                                  \
+        PUT_SYMBOL_IN_QUEUE();                                                                                         \
+        PUSH_NEW_SYMBOL(processor, method);                                                                            \
+    }
 
 
         template<class Clock>
@@ -213,7 +213,8 @@ namespace TF
 
         template<class Clock>
         void DateFormatter<Clock>::addValueToComponentsForSymbol(const string_type &value,
-                DateComponents<Clock> &components, DateSymbol<Clock> *symbol)
+                                                                 DateComponents<Clock> &components,
+                                                                 DateSymbol<Clock> *symbol)
         {
             if(symbol == nullptr)
                 return;
@@ -349,7 +350,7 @@ namespace TF
                 }
             }
 
-            if(! (hasYear && hasMonth && hasDay && hasHour && hasMinute && hasSecond))
+            if(!(hasYear && hasMonth && hasDay && hasHour && hasMinute && hasSecond))
                 throw std::runtime_error("date format does not have enough information to reconstruct a date");
 
             DateComponents<Clock> components;
@@ -381,7 +382,6 @@ namespace TF
                         break;
                     }
                 }
-
             }
 
             return components.getDate();
@@ -389,7 +389,7 @@ namespace TF
 
 
         template<class Clock>
-        typename  DateFormatter<Clock>::string_type DateFormatter<Clock>::stringFromDate(const date &d)
+        typename DateFormatter<Clock>::string_type DateFormatter<Clock>::stringFromDate(const date &d)
         {
             std::stringstream accumulator;
             DateComponents<Clock> c(d);
@@ -404,7 +404,7 @@ namespace TF
 
 
         template<class Clock>
-        std::ostream& DateFormatter<Clock>::description(std::ostream &o) const
+        std::ostream &DateFormatter<Clock>::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -416,7 +416,6 @@ namespace TF
             return o;
         }
 
-    } // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

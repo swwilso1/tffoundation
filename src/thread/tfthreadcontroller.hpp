@@ -40,202 +40,186 @@ SOFTWARE.
 namespace TF
 {
 
-	namespace Foundation
-	{
+    namespace Foundation
+    {
 
-		enum class WaitStatus
-		{
-			Signaled,
-			NotSignaled,
-			Expired
-		};
+        enum class WaitStatus
+        {
+            Signaled,
+            NotSignaled,
+            Expired
+        };
 
-		class ThreadController : public AllocatorInterface
-		{
-		private:
+        class ThreadController : public AllocatorInterface
+        {
+        private:
+            using mutex_type = std::mutex;
 
-			using mutex_type = std::mutex;
-			
-			using conditional_variable_type = ConditionVariable;
+            using conditional_variable_type = ConditionVariable;
 
-			using lock_type = std::unique_lock<mutex_type>;
-		
-		public:
-			using wait_status_type = WaitStatus;
+            using lock_type = std::unique_lock<mutex_type>;
 
-			ThreadController(bool reset = false) : theSignal(false), 
-				autoReset(reset), theStop(false) {}
+        public:
+            using wait_status_type = WaitStatus;
 
-			wait_status_type wait()
-			{
-				lock_type theLock(theMutex);
-				theConditional.wait(theLock);
-				if(theSignal)
-				{
-					if(autoReset)
-						theSignal = false;
-					return WaitStatus::Signaled;
-				}
-				return WaitStatus::NotSignaled;
-			}
-			
-			template<class Predicate>
-			wait_status_type wait(Predicate pred)
-			{
-				lock_type theLock(theMutex);
-				theConditional.wait(theLock, pred);
-				if(theSignal)
-				{
-					if(autoReset)
-						theSignal = false;
-					return WaitStatus::Signaled;
-				}
-				return WaitStatus::NotSignaled;
-			}
-			
-			
-			template<class Rep, class Period>
-			wait_status_type wait_for(
-				const std::chrono::duration<Rep, Period> &relTime)
-			{
-				lock_type theLock(theMutex);
-				auto waitResult = theConditional.wait_for(theLock,
-					relTime);
+            ThreadController(bool reset = false) : theSignal(false), autoReset(reset), theStop(false)
+            {
+            }
 
-				if(theSignal)
-				{
-					if(autoReset)
-						theSignal = false;
-					return WaitStatus::Signaled;
-				}
-					
-				if(waitResult == std::cv_status::timeout)
-					return WaitStatus::Expired;
+            wait_status_type wait()
+            {
+                lock_type theLock(theMutex);
+                theConditional.wait(theLock);
+                if(theSignal)
+                {
+                    if(autoReset)
+                        theSignal = false;
+                    return WaitStatus::Signaled;
+                }
+                return WaitStatus::NotSignaled;
+            }
 
-				return WaitStatus::NotSignaled;
-			}
-			
-			
-			template<class Rep, class Period, class Predicate>
-			wait_status_type wait_for(
-				const std::chrono::duration<Rep, Period> &relTime,
-				Predicate pred)
-			{
-				lock_type theLock(theMutex);
-				auto waitResult = theConditional.wait_for(theLock,
-					relTime, pred);
-				
-				if(theSignal)
-				{
-					if(autoReset)
-						theSignal = false;
-					return WaitStatus::Signaled;
-				}
-				
-				if(waitResult == std::cv_status::timeout)
-					return WaitStatus::Expired;
-					
-				return WaitStatus::NotSignaled;
-			}
-			
-			
-			template<class Clock, class Duration>
-			wait_status_type wait_until(
-				const std::chrono::time_point<Clock, Duration>&
-					timeout_time)
-			{
-				lock_type theLock(theMutex);
-				auto waitResult = theConditional.wait_until(theLock,
-					timeout_time);
-				
-				if(theSignal)
-				{
-					if(autoReset)
-						theSignal = false;
-					return WaitStatus::Signaled;
-				}
-				
-				if(waitResult == std::cv_status::timeout)
-					return WaitStatus::Expired;
-					
-				return WaitStatus::NotSignaled;
-			}
-			
-			
-			template<class Clock, class Duration, class Predicate>
-			wait_status_type wait_until(
-				const std::chrono::time_point<Clock, Duration>&
-					timeout_time, Predicate pred)
-			{
-				lock_type theLock(theMutex);
-				auto waitResult = theConditional.wait_until(theLock,
-					timeout_time, pred);
-				
-				if(theSignal)
-				{
-					if(autoReset)
-						theSignal = false;
-					return WaitStatus::Signaled;
-				}
-				
-				if(waitResult == std::cv_status::timeout)
-					return WaitStatus::Expired;
-				
-				return WaitStatus::NotSignaled;
-			}
-			
-			
-			void reset()
-			{
-				lock_type theLock(theMutex);
-				theSignal = false;
-			}
-			
-			
-			void signal()
-			{
-				theConditional.notify_all();
-			}
-			
-			
-			void signalStop()
-			{
-				lock_type theLock(theMutex);
-				theStop = true;
-			}
-			
-			
-			bool shouldStop()
-			{
-				lock_type theLock(theMutex);
-				return theStop;
-			}
-			
-			std::ostream& description(std::ostream &o) const;
-
-		private:
-			
-			mutex_type theMutex;
-
-			conditional_variable_type theConditional;
-			
-			bool theSignal;
-			
-			bool autoReset;
-			
-			bool theStop;
-
-		};
-		
-		
-		std::ostream& operator<<(std::ostream &, const
-			ThreadController &c);
-
-	} // Foundation
-
-} // TF
+            template<class Predicate>
+            wait_status_type wait(Predicate pred)
+            {
+                lock_type theLock(theMutex);
+                theConditional.wait(theLock, pred);
+                if(theSignal)
+                {
+                    if(autoReset)
+                        theSignal = false;
+                    return WaitStatus::Signaled;
+                }
+                return WaitStatus::NotSignaled;
+            }
 
 
+            template<class Rep, class Period>
+            wait_status_type wait_for(const std::chrono::duration<Rep, Period> &relTime)
+            {
+                lock_type theLock(theMutex);
+                auto waitResult = theConditional.wait_for(theLock, relTime);
 
-#endif // THFTHREADCONTROLLER_HPP
+                if(theSignal)
+                {
+                    if(autoReset)
+                        theSignal = false;
+                    return WaitStatus::Signaled;
+                }
 
+                if(waitResult == std::cv_status::timeout)
+                    return WaitStatus::Expired;
+
+                return WaitStatus::NotSignaled;
+            }
+
+
+            template<class Rep, class Period, class Predicate>
+            wait_status_type wait_for(const std::chrono::duration<Rep, Period> &relTime, Predicate pred)
+            {
+                lock_type theLock(theMutex);
+                auto waitResult = theConditional.wait_for(theLock, relTime, pred);
+
+                if(theSignal)
+                {
+                    if(autoReset)
+                        theSignal = false;
+                    return WaitStatus::Signaled;
+                }
+
+                if(waitResult == std::cv_status::timeout)
+                    return WaitStatus::Expired;
+
+                return WaitStatus::NotSignaled;
+            }
+
+
+            template<class Clock, class Duration>
+            wait_status_type wait_until(const std::chrono::time_point<Clock, Duration> &timeout_time)
+            {
+                lock_type theLock(theMutex);
+                auto waitResult = theConditional.wait_until(theLock, timeout_time);
+
+                if(theSignal)
+                {
+                    if(autoReset)
+                        theSignal = false;
+                    return WaitStatus::Signaled;
+                }
+
+                if(waitResult == std::cv_status::timeout)
+                    return WaitStatus::Expired;
+
+                return WaitStatus::NotSignaled;
+            }
+
+
+            template<class Clock, class Duration, class Predicate>
+            wait_status_type wait_until(const std::chrono::time_point<Clock, Duration> &timeout_time, Predicate pred)
+            {
+                lock_type theLock(theMutex);
+                auto waitResult = theConditional.wait_until(theLock, timeout_time, pred);
+
+                if(theSignal)
+                {
+                    if(autoReset)
+                        theSignal = false;
+                    return WaitStatus::Signaled;
+                }
+
+                if(waitResult == std::cv_status::timeout)
+                    return WaitStatus::Expired;
+
+                return WaitStatus::NotSignaled;
+            }
+
+
+            void reset()
+            {
+                lock_type theLock(theMutex);
+                theSignal = false;
+            }
+
+
+            void signal()
+            {
+                theConditional.notify_all();
+            }
+
+
+            void signalStop()
+            {
+                lock_type theLock(theMutex);
+                theStop = true;
+            }
+
+
+            bool shouldStop()
+            {
+                lock_type theLock(theMutex);
+                return theStop;
+            }
+
+            std::ostream &description(std::ostream &o) const;
+
+        private:
+            mutex_type theMutex;
+
+            conditional_variable_type theConditional;
+
+            bool theSignal;
+
+            bool autoReset;
+
+            bool theStop;
+        };
+
+
+        std::ostream &operator<<(std::ostream &, const ThreadController &c);
+
+    }    // namespace Foundation
+
+}    // namespace TF
+
+
+#endif    // THFTHREADCONTROLLER_HPP

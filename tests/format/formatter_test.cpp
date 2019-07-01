@@ -34,45 +34,43 @@ SOFTWARE.
 
 struct Foo
 {
-	char a;
-	int b;
-	float d;
-	unsigned long array[kArrayLength];
+    char a;
+    int b;
+    float d;
+    unsigned long array[kArrayLength];
 };
 
-std::ostream& operator<<(std::ostream& o, const Foo &f)
+std::ostream &operator<<(std::ostream &o, const Foo &f)
 {
-	TF::Foundation::FormatterFactory factory;
-	TF::Foundation::FormatterFactory::default_formatter_type *formatter =
-		factory.getFormatter();
-	std::stringstream converter;
-	converter << f.a;
-	formatter->setClassName("Foo");
-	formatter->addClassMember("char","a",converter.str());
-	formatter->addClassMember<int>("int","b",f.b);
-	formatter->addClassMember<float>("float","d",f.d);
-	formatter->addClassMember<unsigned long>("unsigned long", "array", f.array, kArrayLength);
-	o << *formatter;
-	delete formatter;
-	return o;
+    TF::Foundation::FormatterFactory factory;
+    TF::Foundation::FormatterFactory::default_formatter_type *formatter = factory.getFormatter();
+    std::stringstream converter;
+    converter << f.a;
+    formatter->setClassName("Foo");
+    formatter->addClassMember("char", "a", converter.str());
+    formatter->addClassMember<int>("int", "b", f.b);
+    formatter->addClassMember<float>("float", "d", f.d);
+    formatter->addClassMember<unsigned long>("unsigned long", "array", f.array, kArrayLength);
+    o << *formatter;
+    delete formatter;
+    return o;
 }
 
 
 int main()
 {
-	TF::Foundation::FormatterFactory factory;
-	factory.setFormatterType(TF::Foundation::FormatterType::XMLFormatterType);
-	TF::Foundation::FormatterFactory::default_formatter_type *formatter =
-		factory.getFormatter();
-	formatter->setClassName("TestClass");
-	formatter->addClassTemplateType("char");
-	formatter->addClassTemplateType("unsigned char");
-	formatter->addClassMember<Foo>("theFoo",Foo());
-	formatter->addClassMember<Foo>("Foo", "theOtherFoo", Foo());
+    TF::Foundation::FormatterFactory factory;
+    factory.setFormatterType(TF::Foundation::FormatterType::XMLFormatterType);
+    TF::Foundation::FormatterFactory::default_formatter_type *formatter = factory.getFormatter();
+    formatter->setClassName("TestClass");
+    formatter->addClassTemplateType("char");
+    formatter->addClassTemplateType("unsigned char");
+    formatter->addClassMember<Foo>("theFoo", Foo());
+    formatter->addClassMember<Foo>("Foo", "theOtherFoo", Foo());
 
-	std::cout << *formatter << std::endl;
+    std::cout << *formatter << std::endl;
 
-	delete formatter;
+    delete formatter;
 
-	return 0;
+    return 0;
 }

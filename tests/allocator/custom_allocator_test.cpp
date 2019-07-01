@@ -33,66 +33,63 @@ using foo_type = double;
 
 struct MemoryBlock
 {
-	foo_type foo;
-	unsigned int bar;
-	char *mem;
+    foo_type foo;
+    unsigned int bar;
+    char *mem;
 };
 
 extern "C"
 {
-	void * allocator(TF::Foundation::Size_t n);
-	void deallocator(void *p);
+    void *allocator(TF::Foundation::Size_t n);
+    void deallocator(void *p);
 }
 
 
-void * allocator(TF::Foundation::Size_t n)
+void *allocator(TF::Foundation::Size_t n)
 {
-	MemoryBlock *newBlock = reinterpret_cast<MemoryBlock *>(malloc(n * sizeof(MemoryBlock)));
-	if(newBlock != nullptr)
-	{
-		return reinterpret_cast<void *>(&newBlock->mem);
-	}
+    MemoryBlock *newBlock = reinterpret_cast<MemoryBlock *>(malloc(n * sizeof(MemoryBlock)));
+    if(newBlock != nullptr)
+    {
+        return reinterpret_cast<void *>(&newBlock->mem);
+    }
 
-	return nullptr;
+    return nullptr;
 }
 
 
 void deallocator(void *p)
 {
-	if(p == nullptr)
-		return;
+    if(p == nullptr)
+        return;
 
-	MemoryBlock *theBlock = reinterpret_cast<MemoryBlock *>(reinterpret_cast<char *>(p) -
-			offsetof(MemoryBlock, mem));
-	free(reinterpret_cast<void *>(theBlock));
+    MemoryBlock *theBlock = reinterpret_cast<MemoryBlock *>(reinterpret_cast<char *>(p) - offsetof(MemoryBlock, mem));
+    free(reinterpret_cast<void *>(theBlock));
 }
 
 
 int main()
 {
-	// Allocate several blocks of memory with the original allocator.
-	char *foo = new char[100];
-	int *bar = new int;
-	double *bat = new double[500];
+    // Allocate several blocks of memory with the original allocator.
+    char *foo = new char[100];
+    int *bar = new int;
+    double *bat = new double[500];
 
-	// Swap in the alternate allocator
-	TF::Foundation::AllocatorInterface::setAllocatorAndDeallocator(allocator,deallocator);
+    // Swap in the alternate allocator
+    TF::Foundation::AllocatorInterface::setAllocatorAndDeallocator(allocator, deallocator);
 
-	// Use the alternate allocator to allocate several more blocks of memory.
-	float *f = new float[256];
-	delete[] f;
-	unsigned long *ul = new unsigned long[20];
-	delete[] ul;
+    // Use the alternate allocator to allocate several more blocks of memory.
+    float *f = new float[256];
+    delete[] f;
+    unsigned long *ul = new unsigned long[20];
+    delete[] ul;
 
-	// Now delete the original blocks of memory.  These should delete using the
-	// original deallocator.   If they use the new allocator, they will crash
-	// the program.
-	delete[] bat;
-	delete bar;
-	delete[] foo;
+    // Now delete the original blocks of memory.  These should delete using the
+    // original deallocator.   If they use the new allocator, they will crash
+    // the program.
+    delete[] bat;
+    delete bar;
+    delete[] foo;
 
-	// Test successfull.
-	return 0;
+    // Test successfull.
+    return 0;
 }
-
-

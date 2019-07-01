@@ -29,26 +29,25 @@ SOFTWARE.
 
 namespace TF
 {
-	
-	namespace Foundation
-	{
 
-		template<class A, class B>
-		std::ostream& operator<<(std::ostream &o, const std::pair<A,B> &p)
+    namespace Foundation
+    {
+
+        template<class A, class B>
+        std::ostream &operator<<(std::ostream &o, const std::pair<A, B> &p)
         {
-		    ClassFormatter *formatter = FormatterFactory::getFormatter();
-		    if(formatter != nullptr)
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
+            if(formatter != nullptr)
             {
-		        formatter->setClassName("std::pair");
-		        formatter->addClassMember<A>("first", p.first);
-		        formatter->addClassMember<B>("second",p.second);
-		        o << *formatter;
-		        delete formatter;
+                formatter->setClassName("std::pair");
+                formatter->addClassMember<A>("first", p.first);
+                formatter->addClassMember<B>("second", p.second);
+                o << *formatter;
+                delete formatter;
             }
-		    return o;
+            return o;
         }
 
-	} // Foundation
+    }    // namespace Foundation
 
-} // TF
-
+}    // namespace TF

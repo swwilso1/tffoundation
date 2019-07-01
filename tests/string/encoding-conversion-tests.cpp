@@ -250,6 +250,3 @@ TEST(StringTest, GetAsDataInUTF32Encoding)
         EXPECT_EQ(theData[19], 0x80);
     }
 }
-
-
-

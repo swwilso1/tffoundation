@@ -50,7 +50,6 @@ TEST(StringTest, CompareTest2)
 }
 
 
-
 TEST(StringTest, CompareTest3)
 {
     String s("abcdef");
@@ -86,21 +85,21 @@ TEST(StringTest, CompareTest6)
 TEST(StringTest, CompareRangeWithStringTest)
 {
     String s("Mostly cloud, 52 ଏ");
-    EXPECT_EQ(s.compareRangeWithString(Range(0,6), "Lastly"), OrderedDescending);
+    EXPECT_EQ(s.compareRangeWithString(Range(0, 6), "Lastly"), OrderedDescending);
 }
 
 
 TEST(StringTest, CompareRangeWithStringTest2)
 {
     String s("Mostly cloud, 52 ଏ");
-    EXPECT_EQ(s.compareRangeWithString(Range(7,5), "club"), OrderedAscending);
+    EXPECT_EQ(s.compareRangeWithString(Range(7, 5), "club"), OrderedAscending);
 }
 
 
 TEST(StringTest, CompareRangeWithStringTest3)
 {
     String s("Mostly cloud, 52 ଏ");
-    EXPECT_EQ(s.compareRangeWithString(Range(17,1), "ଏ"), OrderedSame);
+    EXPECT_EQ(s.compareRangeWithString(Range(17, 1), "ଏ"), OrderedSame);
 }
 
 
@@ -144,4 +143,3 @@ TEST(StringTest, IsEqualToStringTest2)
     String s("Mostly cloudy, 52 ଏ");
     EXPECT_FALSE(s.isEqualToString("Mostly"));
 }
-

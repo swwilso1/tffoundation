@@ -44,7 +44,6 @@ namespace TF
         class Base64 : public AllocatorInterface
         {
         public:
-
             using data_type = Data;
 
             using string_type = String;
@@ -54,7 +53,6 @@ namespace TF
             static data_type decode(const string_type &s);
 
         private:
-
             using encoding_map_type = std::map<int, char>;
 
             using decoding_map_type = std::map<char, int>;
@@ -72,13 +70,11 @@ namespace TF
             static const int sByteMask = 0xff;
 
             static const char sPadChar = '=';
-
         };
 
 
+    }    // namespace Foundation
 
-    } // Foundation
+}    // namespace TF
 
-} // TF
-
-#endif //TFBASE64_HPP
+#endif    // TFBASE64_HPP

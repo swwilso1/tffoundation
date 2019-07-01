@@ -50,7 +50,6 @@ namespace TF
             throw std::runtime_error("User not found on system");
         }
 
-    }
+    }    // namespace Foundation
 
-}
-
+}    // namespace TF
