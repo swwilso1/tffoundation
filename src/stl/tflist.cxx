@@ -35,30 +35,23 @@ namespace TF
     {
 
         template<class T, class Allocator>
-        std::ostream &List<T, Allocator>::description(std::ostream &o) const
+        std::ostream &operator<<(std::ostream &o, const std::list<T, Allocator> &l)
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
             {
-                formatter->setClassName("List");
+                formatter->setClassName("std::list");
                 Size_t i = 0;
-                for(auto element : *this)
+                for(auto element : l)
                 {
                     formatter->addClassMember(i++, element);
                 }
                 o << *formatter;
                 delete formatter;
             }
+
             return o;
         }
-
-
-        template<class T, class Allocator>
-        std::ostream &operator<<(std::ostream &o, const List<T, Allocator> &l)
-        {
-            return l.description(o);
-        }
-
 
     }    // namespace Foundation
 

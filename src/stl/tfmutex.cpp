@@ -35,7 +35,7 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &Mutex::description(std::ostream &o) const
+        std::ostream &operator<<(std::ostream &o, const std::mutex &m)
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
             if(formatter != nullptr)
@@ -46,13 +46,6 @@ namespace TF
             }
             return o;
         }
-
-
-        std::ostream &operator<<(std::ostream &o, const Mutex &m)
-        {
-            return m.description(o);
-        }
-
     }    // namespace Foundation
 
 }    // namespace TF

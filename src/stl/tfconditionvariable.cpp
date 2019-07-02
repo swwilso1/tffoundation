@@ -35,6 +35,7 @@ namespace TF
     namespace Foundation
     {
 
+#if 0
         std::ostream &ConditionVariable::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
@@ -52,7 +53,19 @@ namespace TF
         {
             return v.description(o);
         }
+#endif
 
+        std::ostream &operator<<(std::ostream &o, const std::condition_variable &c)
+        {
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
+            if(formatter != nullptr)
+            {
+                formatter->setClassName("std::condition_variable");
+                o << *formatter;
+                delete formatter;
+            }
+            return o;
+        }
     }    // namespace Foundation
 
 }    // namespace TF

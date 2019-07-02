@@ -38,6 +38,7 @@ namespace TF
     namespace Foundation
     {
 
+#if 0
         class ConditionVariable : public std::condition_variable
         {
         public:
@@ -47,6 +48,9 @@ namespace TF
         };
 
         std::ostream &operator<<(std::ostream &o, const ConditionVariable &v);
+#endif
+
+        std::ostream &operator<<(std::ostream &o, const std::condition_variable &c);
 
     }    // namespace Foundation
 

@@ -31,6 +31,7 @@ SOFTWARE.
 
 #define NEEDS_OSTREAM
 #define NEEDS_MUTEX
+#define NEEDS_CONDITION_VARIABLE
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -55,7 +56,7 @@ namespace TF
         private:
             using mutex_type = std::mutex;
 
-            using conditional_variable_type = ConditionVariable;
+            using conditional_variable_type = std::condition_variable;
 
             using lock_type = std::unique_lock<mutex_type>;
 

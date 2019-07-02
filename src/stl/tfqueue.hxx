@@ -40,17 +40,7 @@ namespace TF
     {
 
         template<class T, class Container = std::deque<T>>
-        class Queue : public std::queue<T, Container>
-        {
-        public:
-            using parent = std::queue<T, Container>;
-
-            std::ostream &description(std::ostream &o) const;
-        };
-
-
-        template<class T, class Container = std::deque<T>>
-        std::ostream &operator<<(std::ostream &o, const Queue<T, Container> &q);
+        std::ostream &operator<<(std::ostream &o, const std::queue<T, Container> &q);
 
     }    // namespace Foundation
 

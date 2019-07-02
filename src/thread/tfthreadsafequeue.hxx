@@ -31,6 +31,7 @@ SOFTWARE.
 #define NEEDS_OSTREAM
 #define NEEDS_MUTEX
 #define NEEDS_DEQUE
+#define NEEDS_QUEUE
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -121,9 +122,9 @@ namespace TF
             std::ostream &description(std::ostream &o) const;
 
         private:
-            using queue_type = Queue<T, Container>;
+            using queue_type = std::queue<T, Container>;
 
-            using mutex_type = Mutex;
+            using mutex_type = std::mutex;
 
             using lock_guard_type = std::lock_guard<mutex_type>;
 

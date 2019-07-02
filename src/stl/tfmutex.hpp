@@ -38,15 +38,7 @@ namespace TF
     namespace Foundation
     {
 
-        class Mutex : public std::mutex
-        {
-        public:
-            using parent = std::mutex;
-
-            std::ostream &description(std::ostream &o) const;
-        };
-
-        std::ostream &operator<<(std::ostream &o, const Mutex &m);
+        std::ostream &operator<<(std::ostream &o, const std::mutex &m);
 
     }    // namespace Foundation
 

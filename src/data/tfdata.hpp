@@ -29,6 +29,7 @@ SOFTWARE.
 #define TFDATA_HPP
 
 #define NEEDS_OSTREAM
+#define NEEDS_LIST
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -350,7 +351,7 @@ namespace TF
             using chunk_type = Chunk;
 
             /** @brief the type for the list of buffers */
-            using chunk_list_type = List<chunk_type *>;
+            using chunk_list_type = std::list<chunk_type *>;
 
 
             /** @brief the list of buffers */
