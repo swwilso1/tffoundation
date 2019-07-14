@@ -10,3 +10,11 @@ build_and_run_test(
         FileManagerTests
         tests/files/file_manager_tests.cpp
 )
+
+
+build_and_run_test(
+        file_handle_tests
+        FileHandleTests
+        tests/files/file_handle_tests.cpp
+)
+

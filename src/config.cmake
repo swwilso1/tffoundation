@@ -42,6 +42,12 @@ include_directories(
     "${GENERATED_SOURCES_DIR}"
 )
 
+if(UNIX)
+    include_directories(
+        src/files/unix
+    )
+endif()
+
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/headers/${FOUNDATION_LIBRARY_NAME})
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/headers/${FOUNDATION_LIBRARY_NAME}/updated
