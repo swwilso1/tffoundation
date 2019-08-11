@@ -25,42 +25,63 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfplatform.hpp"
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
+#ifndef TFUUID_HPP
+#define TFUUID_HPP
+
+#define NEEDS_OSTREAM
+#include "tfheaders.hpp"
 #include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tfbase64.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
+#include "tfallocator.hpp"
+#include "tfuuidtype.hpp"
 #include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
-#include "tfenvironmentsettings.hpp"
-#include "tffilemanager.hpp"
-#include "tfalarmcenter.hpp"
-#include "tffilepermissions.hpp"
-#include "tffileproperties.hpp"
-#include "tffilehandlebase.hxx"
-#if defined(TFUNIX)
-#    include "tfunixfilehandle.hpp"
-#endif
-#include "tfuuid.hpp"
+
+namespace TF
+{
+
+    namespace Foundation
+    {
+
+        class UUID : public AllocatorInterface
+        {
+        public:
+            using string_type = String;
+
+            UUID();
+
+            UUID(const UUID &id);
+
+            UUID(UUID &&id);
+
+            ~UUID();
+
+            UUID &operator=(const UUID &id);
+
+            UUID &operator=(UUID &&id);
+
+            bool operator==(const UUID &id) const;
+
+            bool operator==(const string_type &s) const;
+
+            bool operator!=(const UUID &id) const;
+
+            bool operator!=(const string_type &s) const;
+
+            string_type toString() const;
+
+            bool fromString(const string_type &s);
+
+            std::ostream &description(std::ostream &o) const;
+
+            static const int uuidStringLength = 36;
+
+        private:
+            tfuuid_t m_theUUID;
+        };
+
+        std::ostream &operator<<(std::ostream &o, const UUID &id);
+
+    }    // namespace Foundation
+
+}    // namespace TF
+
+#endif    // TFUUID_HPP

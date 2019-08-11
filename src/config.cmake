@@ -45,6 +45,7 @@ include_directories(
 if(UNIX)
     include_directories(
         src/files/unix
+        src/uuid/unix
     )
 endif()
 

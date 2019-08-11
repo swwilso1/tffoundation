@@ -5,11 +5,8 @@
 #####
 ################################################################################
 
-list(APPEND FOUNDATION_HEADER_FILES
-        "${CMAKE_CURRENT_SOURCE_DIR}/src/uuid/tfuuid.hpp"
-        )
-
-if(UNIX)
-    include(src/uuid/unix/config.cmake)
-endif()
-
+build_and_run_test(
+        uuid_test.cpp
+        UUIDTest
+        tests/uuid/uuid_test.cpp
+)

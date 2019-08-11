@@ -25,42 +25,11 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfplatform.hpp"
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tfbase64.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
-#include "tfenvironmentsettings.hpp"
-#include "tffilemanager.hpp"
-#include "tfalarmcenter.hpp"
-#include "tffilepermissions.hpp"
-#include "tffileproperties.hpp"
-#include "tffilehandlebase.hxx"
-#if defined(TFUNIX)
-#    include "tfunixfilehandle.hpp"
-#endif
-#include "tfuuid.hpp"
+#ifndef TFUUIDTYPE_HPP
+#define TFUUIDTYPE_HPP
+
+#include <uuid/uuid.h>
+
+using tfuuid_t = uuid_t;
+
+#endif    // TFUUIDTYPE_HPP

@@ -28,6 +28,8 @@ include(tests/format/config.cmake)
 include(tests/log/config.cmake)
 include(tests/notification/config.cmake)
 include(tests/string/config.cmake)
+include(tests/uuid/config.cmake)
+
 
 
 
