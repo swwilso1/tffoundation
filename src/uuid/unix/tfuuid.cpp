@@ -26,6 +26,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #include "tfuuid.hpp"
+#include "tfconfigure.hpp"
 
 namespace TF
 {
@@ -101,10 +102,15 @@ namespace TF
 
         UUID::string_type UUID::toString() const
         {
+#ifdef HAVE_UUID_STRING_T
             uuid_string_t uuidString;
+#else
+            char uuidString[uuidStringLength + 1];
+            uuidString[uuidStringLength] = 0;
+#endif
             uuid_unparse(m_theUUID, uuidString);
             string_type s = uuidString;
-            return s;
+            return s.uppercaseString();
         }
 
         bool UUID::fromString(const string_type &s)

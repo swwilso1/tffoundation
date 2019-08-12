@@ -30,6 +30,10 @@ else()
     include(cmake/linux/config.cmake)
 endif()
 
+if(UNIX)
+    include(cmake/platformunixtests.cmake)
+endif()
+
 if(SKIP_CXX_ALLOCATORS)
 	list(APPEND FOUNDATION_SHARED_LIBRARY_PLATFORM_COMPILE_DEFINITIONS
 		SKIP_TF_CXX_ALLOCATORS

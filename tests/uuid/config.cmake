@@ -6,7 +6,7 @@
 ################################################################################
 
 build_and_run_test(
-        uuid_test.cpp
+        uuid_test
         UUIDTest
         tests/uuid/uuid_test.cpp
 )
