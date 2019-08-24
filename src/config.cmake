@@ -19,6 +19,7 @@ include(src/log/config.cmake)
 include(src/notification/config.cmake)
 include(src/stl/config.cmake)
 include(src/string/config.cmake)
+include(src/symbol/config.cmake)
 include(src/thread/config.cmake)
 include(src/uuid/config.cmake)
 
@@ -37,6 +38,7 @@ include_directories(
     src/notification
     src/stl
     src/string
+    src/symbol
     src/thread
     src/uuid
     "${GENERATED_SOURCES_DIR}"
@@ -67,6 +69,7 @@ if(APPLE)
         FRAMEWORK ON
         OUTPUT_NAME ${FOUNDATION_LIBRARY_NAME}
         PUBLIC_HEADER "${FOUNDATION_HEADER_FILES}"
+        MACOSX_RPATH TRUE
     )
     if(FOUNDATION_FRAMEWORK_LIBRARY_COMPILE_FLAGS)
         target_compile_options(${FOUNDATION_FRAMEWORK_LIBRARY_NAME} PRIVATE
@@ -99,6 +102,10 @@ add_library(${FOUNDATION_SHARED_LIBRARY_NAME} SHARED ${FOUNDATION_SOURCE_FILES})
 set_target_properties(${FOUNDATION_SHARED_LIBRARY_NAME} PROPERTIES
     OUTPUT_NAME ${FOUNDATION_LIBRARY_NAME}
 )
+if(APPLE)
+    set_target_properties(${FOUNDATION_SHARED_LIBRARY_NAME} PROPERTIES
+        MACOSX_RPATH TRUE)
+endif()
 if(FOUNDATION_SHARED_LIBRARY_COMPILE_DEFINITIONS)
     target_compile_definitions(${FOUNDATION_SHARED_LIBRARY_NAME} PUBLIC
         ${FOUNDATION_SHARED_LIBRARY_COMPILE_DEFINITIONS})

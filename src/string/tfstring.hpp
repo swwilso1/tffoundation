@@ -34,6 +34,7 @@ SOFTWARE.
 #define NEEDS_UTILITY
 #define NEEDS_STRING
 #define NEEDS_VECTOR
+#define NEEDS_FUNCTIONAL
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -708,5 +709,26 @@ namespace TF
     }    // namespace Foundation
 
 }    // namespace TF
+
+namespace std
+{
+    template<>
+    struct hash<TF::Foundation::String>
+    {
+        typedef TF::Foundation::String argument_type;
+        typedef std::size_t result_type;
+        result_type operator()(argument_type const &s) const noexcept
+        {
+            // Simple hash function from stack overflow.
+            // TODO: Use a better hash function.
+            result_type hash = 7;
+            for(argument_type::size_type i = 0; i < s.length(); i++)
+            {
+                hash = hash * 31 + s.characterAtIndex(i);
+            }
+            return hash;
+        }
+    };
+}    // namespace std
 
 #endif /* TFSTRING_HPP */
