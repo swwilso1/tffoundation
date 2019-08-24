@@ -25,44 +25,32 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfplatform.hpp"
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
-#include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tfbase64.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
-#include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfunordered_map.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
-#include "tfenvironmentsettings.hpp"
-#include "tffilemanager.hpp"
-#include "tfalarmcenter.hpp"
-#include "tffilepermissions.hpp"
-#include "tffileproperties.hpp"
-#include "tffilehandlebase.hxx"
-#if defined(TFUNIX)
-#    include "tfunixfilehandle.hpp"
-#endif
-#include "tfuuid.hpp"
-#include "tfsymboltable.hxx"
+#include "tfformatter.hpp"
+
+namespace TF
+{
+
+    namespace Foundation
+    {
+
+        template<class Key, class T, class Hash, class KeyEqual, class Allocator>
+        std::ostream &operator<<(std::ostream &o, const std::unordered_map<Key, T, Hash, KeyEqual, Allocator> &m)
+        {
+            ClassFormatter *formatter = FormatterFactory::getFormatter();
+            if(formatter != nullptr)
+            {
+                formatter->setClassName("std::unordered_map");
+                Size_t i = 0;
+                for(auto &entry : m)
+                {
+                    formatter->addClassMember<std::pair<Key, T>>(i++, entry);
+                }
+                o << *formatter;
+                delete formatter;
+            }
+            return o;
+        }
+
+    }    // namespace Foundation
+
+}    // namespace TF

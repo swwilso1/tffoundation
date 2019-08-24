@@ -16,6 +16,8 @@ list(APPEND FOUNDATION_HEADER_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfpair.hxx"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfqueue.cxx"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfqueue.hxx"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfunordered_map.cxx"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/stl/tfunordered_map.hxx"
 )
 
 
@@ -24,6 +26,7 @@ set_source_files_properties(
 	src/stl/tfmap.cxx
 	src/stl/tfpair.cxx
 	src/stl/tfqueue.cxx
+	src/stl/tfunordered_map.cxx
 	PROPERTIES
 	HEADER_FILE_ONLY ON
 )
@@ -42,5 +45,7 @@ list(APPEND FOUNDATION_SOURCE_FILES
 	src/stl/tfpair.hxx
 	src/stl/tfqueue.cxx
 	src/stl/tfqueue.hxx
+	src/stl/tfunordered_map.cxx
+	src/stl/tfunordered_map.hxx
 )
 

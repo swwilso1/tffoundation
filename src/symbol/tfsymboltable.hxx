@@ -33,6 +33,7 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
+#include "tfunordered_map.hxx"
 
 namespace TF
 {

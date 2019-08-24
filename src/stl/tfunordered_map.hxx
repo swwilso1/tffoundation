@@ -25,44 +25,29 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "tfplatform.hpp"
-#include "tfallocator.hpp"
-#include "tfclassformatter.hpp"
-#include "tfxmlclassformatter.hpp"
-#include "tfformatterfactory.hpp"
+#ifndef TFUNORDERED_MAP_HXX
+#define TFUNORDERED_MAP_HXX
+
+#define NEEDS_UNORDERED_MAP
+#define NEEDS_OSTREAM
+#include "tfheaders.hpp"
 #include "tftypes.hpp"
-#include "tfarray.hxx"
-#include "tfbase64.hpp"
-#include "tflist.hxx"
-#include "tfqueue.hxx"
-#include "tfmutex.hpp"
+#include "tfallocator.hpp"
 #include "tfpair.hxx"
-#include "tfmap.hxx"
-#include "tfunordered_map.hxx"
-#include "tfthread.hpp"
-#include "tfconditionvariable.hpp"
-#include "tfdata.hpp"
-#include "tfthreadsafequeue.hxx"
-#include "tfthreadcontroller.hpp"
-#include "tflog.hpp"
-#include "tfnotification.hpp"
-#include "tfnotificationcenter.hpp"
-#include "tfcomparison.hpp"
-#include "tfendian.hpp"
-#include "tfstring.hpp"
-#include "tfdatetypes.hpp"
-#include "tfdate.hxx"
-#include "tfdatecomponent.hxx"
-#include "tfdateformatter.hxx"
-#include "tfdateclocks.hpp"
-#include "tfenvironmentsettings.hpp"
-#include "tffilemanager.hpp"
-#include "tfalarmcenter.hpp"
-#include "tffilepermissions.hpp"
-#include "tffileproperties.hpp"
-#include "tffilehandlebase.hxx"
-#if defined(TFUNIX)
-#    include "tfunixfilehandle.hpp"
-#endif
-#include "tfuuid.hpp"
-#include "tfsymboltable.hxx"
+
+namespace TF
+{
+
+    namespace Foundation
+    {
+
+        template<class Key, class T, class Hash, class KeyEqual, class Allocator>
+        std::ostream &operator<<(std::ostream &o, const std::unordered_map<Key, T, Hash, KeyEqual, Allocator> &m);
+
+    }    // namespace Foundation
+
+}    // namespace TF
+
+#include "tfunordered_map.cxx"
+
+#endif    // TFUNORDERED_MAP_HXX
