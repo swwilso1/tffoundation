@@ -208,3 +208,11 @@ TEST(StringTest, RValueConstructorTest)
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp("foo bar", ptr.get(), s.length()) == 0);
 }
+
+
+TEST(StringTest, UnicodePointConstructorTest)
+{
+    String s(10022);
+    EXPECT_EQ(s.length(), 1);
+    EXPECT_EQ(s[0], 10022);
+}
