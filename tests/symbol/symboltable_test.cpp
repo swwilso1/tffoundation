@@ -25,6 +25,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #include <set>
+#include <vector>
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
 
@@ -180,4 +181,27 @@ TEST(SymbolTableTest, KeyListTest)
     {
         EXPECT_TRUE(keySet.count(key) > 0);
     }
+}
+
+TEST(SymbolTableTest, VectorTest)
+{
+    std::vector<int> foo {1, 2, 3};
+    std::vector<int> bar;
+    SymbolTable<String> theTable;
+
+    theTable.setValueForKey<std::vector<int>>("foo", foo);
+    theTable.getValueForKey<std::vector<int>>("foo", bar);
+
+    EXPECT_EQ(foo.size(), bar.size());
+    for(int i = 0; i < foo.size(); i++)
+        EXPECT_EQ(foo[i], bar[i]);
+
+    bar.emplace_back(4);
+    EXPECT_NE(foo.size(), bar.size());
+    theTable.removeValueForKey("foo");
+    theTable.setValueForKey<std::vector<int>>("foo", bar);
+    theTable.getValueForKey<std::vector<int>>("foo", foo);
+    EXPECT_EQ(foo.size(), bar.size());
+    for(int i = 0; i < foo.size(); i++)
+        EXPECT_EQ(foo[i], bar[i]);
 }
