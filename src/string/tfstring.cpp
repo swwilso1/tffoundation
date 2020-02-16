@@ -265,6 +265,21 @@ namespace TF
         }
 
 
+        String::String(const unsigned int c)
+        {
+            UTF8StringEncoder utf8StringEncoder;
+            auto bytesNeededForUTF8 = utf8StringEncoder.bytesNeededForRepresentationOfCode(c);
+
+            auto charArray = new char_type[bytesNeededForUTF8];
+            auto result = utf8StringEncoder.encodeCodePoint(charArray, bytesNeededForUTF8, c,
+                                                            StringEncoder::thisSystemEndianness());
+
+            core = std::make_shared<core_type>(charArray, bytesNeededForUTF8);
+
+            delete[] charArray;
+        }
+
+
         String String::deepCopy() const
         {
             if(core->length() == 0)

@@ -136,6 +136,13 @@ namespace TF
             */
             String(const unsigned int *str, size_type length);
 
+            /**
+             *  @brief UTF-32 single character constructor
+             *  @param c the single UTF-32 character in the platform encoding.
+             *  @return a new string object of length 1.
+             */
+            String(const unsigned int c);
+
 
             /** @brief destructor */
             ~String() override = default;
