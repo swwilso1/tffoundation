@@ -25,6 +25,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #define NEEDS_CSTDLIB
+#define NEEDS_CSTRING
 #include "tfheaders.hpp"
 #include "tfconversion.hpp"
 
