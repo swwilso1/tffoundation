@@ -33,15 +33,37 @@ namespace TF
     {
 
         template<typename K>
+        SymbolTable<K>::SymbolTable(const SymbolTable &t)
+        {
+            for(auto pair : t.m_theTable)
+            {
+                m_theTable.insert(pair);
+            }
+        }
+
+
+        template<typename K>
         SymbolTable<K>::~SymbolTable()
         {
-            for(auto entry : m_theTable)
-            {
-                delete entry.second;
-            }
-
             m_theTable.clear();
         }
+
+        template<typename K>
+        SymbolTable<K> &SymbolTable<K>::operator=(const SymbolTable &t)
+        {
+            if(this != &t)
+            {
+                m_theTable.clear();
+
+                for(auto pair : t.m_theTable)
+                {
+                    m_theTable.insert(pair);
+                }
+            }
+
+            return *this;
+        }
+
 
         template<typename K>
         bool SymbolTable<K>::hasValueForKey(const key_type &k) const
@@ -55,9 +77,9 @@ namespace TF
         template<typename T>
         void SymbolTable<K>::setValueForKey(const key_type &k, const T &value)
         {
-            auto theSymbol = new SpecializedSymbol<T>();
+            auto theSymbol = std::make_shared<SpecializedSymbol<T>>();
             theSymbol->m_value = value;
-            m_theTable.insert(std::make_pair(k, dynamic_cast<symbol_type *>(theSymbol)));
+            m_theTable.insert(std::make_pair(k, theSymbol));
         }
 
         template<typename K>
@@ -67,7 +89,7 @@ namespace TF
             auto theSymbol = m_theTable[k];
             if(theSymbol != nullptr)
             {
-                SpecializedSymbol<T> *theSpecialSymbol = dynamic_cast<SpecializedSymbol<T> *>(theSymbol);
+                SpecializedSymbol<T> *theSpecialSymbol = dynamic_cast<SpecializedSymbol<T> *>(theSymbol.get());
                 if(theSpecialSymbol != nullptr)
                 {
                     value = theSpecialSymbol->m_value;
@@ -78,6 +100,26 @@ namespace TF
         }
 
         template<typename K>
+        template<typename T>
+        T SymbolTable<K>::getValueForKey(const key_type &k)
+        {
+            auto theSymbol = m_theTable[k];
+            if(theSymbol != nullptr)
+            {
+                SpecializedSymbol<T> *theSpecialSymbol = dynamic_cast<SpecializedSymbol<T> *>(theSymbol.get());
+                if(theSpecialSymbol != nullptr)
+                {
+                    return theSpecialSymbol->m_value;
+                }
+
+                throw std::runtime_error("Symbol table does not contain a symbol of the requested type");
+            }
+
+            throw std::runtime_error("Symbol table does not contain a value for the key");
+        }
+
+
+        template<typename K>
         void SymbolTable<K>::removeValueForKey(const key_type &k)
         {
             m_theTable.erase(k);
@@ -86,10 +128,6 @@ namespace TF
         template<typename K>
         void SymbolTable<K>::clear()
         {
-            for(auto &entry : m_theTable)
-            {
-                delete entry.second;
-            }
             m_theTable.clear();
         }
 
@@ -103,6 +141,16 @@ namespace TF
             }
             return theKeys;
         }
+
+        template<typename K>
+        void SymbolTable<K>::update(const SymbolTable &t)
+        {
+            for(auto &entry : t.m_theTable)
+            {
+                m_theTable[entry.first] = entry.second;
+            }
+        }
+
 
         template<typename K>
         std::ostream &SymbolTable<K>::description(std::ostream &o) const

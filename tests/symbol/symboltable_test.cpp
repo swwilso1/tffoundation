@@ -68,6 +68,51 @@ private:
     value_type value;
 };
 
+
+TEST(SymbolTableTest, CopyConstructorTest)
+{
+    SymbolTable<String> theTable;
+    int i;
+
+    theTable.setValueForKey<int>("one", 1);
+    theTable.setValueForKey<int>("two", 2);
+    theTable.setValueForKey<int>("three", 3);
+
+    SymbolTable<String> copyTable(theTable);
+
+    EXPECT_TRUE(copyTable.getValueForKey<int>("one", i));
+    EXPECT_EQ(i, 1);
+
+    EXPECT_TRUE(copyTable.getValueForKey<int>("two", i));
+    EXPECT_EQ(i, 2);
+
+    EXPECT_TRUE(copyTable.getValueForKey<int>("three", i));
+    EXPECT_EQ(i, 3);
+}
+
+
+TEST(SymbolTableTest, AssignmentOperatorTest)
+{
+    SymbolTable<String> theTable;
+    int i;
+
+    theTable.setValueForKey<int>("one", 10);
+    theTable.setValueForKey<int>("two", 11);
+    theTable.setValueForKey<int>("three", 12);
+
+    auto assignTable = theTable;
+
+    EXPECT_TRUE(assignTable.getValueForKey<int>("one", i));
+    EXPECT_EQ(i, 10);
+
+    EXPECT_TRUE(assignTable.getValueForKey<int>("two", i));
+    EXPECT_EQ(i, 11);
+
+    EXPECT_TRUE(assignTable.getValueForKey<int>("three", i));
+    EXPECT_EQ(i, 12);
+}
+
+
 TEST(SymbolTableTest, AddAndGetTest)
 {
     SymbolTable<String> theTable;
@@ -204,4 +249,42 @@ TEST(SymbolTableTest, VectorTest)
     EXPECT_EQ(foo.size(), bar.size());
     for(int i = 0; i < foo.size(); i++)
         EXPECT_EQ(foo[i], bar[i]);
+}
+
+TEST(SymbolTableTest, DirectRetrievalTest)
+{
+    SymbolTable<String> theTable;
+    int i = 0;
+
+    theTable.setValueForKey<int>("foo", 1);
+    i = theTable.getValueForKey<int>("foo");
+    EXPECT_EQ(1, i);
+
+    EXPECT_THROW(theTable.getValueForKey<String>("foo"), std::runtime_error);
+    EXPECT_THROW(theTable.getValueForKey<int>("bar"), std::runtime_error);
+}
+
+TEST(SymbolTableTest, UpdateTest)
+{
+    SymbolTable<String> theTable;
+    int i = 0;
+
+    theTable.setValueForKey<int>("foo", 1);
+    theTable.setValueForKey<int>("bar", 2);
+    theTable.setValueForKey<int>("baz", 4);
+
+    SymbolTable<String> secondTable;
+    secondTable.setValueForKey<int>("baz", 3);
+    secondTable.setValueForKey<int>("buz", 5);
+
+    secondTable.update(theTable);
+
+    EXPECT_TRUE(secondTable.getValueForKey<int>("foo", i));
+    EXPECT_EQ(i, 1);
+    EXPECT_TRUE(secondTable.getValueForKey<int>("bar", i));
+    EXPECT_EQ(i, 2);
+    EXPECT_TRUE(secondTable.getValueForKey<int>("baz", i));
+    EXPECT_EQ(i, 4);
+    EXPECT_TRUE(secondTable.getValueForKey<int>("buz", i));
+    EXPECT_EQ(i, 5);
 }

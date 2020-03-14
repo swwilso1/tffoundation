@@ -30,6 +30,7 @@ SOFTWARE.
 #define NEEDS_OSTREAM
 #define NEEDS_UNORDERED_MAP
 #define NEEDS_LIST
+#define NEEDS_MEMORY
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -91,8 +92,14 @@ namespace TF
             {
             }
 
+            /** @brief copy constructor */
+            SymbolTable(const SymbolTable &t);
+
             /** @brief destructor */
             ~SymbolTable();
+
+            /** @brief Assignment operator */
+            SymbolTable &operator=(const SymbolTable &t);
 
             /**
              * @brief method to see if the symbol table has a value for the given key
@@ -116,9 +123,23 @@ namespace TF
              * @param k the key
              * @param value a reference to a @e T object.  When the method
              * returns value will contain the stored value.
+             * @return true if the symbol table has the value for @e k and
+             * false otherwise.
              */
             template<typename T>
             bool getValueForKey(const key_type &k, T &value);
+
+            /**
+             * @brief method to directly get a value for a key.
+             * @tparam T the type of the value
+             * @param k the key
+             * @return the value.
+             *
+             * If the symbol table does not have a value for @e k of type @e T,
+             * this method will throw a std::runtime.
+             */
+            template<typename T>
+            T getValueForKey(const key_type &k);
 
             /**
              * @brief method to remove a key/value pair from the table
@@ -147,6 +168,15 @@ namespace TF
             key_list_type keys() const;
 
             /**
+             * @brief method to update a table with the contents of another table
+             * @param t the other table to add to the table
+             *
+             * If @e t contains a symbol name shared with the current table the
+             * table will now contain the value from @e t
+             */
+            void update(const SymbolTable &t);
+
+            /**
              * @brief method to write the contents of the table to a stream object
              * @param o the stream object
              * @return @e o the stream object
@@ -157,8 +187,10 @@ namespace TF
             /** @brief the type stored in the symbol table */
             using symbol_type = Symbol;
 
+            using value_type = std::shared_ptr<symbol_type>;
+
             /** @brief the type of the internal table */
-            using map_type = std::unordered_map<key_type, symbol_type *>;
+            using map_type = std::unordered_map<key_type, value_type>;
 
             /** @brief the internal table object */
             map_type m_theTable;
