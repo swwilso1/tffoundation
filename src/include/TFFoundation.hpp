@@ -66,4 +66,6 @@ SOFTWARE.
 #endif
 #include "tfuuid.hpp"
 #include "tfsymboltable.hxx"
+#include "tfargument.hpp"
+#include "tfargumentparser.hpp"
 #include "tfconversion.hpp"

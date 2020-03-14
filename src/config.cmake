@@ -9,6 +9,7 @@ include(src/alarm/config.cmake)
 include(src/allocator/config.cmake)
 include(src/array/config.cmake)
 include(src/base64/config.cmake)
+include(src/commandline/config.cmake)
 include(src/numerics/config.cmake)
 include(src/data/config.cmake)
 include(src/date/config.cmake)
@@ -29,6 +30,7 @@ include_directories(
     src/allocator
     src/array
     src/base64
+    src/commandline
     src/data
     src/date
     src/environment
