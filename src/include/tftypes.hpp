@@ -186,6 +186,18 @@ namespace TF
             }
         };
 
+        /**
+         * @class Simple templated class that allows returning a result
+         * value and a success/failure value from a function.
+         * @tparam T the type of value.
+         */
+        template<typename T>
+        struct Result
+        {
+            T value;
+            bool success;
+        };
+
     }    // namespace Foundation
 
 }    // namespace TF
