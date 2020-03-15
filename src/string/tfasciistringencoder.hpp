@@ -146,6 +146,8 @@ namespace TF
             bool operator==(const StringEncoder &e) override;
 
             std::ostream &description(std::ostream &o) const override;
+
+            std::string getEncoderID() const override;
         };
 
     }    // namespace Foundation

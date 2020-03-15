@@ -113,6 +113,10 @@ namespace TF
 
         const Endian StringEncoder::myEndianValue = thisSystemEndianness();
 
+        std::string StringEncoder::getEncoderID() const
+        {
+            return std::string("F278B0F5-7BF1-4216-96DD-DE9F16FAAF52");
+        }
 
     }    // namespace Foundation
 

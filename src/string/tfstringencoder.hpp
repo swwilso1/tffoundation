@@ -466,6 +466,9 @@ namespace TF
             */
             virtual std::ostream &description(std::ostream &o) const = 0;
 
+            /** @brief method to return an id string to identify the class of encoder */
+            virtual std::string getEncoderID() const;
+
         protected:
             /** @brief a cached value of the current running system's byte order. */
             static const Endian myEndianValue;

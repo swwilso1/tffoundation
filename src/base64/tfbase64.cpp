@@ -194,8 +194,6 @@ namespace TF
 
                 byte = decodeHelper & sByteMask;
                 d.append(&byte, 1);
-
-                decodeHelper = 0;
             }
 
             d = d.subdataWithRange(Range(0, d.length() - padCharsFound));

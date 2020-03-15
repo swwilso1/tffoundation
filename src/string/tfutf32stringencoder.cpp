@@ -357,10 +357,9 @@ namespace TF
             if(mainSubstringLength > mainStringLength)
                 return result;
 
-            substringStartCode = *mainSubstringStart;
-            substringStartCode =
-                this->correctValueForPlatform(reinterpret_cast<char_type *>(&substringCode),
-                                              sizeof(parent_type::unicode_point_type), substringQueryResults.second);
+            substringStartCode = this->correctValueForPlatform(
+                reinterpret_cast<char_type *>(const_cast<data_type *>(mainSubstringStart)),
+                sizeof(parent_type::unicode_point_type), substringQueryResults.second);
 
             for(size_type i = 0; i < mainStringLength; i++)
             {
@@ -447,10 +446,9 @@ namespace TF
             if(mainSubstringLength > mainStringLength)
                 return rangeArray;
 
-            substringStartCode = *mainSubstringStart;
-            substringStartCode =
-                this->correctValueForPlatform(reinterpret_cast<char_type *>(&substringCode),
-                                              sizeof(parent_type::unicode_point_type), substringQueryResults.second);
+            substringStartCode = this->correctValueForPlatform(
+                reinterpret_cast<char_type *>(const_cast<data_type *>(mainSubstringStart)),
+                sizeof(parent_type::unicode_point_type), substringQueryResults.second);
 
             for(size_type i = 0; i < mainStringLength; i++)
             {
@@ -536,10 +534,9 @@ namespace TF
             if(mainSubstringLength > mainStringLength)
                 return result;
 
-            substringStartCode = *mainSubstringStart;
-            substringStartCode =
-                this->correctValueForPlatform(reinterpret_cast<char_type *>(&substringCode),
-                                              sizeof(parent_type::unicode_point_type), substringQueryResults.second);
+            substringStartCode = this->correctValueForPlatform(
+                reinterpret_cast<char_type *>(const_cast<data_type *>(mainSubstringStart)),
+                sizeof(parent_type::unicode_point_type), substringQueryResults.second);
 
             for(size_type i = 0; i < mainStringLength; i++)
             {
@@ -623,10 +620,9 @@ namespace TF
             if(mainSubstringLength > mainStringLength)
                 return rangeArray;
 
-            substringStartCode = *mainSubstringStart;
-            substringStartCode =
-                this->correctValueForPlatform(reinterpret_cast<char_type *>(&substringCode),
-                                              sizeof(parent_type::unicode_point_type), substringQueryResults.second);
+            substringStartCode = this->correctValueForPlatform(
+                reinterpret_cast<char_type *>(const_cast<data_type *>(mainSubstringStart)),
+                sizeof(parent_type::unicode_point_type), substringQueryResults.second);
 
             for(size_type i = 0; i < mainStringLength; i++)
             {
@@ -719,10 +715,9 @@ namespace TF
                 return rangeArray;
             }
 
-            substringStartCode = *mainSubstringStart;
-            substringStartCode =
-                this->correctValueForPlatform(reinterpret_cast<char_type *>(&substringCode),
-                                              sizeof(parent_type::unicode_point_type), substringQueryResults.second);
+            substringStartCode = this->correctValueForPlatform(
+                reinterpret_cast<char_type *>(const_cast<data_type *>(mainSubstringStart)),
+                sizeof(parent_type::unicode_point_type), substringQueryResults.second);
 
             size_type location = 0;
             size_type length = 0;
@@ -912,7 +907,6 @@ namespace TF
             size_type substringCharacterLength = substringLength / sizeof(data_type);
             byte_order_query_type substringQueryResponse = hasByteOrderMark(substringStart, substringLength);
 
-            const data_type *replaceStringCharacterStart = reinterpret_cast<const data_type *>(replaceStringStart);
             size_type replaceStringCharacterLength = replaceStringLength / sizeof(data_type);
             byte_order_query_type replaceStringQueryResponse =
                 hasByteOrderMark(replaceStringStart, replaceStringLength);
@@ -938,7 +932,6 @@ namespace TF
 
             if(replaceStringQueryResponse.first)
             {
-                replaceStringCharacterStart += 1;
                 replaceStringCharacterLength -= 1;
             }
 
@@ -1109,17 +1102,7 @@ namespace TF
 
         bool UTF32StringEncoder::operator==(const StringEncoder &e)
         {
-            try
-            {
-                const UTF32StringEncoder &theEncoder = dynamic_cast<const UTF32StringEncoder &>(e);
-                return true;
-            }
-            catch(std::bad_cast e)
-            {
-                ;
-            }
-
-            return false;
+            return this->getEncoderID() == e.getEncoderID();
         }
 
 
@@ -1133,6 +1116,11 @@ namespace TF
                 delete formatter;
             }
             return o;
+        }
+
+        std::string UTF32StringEncoder::getEncoderID() const
+        {
+            return std::string("40BBBC4E-58D9-4606-A40A-1189D1CE53BC");
         }
 
     }    // namespace Foundation

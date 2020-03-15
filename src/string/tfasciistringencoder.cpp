@@ -113,13 +113,10 @@ namespace TF
                             bool aborted = false;
                             for(j = i + 2, k = 5; j < (i + 7); j++, k--)
                             {
-                                size_type modifier;
                                 if(*(string + j) >= 48 && *(string + j) <= 57)
-                                    // Gives integer value 0-9
-                                    modifier = static_cast<size_type>(*(string + j) - 48);
+                                    continue;
                                 else if(*(string + j) >= 65 && *(string + j) <= 70)
-                                    // Gives integer value 10-15 (A-F)
-                                    modifier = static_cast<size_type>(*(string + j) - 55);
+                                    continue;
                                 else
                                 {
                                     // Found a non-allowed character, just move on to
@@ -879,17 +876,7 @@ namespace TF
 
         bool ASCIIStringEncoder::operator==(const StringEncoder &e)
         {
-            try
-            {
-                const ASCIIStringEncoder &theEncoder = dynamic_cast<const ASCIIStringEncoder &>(e);
-                return true;
-            }
-            catch(std::bad_cast e)
-            {
-                ;
-            }
-
-            return false;
+            return this->getEncoderID() == e.getEncoderID();
         }
 
 
@@ -903,6 +890,11 @@ namespace TF
                 delete formatter;
             }
             return o;
+        }
+
+        std::string ASCIIStringEncoder::getEncoderID() const
+        {
+            return std::string("58C183D5-08DE-4B9F-A3FE-FB75017A9C87");
         }
 
 

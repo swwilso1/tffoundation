@@ -794,7 +794,6 @@ namespace TF
             size_type substringCodeLength = substringLength / sizeof(data_type);
             byte_order_query_type substringQueryResult = hasByteOrderMark(substringStart, substringLength);
 
-            const data_type *replaceStringCharacterStart = reinterpret_cast<const data_type *>(replaceStringStart);
             size_type replaceStringCodeLength = replaceStringLength / sizeof(data_type);
             byte_order_query_type replaceStringQueryResult = hasByteOrderMark(replaceStringStart, replaceStringLength);
 
@@ -819,7 +818,6 @@ namespace TF
 
             if(replaceStringQueryResult.first)
             {
-                replaceStringCharacterStart += 1;
                 replaceStringCodeLength -= 1;
             }
 
@@ -981,17 +979,7 @@ namespace TF
 
         bool UTF16StringEncoder::operator==(const StringEncoder &e)
         {
-            try
-            {
-                const UTF16StringEncoder &theEncoder = dynamic_cast<const UTF16StringEncoder &>(e);
-                return true;
-            }
-            catch(std::bad_cast e)
-            {
-                ;
-            }
-
-            return false;
+            return this->getEncoderID() == e.getEncoderID();
         }
 
 
@@ -1038,6 +1026,11 @@ namespace TF
             }
 
             return theCode;
+        }
+
+        std::string UTF16StringEncoder::getEncoderID() const
+        {
+            return std::string("371D4C11-1DB0-49EB-A26C-C05A64BAA3E6");
         }
 
     }    // namespace Foundation

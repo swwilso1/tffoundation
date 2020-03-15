@@ -603,7 +603,7 @@ namespace TF
                                 m_symbolTable.setValueForKey<size_type>(destinationName, i);
                             }
 
-                            size_type i;
+                            size_type i = 0;
                             m_symbolTable.getValueForKey<size_type>(destinationName, i);
                             i++;
                             m_symbolTable.removeValueForKey(destinationName);

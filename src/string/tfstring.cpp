@@ -147,7 +147,6 @@ namespace TF
         String::String(const unsigned char *str, size_type length)
         {
             UTF8StringEncoder encoder;
-            auto tmp = str;
 
             if(!encoder.checkStringForCorrectness(str, length))
                 throw std::runtime_error("String UTF-8 constructor cannot create string from bad UTF-8");
@@ -271,8 +270,7 @@ namespace TF
             auto bytesNeededForUTF8 = utf8StringEncoder.bytesNeededForRepresentationOfCode(c);
 
             auto charArray = new char_type[bytesNeededForUTF8];
-            auto result = utf8StringEncoder.encodeCodePoint(charArray, bytesNeededForUTF8, c,
-                                                            StringEncoder::thisSystemEndianness());
+            utf8StringEncoder.encodeCodePoint(charArray, bytesNeededForUTF8, c, StringEncoder::thisSystemEndianness());
 
             core = std::make_shared<core_type>(charArray, bytesNeededForUTF8);
 

@@ -87,7 +87,7 @@ namespace TF
                 for(size_type i = 0; i < theLength; i++)
                 {
                     int value = static_cast<int>(theValue[i]);
-                    collector << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
+                    collector << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
                     if(i < (theLength - 1))
                         collector << ",";
                 }
@@ -107,7 +107,7 @@ namespace TF
                 for(size_type i = 0; i < theLength; i++)
                 {
                     int value = static_cast<int>(theValue[i]);
-                    o << std::hex << std::setw(2) << std::setfill('0') << theValue[i] << std::dec;
+                    o << std::hex << std::setw(2) << std::setfill('0') << value << std::dec;
                     if(i < (theLength - 1))
                         o << ",";
                 }

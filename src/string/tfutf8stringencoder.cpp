@@ -981,17 +981,7 @@ namespace TF
 
         bool UTF8StringEncoder::operator==(const StringEncoder &e)
         {
-            try
-            {
-                const UTF8StringEncoder &theEncoder = dynamic_cast<const UTF8StringEncoder &>(e);
-                return true;
-            }
-            catch(std::bad_cast e)
-            {
-                ;
-            }
-
-            return false;
+            return this->getEncoderID() == e.getEncoderID();
         }
 
 
@@ -1091,6 +1081,11 @@ namespace TF
 
             /* All remaining codes are represented by four bytes */
             return 4;
+        }
+
+        std::string UTF8StringEncoder::getEncoderID() const
+        {
+            return std::string("E675C373-C92E-42FC-BB30-0358BD48EE58");
         }
 
     }    // namespace Foundation
