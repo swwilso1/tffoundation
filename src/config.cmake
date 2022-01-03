@@ -92,6 +92,8 @@ if(APPLE)
         target_link_libraries(${FOUNDATION_FRAMEWORK_LIBRARY_NAME}
             ${FOUNDATION_FRAMEWORK_LIBRARY_LIBRARIES})
     endif()
+    target_include_directories(${FOUNDATION_FRAMEWORK_LIBRARY_NAME} INTERFACE
+        $<INSTALL_INTERFACE:include/TFFoundation>)
     add_dependencies(${FOUNDATION_FRAMEWORK_LIBRARY_NAME} FoundationHeaders)
 
     install(TARGETS ${FOUNDATION_FRAMEWORK_LIBRARY_NAME}
@@ -127,6 +129,8 @@ if(FOUNDATION_SHARED_LIBRARY_LIBRARIES)
     target_link_libraries(${FOUNDATION_SHARED_LIBRARY_NAME}
         ${FOUNDATION_SHARED_LIBRARY_LIBRARIES})
 endif()
+target_include_directories(${FOUNDATION_SHARED_LIBRARY_NAME} INTERFACE
+    $<INSTALL_INTERFACE:include/TFFoundation>)
 add_dependencies(${FOUNDATION_SHARED_LIBRARY_NAME} FoundationHeaders)
 
 
@@ -145,6 +149,8 @@ if(FOUNDATION_STATIC_LIBRARY_LINK_FLAGS)
     set_target_properties(${FOUNDATION_STATIC_LIBRARY_NAME} PROPERTIES
         LINK_FLAGS "${FOUNDATION_STATIC_LIBRARY_LINK_FLAGS}")
 endif()
+target_include_directories(${FOUNDATION_STATIC_LIBRARY_NAME} INTERFACE
+    $<INSTALL_INTERFACE:include/TFFoundation>)
 add_dependencies(${FOUNDATION_STATIC_LIBRARY_NAME} FoundationHeaders)
 
 
@@ -160,6 +166,33 @@ install(FILES ${FOUNDATION_HEADER_FILES} DESTINATION
     include/${FOUNDATION_LIBRARY_NAME}
     )
 
-install(EXPORT ${FOUNDATION_LIBRARY_NAME} DESTINATION
-    "${FOUNDATION_BUILD_DIR}"
-    )
+#install(EXPORT ${FOUNDATION_LIBRARY_NAME} DESTINATION
+#    "${FOUNDATION_BUILD_DIR}"
+#    )
+
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file(
+    "${CMAKE_CURRENT_BINARY_DIR}/TFFoundation/TFFoundationConfigVersion.cmake"
+    VERSION ${TFFoundation_VERSION}
+    COMPATIBILITY AnyNewerVersion
+)
+
+export(EXPORT ${FOUNDATION_LIBRARY_NAME}
+    FILE "${CMAKE_CURRENT_BINARY_DIR}/TFFoundation/TFFoundationTargets.cmake"
+    NAMESPACE TFFoundation::
+)
+
+configure_file(cmake/TFFoundationConfig.cmake
+    "${CMAKE_CURRENT_BINARY_DIR}/TFFoundation/TFFoundationConfig.cmake"
+    COPYONLY)
+
+set(ConfigPackageLocation lib/cmake/TFFoundation)
+install(EXPORT ${FOUNDATION_LIBRARY_NAME}
+    FILE TFFoundationTargets.cmake
+    NAMESPACE TFFoundation::
+    DESTINATION ${ConfigPackageLocation})
+install(FILES
+    cmake/TFFoundationConfig.cmake
+    "${CMAKE_CURRENT_BINARY_DIR}/TFFoundation/TFFoundationConfigVersion.cmake"
+    DESTINATION ${ConfigPackageLocation})

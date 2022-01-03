@@ -5,9 +5,11 @@
 #####
 ################################################################################
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.21)
 
 project(TFFoundation)
+
+set(TFFoundation_VERSION 1.0.0)
 
 cmake_policy(SET CMP0075 OLD)
 
