@@ -8,6 +8,7 @@
 
 list(APPEND FOUNDATION_HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfasciistringencoder.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfjsonstringencoder.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfstring.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfstringcase.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfstringcore.hpp"
@@ -22,6 +23,8 @@ list(APPEND FOUNDATION_HEADER_FILES
 list(APPEND FOUNDATION_SOURCE_FILES
     "src/string/tfasciistringencoder.cpp"
     "src/string/tfasciistringencoder.hpp"
+	"src/string/tfjsonstringencoder.cpp"
+	"src/string/tfjsonstringencoder.hpp"
 	"src/string/tfstring.cpp"
 	"src/string/tfstring.hpp"
     "src/string/tfstringcase.hpp"

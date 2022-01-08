@@ -247,7 +247,7 @@ TEST(StringTest, StringConverterTest)
 
     String s(tmp, 10);
     String t = String::initWithFormat("%@", &s);
-    String u("\\:002603\\:002604\\:01D306");
+    String u = String::initWithASCIIEncodedUnicode("\\:002603\\:002604\\:01D306");
     EXPECT_EQ(t, u);
 }
 

@@ -250,3 +250,35 @@ TEST(StringTest, GetAsDataInUTF32Encoding)
         EXPECT_EQ(theData[19], 0x80);
     }
 }
+
+TEST(StringTest, GetAsDataInJSONEncoding)
+{
+    unsigned int array[5];
+
+    array[0] = 0xFEFF;
+    array[1] = 0x3893;
+    array[2] = 0x103432;
+    array[3] = 0x3832;
+    array[4] = 0x0080;
+
+    String s(array, 5);
+    auto theData = s.getAsDataInUTF8Encoding();
+
+    EXPECT_EQ(theData.length(), 12);
+
+    EXPECT_EQ(theData[0], 0xE3);
+    EXPECT_EQ(theData[1], 0xA2);
+    EXPECT_EQ(theData[2], 0x93);
+
+    EXPECT_EQ(theData[3], 0xF4);
+    EXPECT_EQ(theData[4], 0x83);
+    EXPECT_EQ(theData[5], 0x90);
+    EXPECT_EQ(theData[6], 0xB2);
+
+    EXPECT_EQ(theData[7], 0xE3);
+    EXPECT_EQ(theData[8], 0xA0);
+    EXPECT_EQ(theData[9], 0xB2);
+
+    EXPECT_EQ(theData[10], 0xC2);
+    EXPECT_EQ(theData[11], 0x80);
+}

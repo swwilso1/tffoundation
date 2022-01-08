@@ -216,6 +216,20 @@ namespace TF
              */
             static String initWithASCIIEncodedUnicode(const char *str);
 
+            /**
+             * @brief Initializes a String object using JSON encoded strings.
+             * @param str the JSON encoded string
+             * @return the initialized String;
+             *
+             * The init string can contain UTF-8 as well as escaped unicode characters
+             * with the following form: \uXXXX
+             *
+             * @code
+             * String s = String::initWithJSONEncodedUnicode("Hello World of \\u3049 \\u3050 Unicode");
+             * @endcode
+             */
+            static String initWithJSONEncodedUnicode(const char *str);
+
 #pragma mark - Iterator methods
 
 
@@ -582,6 +596,14 @@ namespace TF
                 of the string in ASCII encoding.
             */
             data_type getAsDataInASCIIEncoding() const;
+
+            /**
+             * @brief return a Data object with the contents of the
+             * string in JSON encoding.
+             * @return a new Data object that contains a copy
+             * of the string in JSON encoding.
+             */
+            data_type getAsDataInJSONEncoding() const;
 
             /**
                 @brief return a Data object with the contents of the

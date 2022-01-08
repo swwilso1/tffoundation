@@ -35,6 +35,7 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tfstring.hpp"
 #include "tfasciistringencoder.hpp"
+#include "tfjsonstringencoder.hpp"
 #include "tfutf8stringencoder.hpp"
 #include "tfutf16stringencoder.hpp"
 #include "tfutf32stringencoder.hpp"
@@ -68,7 +69,7 @@ namespace TF
 
         String::String(const char *str)
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             const UTF8StringEncoder::char_type *tmp = reinterpret_cast<const UTF8StringEncoder::char_type *>(str);
             auto theLength = strlen(str);
 
@@ -81,7 +82,7 @@ namespace TF
 
         String::String(const char *str, size_type length)
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             const UTF8StringEncoder::char_type *tmp = reinterpret_cast<const UTF8StringEncoder::char_type *>(str);
 
             if(!encoder.checkStringForCorrectness(tmp, length))
@@ -146,7 +147,7 @@ namespace TF
         // The argument should be encoded UTF-8.
         String::String(const unsigned char *str, size_type length)
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
 
             if(!encoder.checkStringForCorrectness(str, length))
                 throw std::runtime_error("String UTF-8 constructor cannot create string from bad UTF-8");
@@ -158,8 +159,8 @@ namespace TF
         // The argument should be encoded UTF-16
         String::String(const unsigned short *str, size_type length)
         {
-            UTF16StringEncoder encoder;
-            UTF8StringEncoder utf8Encoder;
+            static UTF16StringEncoder encoder;
+            static UTF8StringEncoder utf8Encoder;
             auto tmp = reinterpret_cast<const unsigned char *>(str);
             size_type byteLength = length * sizeof(const unsigned short);
 
@@ -212,8 +213,8 @@ namespace TF
 
         String::String(const unsigned int *str, size_type length)
         {
-            UTF32StringEncoder encoder;
-            UTF8StringEncoder utf8Encoder;
+            static UTF32StringEncoder encoder;
+            static UTF8StringEncoder utf8Encoder;
             auto tmp = reinterpret_cast<const unsigned char *>(str);
             size_type byteLength = length * sizeof(const unsigned int);
 
@@ -266,7 +267,7 @@ namespace TF
 
         String::String(const unsigned int c)
         {
-            UTF8StringEncoder utf8StringEncoder;
+            static UTF8StringEncoder utf8StringEncoder;
             auto bytesNeededForUTF8 = utf8StringEncoder.bytesNeededForRepresentationOfCode(c);
 
             auto charArray = new char_type[bytesNeededForUTF8];
@@ -1324,7 +1325,7 @@ namespace TF
         {
             String theString;
 
-            ASCIIStringEncoder asciiEncoder;
+            static ASCIIStringEncoder asciiEncoder;
             auto stringLength = std::strlen(str);
             auto charactersInString =
                 asciiEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), stringLength);
@@ -1344,7 +1345,61 @@ namespace TF
                 stringLength -= result.second;
             }
 
-            UTF8StringEncoder utf8Encoder;
+            static UTF8StringEncoder utf8Encoder;
+
+            // Now convert the unicode points to UTF-8
+            size_type bytesRequiredForUTF8 = 0;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
+            }
+
+            auto theArray = new char_type[bytesRequiredForUTF8];
+            tmp = theArray;
+            auto tmpLength = bytesRequiredForUTF8;
+
+            for(size_type i = 0; i < charactersInString; ++i)
+            {
+                auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[i], endian);
+                tmp += result;
+                tmpLength -= result;
+            }
+
+            delete[] characters;
+
+            theString.core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
+
+            delete[] theArray;
+
+            return theString;
+        }
+
+        String String::initWithJSONEncodedUnicode(const char *str)
+        {
+            String theString;
+
+            static JSONStringEncoder jsonEncoder;
+            auto stringLength = std::strlen(str);
+            auto charactersInString =
+                jsonEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), stringLength);
+
+            auto characters = new unicode_point_type[charactersInString];
+            auto endian = jsonEncoder.thisSystemEndianness();
+
+            char_type *tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
+            size_type i = 0;
+
+            // Use the ASCII encoder to convert the argument to unicode points.
+            while(stringLength > 0)
+            {
+                auto result = jsonEncoder.nextCodePoint(tmp, stringLength, endian);
+                characters[i++] = result.first;
+                tmp += result.second;
+                stringLength -= result.second;
+            }
+
+            static UTF8StringEncoder utf8Encoder;
 
             // Now convert the unicode points to UTF-8
             size_type bytesRequiredForUTF8 = 0;
@@ -1437,7 +1492,7 @@ namespace TF
 
         String::size_type String::length() const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             if(core->length() == 0)
                 return 0;
             return encoder.numberOfCharacters(core->data(), core->length());
@@ -1452,21 +1507,21 @@ namespace TF
 
         String::unicode_point_type String::operator[](size_type i) const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             return encoder.unicodeCodePointForCharacterAtIndex(core->data(), core->length(), i);
         }
 
 
         String::unicode_point_type String::characterAtIndex(size_type i) const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             return encoder.unicodeCodePointForCharacterAtIndex(core->data(), core->length(), i);
         }
 
 
         String String::getCharactersInRange(const range_type &range) const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
 
             if(!encoder.doesRangeOfCharactersLieInString(core->data(), core->length(), range))
                 throw std::range_error("getCharactersInRange given range outside of string");
@@ -1487,7 +1542,7 @@ namespace TF
 
         std::unique_ptr<const char> String::cStr() const
         {
-            ASCIIStringEncoder encoder;
+            static ASCIIStringEncoder encoder;
 
             if(core->length() == 0)
                 throw std::runtime_error("cStr unable to create string from empty string");
@@ -1591,7 +1646,7 @@ namespace TF
 
         String String::substringFromIndex(size_type i) const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             if(i > (this->length() - 1))
                 throw std::runtime_error("substringFromIndex index larger than length of string");
 
@@ -1605,7 +1660,7 @@ namespace TF
 
         String String::substringWithRange(const range_type &range) const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             if(!encoder.doesRangeOfCharactersLieInString(core->data(), core->length(), range))
                 throw std::range_error("substringWithRange given range of characters that lies outside of the string");
 
@@ -1652,7 +1707,7 @@ namespace TF
 
         String String::substringToIndex(size_type i) const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
 
             if(i > (this->length() - 1))
                 throw std::range_error("substringToIndex given index greater than length of string");
@@ -1679,7 +1734,7 @@ namespace TF
         {
             range_array_type rangesOfSubStrings;
             string_array_type theSubStrings;
-            UTF8StringEncoder theEncoder;
+            static UTF8StringEncoder theEncoder;
 
             rangesOfSubStrings = theEncoder.findCharacterRangesOfSubstringsThatDoNotMatchSubstring(
                 core->data(), core->length(), str.core->data(), str.core->length());
@@ -1702,7 +1757,7 @@ namespace TF
         String::range_type String::rangeOfString(const String &str) const
         {
             range_type theRange;
-            UTF8StringEncoder theEncoder;
+            static UTF8StringEncoder theEncoder;
 
             theRange = theEncoder.findCharacterRangeForSubstringInString(core->data(), core->length(), str.core->data(),
                                                                          str.core->length());
@@ -1714,7 +1769,7 @@ namespace TF
         String::range_array_type String::rangesOfString(const String &str) const
         {
             range_array_type theRanges;
-            UTF8StringEncoder theEncoder;
+            static UTF8StringEncoder theEncoder;
 
             theRanges = theEncoder.findCharacterRangesForSubstringInString(core->data(), core->length(),
                                                                            str.core->data(), str.core->length());
@@ -1727,7 +1782,7 @@ namespace TF
                                                                      const String &replacement) const
         {
             range_array_type originalStringRanges;
-            UTF8StringEncoder theEncoder;
+            static UTF8StringEncoder theEncoder;
 
             auto bytesNeededForNewString = theEncoder.computeArraySizeInBytesForStringByReplacingSubstrings(
                 core->data(), core->length(), original.core->data(), original.core->length(), replacement.core->data(),
@@ -1749,7 +1804,7 @@ namespace TF
 
         String String::stringByReplacingCharactersInRangeWithString(const range_type &range, const String &str) const
         {
-            UTF8StringEncoder theEncoder;
+            static UTF8StringEncoder theEncoder;
 
             if(!theEncoder.doesRangeOfCharactersLieInString(core->data(), core->length(), range))
                 throw std::out_of_range("Range argument lies outside range of string.");
@@ -1796,7 +1851,7 @@ namespace TF
 
         ComparisonResult String::compare(const String &str) const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
 
             return encoder.compareStrings(core->data(), core->length(), str.core->data(), str.core->length());
         }
@@ -1849,7 +1904,7 @@ namespace TF
 
         String String::capitalizedString() const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
 
             String theCopy = this->deepCopy();
 
@@ -1888,7 +1943,7 @@ namespace TF
 
         String String::lowercaseString() const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
 
             String theCopy = this->deepCopy();
 
@@ -1903,7 +1958,7 @@ namespace TF
 
         String String::uppercaseString() const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
 
             String theCopy = this->deepCopy();
 
@@ -1985,28 +2040,35 @@ namespace TF
 
         String::data_type String::getAsDataInASCIIEncoding() const
         {
-            ASCIIStringEncoder encoder;
+            static ASCIIStringEncoder encoder;
+            return convertToThisEncoding(*this, &encoder);
+        }
+
+
+        String::data_type String::getAsDataInJSONEncoding() const
+        {
+            static JSONStringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
         }
 
 
         String::data_type String::getAsDataInUTF8Encoding() const
         {
-            UTF8StringEncoder encoder;
+            static UTF8StringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
         }
 
 
         String::data_type String::getAsDataInUTF16Encoding() const
         {
-            UTF16StringEncoder encoder;
+            static UTF16StringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
         }
 
 
         String::data_type String::getAsDataInUTF32Encoding(void) const
         {
-            UTF32StringEncoder encoder;
+            static UTF32StringEncoder encoder;
             return convertToThisEncoding(*this, &encoder);
         }
 
@@ -2040,22 +2102,12 @@ namespace TF
             }
             else
             {
-                data_type asciiData = getAsDataInASCIIEncoding();
-
-                // We have the ASCII formatted data, but we need to have it in
-                // a form we can write to the stream.
-
-                if(asciiData.length() > 0)
+                data_type string_data = getAsDataInUTF8Encoding();
+                auto data = string_data.bytes();
+                auto size = string_data.length();
+                for(decltype(size) i = 0; i < size; i++)
                 {
-                    auto tmp = new char[asciiData.length() + 1];
-                    memcpy(reinterpret_cast<void *>(tmp),
-                           reinterpret_cast<void *>(const_cast<char *>(asciiData.bytes())),
-                           asciiData.length() * sizeof(char));
-                    tmp[asciiData.length()] = '\0';
-
-                    o << tmp;
-
-                    delete[] tmp;
+                    o << static_cast<unsigned char>(*(data + i));
                 }
             }
             return o;

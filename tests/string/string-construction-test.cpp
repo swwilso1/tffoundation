@@ -216,3 +216,116 @@ TEST(StringTest, UnicodePointConstructorTest)
     EXPECT_EQ(s.length(), 1);
     EXPECT_EQ(s[0], 10022);
 }
+
+TEST(StringTest, JSONStringConstructorTest)
+{
+    // Basic simple ASCII content string.
+    String s = String::initWithJSONEncodedUnicode("Hello World");
+    EXPECT_EQ(s, "Hello World");
+
+    // init with one escaped unicode char.
+    s = String::initWithJSONEncodedUnicode("Hello World\\u2231");
+    EXPECT_TRUE(s == "Hello World∱");
+
+    // init with two escaped unicode chars.
+    s = String::initWithJSONEncodedUnicode("abc\\u2387def\\u2231");
+    EXPECT_TRUE(s == "abc⎇def∱");
+
+    // init with broken unicode char:
+    try
+    {
+        s = String::initWithJSONEncodedUnicode("abc\\u238zdef\\u2231");
+    }
+    catch(std::runtime_error)
+    {
+    }
+
+    // init with an unfinished unicode char
+    try
+    {
+        s = String::initWithJSONEncodedUnicode("abc\\u238");
+    }
+    catch(std::runtime_error)
+    {
+    }
+
+    // init with a unicode surrogate pair
+    s = String::initWithJSONEncodedUnicode("abc\\ud83d\\ude00");
+    unsigned char tmp[7];
+    tmp[0] = 'a';
+    tmp[1] = 'b';
+    tmp[2] = 'c';
+    tmp[3] = 0xF0;
+    tmp[4] = 0x9F;
+    tmp[5] = 0x98;
+    tmp[6] = 0x80;
+    String tmp_string(tmp, 7);
+    EXPECT_EQ(s, tmp_string);
+
+    // init with a bad unicode surrogate pair
+    try
+    {
+        s = String::initWithJSONEncodedUnicode("abc\\ud83d\\u2231def");
+    }
+    catch(std::runtime_error)
+    {
+    }
+
+    // init with a missing high surrogate
+    try
+    {
+        s = String::initWithJSONEncodedUnicode("abc\\u2331\\ude00def");
+    }
+    catch(std::runtime_error)
+    {
+    }
+
+    // init with a \b
+    s = String::initWithJSONEncodedUnicode("abc\\bdef");
+    unsigned char tmp2[7];
+    tmp2[0] = 'a';
+    tmp2[1] = 'b';
+    tmp2[2] = 'c';
+    tmp2[3] = '\b';
+    tmp2[4] = 'd';
+    tmp2[5] = 'e';
+    tmp2[6] = 'f';
+    tmp_string = String(tmp2, 7);
+    EXPECT_EQ(s, tmp_string);
+
+    // init with a '\'
+    s = String::initWithJSONEncodedUnicode("abc\\\\def");
+    tmp2[3] = '\\';
+    tmp_string = String(tmp2, 7);
+    EXPECT_EQ(s, tmp_string);
+
+    // init with a '/'
+    s = String::initWithJSONEncodedUnicode("abc\\/def");
+    tmp2[3] = '/';
+    tmp_string = String(tmp2, 7);
+    EXPECT_EQ(s, tmp_string);
+
+    // init with a \f
+    s = String::initWithJSONEncodedUnicode("abc\\fdef");
+    tmp2[3] = '\f';
+    tmp_string = String(tmp2, 7);
+    EXPECT_EQ(s, tmp_string);
+
+    // init with a \n
+    s = String::initWithJSONEncodedUnicode("abc\\ndef");
+    tmp2[3] = '\n';
+    tmp_string = String(tmp2, 7);
+    EXPECT_EQ(s, tmp_string);
+
+    // init with a \r
+    s = String::initWithJSONEncodedUnicode("abc\\rdef");
+    tmp2[3] = '\r';
+    tmp_string = String(tmp2, 7);
+    EXPECT_EQ(s, tmp_string);
+
+    // init with a \t
+    s = String::initWithJSONEncodedUnicode("abc\\tdef");
+    tmp2[3] = '\t';
+    tmp_string = String(tmp2, 7);
+    EXPECT_EQ(s, tmp_string);
+}

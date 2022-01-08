@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2019 Tectiform Inc.
+Copyright (c) 2021 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -25,8 +25,8 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFUTF16STRINGENCODER_HPP
-#define TFUTF16STRINGENCODER_HPP
+#ifndef TFJSONSTRINGENCODER_HPP
+#define TFJSONSTRINGENCODER_HPP
 
 #define NEEDS_OSTREAM
 #define NEEDS_UTILITY
@@ -41,7 +41,7 @@ namespace TF
     namespace Foundation
     {
 
-        class UTF16StringEncoder : public StringEncoder
+        class JSONStringEncoder : public StringEncoder
         {
         public:
             using parent_type = StringEncoder;
@@ -54,25 +54,23 @@ namespace TF
 
             using byte_order_query_type = parent_type::byte_order_query_type;
 
-            using data_type = unsigned short;
+            using data_type = unsigned char;
 
-            ~UTF16StringEncoder()
-            {
-            }
+            ~JSONStringEncoder();
 
-            StringEncoder *clone(void) override;
+            StringEncoder *clone() override;
 
-            size_type basicCodeLengthInBytes(void) override;
+            size_type basicCodeLengthInBytes() override;
 
-            bool hasFixedCodeLength(void) override;
+            bool hasFixedCodeLength() override;
 
-            size_type numberOfBytesRequiredForLargestCharacterValue(void) override;
+            size_type numberOfBytesRequiredForLargestCharacterValue() override;
 
-            bool canUseByteOrderMark(void) override;
+            bool canUseByteOrderMark() override;
 
-            bool usesByteOrderMark(void) override;
+            bool usesByteOrderMark() override;
 
-            size_type lengthOfByteOrderMarkInBytes(void) override;
+            size_type lengthOfByteOrderMarkInBytes() override;
 
             void writeByteOrderMark(char_type *start, size_type length) override;
 
@@ -128,6 +126,9 @@ namespace TF
                                                                                     const char_type *substringStart,
                                                                                     size_type substringLength) override;
 
+            ComparisonResult compareStrings(const char_type *firstStringStart, size_type firstStringLength,
+                                            const char_type *secondStringStart, size_type secondStringLength) override;
+
             void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase) override;
 
             size_type computeArraySizeInBytesForStringByReplacingSubstrings(
@@ -150,16 +151,30 @@ namespace TF
 
             std::string getEncoderID() const override;
 
-            unicode_point_type convertSurrogatePairToCodePoint(data_type highSurrogate, data_type lowSurrogate);
-
         private:
-            static const size_type byteOrderMarkLength;
+            struct EscapedCodeStatus
+            {
+                bool m_escaped_unicode;
+                unicode_point_type m_code;
 
-            data_type correctUTF16CodeForPlatform(data_type theCode, Endian endian);
+                EscapedCodeStatus() : m_escaped_unicode {false}, m_code {0} {};
+            };
+
+            std::pair<bool, unicode_point_type> calculateTheUPoint(const char_type *s, size_type length);
+
+            std::pair<bool, EscapedCodeStatus> calculateTheEscapedCode(const char_type *s, size_type length);
+
+            size_type bytesToExpectInJSONSequence(const data_type *s, size_type length);
+
+            unicode_point_type convertJSONSequenceToUnicodePoint(const data_type *start, size_type length);
+
+            size_type bytesNeededForUTF8RepresenationOfUnicodePoint(unicode_point_type point);
+
+            static const size_type byteOrderMarkLength;
         };
 
     }    // namespace Foundation
 
 }    // namespace TF
 
-#endif /* TFUTF16STRINGENCODER_HPP */
+#endif /* TFJSONSTRINGENCODER_HPP */

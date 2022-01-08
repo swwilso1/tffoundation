@@ -196,6 +196,10 @@ namespace TF
         {
             T value;
             bool success;
+
+            Result() : value {}, success {false}
+            {
+            }
         };
 
     }    // namespace Foundation
