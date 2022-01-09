@@ -2,7 +2,7 @@
 
 Tectiform Open Source License (TOS)
 
-Copyright (c) 2021 Tectiform Inc.
+Copyright (c) 2022 Tectiform Inc.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,6 +34,7 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfstringencoder.hpp"
+#include "tfutf8stringencoder.hpp"
 
 namespace TF
 {
@@ -41,10 +42,10 @@ namespace TF
     namespace Foundation
     {
 
-        class JSONStringEncoder : public StringEncoder
+        class JSONStringEncoder : public UTF8StringEncoder
         {
         public:
-            using parent_type = StringEncoder;
+            using parent_type = UTF8StringEncoder;
 
             using size_type = parent_type::size_type;
 
@@ -56,100 +57,22 @@ namespace TF
 
             using data_type = unsigned char;
 
-            ~JSONStringEncoder();
+            ~JSONStringEncoder()
+            {
+            }
 
             StringEncoder *clone() override;
 
-            size_type basicCodeLengthInBytes() override;
-
-            bool hasFixedCodeLength() override;
-
             size_type numberOfBytesRequiredForLargestCharacterValue() override;
-
-            bool canUseByteOrderMark() override;
-
-            bool usesByteOrderMark() override;
-
-            size_type lengthOfByteOrderMarkInBytes() override;
-
-            void writeByteOrderMark(char_type *start, size_type length) override;
-
-            byte_order_query_type hasByteOrderMark(const char_type *start, size_type length) override;
-
-            size_type numberOfCharacters(const char_type *start, size_type length) override;
-
-            bool checkStringForCorrectness(const char_type *start, size_type length) override;
-
-            std::pair<unicode_point_type, size_type> nextCodePoint(const char_type *start, size_type length,
-                                                                   Endian endian) override;
-
-            std::pair<unicode_point_type, size_type> nextCode(const char_type *start, size_type length,
-                                                              Endian endian) override;
-
-            unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type *start, size_type length,
-                                                                   size_type index) override;
-
-            size_type bytesNeededForRepresentationOfCode(unicode_point_type code) override;
-
-            size_type encodeCodePoint(char_type *start, size_type length, unicode_point_type code,
-                                      Endian endian) override;
-
-            size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length,
-                                                            size_type index) override;
-
-            size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
-                                                              const range_type &range) override;
-
-            bool containsCharacterWithZeroValue(const char_type *start, size_type length) override;
-
-            bool containsCharacterNotInASCIIRange(const char_type *start, size_type length) override;
-
-            range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
-                                                        const char_type *substringStart,
-                                                        size_type substringLength) override;
-
-            range_array_type findByteRangesOfSubstringInString(const char_type *stringStart, size_type stringLength,
-                                                               const char_type *substringStart,
-                                                               size_type substringLength) override;
-
-            range_type findCharacterRangeForSubstringInString(const char_type *stringStart, size_type stringLength,
-                                                              const char_type *substringStart,
-                                                              size_type substringLength) override;
-
-            range_array_type findCharacterRangesForSubstringInString(const char_type *stringStart,
-                                                                     size_type stringLength,
-                                                                     const char_type *substringStart,
-                                                                     size_type substringLength) override;
-
-            range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type *stringStart,
-                                                                                    size_type stringLength,
-                                                                                    const char_type *substringStart,
-                                                                                    size_type substringLength) override;
-
-            ComparisonResult compareStrings(const char_type *firstStringStart, size_type firstStringLength,
-                                            const char_type *secondStringStart, size_type secondStringLength) override;
-
-            void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase) override;
-
-            size_type computeArraySizeInBytesForStringByReplacingSubstrings(
-                const char_type *stringStart, size_type stringLength, const char_type *substringStart,
-                size_type substringLength, const char_type *replaceStringStart, size_type replaceStringLength,
-                range_array_type &ranges) override;
-
-            void replaceOccurancesOfStringWithString(const char_type *originalStringStart,
-                                                     size_type originalStringLength, char_type *newStringStart,
-                                                     size_type newStringLength, const char_type *replacementStringStart,
-                                                     size_type replacementStringLength,
-                                                     range_array_type &substringRanges) override;
-
-            unicode_point_type correctValueForPlatform(const char_type *start, size_type length,
-                                                       Endian endian) override;
-
-            bool operator==(const StringEncoder &e) override;
 
             std::ostream &description(std::ostream &o) const override;
 
             std::string getEncoderID() const override;
+
+        protected:
+            size_type bytesToExpectInUTF8Sequence(const data_type *s, size_type length) override;
+
+            unicode_point_type convertUTF8SequenceToUnicodePoint(const data_type *start, size_type length) override;
 
         private:
             struct EscapedCodeStatus
@@ -164,11 +87,6 @@ namespace TF
 
             std::pair<bool, EscapedCodeStatus> calculateTheEscapedCode(const char_type *s, size_type length);
 
-            size_type bytesToExpectInJSONSequence(const data_type *s, size_type length);
-
-            unicode_point_type convertJSONSequenceToUnicodePoint(const data_type *start, size_type length);
-
-            size_type bytesNeededForUTF8RepresenationOfUnicodePoint(unicode_point_type point);
 
             static const size_type byteOrderMarkLength;
         };

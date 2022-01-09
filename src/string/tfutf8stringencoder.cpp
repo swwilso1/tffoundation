@@ -143,7 +143,7 @@ namespace TF
 
             while(!loopFinished)
             {
-                incrementValue = bytesToExpectInUTF8Sequence(*(initialUTF8 + i));
+                incrementValue = bytesToExpectInUTF8Sequence(initialUTF8 + i, initialUTF8Length);
                 initialUTF8 += incrementValue;
                 counter++;
                 if(incrementValue >= initialUTF8Length)
@@ -175,7 +175,7 @@ namespace TF
             while(!loopFinished)
             {
                 unicode_point_type theCode;
-                incrementValue = bytesToExpectInUTF8Sequence(*(initialUTF8 + i));
+                incrementValue = bytesToExpectInUTF8Sequence(initialUTF8 + i, initialUTF8Length);
                 theCode = convertUTF8SequenceToUnicodePoint(initialUTF8 + i, incrementValue);
                 if(theCode > 0x10FFFF)
                     return false;
@@ -192,7 +192,7 @@ namespace TF
         std::pair<UTF8StringEncoder::parent_type::unicode_point_type, UTF8StringEncoder::size_type>
             UTF8StringEncoder::nextCodePoint(const char_type *string, size_type length, Endian endian)
         {
-            size_type incrementValue = bytesToExpectInUTF8Sequence(*string);
+            size_type incrementValue = bytesToExpectInUTF8Sequence(string, length);
             parent_type::unicode_point_type theCode =
                 convertUTF8SequenceToUnicodePoint(reinterpret_cast<const data_type *>(string), incrementValue);
             return std::make_pair(theCode, incrementValue);
@@ -213,7 +213,7 @@ namespace TF
                                                                    size_type index)
         {
             size_type theIndex = arrayIndexOfCharacterAtCharacterIndex(string, length, index);
-            size_type interval = bytesToExpectInUTF8Sequence(static_cast<const data_type>(*(string + theIndex)));
+            size_type interval = bytesToExpectInUTF8Sequence(static_cast<const data_type *>(string + theIndex), length);
             parent_type::unicode_point_type theCode =
                 convertUTF8SequenceToUnicodePoint(reinterpret_cast<const data_type *>(string + theIndex), interval);
             return theCode;
@@ -315,7 +315,7 @@ namespace TF
 
             while(!loopFinished)
             {
-                incrementValue = bytesToExpectInUTF8Sequence(*(initialUTF8 + i));
+                incrementValue = bytesToExpectInUTF8Sequence(initialUTF8 + i, initialUTF8Length);
                 i += incrementValue;
                 counter += incrementValue;
                 if(++character == index)
@@ -368,7 +368,7 @@ namespace TF
             while(!loopFinished)
             {
                 unicode_point_type theCode;
-                incrementValue = bytesToExpectInUTF8Sequence(*(initialUTF8 + i));
+                incrementValue = bytesToExpectInUTF8Sequence(initialUTF8 + i, initialUTF8Length);
                 theCode = convertUTF8SequenceToUnicodePoint(initialUTF8 + i, incrementValue);
                 if(theCode == 0)
                     return true;
@@ -402,7 +402,7 @@ namespace TF
             while(!loopFinished)
             {
                 unicode_point_type theCode;
-                incrementValue = bytesToExpectInUTF8Sequence(*(initialUTF8 + i));
+                incrementValue = bytesToExpectInUTF8Sequence(initialUTF8 + i, initialUTF8Length);
                 theCode = convertUTF8SequenceToUnicodePoint(initialUTF8 + i, incrementValue);
                 if(theCode > 127 || theCode == 0)
                     return true;
@@ -998,8 +998,16 @@ namespace TF
         }
 
 
-        UTF8StringEncoder::size_type UTF8StringEncoder::bytesToExpectInUTF8Sequence(const data_type value)
+        UTF8StringEncoder::size_type UTF8StringEncoder::bytesToExpectInUTF8Sequence(const data_type *s,
+                                                                                    size_type length)
         {
+            if(s == nullptr || length <= 0)
+            {
+                return 0;
+            }
+
+            auto value = *s;
+
             if(value >= 0 && value <= 0x7F)
                 return 1;
             if(value >= 0xC2 && value <= 0xDF)
