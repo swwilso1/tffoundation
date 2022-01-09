@@ -49,15 +49,15 @@ namespace TF
              * detect the failure case, we check the string for 0 as well. */
             if(result.value == 0 && s != "0")
             {
-                result.success = false;
+                result.succeeded = false;
             }
             else if(length < strlen(theCStr.get()))
             {
-                result.success = false;
+                result.succeeded = false;
             }
             else
             {
-                result.success = true;
+                result.succeeded = true;
             }
 
             return result;
@@ -74,11 +74,11 @@ namespace TF
             result.value = strtod(theStr, &theEnd);
             if((result.value == 0.0 && theStr == theEnd) || ((theEnd - theStr) < theLength))
             {
-                result.success = false;
+                result.succeeded = false;
             }
             else
             {
-                result.success = true;
+                result.succeeded = true;
             }
 
             return result;
@@ -89,14 +89,14 @@ namespace TF
         {
             Result<bool> result;
             auto lowerValue = s.lowercaseString();
-            result.success = true;
+            result.succeeded = true;
             if(lowerValue == "true" || lowerValue == "1")
                 result.value = true;
             else if(lowerValue == "false" || lowerValue == "0")
                 result.value = false;
             else
             {
-                result.success = false;
+                result.succeeded = false;
             }
 
             return result;

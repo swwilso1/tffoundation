@@ -406,7 +406,7 @@ namespace TF
                                     for(auto &mValue : moreValues)
                                     {
                                         Result<int> res = Conversion::convertStringToInt(mValue);
-                                        if(!res.success)
+                                        if(!res.succeeded)
                                         {
                                             errorConvertingStringToIntMessage(mValue);
                                             return false;
@@ -419,7 +419,7 @@ namespace TF
                                 else
                                 {
                                     Result<int> res = Conversion::convertStringToInt(moreValues[0]);
-                                    if(!res.success)
+                                    if(!res.succeeded)
                                     {
                                         errorConvertingStringToIntMessage(moreValues[0]);
                                         return false;
@@ -435,7 +435,7 @@ namespace TF
                                     for(auto &mValue : moreValues)
                                     {
                                         Result<double> res = Conversion::convertStringToDouble(mValue);
-                                        if(!res.success)
+                                        if(!res.succeeded)
                                         {
                                             errorConvertingStringToDoubleMessage(mValue);
                                             return false;
@@ -448,7 +448,7 @@ namespace TF
                                 else
                                 {
                                     Result<double> res = Conversion::convertStringToDouble(moreValues[0]);
-                                    if(!res.success)
+                                    if(!res.succeeded)
                                     {
                                         errorConvertingStringToDoubleMessage(moreValues[0]);
                                         return false;
@@ -475,7 +475,7 @@ namespace TF
                                     for(auto &mValue : moreValues)
                                     {
                                         Result<bool> res = Conversion::convertStringToBool(mValue);
-                                        if(!res.success)
+                                        if(!res.succeeded)
                                         {
                                             errorConvertingStringToBoolMessage(mValue);
                                             return false;
@@ -488,7 +488,7 @@ namespace TF
                                 else
                                 {
                                     Result<bool> res = Conversion::convertStringToBool(moreValues[0]);
-                                    if(!res.success)
+                                    if(!res.succeeded)
                                     {
                                         errorConvertingStringToBoolMessage(moreValues[0]);
                                         return false;
@@ -535,7 +535,7 @@ namespace TF
                             if(type == ArgumentType::Int)
                             {
                                 Result<int> res = Conversion::convertStringToInt(constant);
-                                if(!res.success)
+                                if(!res.succeeded)
                                 {
                                     errorConvertingStringToIntMessage(constant);
                                     return false;
@@ -545,7 +545,7 @@ namespace TF
                             else if(type == ArgumentType::Real)
                             {
                                 Result<double> res = Conversion::convertStringToDouble(constant);
-                                if(!res.success)
+                                if(!res.succeeded)
                                 {
                                     errorConvertingStringToDoubleMessage(constant);
                                     return false;
@@ -559,7 +559,7 @@ namespace TF
                             else if(type == ArgumentType::Bool)
                             {
                                 Result<bool> res = Conversion::convertStringToBool(constant);
-                                if(!res.success)
+                                if(!res.succeeded)
                                 {
                                     errorConvertingStringToBoolMessage(constant);
                                     return false;
@@ -659,7 +659,7 @@ namespace TF
                             else if(type == ArgumentType::Int)
                             {
                                 Result<int> result = Conversion::convertStringToInt(value);
-                                if(!result.success)
+                                if(!result.succeeded)
                                 {
                                     errorConvertingStringToIntMessage(value);
                                     return false;
@@ -669,7 +669,7 @@ namespace TF
                             else if(type == ArgumentType::Real)
                             {
                                 Result<double> result = Conversion::convertStringToDouble(value);
-                                if(!result.success)
+                                if(!result.succeeded)
                                 {
                                     errorConvertingStringToDoubleMessage(value);
                                     return false;
@@ -679,7 +679,7 @@ namespace TF
                             else if(type == ArgumentType::Bool)
                             {
                                 Result<bool> result = Conversion::convertStringToBool(value);
-                                if(!result.success)
+                                if(!result.succeeded)
                                 {
                                     errorConvertingStringToBoolMessage(value);
                                     return false;
@@ -708,7 +708,7 @@ namespace TF
                         if(argType == ArgumentType::Int)
                         {
                             Result<int> res = Conversion::convertStringToInt(theDefault);
-                            if(!res.success)
+                            if(!res.succeeded)
                             {
                                 errorConvertingStringToIntMessage(theDefault);
                                 return false;
@@ -718,7 +718,7 @@ namespace TF
                         else if(argType == ArgumentType::Real)
                         {
                             Result<double> res = Conversion::convertStringToDouble(theDefault);
-                            if(!res.success)
+                            if(!res.succeeded)
                             {
                                 errorConvertingStringToDoubleMessage(theDefault);
                                 return false;
@@ -732,7 +732,7 @@ namespace TF
                         else if(argType == ArgumentType::Bool)
                         {
                             Result<bool> res = Conversion::convertStringToBool(theDefault);
-                            if(!res.success)
+                            if(!res.succeeded)
                             {
                                 errorConvertingStringToBoolMessage(theDefault);
                                 return false;
@@ -1057,7 +1057,7 @@ namespace TF
             {
                 int_list_type intList;
                 Result<int> res = Conversion::convertStringToInt(value);
-                if(!res.success)
+                if(!res.succeeded)
                 {
                     errorConvertingStringToIntMessage(value);
                     return false;
@@ -1071,7 +1071,7 @@ namespace TF
             {
                 real_list_type realList;
                 Result<double> res = Conversion::convertStringToDouble(value);
-                if(!res.success)
+                if(!res.succeeded)
                 {
                     errorConvertingStringToDoubleMessage(value);
                     return false;
@@ -1093,7 +1093,7 @@ namespace TF
             {
                 bool_list_type boolList;
                 Result<bool> res = Conversion::convertStringToBool(value);
-                if(!res.success)
+                if(!res.succeeded)
                 {
                     errorConvertingStringToBoolMessage(value);
                     return false;

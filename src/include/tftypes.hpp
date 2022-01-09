@@ -195,9 +195,9 @@ namespace TF
         struct Result
         {
             T value;
-            bool success;
+            bool succeeded;
 
-            Result() : value {}, success {false}
+            Result() : value {}, succeeded {false}
             {
             }
         };
