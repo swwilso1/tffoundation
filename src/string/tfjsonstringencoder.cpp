@@ -150,6 +150,10 @@ namespace TF
             {
                 code_status.m_code = static_cast<unicode_point_type>('/');
             }
+            else if(value == '"')
+            {
+                code_status.m_code = static_cast<unicode_point_type>('"');
+            }
             else if(value == 'b')
             {
                 // \b (backspace)
