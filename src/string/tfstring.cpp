@@ -1377,12 +1377,15 @@ namespace TF
 
         String String::initWithJSONEncodedUnicode(const char *str)
         {
+            return initWithJSONEncodedUnicode(str, std::strlen(str));
+        }
+
+        String String::initWithJSONEncodedUnicode(const char *str, size_type length)
+        {
             String theString;
 
             static JSONStringEncoder jsonEncoder;
-            auto stringLength = std::strlen(str);
-            auto charactersInString =
-                jsonEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), stringLength);
+            auto charactersInString = jsonEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), length);
 
             auto characters = new unicode_point_type[charactersInString];
             auto endian = jsonEncoder.thisSystemEndianness();
@@ -1391,12 +1394,12 @@ namespace TF
             size_type i = 0;
 
             // Use the ASCII encoder to convert the argument to unicode points.
-            while(stringLength > 0)
+            while(length > 0)
             {
-                auto result = jsonEncoder.nextCodePoint(tmp, stringLength, endian);
+                auto result = jsonEncoder.nextCodePoint(tmp, length, endian);
                 characters[i++] = result.first;
                 tmp += result.second;
-                stringLength -= result.second;
+                length -= result.second;
             }
 
             static UTF8StringEncoder utf8Encoder;
@@ -1428,8 +1431,6 @@ namespace TF
 
             return theString;
         }
-
-
 #if 1    // Disabled for now
 
         String::iterator String::begin(void)
