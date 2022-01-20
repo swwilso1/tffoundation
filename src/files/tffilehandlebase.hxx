@@ -40,7 +40,7 @@ namespace TF
     {
 
         /**
-         * @brief Base class that defines the interface for interacting with file handle object.s
+         * @brief Base class that defines the interface for interacting with file handle objects.
          *
          * This class is a templated class to allow for platform specific implementation on platforms with
          * different underlying file system semantics and data structures such as Unix vs Win32.  The actual

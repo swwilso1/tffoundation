@@ -1120,3 +1120,23 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_VECTOR
 #endif
+
+
+#if defined(NEEDS_POLL_H)
+#    if defined(HAS_POLL_H)
+#        include <poll.h>
+#    else
+#        error "Platform specific header <poll.h> required, but not available"
+#    endif
+#    undef NEEDS_POLL_H
+#endif
+
+
+#if defined(NEEDS_SYS_SELECT_H)
+#    if defined(HAS_SYS_SELECT_H)
+#        include <sys/select.h>
+#    else
+#        error "Platform specific header <sys/select.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_SELECT_H
+#endif

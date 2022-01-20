@@ -147,6 +147,8 @@ namespace TF
 #cmakedefine HAS_VALARRAY
 #cmakedefine HAS_VARIANT
 #cmakedefine HAS_VECTOR
+#cmakedefine HAS_POLL_H
+#cmakedefine HAS_SYS_SELECT_H
 
     }    // namespace Foundation
 
