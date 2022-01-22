@@ -497,5 +497,22 @@ namespace TF
 
             return info.st_size;
         }
+
+
+        FileManager::string_type FileManager::baseNameOfItemAtPath(const string_type &path) const
+        {
+            auto separator_ranges = path.rangesOfString(pathSeparator);
+            auto &last_range = separator_ranges[separator_ranges.size() - 1];
+            return path.substringFromIndex(last_range.position + 1);
+        }
+
+
+        FileManager::string_type FileManager::dirNameOfItemAtPath(const string_type &path) const
+        {
+            auto separator_ranges = path.rangesOfString(pathSeparator);
+            auto &last_range = separator_ranges[separator_ranges.size() - 1];
+            return path.substringToIndex(last_range.position);
+        }
+
     }    // namespace Foundation
 }    // namespace TF

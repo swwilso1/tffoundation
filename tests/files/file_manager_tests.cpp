@@ -226,3 +226,25 @@ TEST(FileManagerTest, SizeofFileAtPathTest)
     EXPECT_EQ(fm.sizeofFileAtPath("/tmp/sizeFile"), 0);
     fm.removeItemAtPath("/tmp/sizeFile");
 }
+
+
+TEST(FileManagerTest, BasenameOfItemTest)
+{
+    FileManager fm;
+    auto basename = fm.baseNameOfItemAtPath("/tmp/foo.file");
+    EXPECT_EQ(basename, "foo.file");
+
+    basename = fm.baseNameOfItemAtPath("/tmp/path/to/something/foo.file");
+    EXPECT_EQ(basename, "foo.file");
+}
+
+
+TEST(FileManagerTest, DirnameOfItemTest)
+{
+    FileManager fm;
+    auto dirname = fm.dirNameOfItemAtPath("/tmp/foo.file");
+    EXPECT_EQ(dirname, "/tmp");
+
+    dirname = fm.dirNameOfItemAtPath("/tmp/path/to/something/foo.file");
+    EXPECT_EQ(dirname, "/tmp/path/to/something");
+}

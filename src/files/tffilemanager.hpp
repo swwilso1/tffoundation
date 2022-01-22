@@ -302,6 +302,22 @@ namespace TF
             size_type sizeofFileAtPath(const string_type &path) const;
 
 
+            /**
+             * @brief method to get the base name of the item at path
+             * @param path the location of the item
+             * @return the basename.
+             */
+            string_type baseNameOfItemAtPath(const string_type &path) const;
+
+
+            /**
+             * @brief method to get the directory name of the item at path
+             * @param path the location of the item
+             * @return the directory name
+             */
+            string_type dirNameOfItemAtPath(const string_type &path) const;
+
+
             std::ostream &description(std::ostream &o) const;
 
             static string_type pathSeparator;
