@@ -6,12 +6,10 @@
 ################################################################################
 
 include_directories(
-	${GTEST_DIR}/include
 	${TEST_INCLUDE_DIRECTORIES}
 )
 
 link_directories(
-	${GTEST_DIR}/lib
 	${TEST_LIBRARY_DIRECTORIES}
 )
 
