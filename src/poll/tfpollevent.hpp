@@ -40,6 +40,13 @@ namespace TF
             Except = 0x4
         };
 
+        /**
+         * Method to check whether a bitmask event type contains an event.
+         * @tparam T type bitmask type
+         * @param event the event mask
+         * @param pevent the event
+         * @return true if the @e event mask contains @e pevent and false otherwise.
+         */
         template<typename T>
         bool event_set_for(T event, PollEvent pevent)
         {

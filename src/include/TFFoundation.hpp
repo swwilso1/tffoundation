@@ -69,4 +69,9 @@ SOFTWARE.
 #include "tfargument.hpp"
 #include "tfargumentparser.hpp"
 #include "tfconversion.hpp"
+#if defined(TFUNIX)
+#    if !(defined(USE_POLL_STRATEGY) || defined(USE_SELECT_STRATEGY))
+#        define USE_POLL_STRATEGY
+#    endif
+#endif
 #include "tfpoll.hpp"

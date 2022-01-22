@@ -39,6 +39,12 @@ namespace TF
     namespace Foundation
     {
 
+        /**
+         * Class definition for a basic entry in the list of handles.  Captures
+         * the handle value, the events to watch, and the events that matched
+         * after a call to a wait function.
+         * @tparam PollHandle type of the handle
+         */
         template<typename PollHandle>
         struct HandleEntry
         {
@@ -56,6 +62,12 @@ namespace TF
             }
         };
 
+        /**
+         * Class definition for the code that implements the actual polling behavior.
+         * Provide specializations of this class to implement a particular polling
+         * strategy for a handle type.
+         * @tparam PollHandle the hndle type.
+         */
         template<typename PollHandle>
         struct PollWorker
         {
@@ -63,6 +75,15 @@ namespace TF
             using entry_type = HandleEntry<PollHandle>;
             using handle_list_type = std::vector<entry_type *>;
 
+            /**
+             * @brief the static method that implements the wait_for algorithm for the
+             * polling strategy.
+             * @tparam Rep type representing number of ticks in a duration
+             * @tparam Period a ratio type representing the number of second fractions per tick.
+             * @param duration the length of time to wait
+             * @param handles the list of handles/events to observe.
+             * @return the list of handles updated with the wait results.
+             */
             template<typename Rep, typename Period>
             static handle_list_type &wait_for(const std::chrono::duration<Rep, Period> &duration,
                                               handle_list_type &handles)
@@ -70,6 +91,15 @@ namespace TF
                 return handles;
             }
 
+            /**
+             * @brief the static method that implements the wait_until algorithm for
+             * the polling strategy.
+             * @tparam Clock the clock that measures the time point.
+             * @tparam Duration a duration type used to measure the time since the epoch.
+             * @param abs_time the time point to wait until.
+             * @param handles the list of handles/events to observe.
+             * @return the list of handles updated with the wait results.
+             */
             template<typename Clock, typename Duration>
             static handle_list_type &wait_until(const std::chrono::time_point<Clock, Duration> &abs_time,
                                                 handle_list_type &handles)

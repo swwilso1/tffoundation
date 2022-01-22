@@ -38,6 +38,10 @@ namespace TF
     namespace Foundation
     {
 
+        /**
+         * Template specialization for Unix file descriptors that makes use
+         * of the select() system call to wait for file descriptor events.
+         */
         template<>
         struct PollWorker<int>
         {
@@ -101,6 +105,7 @@ namespace TF
 
                 auto duration_in_seconds = std::chrono::duration_cast<std::chrono::seconds>(duration);
                 auto duration_in_microseconds = std::chrono::duration_cast<std::chrono::microseconds>(duration);
+                auto time_left_in_microseconds = duration_in_microseconds;
 
                 timeout.tv_sec = duration_in_seconds.count();
                 timeout.tv_usec = duration_in_microseconds.count() -
@@ -108,40 +113,76 @@ namespace TF
 
                 tval = &timeout;
 
-                auto select_api_result = select(largest_handle + 1, rset, wset, eset, tval);
+                bool keep_going {true};
 
-                if(select_api_result > 0)
+                while(keep_going)
                 {
-                    for(auto &entry : handles)
+                    auto poll_start_time = std::chrono::steady_clock::now();
+
+                    auto select_api_result = select(largest_handle + 1, rset, wset, eset, tval);
+
+                    auto poll_end_time = std::chrono::steady_clock::now();
+
+                    if(select_api_result > 0)
                     {
-                        entry->events_set = 0;
-
-                        if((entry->events_to_watch & static_cast<int>(PollEvent::Read)) ==
-                           static_cast<int>(PollEvent::Read))
+                        for(auto &entry : handles)
                         {
-                            if(FD_ISSET(entry->handle, &read_set))
+                            entry->events_set = 0;
+
+                            if((entry->events_to_watch & static_cast<int>(PollEvent::Read)) ==
+                               static_cast<int>(PollEvent::Read))
                             {
-                                entry->events_set |= static_cast<int>(PollEvent::Read);
+                                if(FD_ISSET(entry->handle, &read_set))
+                                {
+                                    entry->events_set |= static_cast<int>(PollEvent::Read);
+                                }
+                            }
+
+                            if((entry->events_to_watch & static_cast<int>(PollEvent::Write)) ==
+                               static_cast<int>(PollEvent::Write))
+                            {
+                                if(FD_ISSET(entry->handle, &write_set))
+                                {
+                                    entry->events_set |= static_cast<int>(PollEvent::Write);
+                                }
+                            }
+
+                            if((entry->events_to_watch & static_cast<int>(PollEvent::Except)) ==
+                               static_cast<int>(PollEvent::Except))
+                            {
+                                if(FD_ISSET(entry->handle, &exception_set))
+                                {
+                                    entry->events_set |= static_cast<int>(PollEvent::Except);
+                                }
                             }
                         }
 
-                        if((entry->events_to_watch & static_cast<int>(PollEvent::Write)) ==
-                           static_cast<int>(PollEvent::Write))
+                        keep_going = false;
+                    }
+                    else if(select_api_result < 0)
+                    {
+                        if(errno == EINTR)
                         {
-                            if(FD_ISSET(entry->handle, &write_set))
-                            {
-                                entry->events_set |= static_cast<int>(PollEvent::Write);
-                            }
-                        }
+                            auto microseconds_used =
+                                std::chrono::duration_cast<std::chrono::microseconds>(poll_end_time - poll_start_time);
+                            time_left_in_microseconds -= microseconds_used;
 
-                        if((entry->events_to_watch & static_cast<int>(PollEvent::Except)) ==
-                           static_cast<int>(PollEvent::Except))
-                        {
-                            if(FD_ISSET(entry->handle, &exception_set))
+                            auto time_left_in_seconds =
+                                std::chrono::duration_cast<std::chrono::seconds>(time_left_in_microseconds);
+                            timeout.tv_sec = time_left_in_seconds.count();
+                            timeout.tv_usec =
+                                time_left_in_microseconds.count() -
+                                std::chrono::duration_cast<std::chrono::microseconds>(time_left_in_seconds).count();
+                            if(time_left_in_microseconds.count() > 0)
                             {
-                                entry->events_set |= static_cast<int>(PollEvent::Except);
+                                continue;
                             }
+                            keep_going = false;
                         }
+                    }
+                    else
+                    {
+                        keep_going = false;
                     }
                 }
 

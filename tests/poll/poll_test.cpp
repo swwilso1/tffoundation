@@ -44,6 +44,7 @@ TEST(PollTest, BasicTest)
     poller.add_handle(descriptor, PollEvent::Write, [&triggered](int h) { triggered = true; });
     poller.wait_for(secs);
     EXPECT_TRUE(triggered);
+    EXPECT_TRUE(poller.handle_set_for_event(descriptor, PollEvent::Write));
 
     char byte_array[100];
     memset(byte_array, 0, 100 * sizeof(char));
@@ -59,9 +60,7 @@ TEST(PollTest, BasicTest)
     poller.add_handle(descriptor2, PollEvent::Read, [&triggered](int h) { triggered = true; });
     poller.wait_for(secs);
     EXPECT_TRUE(triggered);
-
-    auto d2 = handle2.readToEndOfFile();
-    EXPECT_EQ(basic_data, d2);
+    EXPECT_TRUE(poller.handle_set_for_event(descriptor, PollEvent::Read));
 
     manager.removeItemAtPath(file_name);
 }

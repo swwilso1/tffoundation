@@ -82,29 +82,57 @@ namespace TF
 
                 auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
 
-                auto poll_api_result = poll(poll_array, handles.size(), milliseconds.count());
+                bool keep_going {true};
 
-                if(poll_api_result > 0)
+                while(keep_going)
                 {
-                    i = 0;
-                    for(auto &entry : handles)
+                    auto poll_start = std::chrono::steady_clock::now();
+
+                    auto poll_api_result = poll(poll_array, handles.size(), milliseconds.count());
+
+                    auto poll_end = std::chrono::steady_clock::now();
+
+                    if(poll_api_result > 0)
                     {
-                        entry->events_set = 0;
-                        if((poll_array[i].revents & POLLIN) == POLLIN)
+                        i = 0;
+                        for(auto &entry : handles)
                         {
-                            entry->events_set |= static_cast<int>(PollEvent::Read);
+                            entry->events_set = 0;
+                            if((poll_array[i].revents & POLLIN) == POLLIN)
+                            {
+                                entry->events_set |= static_cast<int>(PollEvent::Read);
+                            }
+
+                            if((poll_array[i].revents & POLLOUT) == POLLOUT)
+                            {
+                                entry->events_set |= static_cast<int>(PollEvent::Write);
+                            }
+
+                            if(((poll_array[i].revents & POLLERR) == POLLERR) ||
+                               ((poll_array[i].revents & POLLHUP) == POLLHUP))
+                            {
+                                entry->events_set |= static_cast<int>(PollEvent::Except);
+                            }
                         }
 
-                        if((poll_array[i].revents & POLLOUT) == POLLOUT)
+                        keep_going = false;
+                    }
+                    else if(poll_api_result < 0)
+                    {
+                        if(errno == EINTR)
                         {
-                            entry->events_set |= static_cast<int>(PollEvent::Write);
+                            milliseconds -=
+                                std::chrono::duration_cast<std::chrono::milliseconds>(poll_end - poll_start);
+                            if(milliseconds.count() > 0)
+                            {
+                                continue;
+                            }
                         }
-
-                        if(((poll_array[i].revents & POLLERR) == POLLERR) ||
-                           ((poll_array[i].revents & POLLHUP) == POLLHUP))
-                        {
-                            entry->events_set |= static_cast<int>(PollEvent::Except);
-                        }
+                        keep_going = false;
+                    }
+                    else
+                    {
+                        keep_going = false;
                     }
                 }
 
