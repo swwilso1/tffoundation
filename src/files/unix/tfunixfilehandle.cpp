@@ -207,7 +207,7 @@ namespace TF
                     throw std::runtime_error(msgCStr.get());
                 }
             }
-            d.append(buffer, kReadBufferSize);
+            d.append(buffer, amountRead);
 
             return d;
         }
