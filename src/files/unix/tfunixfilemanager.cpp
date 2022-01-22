@@ -230,6 +230,13 @@ namespace TF
         }
 
 
+        bool FileManager::itemExistsAtPath(const string_type &path) const
+        {
+            auto access_api_result = access(path.stlString().c_str(), F_OK);
+            return access_api_result == 0;
+        }
+
+
         FileManager::file_properties_type FileManager::propertiesForItemAtPath(const string_type &path) const
         {
             file_properties_type theProperties;

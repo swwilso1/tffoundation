@@ -201,7 +201,7 @@ namespace TF
 
             /**
              * @brief method to check if a file exists at a path location
-             * @param path
+             * @param path the location
              * @return true if the item exists and is not a directory and false otherwise.
              */
             bool fileExistsAtPath(const string_type &path) const;
@@ -209,10 +209,18 @@ namespace TF
 
             /**
              * @brief method to check if a directory exists at a path location
-             * @param path
+             * @param path the location
              * @return true if the item exists and is a directory and false otherwise.
              */
             bool directoryExistsAtPath(const string_type &path) const;
+
+
+            /**
+             * @brief method to see if a file system entry exists at a path location
+             * @param path the location
+             * @return true if the item exists and false otherwise.
+             */
+            bool itemExistsAtPath(const string_type &path) const;
 
 
             /**
