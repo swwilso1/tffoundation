@@ -165,6 +165,23 @@ namespace TF
         }
 
 
+        bool FileManager::itemAtPathIsLink(const string_type &path) const
+        {
+            struct stat item_stats;
+
+            auto lstat_api_result = lstat(path.stlString().c_str(), &item_stats);
+            if(lstat_api_result == 0)
+            {
+                if((item_stats.st_mode & S_IFMT) == S_IFLNK)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         bool FileManager::fileExistsAtPath(const string_type &path) const
         {
             struct stat pathData;

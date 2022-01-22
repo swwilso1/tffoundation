@@ -193,6 +193,13 @@ namespace TF
 
 
             /**
+             * @brief method to check if a filesystem entry is a link.
+             * @param path the location of the item
+             * @return true if the item is a link and false otherwise
+             */
+            bool itemAtPathIsLink(const string_type &path) const;
+
+            /**
              * @brief method to check if a file exists at a path location
              * @param path
              * @return true if the item exists and is not a directory and false otherwise.
