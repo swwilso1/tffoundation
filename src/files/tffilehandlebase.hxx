@@ -247,6 +247,11 @@ namespace TF
             void seekToEndOfFile();
 
             /**
+             * @brief method to move the read location of the file handle to the start of the file.
+             */
+            void seekToStartOfFile();
+
+            /**
              * @brief method to move the read location of the file handle to an arbitrary location in the file.
              *
              * The @e offset parameter must be less than the number of bytes in the file.

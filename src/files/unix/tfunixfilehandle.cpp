@@ -308,7 +308,7 @@ namespace TF
         {
             if(m_handle == nullptr)
                 return 0;
-            return static_cast<size_type>(ftell(m_handle));
+            return static_cast<size_type>(ftello(m_handle));
         }
 
 
@@ -317,7 +317,18 @@ namespace TF
         {
             if(m_handle == nullptr)
                 return;
-            fseek(m_handle, 0, SEEK_END);
+            fseeko(m_handle, 0, SEEK_END);
+        }
+
+
+        template<>
+        void FileHandleBase<FILE *, int>::seekToStartOfFile()
+        {
+            if(m_handle == nullptr)
+            {
+                return;
+            }
+            fseeko(m_handle, 0, SEEK_SET);
         }
 
 
@@ -326,7 +337,7 @@ namespace TF
         {
             if(m_handle == nullptr)
                 return;
-            fseek(m_handle, static_cast<long>(offset), SEEK_CUR);
+            fseeko(m_handle, static_cast<off_t>(offset), SEEK_CUR);
         }
 
 

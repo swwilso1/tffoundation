@@ -210,6 +210,37 @@ TEST_F(FileHandleTest, SeekToEndOfFileTest)
 }
 
 
+TEST_F(FileHandleTest, SeekToStartOfFileTest)
+{
+    FileHandle::string_type fileName =
+        FileHandleTest::temporaryDirectory + FileManager::pathSeparator + "testFile009.txt";
+    FileHandle fh = FileHandle::fileHandleForWritingAtPath(fileName);
+    fh.writeData(FileHandleTest::lorumIpsum.getAsData());
+    fh.closeFile();
+
+    fh = FileHandle::fileHandleForReadingAtPath(fileName);
+
+    fh.seekToStartOfFile();
+
+    EXPECT_EQ(fh.offsetInFile(), 0);
+
+    fh.seekToEndOfFile();
+
+    EXPECT_EQ(fh.offsetInFile(), FileHandleTest::lorumIpsum.length());
+
+    fh.seekToStartOfFile();
+
+    EXPECT_EQ(fh.offsetInFile(), 0);
+
+    fh.closeFile();
+
+    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    {
+        FileHandleTest::fileManager.removeItemAtPath(fileName);
+    }
+}
+
+
 TEST_F(FileHandleTest, SeekToOffsetTest)
 {
     FileHandle::string_type fileName =
