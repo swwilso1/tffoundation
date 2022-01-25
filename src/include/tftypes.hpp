@@ -29,6 +29,7 @@ SOFTWARE.
 #ifndef TFTYPES_HPP
 #define TFTYPES_HPP 1
 
+#define NEEDS_CSTDDEF
 #define NEEDS_LIMITS_H
 #include "tfheaders.hpp"
 
@@ -45,7 +46,7 @@ namespace TF
         using UnsignedInteger = unsigned int;
 
         /** @brief size_t type */
-        using Size_t = size_t;
+        using Size_t = std::size_t;
 
         /** @brief float type */
         using Float = float;
