@@ -113,6 +113,7 @@ namespace TF
                             {
                                 entry->events_set |= static_cast<int>(PollEvent::Except);
                             }
+                            i++;
                         }
 
                         keep_going = false;
