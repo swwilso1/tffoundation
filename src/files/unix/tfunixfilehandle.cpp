@@ -37,12 +37,27 @@ namespace TF
     namespace Foundation
     {
         template<>
-        FileHandleBase<FILE *, int>::FileHandleBase()
+        FileHandleBase<FILE *, int>::FileHandleBase(bool auto_close)
+            : m_handle {nullptr}, m_autoClose {auto_close}, m_fileName {}
         {
-            m_handle = nullptr;
-            m_autoClose = false;
         }
 
+
+        template<>
+        FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase &fh)
+            : m_handle {fh.m_handle}, m_autoClose {fh.m_autoClose}, m_fileName {fh.m_fileName}
+        {
+        }
+
+
+        template<>
+        FileHandleBase<FILE *, int>::FileHandleBase(FileHandleBase &&fh)
+            : m_handle {fh.m_handle}, m_autoClose {fh.m_autoClose}, m_fileName {fh.m_fileName}
+        {
+            fh.m_handle = nullptr;
+            fh.m_autoClose = false;
+            fh.m_fileName = "";
+        }
 
         template<>
         FileHandleBase<FILE *, int>::~FileHandleBase()
@@ -56,7 +71,56 @@ namespace TF
 
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type &path)
+        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(const FileHandleBase &fh)
+        {
+            if(this == &fh)
+            {
+                return *this;
+            }
+
+            if(m_autoClose && m_handle != nullptr)
+            {
+                fclose(m_handle);
+                m_handle = nullptr;
+            }
+
+            m_handle = fh.m_handle;
+            m_fileName = fh.m_fileName;
+            m_autoClose = fh.m_autoClose;
+
+            return *this;
+        }
+
+
+        template<>
+        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(FileHandleBase &&fh)
+        {
+            if(this == &fh)
+            {
+                return *this;
+            }
+
+            if(m_autoClose && m_handle != nullptr)
+            {
+                fclose(m_handle);
+                m_handle = nullptr;
+            }
+
+            m_handle = fh.m_handle;
+            m_fileName = fh.m_fileName;
+            m_autoClose = fh.m_autoClose;
+
+            fh.m_handle = nullptr;
+            fh.m_fileName = "";
+            fh.m_autoClose = false;
+
+            return *this;
+        }
+
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type &path,
+                                                                                            bool auto_close)
         {
             FileManager fm;
             FileHandleBase<FILE *, int> fh;
@@ -79,13 +143,15 @@ namespace TF
             }
 
             fh.m_fileName = path;
+            fh.setAutoClose(auto_close);
 
             return fh;
         }
 
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type &path)
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type &path,
+                                                                                            bool auto_close)
         {
             FileHandleBase fh;
             auto pathCStr = path.cStr();
@@ -100,6 +166,7 @@ namespace TF
             }
 
             fh.m_fileName = path;
+            fh.setAutoClose(auto_close);
 
             return fh;
         }
@@ -107,7 +174,7 @@ namespace TF
 
         template<>
         FileHandleBase<FILE *, int>
-            FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(const string_type &path)
+            FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(const string_type &path, bool auto_close)
         {
             FileHandleBase fh;
             auto pathCStr = path.cStr();
@@ -122,13 +189,15 @@ namespace TF
             }
 
             fh.m_fileName = path;
+            fh.setAutoClose(auto_close);
 
             return fh;
         }
 
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type &path)
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type &path,
+                                                                                              bool auto_close)
         {
             FileHandleBase fh;
             auto pathCstr = path.cStr();
@@ -143,35 +212,40 @@ namespace TF
             }
 
             fh.m_fileName = path;
+            fh.setAutoClose(auto_close);
+
             return fh;
         }
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput()
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput(bool auto_close)
         {
             FileHandleBase fh;
             fh.m_handle = stdin;
             fh.m_fileName = "stdin";
+            fh.setAutoClose(auto_close);
             return fh;
         }
 
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardOutput()
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardOutput(bool auto_close)
         {
             FileHandleBase fh;
             fh.m_handle = stdout;
             fh.m_fileName = "stdout";
+            fh.setAutoClose(auto_close);
             return fh;
         }
 
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardError()
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardError(bool auto_close)
         {
             FileHandleBase fh;
             fh.m_handle = stderr;
             fh.m_fileName = "stderr";
+            fh.setAutoClose(auto_close);
             return fh;
         }
 

@@ -35,75 +35,98 @@ namespace TF
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>
-            FileHandleBase<Handle, Descriptor>::fileHandleForReadingAtPath(const string_type &path)
+            FileHandleBase<Handle, Descriptor>::fileHandleForReadingAtPath(const string_type &path, bool auto_close)
         {
             FileHandleBase h;
             h.m_fileName = path;
+            h.m_autoClose = auto_close;
             return h;
         }
 
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>
-            FileHandleBase<Handle, Descriptor>::fileHandleForWritingAtPath(const string_type &path)
+            FileHandleBase<Handle, Descriptor>::fileHandleForWritingAtPath(const string_type &path, bool auto_close)
         {
             FileHandleBase h;
             h.m_fileName = path;
+            h.m_autoClose = auto_close;
             return h;
         }
 
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>
-            FileHandleBase<Handle, Descriptor>::fileHandleForReadingAndWritingAtPath(const string_type &path)
+            FileHandleBase<Handle, Descriptor>::fileHandleForReadingAndWritingAtPath(const string_type &path,
+                                                                                     bool auto_close)
         {
             FileHandleBase h;
             h.m_fileName = path;
+            h.m_autoClose = auto_close;
             return h;
         }
 
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>
-            FileHandleBase<Handle, Descriptor>::fileHandleForAppendingAtPath(const string_type &path)
+            FileHandleBase<Handle, Descriptor>::fileHandleForAppendingAtPath(const string_type &path, bool auto_close)
         {
             FileHandleBase h;
             h.m_fileName = path;
+            h.m_autoClose = auto_close;
             return h;
         }
 
 
         template<class Handle, class Descriptor>
-        FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleWithStandardInput()
+        FileHandleBase<Handle, Descriptor>
+            FileHandleBase<Handle, Descriptor>::fileHandleWithStandardInput(bool auto_close)
         {
             FileHandleBase h;
             h.m_fileName = "stdin";
+            h.m_autoClose = auto_close;
             return h;
         }
 
 
         template<class Handle, class Descriptor>
-        FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleWithStandardOutput()
+        FileHandleBase<Handle, Descriptor>
+            FileHandleBase<Handle, Descriptor>::fileHandleWithStandardOutput(bool auto_close)
         {
             FileHandleBase h;
             h.m_fileName = "stdout";
+            h.m_autoClose = auto_close;
             return h;
         }
 
 
         template<class Handle, class Descriptor>
-        FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleWithStandardError()
+        FileHandleBase<Handle, Descriptor>
+            FileHandleBase<Handle, Descriptor>::fileHandleWithStandardError(bool auto_close)
         {
             FileHandleBase h;
             h.m_fileName = "stderr";
+            h.m_autoClose = auto_close;
             return h;
         }
 
 
         template<class Handle, class Descriptor>
-        FileHandleBase<Handle, Descriptor>::FileHandleBase()
+        FileHandleBase<Handle, Descriptor>::FileHandleBase(bool auto_close)
+            : m_handle {}, m_autoClose {auto_close}, m_fileName {}
         {
-            m_autoClose = false;
+        }
+
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor>::FileHandleBase(const FileHandleBase &fh)
+        {
+        }
+
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor>::FileHandleBase(FileHandleBase &&fh)
+        {
         }
 
 
@@ -112,6 +135,19 @@ namespace TF
         {
         }
 
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor> &FileHandleBase<Handle, Descriptor>::operator=(const FileHandleBase &fh)
+        {
+            return *this;
+        }
+
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor> &FileHandleBase<Handle, Descriptor>::operator=(FileHandleBase &&fh)
+        {
+            return *this;
+        }
 
         template<class Handle, class Descriptor>
         typename FileHandleBase<Handle, Descriptor>::descriptor_type

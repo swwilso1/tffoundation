@@ -49,32 +49,47 @@ namespace TF
 
 
         template<>
-        FileHandleBase<FILE *, int>::FileHandleBase();
+        FileHandleBase<FILE *, int>::FileHandleBase(bool auto_close);
+
+        template<>
+        FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase &fh);
+
+        template<>
+        FileHandleBase<FILE *, int>::FileHandleBase(FileHandleBase &&fh);
 
         template<>
         FileHandleBase<FILE *, int>::~FileHandleBase();
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type &path);
+        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(const FileHandleBase &fh);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type &path);
+        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(FileHandleBase &&fh);
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type &path,
+                                                                                            bool auto_close);
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type &path,
+                                                                                            bool auto_close);
 
         template<>
         FileHandleBase<FILE *, int>
-            FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(const string_type &path);
+            FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(const string_type &path, bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type &path);
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type &path,
+                                                                                              bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput();
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput(bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardOutput();
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardOutput(bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardError();
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardError(bool auto_close);
 
         template<>
         FileHandleBase<FILE *, int>::descriptor_type FileHandleBase<FILE *, int>::fileDescriptor();

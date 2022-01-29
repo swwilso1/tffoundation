@@ -39,7 +39,7 @@ TEST(PollTest, BasicTest)
 
     auto file_name = manager.temporaryDirectory() + FileManager::pathSeparator + "polltest.log";
 
-    auto handle = FileHandle::fileHandleForWritingAtPath(file_name);
+    auto handle = FileHandle::fileHandleForWritingAtPath(file_name, true);
     auto descriptor = handle.fileDescriptor();
     poller.add_handle(descriptor, PollEvent::Write, [&triggered](int h) { triggered = true; });
     poller.wait_for(secs);
@@ -50,17 +50,65 @@ TEST(PollTest, BasicTest)
     memset(byte_array, 0, 100 * sizeof(char));
     Data basic_data {byte_array, 100};
     handle.writeData(basic_data);
-    handle.closeFile();
 
     poller.clear();
 
-    auto handle2 = FileHandle::fileHandleForReadingAtPath(file_name);
+    auto handle2 = FileHandle::fileHandleForReadingAtPath(file_name, true);
     auto descriptor2 = handle2.fileDescriptor();
     triggered = false;
     poller.add_handle(descriptor2, PollEvent::Read, [&triggered](int h) { triggered = true; });
     poller.wait_for(secs);
     EXPECT_TRUE(triggered);
-    EXPECT_TRUE(poller.handle_set_for_event(descriptor, PollEvent::Read));
+    EXPECT_TRUE(poller.handle_set_for_event(descriptor2, PollEvent::Read));
 
     manager.removeItemAtPath(file_name);
+}
+
+TEST(PollTest, MultiHandleTest)
+{
+    Poller poller;
+    FileManager manager;
+    std::chrono::seconds secs {5};
+    bool triggered1 {false};
+    bool triggered2 {false};
+
+    auto file_name1 = manager.temporaryDirectory() + FileManager::pathSeparator + "polltest1.log";
+    auto file_name2 = manager.temporaryDirectory() + FileManager::pathSeparator + "polltest2.log";
+
+    auto handle1 = FileHandle::fileHandleForWritingAtPath(file_name1, true);
+    auto handle2 = FileHandle::fileHandleForWritingAtPath(file_name2, true);
+    auto descriptor1 = handle1.fileDescriptor();
+    auto descriptor2 = handle2.fileDescriptor();
+    poller.add_handle(descriptor1, PollEvent::Write, [&triggered1](int h) { triggered1 = true; });
+    poller.add_handle(descriptor2, PollEvent::Write, [&triggered2](int h) { triggered2 = true; });
+    poller.wait_for(secs);
+    EXPECT_TRUE(triggered1);
+    EXPECT_TRUE(triggered2);
+    EXPECT_TRUE(poller.handle_set_for_event(descriptor1, PollEvent::Write));
+    EXPECT_TRUE(poller.handle_set_for_event(descriptor2, PollEvent::Write));
+
+    char byte_array[100];
+    memset(byte_array, 0, 100 * sizeof(char));
+    Data basic_data {byte_array, 100};
+    handle1.writeData(basic_data);
+    handle2.writeData(basic_data);
+
+    poller.clear();
+
+    handle1 = FileHandle::fileHandleForReadingAtPath(file_name1, true);
+    handle2 = FileHandle::fileHandleForReadingAtPath(file_name2, true);
+    descriptor1 = handle1.fileDescriptor();
+    descriptor2 = handle2.fileDescriptor();
+    triggered1 = false;
+    triggered2 = false;
+    poller.add_handle(descriptor1, PollEvent::Read, [&triggered1](int h) { triggered1 = true; });
+    poller.add_handle(descriptor2, PollEvent::Read, [&triggered2](int h) { triggered2 = true; });
+    poller.wait_for(secs);
+    EXPECT_TRUE(triggered1);
+    EXPECT_TRUE(triggered2);
+    EXPECT_TRUE(poller.handle_set_for_event(descriptor1, PollEvent::Read));
+    EXPECT_TRUE(poller.handle_set_for_event(descriptor2, PollEvent::Read));
+
+    manager.removeItemAtPath(file_name1);
+    manager.removeItemAtPath(file_name2);
 }

@@ -88,10 +88,32 @@ namespace TF
 
             /**
              * @brief Simple default constructor
+             * @param auto_close true if the destructor should automatically close the
+             * file handle and false otherwise.
              *
              * The Constructor does not open any files.
              */
-            FileHandleBase();
+            explicit FileHandleBase(bool auto_close = false);
+
+            /**
+             * @brief copy constructor
+             * @param fh the file handle to copy.
+             *
+             * The copy construction will copy the auto close setting from @e fh.  After construction, you will
+             * have two objects potentially with auto-close settings.  The caller must call setAutoClose(false)
+             * for the object that should no longer automatically close the file handle.
+             */
+            FileHandleBase(const FileHandleBase &fh);
+
+
+            /**
+             * @brief move constructor
+             * @param fh the file handle to move.
+             *
+             * After the object is constructed the original @e fh object will no longer contain a valid
+             * file handle.
+             */
+            FileHandleBase(FileHandleBase &&fh);
 
             /**
              * @brief Simple destructor.
@@ -101,6 +123,32 @@ namespace TF
              */
             ~FileHandleBase();
 
+
+#pragma mark - Assignment operators
+
+            /**
+             * @brief copy assignment operator
+             * @param fh the other file handle
+             * @return this file handle now referring to the underlying file system object as @e fh.
+             *
+             * If the current contents of the file handle are set to auto-close, then this operation closes
+             * the handle before copying the handle from @e fh.  The copy operation will copy @e fh's
+             * auto close setting which will leave two file handles in an auto close state.  One should
+             * be turned off.  The caller must explicitly call setAutoClose(false) on the handle that
+             * should no longer auto close the file.  This requirement may change in the future.
+             */
+            FileHandleBase &operator=(const FileHandleBase &fh);
+
+            /**
+             * @brief move assignment operator
+             * @param fh the other file handle
+             * @return this file handle now referring to the underlying file system object as @e fh.
+             *
+             * If the current contents of the file handle are set to auto-close, then this operation closes
+             * the handle before copying the handle from @e fh.  After the move operation the original file
+             * handle object will no longer refer to a valid file handle.
+             */
+            FileHandleBase &operator=(FileHandleBase &&fh);
 
 #pragma mark - Static methods to create FileHandles
 
@@ -112,9 +160,10 @@ namespace TF
              * directories, these directories must already exist.
              *
              * @param path The location of the object to read in the file system.
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object initialized to read the contents of the file located at @e path.
              */
-            static FileHandleBase fileHandleForReadingAtPath(const string_type &path);
+            static FileHandleBase fileHandleForReadingAtPath(const string_type &path, bool auto_close = false);
 
             /**
              * @brief static method that returns an object with a handle for writing to a file system object at @e
@@ -126,9 +175,10 @@ namespace TF
              * of any previously existing file system object already located at @e path.
              *
              * @param path the location of the object to write in the file system.
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object initialized to write to the object in the file system located at @e path.
              */
-            static FileHandleBase fileHandleForWritingAtPath(const string_type &path);
+            static FileHandleBase fileHandleForWritingAtPath(const string_type &path, bool auto_close = false);
 
             /**
              * @brief static method that returns an object suitable for reading and writing to the file system object
@@ -139,10 +189,12 @@ namespace TF
              * directories, these directories must already exist.
              *
              * @param path the location of the object to read/write in the file system.
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object initialized to read/write to object in the file system located at @e
              * path.
              */
-            static FileHandleBase fileHandleForReadingAndWritingAtPath(const string_type &path);
+            static FileHandleBase fileHandleForReadingAndWritingAtPath(const string_type &path,
+                                                                       bool auto_close = false);
 
             /**
              * @brief static method that returns an object suitable for appending data to the file system object located
@@ -155,31 +207,35 @@ namespace TF
              * existing content.
              *
              * @param path the location of the object to append in the file system.
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object initialized to append data to the object in the file system located at
              * @e path.
              */
-            static FileHandleBase fileHandleForAppendingAtPath(const string_type &path);
+            static FileHandleBase fileHandleForAppendingAtPath(const string_type &path, bool auto_close = false);
 
             /**
              * @brief static method that returns a file handle opened for reading from the process' standard input
              * stream.
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object opened to read from the process' standard input.
              */
-            static FileHandleBase fileHandleWithStandardInput();
+            static FileHandleBase fileHandleWithStandardInput(bool auto_close = false);
 
             /**
              * @brief static method that returns a file handle opened for writing to a process's standard output
              * stream.
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object opened to write to the process's standard output.
              */
-            static FileHandleBase fileHandleWithStandardOutput();
+            static FileHandleBase fileHandleWithStandardOutput(bool auto_close = false);
 
             /**
              * @brief a static method that returns a file handle opened for writing to a process's standard error
              * stream.
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object opened to write to the process' standard error.
              */
-            static FileHandleBase fileHandleWithStandardError();
+            static FileHandleBase fileHandleWithStandardError(bool auto_close = false);
 
 
 #pragma mark - Method to get descriptor object
