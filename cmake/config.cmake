@@ -5,6 +5,8 @@
 #####
 ################################################################################
 
+set(CMAKE_CXX_STANDARD 17)
+
 set(GENERATED_SOURCES_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated_sources" CACHE STRING "Name of generated source directory")
 
 set(FOUNDATION_LIBRARY_NAME "TFFoundation" CACHE STRING "Library name")

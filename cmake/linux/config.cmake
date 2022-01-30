@@ -7,17 +7,6 @@
 
 include(CheckCXXCompilerFlag)
 
-CHECK_CXX_COMPILER_FLAG(-std=c++14 HAS_STDCXX14_FLAG)
-
-if(HAS_STDCXX14_FLAG)
-    list(APPEND LINUX_COMPILE_FLAGS -std=c++14)
-else()
-	CHECK_CXX_COMPILER_FLAG(-std=c++11 HAS_STDCXX11_FLAG)
-	if(HAS_STDCXX11_FLAG)
-		list(APPEND LINUX_COMPILE_FLAGS -std=c++11)
-	endif()
-endif()
-
 set(FOUNDATION_SHARED_LIBRARY_NAME ${FOUNDATION_LIBRARY_NAME}-shared CACHE STRING
     "Name of shared library target")
 

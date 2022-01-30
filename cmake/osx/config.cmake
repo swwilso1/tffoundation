@@ -7,14 +7,6 @@
 
 include(CheckCXXCompilerFlag)
 
-CHECK_CXX_COMPILER_FLAG(-std=c++14 HAS_STDCXX14_FLAG)
-
-if(HAS_STDCXX14_FLAG)
-    list(APPEND OSX_COMPILE_FLAGS -std=c++14)
-else()
-    list(APPEND OSX_COMPILE_FLAGS -std=c++11)
-endif()
-
 set(FOUNDATION_FRAMEWORK_LIBRARY_NAME ${FOUNDATION_LIBRARY_NAME}-framework CACHE STRING
     "Name of framework library target")
 
