@@ -64,7 +64,7 @@ namespace TF
 
             using const_reference = typename Container::const_reference;
 
-            ThreadSafeQueue()
+            ThreadSafeQueue() : theQueue {}, theMutex {}
             {
             }
 

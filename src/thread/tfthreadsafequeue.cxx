@@ -35,13 +35,14 @@ namespace TF
     {
 
         template<class T, class Container>
-        ThreadSafeQueue<T, Container>::ThreadSafeQueue(const container_type &container) : theQueue(container)
+        ThreadSafeQueue<T, Container>::ThreadSafeQueue(const container_type &container)
+            : theQueue {container}, theMutex {}
         {
         }
 
 
         template<class T, class Container>
-        ThreadSafeQueue<T, Container>::ThreadSafeQueue(const ThreadSafeQueue &other)
+        ThreadSafeQueue<T, Container>::ThreadSafeQueue(const ThreadSafeQueue &other) : theQueue {}, theMutex {}
         {
             ThreadSafeQueue &modOther = const_cast<ThreadSafeQueue &>(other);
             lock_guard_type guard(modOther.theMutex);
@@ -50,7 +51,7 @@ namespace TF
 
 
         template<class T, class Container>
-        ThreadSafeQueue<T, Container>::ThreadSafeQueue(ThreadSafeQueue &&other)
+        ThreadSafeQueue<T, Container>::ThreadSafeQueue(ThreadSafeQueue &&other) : theQueue {}, theMutex {}
         {
             lock_guard_type guard(other.theMutex);
             theQueue = other.theQueue;
@@ -100,9 +101,13 @@ namespace TF
         {
             if(this != &other)
             {
+                // This is very bad.  We need to lock the mutexes before comparing the
+                // queues, but we technically should not modify the state of the
+                // mutexes in the const objects.
                 ThreadSafeQueue &modOther = const_cast<ThreadSafeQueue &>(other);
+                ThreadSafeQueue &thisQueue = const_cast<ThreadSafeQueue &>(*this);
                 lock_guard_type otherGuard(modOther.theMutex);
-                lock_guard_type myGuard(theMutex);
+                lock_guard_type myGuard(thisQueue.theMutex);
                 return theQueue == other.theQueue;
             }
 
@@ -113,15 +118,7 @@ namespace TF
         template<class T, class Container>
         bool ThreadSafeQueue<T, Container>::operator!=(const ThreadSafeQueue &other) const
         {
-            if(this != &other)
-            {
-                ThreadSafeQueue &modOther = const_cast<ThreadSafeQueue &>(other);
-                lock_guard_type otherGuard(modOther.theMutex);
-                lock_guard_type myGuard(theMutex);
-                return theQueue != other.theQueue;
-            };
-
-            return false;
+            return !(*this == other);
         }
 
 
@@ -131,8 +128,9 @@ namespace TF
             if(this != &other)
             {
                 ThreadSafeQueue &modOther = const_cast<ThreadSafeQueue &>(other);
+                ThreadSafeQueue &thisQueue = const_cast<ThreadSafeQueue &>(*this);
                 lock_guard_type otherGuard(modOther.theMutex);
-                lock_guard_type myGuard(theMutex);
+                lock_guard_type myGuard(thisQueue.theMutex);
                 return theQueue < other.theQueue;
             };
 
@@ -143,45 +141,21 @@ namespace TF
         template<class T, class Container>
         bool ThreadSafeQueue<T, Container>::operator<=(const ThreadSafeQueue &other) const
         {
-            if(this != &other)
-            {
-                ThreadSafeQueue &modOther = const_cast<ThreadSafeQueue &>(other);
-                lock_guard_type otherGuard(modOther.theMutex);
-                lock_guard_type myGuard(theMutex);
-                return theQueue <= other.theQueue;
-            };
-
-            return true;
+            return *this < other || *this == other;
         }
 
 
         template<class T, class Container>
         bool ThreadSafeQueue<T, Container>::operator>=(const ThreadSafeQueue &other) const
         {
-            if(this != &other)
-            {
-                ThreadSafeQueue &modOther = const_cast<ThreadSafeQueue &>(other);
-                lock_guard_type otherGuard(modOther.theMutex);
-                lock_guard_type myGuard(theMutex);
-                return theQueue >= other.theQueue;
-            };
-
-            return true;
+            return !(*this < other);
         }
 
 
         template<class T, class Container>
         bool ThreadSafeQueue<T, Container>::operator>(const ThreadSafeQueue &other) const
         {
-            if(this != &other)
-            {
-                ThreadSafeQueue &modOther = const_cast<ThreadSafeQueue &>(other);
-                lock_guard_type otherGuard(modOther.theMutex);
-                lock_guard_type myGuard(theMutex);
-                return theQueue > other.theQueue;
-            };
-
-            return false;
+            return !(*this <= other);
         }
 
 
