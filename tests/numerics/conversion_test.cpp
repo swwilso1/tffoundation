@@ -32,78 +32,78 @@ using namespace TF::Foundation;
 TEST(ConversionTest, IntConversionTest)
 {
     auto result = Conversion::convertStringToInt("-2147483648");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_EQ(result.value, -2147483648);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(result.value(), -2147483648);
 
     result = Conversion::convertStringToInt("-2147483649");
-    EXPECT_NE(result.value, -2147483649);
-    EXPECT_TRUE(result.succeeded);
+    EXPECT_TRUE(result);
+    EXPECT_NE(result.value(), -2147483649);
 
     result = Conversion::convertStringToInt("2147483647");
-    EXPECT_EQ(result.value, 2147483647);
-    EXPECT_TRUE(result.succeeded);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(result.value(), 2147483647);
 
     result = Conversion::convertStringToInt("Hello World");
-    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result);
 
     result = Conversion::convertStringToInt("3.3444");
-    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result);
 }
 
 TEST(ConversionTest, DoubleConversionTest)
 {
     auto result = Conversion::convertStringToDouble("3.1459");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_EQ(result.value, 3.1459);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(result.value(), 3.1459);
 
     result = Conversion::convertStringToDouble("-5848483393.34949");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_EQ(result.value, -5848483393.34949);
+    EXPECT_TRUE(result);
+    EXPECT_EQ(result.value(), -5848483393.34949);
 
     result = Conversion::convertStringToDouble("4,2939");
-    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result);
 
     result = Conversion::convertStringToDouble("Hello World");
-    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result);
 
     result = Conversion::convertStringToDouble("48248.244.2");
-    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result);
 }
 
 TEST(ConversionTest, BoolConversionTest)
 {
     auto result = Conversion::convertStringToBool("true");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_TRUE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(result.value());
 
     result = Conversion::convertStringToBool("True");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_TRUE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(result.value());
 
     result = Conversion::convertStringToBool("TrUE");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_TRUE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(result.value());
 
     result = Conversion::convertStringToBool("1");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_TRUE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_TRUE(result.value());
 
     result = Conversion::convertStringToBool("false");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_FALSE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(result.value());
 
     result = Conversion::convertStringToBool("False");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_FALSE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(result.value());
 
     result = Conversion::convertStringToBool("FaLsE");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_FALSE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(result.value());
 
     result = Conversion::convertStringToBool("0");
-    EXPECT_TRUE(result.succeeded);
-    EXPECT_FALSE(result.value);
+    EXPECT_TRUE(result);
+    EXPECT_FALSE(result.value());
 
     result = Conversion::convertStringToBool("Foo");
-    EXPECT_FALSE(result.succeeded);
+    EXPECT_FALSE(result);
 }

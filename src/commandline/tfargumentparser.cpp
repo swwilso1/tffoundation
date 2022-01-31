@@ -405,26 +405,26 @@ namespace TF
                                     int_list_type intList;
                                     for(auto &mValue : moreValues)
                                     {
-                                        Result<int> res = Conversion::convertStringToInt(mValue);
-                                        if(!res.succeeded)
+                                        auto res = Conversion::convertStringToInt(mValue);
+                                        if(!res)
                                         {
                                             errorConvertingStringToIntMessage(mValue);
                                             return false;
                                         }
-                                        intList.emplace_back(res.value);
+                                        intList.emplace_back(res.value());
                                     }
 
                                     m_symbolTable.setValueForKey<int_list_type>(destinationName, intList);
                                 }
                                 else
                                 {
-                                    Result<int> res = Conversion::convertStringToInt(moreValues[0]);
-                                    if(!res.succeeded)
+                                    auto res = Conversion::convertStringToInt(moreValues[0]);
+                                    if(!res)
                                     {
                                         errorConvertingStringToIntMessage(moreValues[0]);
                                         return false;
                                     }
-                                    m_symbolTable.setValueForKey<int>(destinationName, res.value);
+                                    m_symbolTable.setValueForKey<int>(destinationName, res.value());
                                 }
                             }
                             else if(type == ArgumentType::Real)
@@ -434,26 +434,26 @@ namespace TF
                                     real_list_type realList;
                                     for(auto &mValue : moreValues)
                                     {
-                                        Result<double> res = Conversion::convertStringToDouble(mValue);
-                                        if(!res.succeeded)
+                                        auto res = Conversion::convertStringToDouble(mValue);
+                                        if(!res)
                                         {
                                             errorConvertingStringToDoubleMessage(mValue);
                                             return false;
                                         }
-                                        realList.emplace_back(res.value);
+                                        realList.emplace_back(res.value());
                                     }
 
                                     m_symbolTable.setValueForKey<real_list_type>(destinationName, realList);
                                 }
                                 else
                                 {
-                                    Result<double> res = Conversion::convertStringToDouble(moreValues[0]);
-                                    if(!res.succeeded)
+                                    auto res = Conversion::convertStringToDouble(moreValues[0]);
+                                    if(!res)
                                     {
                                         errorConvertingStringToDoubleMessage(moreValues[0]);
                                         return false;
                                     }
-                                    m_symbolTable.setValueForKey<double>(destinationName, res.value);
+                                    m_symbolTable.setValueForKey<double>(destinationName, res.value());
                                 }
                             }
                             else if(type == ArgumentType::String)
@@ -474,26 +474,26 @@ namespace TF
                                     bool_list_type boolList;
                                     for(auto &mValue : moreValues)
                                     {
-                                        Result<bool> res = Conversion::convertStringToBool(mValue);
-                                        if(!res.succeeded)
+                                        auto res = Conversion::convertStringToBool(mValue);
+                                        if(!res)
                                         {
                                             errorConvertingStringToBoolMessage(mValue);
                                             return false;
                                         }
-                                        boolList.emplace_back(res.value);
+                                        boolList.emplace_back(res.value());
                                     }
 
                                     m_symbolTable.setValueForKey<bool_list_type>(destinationName, boolList);
                                 }
                                 else
                                 {
-                                    Result<bool> res = Conversion::convertStringToBool(moreValues[0]);
-                                    if(!res.succeeded)
+                                    auto res = Conversion::convertStringToBool(moreValues[0]);
+                                    if(!res)
                                     {
                                         errorConvertingStringToBoolMessage(moreValues[0]);
                                         return false;
                                     }
-                                    m_symbolTable.setValueForKey<bool>(destinationName, res.value);
+                                    m_symbolTable.setValueForKey<bool>(destinationName, res.value());
                                 }
                             }
                         }
@@ -534,23 +534,23 @@ namespace TF
 
                             if(type == ArgumentType::Int)
                             {
-                                Result<int> res = Conversion::convertStringToInt(constant);
-                                if(!res.succeeded)
+                                auto res = Conversion::convertStringToInt(constant);
+                                if(!res)
                                 {
                                     errorConvertingStringToIntMessage(constant);
                                     return false;
                                 }
-                                m_symbolTable.setValueForKey<int>(destinationName, res.value);
+                                m_symbolTable.setValueForKey<int>(destinationName, res.value());
                             }
                             else if(type == ArgumentType::Real)
                             {
-                                Result<double> res = Conversion::convertStringToDouble(constant);
-                                if(!res.succeeded)
+                                auto res = Conversion::convertStringToDouble(constant);
+                                if(!res)
                                 {
                                     errorConvertingStringToDoubleMessage(constant);
                                     return false;
                                 }
-                                m_symbolTable.setValueForKey<double>(destinationName, res.value);
+                                m_symbolTable.setValueForKey<double>(destinationName, res.value());
                             }
                             else if(type == ArgumentType::String)
                             {
@@ -558,13 +558,13 @@ namespace TF
                             }
                             else if(type == ArgumentType::Bool)
                             {
-                                Result<bool> res = Conversion::convertStringToBool(constant);
-                                if(!res.succeeded)
+                                auto res = Conversion::convertStringToBool(constant);
+                                if(!res)
                                 {
                                     errorConvertingStringToBoolMessage(constant);
                                     return false;
                                 }
-                                m_symbolTable.setValueForKey<bool>(destinationName, res.value);
+                                m_symbolTable.setValueForKey<bool>(destinationName, res.value());
                             }
                         }
                         else if(action == ArgumentAction::StoreTrue)
@@ -658,33 +658,33 @@ namespace TF
                             }
                             else if(type == ArgumentType::Int)
                             {
-                                Result<int> result = Conversion::convertStringToInt(value);
-                                if(!result.succeeded)
+                                auto result = Conversion::convertStringToInt(value);
+                                if(!result)
                                 {
                                     errorConvertingStringToIntMessage(value);
                                     return false;
                                 }
-                                m_symbolTable.setValueForKey<int>(destination, result.value);
+                                m_symbolTable.setValueForKey<int>(destination, result.value());
                             }
                             else if(type == ArgumentType::Real)
                             {
-                                Result<double> result = Conversion::convertStringToDouble(value);
-                                if(!result.succeeded)
+                                auto result = Conversion::convertStringToDouble(value);
+                                if(!result)
                                 {
                                     errorConvertingStringToDoubleMessage(value);
                                     return false;
                                 }
-                                m_symbolTable.setValueForKey<double>(destination, result.value);
+                                m_symbolTable.setValueForKey<double>(destination, result.value());
                             }
                             else if(type == ArgumentType::Bool)
                             {
-                                Result<bool> result = Conversion::convertStringToBool(value);
-                                if(!result.succeeded)
+                                auto result = Conversion::convertStringToBool(value);
+                                if(!result)
                                 {
                                     errorConvertingStringToBoolMessage(value);
                                     return false;
                                 }
-                                m_symbolTable.setValueForKey<bool>(destination, result.value);
+                                m_symbolTable.setValueForKey<bool>(destination, result.value());
                             }
 
                             arg.setMatched(true);
@@ -707,23 +707,23 @@ namespace TF
                         auto theDefault = arg.getDefault();
                         if(argType == ArgumentType::Int)
                         {
-                            Result<int> res = Conversion::convertStringToInt(theDefault);
-                            if(!res.succeeded)
+                            auto res = Conversion::convertStringToInt(theDefault);
+                            if(!res)
                             {
                                 errorConvertingStringToIntMessage(theDefault);
                                 return false;
                             }
-                            m_symbolTable.setValueForKey<int>(destinationName, res.value);
+                            m_symbolTable.setValueForKey<int>(destinationName, res.value());
                         }
                         else if(argType == ArgumentType::Real)
                         {
-                            Result<double> res = Conversion::convertStringToDouble(theDefault);
-                            if(!res.succeeded)
+                            auto res = Conversion::convertStringToDouble(theDefault);
+                            if(!res)
                             {
                                 errorConvertingStringToDoubleMessage(theDefault);
                                 return false;
                             }
-                            m_symbolTable.setValueForKey<double>(destinationName, res.value);
+                            m_symbolTable.setValueForKey<double>(destinationName, res.value());
                         }
                         else if(argType == ArgumentType::String)
                         {
@@ -731,13 +731,13 @@ namespace TF
                         }
                         else if(argType == ArgumentType::Bool)
                         {
-                            Result<bool> res = Conversion::convertStringToBool(theDefault);
-                            if(!res.succeeded)
+                            auto res = Conversion::convertStringToBool(theDefault);
+                            if(!res)
                             {
                                 errorConvertingStringToBoolMessage(theDefault);
                                 return false;
                             }
-                            m_symbolTable.setValueForKey<bool>(destinationName, res.value);
+                            m_symbolTable.setValueForKey<bool>(destinationName, res.value());
                         }
                     }
                 }
@@ -1056,28 +1056,28 @@ namespace TF
             if(type == ArgumentType::Int)
             {
                 int_list_type intList;
-                Result<int> res = Conversion::convertStringToInt(value);
-                if(!res.succeeded)
+                auto res = Conversion::convertStringToInt(value);
+                if(!res)
                 {
                     errorConvertingStringToIntMessage(value);
                     return false;
                 }
                 m_symbolTable.getValueForKey<int_list_type>(destinationName, intList);
-                intList.emplace_back(res.value);
+                intList.emplace_back(res.value());
                 m_symbolTable.removeValueForKey(destinationName);
                 m_symbolTable.setValueForKey<int_list_type>(destinationName, intList);
             }
             else if(type == ArgumentType::Real)
             {
                 real_list_type realList;
-                Result<double> res = Conversion::convertStringToDouble(value);
-                if(!res.succeeded)
+                auto res = Conversion::convertStringToDouble(value);
+                if(!res)
                 {
                     errorConvertingStringToDoubleMessage(value);
                     return false;
                 }
                 m_symbolTable.getValueForKey<real_list_type>(destinationName, realList);
-                realList.emplace_back(res.value);
+                realList.emplace_back(res.value());
                 m_symbolTable.removeValueForKey(destinationName);
                 m_symbolTable.setValueForKey<real_list_type>(destinationName, realList);
             }
@@ -1092,14 +1092,14 @@ namespace TF
             else if(type == ArgumentType::Bool)
             {
                 bool_list_type boolList;
-                Result<bool> res = Conversion::convertStringToBool(value);
-                if(!res.succeeded)
+                auto res = Conversion::convertStringToBool(value);
+                if(!res)
                 {
                     errorConvertingStringToBoolMessage(value);
                     return false;
                 }
                 m_symbolTable.getValueForKey<bool_list_type>(destinationName, boolList);
-                boolList.emplace_back(res.value);
+                boolList.emplace_back(res.value());
                 m_symbolTable.removeValueForKey(destinationName);
                 m_symbolTable.setValueForKey<bool_list_type>(destinationName, boolList);
             }

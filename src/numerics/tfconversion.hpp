@@ -27,6 +27,7 @@ SOFTWARE.
 #ifndef TFCONVERSION_HPP
 #define TFCONVERSION_HPP
 
+#define NEEDS_OPTIONAL
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -53,7 +54,7 @@ namespace TF
              * @return a Result object with the int template parameter.
              * If successful the Result value property holds the integer.
              */
-            static Result<int> convertStringToInt(const string_type &s);
+            static std::optional<int> convertStringToInt(const string_type &s);
 
             /**
              * @brief method to convert a string to a double.
@@ -61,7 +62,7 @@ namespace TF
              * @return a Result object with the double template parameter.
              * If successful the Result value property holds the double.
              */
-            static Result<double> convertStringToDouble(const string_type &s);
+            static std::optional<double> convertStringToDouble(const string_type &s);
 
             /**
              * @brief method to convert a string to a bool
@@ -73,7 +74,7 @@ namespace TF
              * @return a Result object with the bool template parameter.
              * If successful the Result value property holds the bool.
              */
-            static Result<bool> convertStringToBool(const string_type &s);
+            static std::optional<bool> convertStringToBool(const string_type &s);
         };
 
     }    // namespace Foundation
