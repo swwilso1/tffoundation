@@ -28,6 +28,7 @@ SOFTWARE.
 #ifndef TFFILEMANAGER_HPP
 #define TFFILEMANAGER_HPP
 
+#define NEEDS_FUNCTIONAL
 #define NEEDS_OSTREAM
 #define NEEDS_VECTOR
 #include "tfheaders.hpp"
@@ -156,6 +157,13 @@ namespace TF
              * for the method to remove it.
              */
             void removeItemAtPath(const string_type &path) const;
+
+            /**
+             * @brief method to remove a file system item located at path, this
+             * method will remove unempty directories as well.
+             * @param path the file system item.
+             */
+            void forcefullyRemoveItemAtPath(const string_type &path) const;
 
 
             /**
@@ -324,6 +332,16 @@ namespace TF
              * @return the directory name
              */
             string_type dirNameOfItemAtPath(const string_type &path) const;
+
+            /**
+             * @brief method to walk the directory at @e path and call the callback function
+             * for each item in the path. The method walks all directories recursively.
+             * @param path the path to walk
+             * @param callback the callback function to call for each item in the path.
+             */
+            void walkItemsAtPathRecursively(const string_type &path,
+                                            const std::function<bool(const string_type &path)> &callback,
+                                            bool *keep_running = nullptr) const;
 
 
             std::ostream &description(std::ostream &o) const;

@@ -45,7 +45,16 @@ namespace TF
 
     namespace Foundation
     {
-
+        void FileManager::forcefullyRemoveItemAtPath(const string_type &path) const
+        {
+            walkItemsAtPathRecursively(path,
+                                       [this](const string_type &subitem) -> bool
+                                       {
+                                           this->removeItemAtPath(subitem);
+                                           return true;
+                                       });
+            removeItemAtPath(path);
+        }
 
         FileManager::string_array_type FileManager::subpathsOfDirectoryAtPath(const string_type &path) const
         {
@@ -185,6 +194,74 @@ namespace TF
             }
 
             return true;
+        }
+
+
+        void FileManager::walkItemsAtPathRecursively(const string_type &path,
+                                                     const std::function<bool(const string_type &path)> &callback,
+                                                     bool *keep_running) const
+        {
+            bool my_keep_running = true;
+            if(keep_running == nullptr)
+            {
+                keep_running = &my_keep_running;
+            }
+
+            if(!itemExistsAtPath(path))
+            {
+                return;
+            }
+
+            if(!directoryExistsAtPath(path))
+            {
+                *keep_running = callback(path);
+                return;
+            }
+
+            string_array_type directories {};
+            string_array_type files {};
+
+            auto contents = contentsOfDirectoryAtPath(path);
+
+            // Separate into files and directories.
+            for(auto &item : contents)
+            {
+                auto fullpath = path + pathSeparator + item;
+
+                if(directoryExistsAtPath(fullpath))
+                {
+                    directories.emplace_back(fullpath);
+                }
+                else
+                {
+                    files.emplace_back(fullpath);
+                }
+            }
+
+            // Walk the directories first.
+            for(auto &directory : directories)
+            {
+                walkItemsAtPathRecursively(directory, callback, keep_running);
+                if(!*keep_running)
+                {
+                    return;
+                }
+                *keep_running = callback(directory);
+                if(!*keep_running)
+                {
+                    return;
+                }
+            }
+
+            // Now the files.
+            for(auto &file : files)
+            {
+                *keep_running = callback(file);
+                if(!*keep_running)
+                {
+                    return;
+                }
+            }
         }
 
 
