@@ -36,19 +36,24 @@ namespace TF
 
         const int UUID::uuidStringLength;
 
-        UUID::UUID()
+        UUID::UUID() : m_theUUID {}
         {
             uuid_generate(m_theUUID);
         }
 
-        UUID::UUID(const UUID &id)
+        UUID::UUID(const UUID &id) : m_theUUID {}
         {
             uuid_copy(m_theUUID, id.m_theUUID);
         }
 
-        UUID::UUID(UUID &&id)
+        UUID::UUID(UUID &&id) : m_theUUID {}
         {
             uuid_copy(m_theUUID, id.m_theUUID);
+        }
+
+        UUID::UUID(tfuuid_t uid) : m_theUUID {}
+        {
+            uuid_copy(m_theUUID, uid);
         }
 
         UUID::~UUID()
@@ -77,11 +82,10 @@ namespace TF
 
         bool UUID::operator==(const string_type &s) const
         {
-            UUID theUUID;
-            bool result = theUUID.fromString(s);
-            if(result)
+            auto theUUID = fromString(s);
+            if(theUUID)
             {
-                return *this == theUUID;
+                return *this == theUUID.value();
             }
             return false;
         }
@@ -113,17 +117,18 @@ namespace TF
             return s.uppercaseString();
         }
 
-        bool UUID::fromString(const string_type &s)
+        std::optional<UUID> UUID::fromString(const string_type &s)
         {
             tfuuid_t theUUID;
             auto cStr = s.cStr();
             int result = uuid_parse(cStr.get(), theUUID);
             if(result == 0)
             {
-                uuid_copy(m_theUUID, theUUID);
-                return true;
+                UUID new_uuid {theUUID};
+                std::optional<UUID> the_optional {new_uuid};
+                return the_optional;
             }
-            return false;
+            return std::optional<UUID> {};
         }
 
         std::ostream &UUID::description(std::ostream &o) const

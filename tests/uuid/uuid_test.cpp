@@ -71,19 +71,20 @@ TEST(UUIDTest, RValueAssignementOperatorTest)
 
 TEST(UUIDTest, OperatorEqualTest)
 {
-    UUID theUUID;
-    UUID theOtherUUID;
-    theUUID.fromString("7EB28421-0C05-4E4B-8086-3AC98133F016");
-    theOtherUUID.fromString("7EB28421-0C05-4E4B-8086-3AC98133F016");
-    EXPECT_TRUE(theUUID == theOtherUUID);
+    auto theUUID = UUID::fromString("7EB28421-0C05-4E4B-8086-3AC98133F016");
+    auto theOtherUUID = UUID::fromString("7EB28421-0C05-4E4B-8086-3AC98133F016");
+
+    EXPECT_TRUE(theUUID);
+    EXPECT_TRUE(theOtherUUID);
+    EXPECT_EQ(theUUID.value(), theOtherUUID.value());
 }
 
 TEST(UUIDTest, StringOperatorEqualTest)
 {
-    UUID theUUID;
-    theUUID.fromString("4AF5744D-A5F3-4F10-8DDC-1563F6A58796");
-    EXPECT_TRUE(theUUID == "4AF5744D-A5F3-4F10-8DDC-1563F6A58796");
-    EXPECT_FALSE(theUUID == "12345");
+    auto theUUID = UUID::fromString("4AF5744D-A5F3-4F10-8DDC-1563F6A58796");
+    EXPECT_TRUE(theUUID);
+    EXPECT_TRUE(theUUID.value() == "4AF5744D-A5F3-4F10-8DDC-1563F6A58796");
+    EXPECT_FALSE(theUUID.value() == "12345");
 }
 
 TEST(UUIDTest, OperatorNotEqualTest)
@@ -96,25 +97,25 @@ TEST(UUIDTest, OperatorNotEqualTest)
 
 TEST(UUIDTest, StringOperatorNotEqualTest)
 {
-    UUID theUUID;
-    theUUID.fromString("87CA2887-48BD-4310-99B2-46618BE65FFF");
-    EXPECT_TRUE(theUUID != "87CA2887-48BD-4310-99B2-46618BE65FFE");
-    EXPECT_FALSE(theUUID != "87CA2887-48BD-4310-99B2-46618BE65FFF");
+    auto theUUID = UUID::fromString("87CA2887-48BD-4310-99B2-46618BE65FFF");
+    EXPECT_TRUE(theUUID);
+    EXPECT_TRUE(theUUID.value() != "87CA2887-48BD-4310-99B2-46618BE65FFE");
+    EXPECT_FALSE(theUUID.value() != "87CA2887-48BD-4310-99B2-46618BE65FFF");
 }
 
 TEST(UUIDTest, ToStringTest)
 {
-    UUID theUUID;
-    theUUID.fromString("BB6F37AD-77A3-45ED-A321-115F59CF7856");
-    EXPECT_EQ(theUUID.toString(), "BB6F37AD-77A3-45ED-A321-115F59CF7856");
+    auto theUUID = UUID::fromString("BB6F37AD-77A3-45ED-A321-115F59CF7856");
+    EXPECT_TRUE(theUUID);
+    EXPECT_EQ(theUUID.value().toString(), "BB6F37AD-77A3-45ED-A321-115F59CF7856");
 }
 
 TEST(UUIDTest, FromStringTest)
 {
-    UUID theUUID;
-    auto result = theUUID.fromString("foo");
-    EXPECT_FALSE(result);
-    result = theUUID.fromString("943CD73D-6A1D-4752-8901-0E34A38C824A");
-    EXPECT_TRUE(result);
-    EXPECT_EQ(theUUID, "943CD73D-6A1D-4752-8901-0E34A38C824A");
+    auto bad_uuid = UUID::fromString("foo");
+    EXPECT_FALSE(bad_uuid);
+
+    auto good_uuid = UUID::fromString("943CD73D-6A1D-4752-8901-0E34A38C824A");
+    EXPECT_TRUE(good_uuid);
+    EXPECT_EQ(good_uuid, "943CD73D-6A1D-4752-8901-0E34A38C824A");
 }

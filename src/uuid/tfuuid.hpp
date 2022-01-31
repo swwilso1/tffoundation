@@ -28,6 +28,7 @@ SOFTWARE.
 #ifndef TFUUID_HPP
 #define TFUUID_HPP
 
+#define NEEDS_OPTIONAL
 #define NEEDS_OSTREAM
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
@@ -68,13 +69,15 @@ namespace TF
 
             string_type toString() const;
 
-            bool fromString(const string_type &s);
+            static std::optional<UUID> fromString(const string_type &s);
 
             std::ostream &description(std::ostream &o) const;
 
             static const int uuidStringLength = 36;
 
         private:
+            UUID(tfuuid_t uid);
+
             tfuuid_t m_theUUID;
         };
 
