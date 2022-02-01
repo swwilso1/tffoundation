@@ -30,6 +30,7 @@ include(tests/notification/config.cmake)
 include(tests/poll/config.cmake)
 include(tests/string/config.cmake)
 include(tests/symbol/config.cmake)
+include(tests/thread/config.cmake)
 include(tests/uuid/config.cmake)
 
 

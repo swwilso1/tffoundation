@@ -10,6 +10,7 @@ list(APPEND FOUNDATION_HEADER_FILES
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthreadcontroller.hpp"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthreadsafequeue.cxx"
 	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthreadsafequeue.hxx"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/thread/tfthreadsafeunorderedmap.hxx"
 )
 
 
@@ -27,5 +28,6 @@ list(APPEND FOUNDATION_SOURCE_FILES
 	"src/thread/tfthreadcontroller.hpp"
 	"src/thread/tfthreadsafequeue.cxx"
 	"src/thread/tfthreadsafequeue.hxx"
+	"src/thread/tfthreadsafeunorderedmap.hxx"
 )
 
