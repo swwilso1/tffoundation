@@ -75,18 +75,22 @@ namespace TF
             template<class Arg, class... Args>
             void log(const string_type &format, Arg value, Args... args)
             {
-
-                for(string_type::size_type i = 0; i < format.length(); i++)
+                auto format_data = format.getAsDataInUTF8Encoding();
+                auto format_bytes = format_data.bytes();
+                for(decltype(format_data)::size_type i = 0; i < format_data.length(); i++)
                 {
-                    if(format[i] == '%')
+                    if(format_bytes[i] == '%')
                     {
                         std::stringstream formatter;
                         formatter << value;
                         logMessage << formatter.str();
-                        log(format.substringFromIndex(i + 1), args...);
+                        if((i + 2) < format.length())
+                        {
+                            log(format.substringFromIndex(i + 2), args...);
+                        }
                         return;
                     }
-                    logMessage << format[i];
+                    logMessage << format_bytes[i];
                 }
             }
 

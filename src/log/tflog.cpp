@@ -84,7 +84,7 @@ namespace TF
                 std::ostringstream preamble;
                 std::ostringstream priority;
                 priority << '[' << thePriority << ']';
-                preamble << std::setw(23) << std::left << calculateTimeForPreamble() << " ";
+                preamble << calculateTimeForPreamble() << " ";
                 preamble << std::setw(10) << std::right << priority.str();
 
                 for(auto &member : logFiles)

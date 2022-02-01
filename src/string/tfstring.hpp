@@ -141,7 +141,7 @@ namespace TF
              *  @param c the single UTF-32 character in the platform encoding.
              *  @return a new string object of length 1.
              */
-            String(const unsigned int c);
+            String(unsigned int c);
 
 
             /** @brief destructor */

@@ -265,7 +265,7 @@ namespace TF
         }
 
 
-        String::String(const unsigned int c)
+        String::String(unsigned int c)
         {
             static UTF8StringEncoder utf8StringEncoder;
             auto bytesNeededForUTF8 = utf8StringEncoder.bytesNeededForRepresentationOfCode(c);
