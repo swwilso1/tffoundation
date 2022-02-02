@@ -234,6 +234,13 @@ namespace TF::Foundation
             m_map->key_eq();
         }
 
+        [[nodiscard]] bool contains(const key_type &key)
+        {
+            lock_guard_type my_guard {m_mutex};
+            // TODO: With C++20, change this to m_map.contains().
+            return m_map->count(key) > 0;
+        }
+
         [[nodiscard]] key_list_type keys()
         {
             lock_guard_type my_guard {m_mutex};
