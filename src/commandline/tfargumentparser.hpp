@@ -126,7 +126,7 @@ namespace TF
          * matches command-line values with the information for the arguments stored in the parser object
          * and converts the supplied values to C++ typed objects.
          *
-         * When used in a program, parseArgs typicall parses the command line argument passed from the @c main
+         * When used in a program, parseArgs typically parses the command line argument passed from the @c main
          * function:
          * @code{.cpp}
          * int main(int argc, const char **argv)
