@@ -25,6 +25,8 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#include <system_error>
+#include <cerrno>
 #include "tffilemanager.hpp"
 
 #include <sys/types.h>
@@ -99,7 +101,9 @@ namespace TF
             auto pathStr = path.cStr();
             auto result = mkdir(pathStr.get(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
             if(result < 0)
-                throw std::runtime_error("Unable to create directory");
+            {
+                throw std::system_error {errno, std::system_category(), "Failed to create directory"};
+            }
         }
 
 
@@ -110,7 +114,9 @@ namespace TF
             {
                 auto result = open(pathStr.get(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
                 if(result < 0)
-                    throw std::runtime_error("Unable to create file");
+                {
+                    throw std::system_error {errno, std::system_category(), "Failed to create file"};
+                }
                 close(result);
             }
         }
@@ -123,13 +129,17 @@ namespace TF
             {
                 auto result = rmdir(pathStr.get());
                 if(result < 0)
-                    throw std::runtime_error("Unable to remove directory");
+                {
+                    throw std::system_error {errno, std::system_category(), "Failed to remove directory"};
+                }
             }
             else if(fileExistsAtPath(path))
             {
                 auto result = unlink(pathStr.get());
                 if(result < 0)
-                    throw std::runtime_error("Unable to remove file");
+                {
+                    throw std::system_error {errno, std::system_category(), "Failed to remove file"};
+                }
             }
         }
 
@@ -139,7 +149,9 @@ namespace TF
             auto destStr = destPath.cStr();
             auto result = rename(sourceStr.get(), destStr.get());
             if(result < 0)
-                throw std::runtime_error("Unable to move entry to new location");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to move entry to new location"};
+            }
         }
 
 
@@ -150,7 +162,9 @@ namespace TF
             auto destStr = destPath.cStr();
             auto result = symlink(destStr.get(), linkStr.get());
             if(result < 0)
-                throw std::runtime_error("Unable to create symbolic link");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to create symbolic link"};
+            }
         }
 
 
@@ -161,7 +175,9 @@ namespace TF
             auto destStr = destPath.cStr();
             auto result = link(destStr.get(), linkStr.get());
             if(result < 0)
-                throw std::runtime_error("Unable to create hard link");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to create hard link"};
+            }
         }
 
 
@@ -246,7 +262,9 @@ namespace TF
 
             auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
-                throw std::runtime_error("Unable to query file system object");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to query file system object"};
+            }
 
             theProperties.size = pathData.st_size;
 
@@ -308,7 +326,9 @@ namespace TF
                 auto result = readlink(pathStr.get(), buffer, theProperties.size);
 
                 if(result < 0)
-                    throw std::runtime_error("Unable to read link target");
+                {
+                    throw std::system_error {errno, std::system_category(), "Unable to read link target"};
+                }
 
                 buffer[theProperties.size] = '\0';
 
@@ -354,7 +374,10 @@ namespace TF
 
             auto result = chmod(pathStr.get(), newMode);
             if(result < 0)
-                throw std::runtime_error("Unable to change permissions on file system object");
+            {
+                throw std::system_error {errno, std::system_category(),
+                                         "Unable to change permissions on file system object"};
+            }
 
             // Re-enable the umask.
             umask(origUmask);
@@ -367,7 +390,9 @@ namespace TF
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
-                throw std::runtime_error("Unable to query file");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to query file"};
+            }
 
             auto effectiveUserID = geteuid();
             auto effectiveGroupID = getegid();
@@ -399,7 +424,9 @@ namespace TF
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
-                throw std::runtime_error("Unable to query file");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to query file"};
+            }
 
             auto effectiveUserID = geteuid();
             auto effectiveGroupID = getegid();
@@ -431,7 +458,9 @@ namespace TF
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
             if(result < 0)
-                throw std::runtime_error("Unable to query file");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to query file"};
+            }
 
             auto effectiveUserID = geteuid();
             auto effectiveGroupID = getegid();
@@ -462,7 +491,9 @@ namespace TF
             auto pathStr = path.cStr();
             auto result = chdir(pathStr.get());
             if(result < 0)
-                throw std::runtime_error("Unable to change current working directory");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to change current workingd directory"};
+            }
         }
 
 
@@ -500,7 +531,9 @@ namespace TF
             auto result = stat(pathStr.get(), &info);
 
             if(result < 0)
-                throw std::runtime_error("Unable to get file size");
+            {
+                throw std::system_error {errno, std::system_category(), "Unable to get file size"};
+            }
 
             return info.st_size;
         }
