@@ -898,10 +898,10 @@ namespace TF
                 for(auto &entry : m_subParserMap)
                 {
                     m_outStream << std::left << std::setw((int)(lengthOfNameColumn + 1));
-                    m_outStream << entry.first << " ";
+                    m_outStream << entry.first.stlString() << " ";
 
                     m_outStream << std::left << std::setw((int)(lengthOfHelpColumn + 1));
-                    m_outStream << (entry.second)->help;
+                    m_outStream << (entry.second)->help.stlString();
                     m_outStream << std::endl;
                 }
 
@@ -916,10 +916,10 @@ namespace TF
                     if(!arg.argumentIsOptional(m_prefixCharacter))
                     {
                         m_outStream << std::left << std::setw((int)(lengthOfNameColumn + 1));
-                        m_outStream << arg.namesForHelp() << " ";
+                        m_outStream << arg.namesForHelp().stlString() << " ";
 
                         m_outStream << std::left << std::setw((int)(lengthOfHelpColumn + 1));
-                        m_outStream << arg.getHelp();
+                        m_outStream << arg.getHelp().stlString();
 
                         if(arg.getRequired())
                             m_outStream << "  [required]";
@@ -940,11 +940,11 @@ namespace TF
                     if(arg.argumentIsOptional(m_prefixCharacter))
                     {
                         m_outStream << std::left << std::setw((int)(lengthOfNameColumn + 1));
-                        m_outStream << arg.namesForHelp() << " ";
+                        m_outStream << arg.namesForHelp().stlString() << " ";
 
                         m_outStream << std::left << std::setw((int)(lengthOfHelpColumn + 1));
                         if(arg.getHelp().length() > 0)
-                            m_outStream << arg.getHelp();
+                            m_outStream << arg.getHelp().stlString();
                         else
                             m_outStream << " ";
 
