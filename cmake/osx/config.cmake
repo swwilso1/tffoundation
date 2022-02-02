@@ -27,6 +27,16 @@ mark_as_advanced(
 )
 
 list(APPEND OSX_COMPILE_FLAGS -stdlib=libc++)
+list(APPEND OSX_COMPILE_FLAGS -Wall -Wextra -Wconversion -Wsign-conversion)
+# list(APPEND OSX_COMPILE_FLAGS -Werror -pedantic-errors)
+
+if (BUILD_PROFILE)
+    list(APPEND OSX_COMPILE_FLAGS -pg)
+endif()
+
+if (BUILD_SANITIZER)
+    list(APPEND OSX_COMPILE_FLAGS -fsanitize=address -fno-omit-frame-pointer)
+endif()
 
 # set(FOUNDATION_FRAMEWORK_LIBRARY_COMPILE_DEFINITIONS )
 set(FOUNDATION_FRAMEWORK_LIBRARY_COMPILE_FLAGS ${OSX_COMPILE_FLAGS})

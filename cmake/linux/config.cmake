@@ -18,6 +18,17 @@ mark_as_advanced(
     FOUNDATION_STATIC_LIBRARY_NAME
 )
 
+list(APPEND LINUX_COMPILE_FLAGS -Wall -Wextra -Wconversion -Wsign-conversion)
+#list(APPEND LINUX_COMPILE_FLAGS -Werror -pedantic-errors)
+
+if (BUILD_PROFILE)
+    list(APPEND LINUX_COMPILE_FLAGS -pg)
+endif()
+
+if (BUILD_SANITIZER)
+    list(APPEND LINUX_COMPILE_FLAGS -fsanitize=address -fno-omit-frame-pointer)
+endif()
+
 set(LINUX_LIBRARIES pthread rt uuid)
 set(FOUNDATION_SHARED_LIBRARY_PLATFORM_COMPILE_FLAGS ${LINUX_COMPILE_FLAGS})
 set(FOUNDATION_SHARED_LIBRARY_PLATFORM_LIBRARIES ${LINUX_LIBRARY})
