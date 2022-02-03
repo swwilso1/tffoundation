@@ -59,6 +59,8 @@ namespace TF
 
             UUID &operator=(UUID &&id);
 
+            UUID &operator=(const string_type &s);
+
             bool operator==(const UUID &id) const;
 
             bool operator==(const string_type &s) const;

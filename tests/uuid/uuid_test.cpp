@@ -69,6 +69,13 @@ TEST(UUIDTest, RValueAssignementOperatorTest)
     EXPECT_EQ(theUUID.toString().length(), UUID::uuidStringLength);
 }
 
+TEST(UUIDTest, StringAssigmentOperatorTest)
+{
+    UUID theUUID {};
+    theUUID = UUID::string_type {"9c017f6f-6dae-4bad-a18f-51a512bb83ef"};
+    EXPECT_EQ(theUUID.toString(), "9C017F6F-6DAE-4BAD-A18F-51A512BB83EF");
+}
+
 TEST(UUIDTest, OperatorEqualTest)
 {
     auto theUUID = UUID::fromString("7EB28421-0C05-4E4B-8086-3AC98133F016");

@@ -73,6 +73,20 @@ namespace TF
             return *this;
         }
 
+        UUID &UUID::operator=(const string_type &s)
+        {
+            auto uuid_conversion = UUID::fromString(s);
+            if(uuid_conversion)
+            {
+                *this = uuid_conversion.value();
+            }
+            else
+            {
+                throw std::runtime_error {"Unable to convert string to UUID"};
+            }
+            return *this;
+        }
+
         bool UUID::operator==(const UUID &id) const
         {
             if(uuid_compare(m_theUUID, id.m_theUUID) == 0)
