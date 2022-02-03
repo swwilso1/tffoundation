@@ -2095,9 +2095,8 @@ namespace TF
             }
             else
             {
-                data_type string_data = getAsDataInUTF8Encoding();
-                auto data = string_data.bytes();
-                auto size = string_data.length();
+                auto data = core->data();
+                auto size = core->length();
                 for(decltype(size) i = 0; i < size; i++)
                 {
                     o << static_cast<unsigned char>(*(data + i));
