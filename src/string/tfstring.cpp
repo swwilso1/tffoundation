@@ -1493,10 +1493,17 @@ namespace TF
 
         String::size_type String::length() const
         {
-            static UTF8StringEncoder encoder;
             if(core->length() == 0)
                 return 0;
-            return encoder.numberOfCharacters(core->data(), core->length());
+
+            auto number_of_chars = core->get_number_of_characters();
+            if(number_of_chars == 0)
+            {
+                static UTF8StringEncoder encoder;
+                number_of_chars = encoder.numberOfCharacters(core->data(), core->length());
+                core->set_number_of_characters(number_of_chars);
+            }
+            return number_of_chars;
         }
 
 

@@ -37,43 +37,39 @@ namespace TF
     namespace Foundation
     {
 
-        StringCore::StringCore()
+        StringCore::StringCore() : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
         {
-            theBytes = nullptr;
-            numberOfBytes = 0;
         }
 
 
-        StringCore::StringCore(const StringCore &c)
+        StringCore::StringCore(const StringCore &c) : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
         {
-            theBytes = nullptr;
-            numberOfBytes = 0;
-
             if(c.numberOfBytes > 0)
             {
                 theBytes = new char_type[c.numberOfBytes];
                 std::memcpy(reinterpret_cast<void *>(theBytes), reinterpret_cast<void *>(c.theBytes),
                             c.numberOfBytes * sizeof(char_type));
                 numberOfBytes = c.numberOfBytes;
+                m_number_of_characters = c.m_number_of_characters;
             }
         }
 
 
         StringCore::StringCore(StringCore &&c) noexcept
+            : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
         {
             theBytes = c.theBytes;
             numberOfBytes = c.numberOfBytes;
+            m_number_of_characters = c.m_number_of_characters;
 
             c.theBytes = nullptr;
             c.numberOfBytes = 0;
+            c.m_number_of_characters = 0;
         }
 
 
-        StringCore::StringCore(size_type i)
+        StringCore::StringCore(size_type i) : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
         {
-            theBytes = nullptr;
-            numberOfBytes = 0;
-
             if(i > 0)
             {
                 theBytes = new char_type[i];
@@ -83,10 +79,8 @@ namespace TF
 
 
         StringCore::StringCore(const char_type *t, size_type i)
+            : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
         {
-            theBytes = nullptr;
-            numberOfBytes = 0;
-
             if(t != nullptr && i > 0)
             {
                 theBytes = new char_type[i];
@@ -115,6 +109,7 @@ namespace TF
                     delete[] theBytes;
                     theBytes = nullptr;
                     numberOfBytes = 0;
+                    m_number_of_characters = 0;
                 }
 
                 if(c.numberOfBytes > 0)
@@ -123,6 +118,7 @@ namespace TF
                     std::memcpy(reinterpret_cast<void *>(theBytes), reinterpret_cast<void *>(c.theBytes),
                                 c.numberOfBytes * sizeof(char_type));
                     numberOfBytes = c.numberOfBytes;
+                    m_number_of_characters = c.m_number_of_characters;
                 }
             }
 
@@ -139,13 +135,16 @@ namespace TF
                     delete[] theBytes;
                     theBytes = nullptr;
                     numberOfBytes = 0;
+                    m_number_of_characters = 0;
                 }
 
                 theBytes = c.theBytes;
                 numberOfBytes = c.numberOfBytes;
+                m_number_of_characters = c.m_number_of_characters;
 
                 c.theBytes = nullptr;
                 c.numberOfBytes = 0;
+                c.m_number_of_characters = 0;
             }
 
             return *this;
@@ -190,6 +189,18 @@ namespace TF
         }
 
 
+        void StringCore::set_number_of_characters(size_type characters)
+        {
+            m_number_of_characters = characters;
+        }
+
+
+        StringCore::size_type StringCore::get_number_of_characters() const
+        {
+            return m_number_of_characters;
+        }
+
+
         std::ostream &StringCore::description(std::ostream &o) const
         {
             ClassFormatter *formatter = FormatterFactory::getFormatter();
@@ -198,6 +209,7 @@ namespace TF
                 formatter->setClassName("StringCore");
                 formatter->addClassMember<char_type>("theBytes", theBytes, numberOfBytes);
                 formatter->addClassMember<size_type>("numberOfBytes", numberOfBytes);
+                formatter->addClassMember("m_number_of_characters", m_number_of_characters);
                 o << *formatter;
                 delete formatter;
             }

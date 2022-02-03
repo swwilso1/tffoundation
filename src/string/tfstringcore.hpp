@@ -89,6 +89,18 @@ namespace TF
             /** @brief getter for byte array */
             char_type *data();
 
+            /**
+             * @brief method to set the number of characters as a cached value.
+             * @param characters
+             */
+            void set_number_of_characters(size_type characters);
+
+            /**
+             * @brief method to get the cached number of characters.
+             * @return
+             */
+            size_type get_number_of_characters() const;
+
             /** @brief ostream method */
             std::ostream &description(std::ostream &o) const;
 
@@ -97,6 +109,8 @@ namespace TF
             char_type *theBytes;
 
             size_type numberOfBytes;
+
+            size_type m_number_of_characters;
         };
 
         std::ostream &operator<<(std::ostream &o, const StringCore &c);
