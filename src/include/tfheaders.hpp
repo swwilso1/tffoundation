@@ -25,6 +25,7 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#include "tfdisabledwarnings.h"
 #include "tfplatformheaders.h"
 
 

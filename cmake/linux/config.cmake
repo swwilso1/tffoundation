@@ -5,7 +5,10 @@
 #####
 ################################################################################
 
+include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
+
+check_c_compiler_flag("-Wunknown-pragmas" HAVE_GCC_WARNING_UNKNOWN_PRAGMAS)
 
 set(FOUNDATION_SHARED_LIBRARY_NAME ${FOUNDATION_LIBRARY_NAME}-shared CACHE STRING
     "Name of shared library target")
@@ -18,7 +21,7 @@ mark_as_advanced(
     FOUNDATION_STATIC_LIBRARY_NAME
 )
 
-list(APPEND LINUX_COMPILE_FLAGS -Wall -Wextra -Wconversion -Wsign-conversion)
+list(APPEND LINUX_COMPILE_FLAGS -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion)
 #list(APPEND LINUX_COMPILE_FLAGS -Werror -pedantic-errors)
 
 if (BUILD_PROFILE)

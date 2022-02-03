@@ -5,7 +5,10 @@
 #####
 ################################################################################
 
+include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
+
+check_c_compiler_flag("-Wunknown-pragmas" HAVE_GCC_WARNING_UNKNOWN_PRAGMAS)
 
 set(FOUNDATION_FRAMEWORK_LIBRARY_NAME ${FOUNDATION_LIBRARY_NAME}-framework CACHE STRING
     "Name of framework library target")
@@ -27,7 +30,7 @@ mark_as_advanced(
 )
 
 list(APPEND OSX_COMPILE_FLAGS -stdlib=libc++)
-list(APPEND OSX_COMPILE_FLAGS -Wall -Wextra -Wconversion -Wsign-conversion)
+list(APPEND OSX_COMPILE_FLAGS -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion)
 # list(APPEND OSX_COMPILE_FLAGS -Werror -pedantic-errors)
 
 if (BUILD_PROFILE)

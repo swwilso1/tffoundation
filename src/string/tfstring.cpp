@@ -1543,6 +1543,17 @@ namespace TF
 
         std::unique_ptr<const char> String::cStr() const
         {
+            if(core->length() == 0)
+            {
+                throw std::runtime_error {"cStr unable to convert an empty string"};
+            }
+
+            auto the_bytes = new char[core->length() + 1];
+            std::memcpy(the_bytes, core->data(), core->length());
+            the_bytes[core->length()] = '\0';
+            return std::unique_ptr<const char>(the_bytes);
+
+#if 0
             static ASCIIStringEncoder encoder;
 
             if(core->length() == 0)
@@ -1558,14 +1569,15 @@ namespace TF
             theBytes[asciiData.length()] = '\0';
 
             return std::unique_ptr<const char>(theBytes);
+#endif
         }
 
 
         std::string String::stlString() const
         {
-            std::unique_ptr<const char> cStr = this->cStr();
-            return std::string(cStr.get());
-        }
+            auto ascii_encoded_data = getAsDataInASCIIEncoding();
+            return std::string {ascii_encoded_data.bytes(), ascii_encoded_data.length()};
+        };
 
 
         String String::stringByAppendingFormat(const char *format, ...) const
@@ -1619,15 +1631,13 @@ namespace TF
 
         String String::operator+(const String &s) const
         {
-            String copy = this->deepCopy();
-            return String::initWithFormat("%@%@", &copy, &s);
+            return String::initWithFormat("%@%@", this, &s);
         }
 
 
         String String::operator+(const char c) const
         {
-            String copy = this->deepCopy();
-            return String::initWithFormat("%@%c", &copy, c);
+            return String::initWithFormat("%@%c", this, c);
         }
 
 
