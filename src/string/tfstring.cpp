@@ -1552,24 +1552,6 @@ namespace TF
             std::memcpy(the_bytes, core->data(), core->length());
             the_bytes[core->length()] = '\0';
             return std::unique_ptr<const char>(the_bytes);
-
-#if 0
-            static ASCIIStringEncoder encoder;
-
-            if(core->length() == 0)
-                throw std::runtime_error("cStr unable to create string from empty string");
-
-            auto asciiData = convertToThisEncoding(*this, &encoder);
-
-            auto theBytes = new char[asciiData.length() + 1];
-            std::memcpy(reinterpret_cast<void *>(theBytes),
-                        reinterpret_cast<void *>(const_cast<char *>(asciiData.bytes())),
-                        asciiData.length() * sizeof(char));
-
-            theBytes[asciiData.length()] = '\0';
-
-            return std::unique_ptr<const char>(theBytes);
-#endif
         }
 
 
