@@ -2054,8 +2054,9 @@ namespace TF
 
         String::data_type String::getAsDataInUTF8Encoding() const
         {
-            static UTF8StringEncoder encoder;
-            return convertToThisEncoding(*this, &encoder);
+            data_type data{};
+            data.append(reinterpret_cast<const char *>(core->data()), core->length());
+            return data;
         }
 
 
