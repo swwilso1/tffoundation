@@ -35,58 +35,57 @@ namespace TF
     namespace Foundation
     {
 
-#define RESET_PROCESSING()                                                                                             \
-    {                                                                                                                  \
-        processingEra = false;                                                                                         \
-        processingYear = false;                                                                                        \
-        processingQuarter = false;                                                                                     \
-        processingMonth = false;                                                                                       \
-        processingMonth = false;                                                                                       \
-        processingDayOfMonth = false;                                                                                  \
-        processingDayOfYear = false;                                                                                   \
-        processingDayOfWeek = false;                                                                                   \
-        processingPeriod = false;                                                                                      \
-        processingStandardHour = false;                                                                                \
-        processingMilitaryHour = false;                                                                                \
-        processingNonstandardHour = false;                                                                             \
-        processingNonstandardMilitaryHour = false;                                                                     \
-        processingMinute = false;                                                                                      \
-        processingStandardSecond = false;                                                                              \
-        processingFractionalSecond = false;                                                                            \
+#define RESET_PROCESSING()                         \
+    {                                              \
+        processingEra = false;                     \
+        processingYear = false;                    \
+        processingQuarter = false;                 \
+        processingMonth = false;                   \
+        processingMonth = false;                   \
+        processingDayOfMonth = false;              \
+        processingDayOfYear = false;               \
+        processingDayOfWeek = false;               \
+        processingPeriod = false;                  \
+        processingStandardHour = false;            \
+        processingMilitaryHour = false;            \
+        processingNonstandardHour = false;         \
+        processingNonstandardMilitaryHour = false; \
+        processingMinute = false;                  \
+        processingStandardSecond = false;          \
+        processingFractionalSecond = false;        \
     }
 
-#define PUT_SYMBOL_IN_QUEUE()                                                                                          \
-    if(theStack.size() > 0)                                                                                            \
-    {                                                                                                                  \
-        theSymbol = theStack.top();                                                                                    \
-        theStack.pop();                                                                                                \
-        queue.push_back(theSymbol);                                                                                    \
-        RESET_PROCESSING();                                                                                            \
+#define PUT_SYMBOL_IN_QUEUE()       \
+    if (theStack.size() > 0)        \
+    {                               \
+        theSymbol = theStack.top(); \
+        theStack.pop();             \
+        queue.push_back(theSymbol); \
+        RESET_PROCESSING();         \
     }
 
-#define INCREMENT_COUNT()                                                                                              \
-    theSymbol = theStack.top();                                                                                        \
+#define INCREMENT_COUNT()       \
+    theSymbol = theStack.top(); \
     theSymbol->incrementCount()
 
-#define PUSH_NEW_SYMBOL(processor, method)                                                                             \
-    processor = true;                                                                                                  \
-    theSymbol = symbol_factory_type::method();                                                                         \
+#define PUSH_NEW_SYMBOL(processor, method)     \
+    processor = true;                          \
+    theSymbol = symbol_factory_type::method(); \
     theStack.push(theSymbol)
 
-#define MANAGE_STATE(processor, method)                                                                                \
-    if(processor)                                                                                                      \
-    {                                                                                                                  \
-        INCREMENT_COUNT();                                                                                             \
-    }                                                                                                                  \
-    else                                                                                                               \
-    {                                                                                                                  \
-        PUT_SYMBOL_IN_QUEUE();                                                                                         \
-        PUSH_NEW_SYMBOL(processor, method);                                                                            \
+#define MANAGE_STATE(processor, method)     \
+    if (processor)                          \
+    {                                       \
+        INCREMENT_COUNT();                  \
+    }                                       \
+    else                                    \
+    {                                       \
+        PUT_SYMBOL_IN_QUEUE();              \
+        PUSH_NEW_SYMBOL(processor, method); \
     }
 
-
         template<class Clock>
-        void DateFormatter<Clock>::processDateFormat(const string_type &f)
+        void DateFormatter<Clock>::processDateFormat(const string_type & f)
         {
             bool processingEra = false;
             bool processingYear = false;
@@ -105,14 +104,14 @@ namespace TF
             bool processingFractionalSecond = false;
 
             stack_type theStack;
-            symbol *theSymbol = nullptr;
+            symbol * theSymbol = nullptr;
 
             auto tmp = f.cStr();
-            const char *theFormat = tmp.get();
+            const char * theFormat = tmp.get();
 
-            while(*theFormat != '\0')
+            while (*theFormat != '\0')
             {
-                switch(*theFormat)
+                switch (*theFormat)
                 {
                     case 'G':
                         MANAGE_STATE(processingEra, symbolForEra);
@@ -170,10 +169,9 @@ namespace TF
                 theFormat++;
             }
 
-            if(theStack.size() > 0)
+            if (theStack.size() > 0)
                 PUT_SYMBOL_IN_QUEUE();
         }
-
 
         template<class Clock>
         DateFormatter<Clock>::DateFormatter()
@@ -182,27 +180,24 @@ namespace TF
             processDateFormat(formatString);
         }
 
-
         template<class Clock>
-        DateFormatter<Clock>::DateFormatter(const DateFormatter &f)
+        DateFormatter<Clock>::DateFormatter(const DateFormatter & f)
         {
             formatString = f.formatString;
             processDateFormat(formatString);
         }
 
-
         template<class Clock>
-        DateFormatter<Clock>::DateFormatter(const string_type &f)
+        DateFormatter<Clock>::DateFormatter(const string_type & f)
         {
             formatString = f;
             processDateFormat(formatString);
         }
 
-
         template<class Clock>
         DateFormatter<Clock>::~DateFormatter()
         {
-            while(queue.size() > 0)
+            while (queue.size() > 0)
             {
                 auto theSymbol = queue.front();
                 queue.pop_front();
@@ -210,106 +205,104 @@ namespace TF
             }
         }
 
-
         template<class Clock>
-        void DateFormatter<Clock>::addValueToComponentsForSymbol(const string_type &value,
-                                                                 DateComponents<Clock> &components,
-                                                                 DateSymbol<Clock> *symbol)
+        void DateFormatter<Clock>::addValueToComponentsForSymbol(const string_type & value,
+                                                                 DateComponents<Clock> & components,
+                                                                 DateSymbol<Clock> * symbol)
         {
-            if(symbol == nullptr)
+            if (symbol == nullptr)
                 return;
 
-            switch(symbol->semanticValue())
+            switch (symbol->semanticValue())
             {
                 case SymbolSemantic::Year:
-                {
-                    auto theValue = symbol->convert(value);
-                    components.setYear(theValue);
-                }
-                break;
-                case SymbolSemantic::Month:
-                {
-                    auto theValue = symbol->convert(value);
-                    MonthOfYear theMonth;
-                    switch(theValue)
                     {
-                        case 1:
-                            theMonth = MonthOfYear::January;
-                            break;
-                        case 2:
-                            theMonth = MonthOfYear::February;
-                            break;
-                        case 3:
-                            theMonth = MonthOfYear::March;
-                            break;
-                        case 4:
-                            theMonth = MonthOfYear::April;
-                            break;
-                        case 5:
-                            theMonth = MonthOfYear::May;
-                            break;
-                        case 6:
-                            theMonth = MonthOfYear::June;
-                            break;
-                        case 7:
-                            theMonth = MonthOfYear::July;
-                            break;
-                        case 8:
-                            theMonth = MonthOfYear::August;
-                            break;
-                        case 9:
-                            theMonth = MonthOfYear::September;
-                            break;
-                        case 10:
-                            theMonth = MonthOfYear::October;
-                            break;
-                        case 11:
-                            theMonth = MonthOfYear::November;
-                            break;
-                        case 12:
-                            theMonth = MonthOfYear::December;
-                            break;
+                        auto theValue = symbol->convert(value);
+                        components.setYear(theValue);
                     }
-                    components.setMonthOfYear(theMonth);
-                }
-                break;
+                    break;
+                case SymbolSemantic::Month:
+                    {
+                        auto theValue = symbol->convert(value);
+                        MonthOfYear theMonth;
+                        switch (theValue)
+                        {
+                            case 1:
+                                theMonth = MonthOfYear::January;
+                                break;
+                            case 2:
+                                theMonth = MonthOfYear::February;
+                                break;
+                            case 3:
+                                theMonth = MonthOfYear::March;
+                                break;
+                            case 4:
+                                theMonth = MonthOfYear::April;
+                                break;
+                            case 5:
+                                theMonth = MonthOfYear::May;
+                                break;
+                            case 6:
+                                theMonth = MonthOfYear::June;
+                                break;
+                            case 7:
+                                theMonth = MonthOfYear::July;
+                                break;
+                            case 8:
+                                theMonth = MonthOfYear::August;
+                                break;
+                            case 9:
+                                theMonth = MonthOfYear::September;
+                                break;
+                            case 10:
+                                theMonth = MonthOfYear::October;
+                                break;
+                            case 11:
+                                theMonth = MonthOfYear::November;
+                                break;
+                            case 12:
+                                theMonth = MonthOfYear::December;
+                                break;
+                        }
+                        components.setMonthOfYear(theMonth);
+                    }
+                    break;
                 case SymbolSemantic::DayOfMonth:
-                {
-                    auto theValue = symbol->convert(value);
-                    components.setDayOfMonth(theValue);
-                }
-                break;
+                    {
+                        auto theValue = symbol->convert(value);
+                        components.setDayOfMonth(theValue);
+                    }
+                    break;
                 case SymbolSemantic::MilitaryHour:
-                {
-                    auto theValue = symbol->convert(value);
-                    components.setHour(theValue);
-                }
-                break;
+                    {
+                        auto theValue = symbol->convert(value);
+                        components.setHour(theValue);
+                    }
+                    break;
                 case SymbolSemantic::Minute:
-                {
-                    auto theValue = symbol->convert(value);
-                    components.setMinute(theValue);
-                }
-                break;
+                    {
+                        auto theValue = symbol->convert(value);
+                        components.setMinute(theValue);
+                    }
+                    break;
                 case SymbolSemantic::Second:
-                {
-                    auto theValue = symbol->convert(value);
-                    components.setSecond(theValue);
-                }
-                break;
+                    {
+                        auto theValue = symbol->convert(value);
+                        components.setSecond(theValue);
+                    }
+                    break;
                 case SymbolSemantic::FractionalSecond:
-                {
-                    auto theValue = symbol->convert(value);
-                    components.setFractionalSecond(theValue);
-                }
+                    {
+                        auto theValue = symbol->convert(value);
+                        components.setFractionalSecond(theValue);
+                    }
                 default:
                     break;
             }
         }
 
-
         template<class Clock>
-        typename DateFormatter<Clock>::date DateFormatter<Clock>::dateFromString(const string_type &s)
+        typename DateFormatter<Clock>::date DateFormatter<Clock>::dateFromString(const string_type & s)
         {
             bool hasYear = false;
             bool hasMonth = false;
@@ -318,31 +311,31 @@ namespace TF
             bool hasMinute = false;
             bool hasSecond = false;
 
-            for(auto symbol : queue)
+            for (auto symbol : queue)
             {
-                switch(symbol->semanticValue())
+                switch (symbol->semanticValue())
                 {
                     case SymbolSemantic::Year:
                         hasYear = true;
                         break;
                     case SymbolSemantic::Month:
-                        if(symbol->getCount() == 2)
+                        if (symbol->getCount() == 2)
                             hasMonth = true;
                         break;
                     case SymbolSemantic::DayOfMonth:
-                        if(symbol->getCount() == 2)
+                        if (symbol->getCount() == 2)
                             hasDay = true;
                         break;
                     case SymbolSemantic::MilitaryHour:
-                        if(symbol->getCount() == 2)
+                        if (symbol->getCount() == 2)
                             hasHour = true;
                         break;
                     case SymbolSemantic::Minute:
-                        if(symbol->getCount() == 2)
+                        if (symbol->getCount() == 2)
                             hasMinute = true;
                         break;
                     case SymbolSemantic::Second:
-                        if(symbol->getCount() == 2)
+                        if (symbol->getCount() == 2)
                             hasSecond = true;
                         break;
                     default:
@@ -350,24 +343,23 @@ namespace TF
                 }
             }
 
-            if(!(hasYear && hasMonth && hasDay && hasHour && hasMinute && hasSecond))
+            if (! (hasYear && hasMonth && hasDay && hasHour && hasMinute && hasSecond))
                 throw std::runtime_error("date format does not have enough information to reconstruct a date");
 
             DateComponents<Clock> components;
             auto cPtr = s.cStr();
             auto tmp = cPtr.get();
 
-
-            for(auto symbol : queue)
+            for (auto symbol : queue)
             {
                 std::stringstream accumulator;
 
-                for(int i = 0; i < symbol->maximumCharactersToExpect(); i++)
+                for (int i = 0; i < symbol->maximumCharactersToExpect(); i++)
                 {
-                    if(*tmp == '\0')
+                    if (*tmp == '\0')
                     {
                         string_type str = accumulator.str();
-                        if(symbol->validValueForSymbol(str))
+                        if (symbol->validValueForSymbol(str))
                             addValueToComponentsForSymbol(str, components, symbol);
                         break;
                     }
@@ -376,7 +368,7 @@ namespace TF
 
                     string_type str = accumulator.str();
 
-                    if(symbol->validValueForSymbol(str))
+                    if (symbol->validValueForSymbol(str))
                     {
                         addValueToComponentsForSymbol(str, components, symbol);
                         break;
@@ -387,14 +379,13 @@ namespace TF
             return components.getDate();
         }
 
-
         template<class Clock>
-        typename DateFormatter<Clock>::string_type DateFormatter<Clock>::stringFromDate(const date &d)
+        typename DateFormatter<Clock>::string_type DateFormatter<Clock>::stringFromDate(const date & d)
         {
             std::stringstream accumulator;
             DateComponents<Clock> c(d);
 
-            for(auto symbol : queue)
+            for (auto symbol : queue)
             {
                 accumulator << symbol->convert(c);
             }
@@ -402,12 +393,11 @@ namespace TF
             return string_type(accumulator.str());
         }
 
-
         template<class Clock>
-        std::ostream &DateFormatter<Clock>::description(std::ostream &o) const
+        std::ostream & DateFormatter<Clock>::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("DateFormatter");
                 o << *formatter;
@@ -416,6 +406,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

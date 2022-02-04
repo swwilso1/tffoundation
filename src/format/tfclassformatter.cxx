@@ -36,48 +36,43 @@ namespace TF
     {
 
         template<typename T>
-        void ClassFormatter::addClassMember(const string_type &name, const T &value)
+        void ClassFormatter::addClassMember(const string_type & name, const T & value)
         {
-            TemplateClassMember<T> *newMember = new TemplateClassMember<T>(name, value);
+            TemplateClassMember<T> * newMember = new TemplateClassMember<T>(name, value);
             classMemberList.push_back(newMember);
         }
 
-
         template<typename T>
-        void ClassFormatter::addClassMember(size_type i, const T &value)
+        void ClassFormatter::addClassMember(size_type i, const T & value)
         {
             std::stringstream converter;
             converter << i;
-            TemplateClassMember<T> *newMember = new TemplateClassMember<T>(converter.str(), value);
+            TemplateClassMember<T> * newMember = new TemplateClassMember<T>(converter.str(), value);
             classMemberList.push_back(newMember);
         }
 
-
         template<typename T>
-        void ClassFormatter::addClassMember(const string_type &type, const string_type &name, const T &value)
+        void ClassFormatter::addClassMember(const string_type & type, const string_type & name, const T & value)
         {
-            TemplateClassMemberWithType<T> *newMember = new TemplateClassMemberWithType<T>(type, name, value);
+            TemplateClassMemberWithType<T> * newMember = new TemplateClassMemberWithType<T>(type, name, value);
             classMemberList.push_back(newMember);
         }
 
-
         template<typename T>
-        void ClassFormatter::addClassMember(const string_type &name, const T *value, const size_type &length)
+        void ClassFormatter::addClassMember(const string_type & name, const T * value, const size_type & length)
         {
-            TemplateArrayClassMember<T> *newMember = new TemplateArrayClassMember<T>(name, value, length);
+            TemplateArrayClassMember<T> * newMember = new TemplateArrayClassMember<T>(name, value, length);
             classMemberList.push_back(newMember);
         }
 
-
         template<typename T>
-        void ClassFormatter::addClassMember(const string_type &type, const string_type &name, const T *value,
-                                            const size_type &length)
+        void ClassFormatter::addClassMember(const string_type & type, const string_type & name, const T * value,
+                                            const size_type & length)
         {
-            TemplateArrayClassMemberWithType<T> *newMember =
+            TemplateArrayClassMemberWithType<T> * newMember =
                 new TemplateArrayClassMemberWithType<T>(type, name, value, length);
             classMemberList.push_back(newMember);
         }
-
 
         template<typename T>
         void ClassFormatter::addClassTemplateType()
@@ -87,7 +82,6 @@ namespace TF
             classTemplateList.push_back(theType);
         }
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF

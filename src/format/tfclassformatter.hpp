@@ -60,13 +60,11 @@ namespace TF
             /** @brief basic size type */
             using size_type = Size_t;
 
-
             /**
              *  @brief virtual destructor to allow other classes to provide
              *  a different formatter.
              */
             virtual ~ClassFormatter();
-
 
             /**
              *  @brief simple static function to set output column width.
@@ -96,7 +94,7 @@ namespace TF
              *  @brief function to set the name of the class to format.
              *  @param name the name of the class.
              */
-            void setClassName(const string_type &name);
+            void setClassName(const string_type & name);
 
             /**
              *  @brief function for adding a new class member to the list
@@ -105,7 +103,7 @@ namespace TF
              *  @param name the name of the member.
              *  @param value the value of the member.
              */
-            void addClassMember(const string_type &type, const string_type &name, const string_type &value);
+            void addClassMember(const string_type & type, const string_type & name, const string_type & value);
 
             /**
              *  @brief function for adding an indexed member (such as an array member)
@@ -114,16 +112,14 @@ namespace TF
              *  @param type the type of the member
              *  @param value the value of the parameter
              */
-            void addClassMember(size_type i, const string_type &type, const string_type &value);
-
+            void addClassMember(size_type i, const string_type & type, const string_type & value);
 
             /**
              * @brief function for adding a void * class member
              * @param n the name of the member
              * @param value the void * value
              */
-            void addClassMember(const string_type &n, void *value);
-
+            void addClassMember(const string_type & n, void * value);
 
             /**
              *  @brief function for adding an indexed member (such as an array member)
@@ -133,7 +129,7 @@ namespace TF
              *  @param value the value of the parameter
              */
             template<typename T>
-            void addClassMember(size_type i, const T &value);
+            void addClassMember(size_type i, const T & value);
 
             /**
              * @brief function for adding a new class member to the member list.
@@ -142,7 +138,7 @@ namespace TF
              * @param value the member value.
              */
             template<typename T>
-            void addClassMember(const string_type &name, const T &value);
+            void addClassMember(const string_type & name, const T & value);
 
             /**
              *  @brief function for adding a new class member to the member list.
@@ -153,7 +149,7 @@ namespace TF
              *  @param value the member value.
              */
             template<typename T>
-            void addClassMember(const string_type &type, const string_type &name, const T &value);
+            void addClassMember(const string_type & type, const string_type & name, const T & value);
 
             /**
              *  @brief function for adding an array to the member list.
@@ -163,7 +159,7 @@ namespace TF
              *  @param length the number of elements in the array.
              */
             template<typename T>
-            void addClassMember(const string_type &name, const T *value, const size_type &length);
+            void addClassMember(const string_type & name, const T * value, const size_type & length);
 
             /**
              *  @brief function for adding an array to the member list.
@@ -174,8 +170,8 @@ namespace TF
              *  @param length the number of elements in the array.
              */
             template<typename T>
-            void addClassMember(const string_type &type, const string_type &name, const T *value,
-                                const size_type &length);
+            void addClassMember(const string_type & type, const string_type & name, const T * value,
+                                const size_type & length);
 
             /**
              *  @brief function for adding a class template type to the formatter.
@@ -184,13 +180,11 @@ namespace TF
             template<typename T>
             void addClassTemplateType();
 
-
             /**
              *  @brief function for adding a class template type manually to the formatter.
              *  @param t the template type.
              */
-            void addClassTemplateType(const string_type &t);
-
+            void addClassTemplateType(const string_type & t);
 
             /**
              *  @brief function to write the formatter contents (the formatted
@@ -198,8 +192,7 @@ namespace TF
              *  @param o the output stream.
              *  @return @e o the output stream.
              */
-            virtual std::ostream &writeToStream(std::ostream &o) const;
-
+            virtual std::ostream & writeToStream(std::ostream & o) const;
 
         protected:
             /** @brief the name of the class to format */
@@ -224,19 +217,18 @@ namespace TF
             static size_type indentLevel;
         };
 
-
         /** @brief overloaded operator<< to allow easy writing of formatter objects to
          *  streams.
          *  @param o the output stream.
          *  @param f the formatter.
          *  @return @e o the output stream.
          */
-        std::ostream &operator<<(std::ostream &o, const ClassFormatter &f);
+        std::ostream & operator<<(std::ostream & o, const ClassFormatter & f);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfclassformatter.cxx"
 
-#endif    // TFCLASSFORMATTER_HPP
+#endif // TFCLASSFORMATTER_HPP

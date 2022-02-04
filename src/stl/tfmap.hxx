@@ -45,12 +45,12 @@ namespace TF
     {
 
         template<class Key, class T, class Compare, class Allocator>
-        std::ostream &operator<<(std::ostream &o, const std::map<Key, T, Compare, Allocator> &m);
+        std::ostream & operator<<(std::ostream & o, const std::map<Key, T, Compare, Allocator> & m);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfmap.cxx"
 
-#endif    // TFMAP_HXX
+#endif // TFMAP_HXX

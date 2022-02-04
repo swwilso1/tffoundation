@@ -42,24 +42,20 @@ class ComplicatedType
 public:
     using value_type = T;
 
-    ComplicatedType()
-    {
-    }
+    ComplicatedType() {}
 
-    ComplicatedType(const value_type &v) : value(v)
-    {
-    }
+    ComplicatedType(const value_type & v) : value(v) {}
 
-    ComplicatedType &operator=(const ComplicatedType &t)
+    ComplicatedType & operator=(const ComplicatedType & t)
     {
-        if(this != &t)
+        if (this != &t)
         {
             value = t.value;
         }
         return *this;
     }
 
-    bool operator==(const ComplicatedType &t)
+    bool operator==(const ComplicatedType & t)
     {
         return value == t.value;
     }
@@ -67,7 +63,6 @@ public:
 private:
     value_type value;
 };
-
 
 TEST(SymbolTableTest, CopyConstructorTest)
 {
@@ -90,7 +85,6 @@ TEST(SymbolTableTest, CopyConstructorTest)
     EXPECT_EQ(i, 3);
 }
 
-
 TEST(SymbolTableTest, AssignmentOperatorTest)
 {
     SymbolTable<String> theTable;
@@ -111,7 +105,6 @@ TEST(SymbolTableTest, AssignmentOperatorTest)
     EXPECT_TRUE(assignTable.getValueForKey<int>("three", i));
     EXPECT_EQ(i, 12);
 }
-
 
 TEST(SymbolTableTest, AddAndGetTest)
 {
@@ -159,7 +152,7 @@ TEST(SymbolTableTest, RemoveValueTest)
     SymbolTable<double> theTable;
     double d = 0;
 
-    while(d < 100.0)
+    while (d < 100.0)
     {
         theTable.setValueForKey<int>(d, 1);
         theTable.removeValueForKey(d);
@@ -175,7 +168,7 @@ TEST(SymbolTableTest, ClearTest)
     SymbolTable<int> theTable;
     int i = 0;
 
-    while(i < 100)
+    while (i < 100)
     {
         theTable.setValueForKey<int>(i, 1);
         i++;
@@ -190,7 +183,7 @@ TEST(SymbolTableTest, SizeTest)
     SymbolTable<int> theTable;
     int i = 0;
 
-    while(i < 15000)
+    while (i < 15000)
     {
         theTable.setValueForKey<int>(i, 1);
         EXPECT_EQ(theTable.size(), i + 1);
@@ -222,7 +215,7 @@ TEST(SymbolTableTest, KeyListTest)
 
     keyList = theTable.keys();
 
-    for(auto &key : keyList)
+    for (auto & key : keyList)
     {
         EXPECT_TRUE(keySet.count(key) > 0);
     }
@@ -230,7 +223,7 @@ TEST(SymbolTableTest, KeyListTest)
 
 TEST(SymbolTableTest, VectorTest)
 {
-    std::vector<int> foo {1, 2, 3};
+    std::vector<int> foo{1, 2, 3};
     std::vector<int> bar;
     SymbolTable<String> theTable;
 
@@ -238,7 +231,7 @@ TEST(SymbolTableTest, VectorTest)
     theTable.getValueForKey<std::vector<int>>("foo", bar);
 
     EXPECT_EQ(foo.size(), bar.size());
-    for(int i = 0; i < foo.size(); i++)
+    for (int i = 0; i < foo.size(); i++)
         EXPECT_EQ(foo[i], bar[i]);
 
     bar.emplace_back(4);
@@ -247,7 +240,7 @@ TEST(SymbolTableTest, VectorTest)
     theTable.setValueForKey<std::vector<int>>("foo", bar);
     theTable.getValueForKey<std::vector<int>>("foo", foo);
     EXPECT_EQ(foo.size(), bar.size());
-    for(int i = 0; i < foo.size(); i++)
+    for (int i = 0; i < foo.size(); i++)
         EXPECT_EQ(foo[i], bar[i]);
 }
 

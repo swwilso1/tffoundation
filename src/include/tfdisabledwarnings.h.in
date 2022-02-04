@@ -30,7 +30,7 @@ SOFTWARE.
 #cmakedefine HAVE_GCC_WARNING_UNKNOWN_PRAGMAS
 
 #if defined(HAVE_GCC_WARNING_UNKNOWN_PRAGMAS)
-#pragma GCC diagnostic ignored "-Wunknown-pragmas"
+#    pragma GCC diagnostic ignored "-Wunknown-pragmas"
 #endif
 
 #endif // TFDISABLEDWARNINGS_H

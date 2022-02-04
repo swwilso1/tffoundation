@@ -46,85 +46,76 @@ namespace TF
 
         ClassFormatter::~ClassFormatter()
         {
-            for(auto member : classMemberList)
+            for (auto member : classMemberList)
                 delete member;
         }
-
 
         void ClassFormatter::setColumnWidth(size_type w)
         {
             columnWidth = w;
         }
 
-
         ClassFormatter::size_type ClassFormatter::getColumnWidth(void)
         {
             return columnWidth;
         }
-
 
         void ClassFormatter::setTabWidth(size_type w)
         {
             tabWidth = w;
         }
 
-
         ClassFormatter::size_type ClassFormatter::getTabWidth(void)
         {
             return tabWidth;
         }
 
-
-        void ClassFormatter::setClassName(const string_type &name)
+        void ClassFormatter::setClassName(const string_type & name)
         {
             className = name;
         }
 
-
-        void ClassFormatter::addClassMember(const string_type &type, const string_type &name, const string_type &value)
+        void ClassFormatter::addClassMember(const string_type & type, const string_type & name,
+                                            const string_type & value)
         {
-            TemplateClassMemberWithType<string_type> *newMember =
+            TemplateClassMemberWithType<string_type> * newMember =
                 new TemplateClassMemberWithType<string_type>(type, name, value);
             classMemberList.push_back(newMember);
         }
 
-
-        void ClassFormatter::addClassMember(size_type i, const string_type &type, const string_type &value)
+        void ClassFormatter::addClassMember(size_type i, const string_type & type, const string_type & value)
         {
             std::stringstream converter;
             converter << i;
-            TemplateClassMemberWithType<string_type> *newMember =
+            TemplateClassMemberWithType<string_type> * newMember =
                 new TemplateClassMemberWithType<string_type>(type, converter.str(), value);
             classMemberList.push_back(newMember);
         }
 
-
-        void ClassFormatter::addClassMember(const string_type &n, void *value)
+        void ClassFormatter::addClassMember(const string_type & n, void * value)
         {
-            VoidClassMember *voidMember = new VoidClassMember(n, value);
+            VoidClassMember * voidMember = new VoidClassMember(n, value);
             classMemberList.push_back(voidMember);
         }
 
-
-        void ClassFormatter::addClassTemplateType(const string_type &t)
+        void ClassFormatter::addClassTemplateType(const string_type & t)
         {
             classTemplateList.push_back(t);
         }
 
-
-        std::ostream &ClassFormatter::writeToStream(std::ostream &o) const
+        std::ostream & ClassFormatter::writeToStream(std::ostream & o) const
         {
-            o << std::endl;    // Might need to change this line.
+            o << std::endl; // Might need to change this line.
             indentLevel++;
-            if(classTemplateList.size() > 0)
+            if (classTemplateList.size() > 0)
             {
                 o << Tab(indentLevel, tabWidth) << className << " template options<";
                 size_type i = 0;
                 size_type max = classTemplateList.size();
-                for(auto templateValue : classTemplateList)
+                for (auto templateValue : classTemplateList)
                 {
                     o << templateValue;
-                    if(i++ < (max - 1))
+                    if (i++ < (max - 1))
                         o << ",";
                 }
                 o << ">" << std::endl;
@@ -132,7 +123,7 @@ namespace TF
             else
                 o << Tab(indentLevel, tabWidth) << className << std::endl;
             indentLevel++;
-            for(auto member : classMemberList)
+            for (auto member : classMemberList)
             {
                 o << std::endl << Tab(indentLevel, tabWidth);
                 o << member->type() << " " << member->name() << ": ";
@@ -143,12 +134,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const ClassFormatter &f)
+        std::ostream & operator<<(std::ostream & o, const ClassFormatter & f)
         {
             return f.writeToStream(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

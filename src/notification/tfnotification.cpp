@@ -38,61 +38,51 @@ namespace TF
             theSender = nullptr;
         }
 
-
-        Notification::Notification(const notification_label &l, const notification_data &d, object_type s)
+        Notification::Notification(const notification_label & l, const notification_data & d, object_type s)
         {
             theLabel = l;
             theData = d;
             theSender = s;
         }
 
-
-        Notification::Notification(const notification_label &l, object_type s)
+        Notification::Notification(const notification_label & l, object_type s)
         {
             theLabel = l;
             theSender = s;
         }
 
-
-        Notification::Notification(const notification_label &l, const notification_data &d)
+        Notification::Notification(const notification_label & l, const notification_data & d)
         {
             theLabel = l;
             theData = d;
             theSender = nullptr;
         }
 
-
-        Notification::Notification(const notification_label &l)
+        Notification::Notification(const notification_label & l)
         {
             theLabel = l;
             theSender = nullptr;
         }
 
-
-        Notification::Notification(const Notification &n)
+        Notification::Notification(const Notification & n)
         {
             theLabel = n.theLabel;
             theData = n.theData;
             theSender = n.theSender;
         }
 
-
-        Notification::Notification(Notification &&n)
+        Notification::Notification(Notification && n)
         {
             theLabel = n.theLabel;
             theData = n.theData;
             theSender = n.theSender;
         }
 
+        Notification::~Notification() {}
 
-        Notification::~Notification()
+        Notification & Notification::operator=(const Notification & n)
         {
-        }
-
-
-        Notification &Notification::operator=(const Notification &n)
-        {
-            if(this != &n)
+            if (this != &n)
             {
                 theLabel = n.theLabel;
                 theData = n.theData;
@@ -102,8 +92,7 @@ namespace TF
             return *this;
         }
 
-
-        Notification &Notification::operator=(Notification &&n)
+        Notification & Notification::operator=(Notification && n)
         {
             theLabel = n.theLabel;
             theData = n.theData;
@@ -111,35 +100,32 @@ namespace TF
             return *this;
         }
 
-
-        bool Notification::operator==(const Notification &n)
+        bool Notification::operator==(const Notification & n)
         {
-            if(this != &n)
+            if (this != &n)
             {
-                if(theLabel != n.theLabel)
+                if (theLabel != n.theLabel)
                     return false;
-                if(theData != n.theData)
+                if (theData != n.theData)
                     return false;
-                if(theSender != n.theSender)
+                if (theSender != n.theSender)
                     return false;
             }
 
             return true;
         }
 
-
-        bool Notification::operator!=(const Notification &n)
+        bool Notification::operator!=(const Notification & n)
         {
-            if(*this == n)
+            if (*this == n)
                 return false;
             return true;
         }
 
-
-        std::ostream &Notification::description(std::ostream &o) const
+        std::ostream & Notification::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("Notification");
                 formatter->addClassMember<notification_label>("theLabel", theLabel);
@@ -151,13 +137,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const Notification &n)
+        std::ostream & operator<<(std::ostream & o, const Notification & n)
         {
             return n.description(o);
         }
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF

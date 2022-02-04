@@ -25,7 +25,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "tfdatecomponent.hxx"
 
 using namespace std::chrono;
@@ -36,33 +35,31 @@ namespace TF
     namespace Foundation
     {
         template<class Clock>
-        void DateComponents<Clock>::retrieveComponents(const typename clock::time_point &p)
+        void DateComponents<Clock>::retrieveComponents(const typename clock::time_point & p)
         {
             nanoseconds nanos = duration_cast<nanoseconds>(p.time_since_epoch());
             seconds secs = duration_cast<seconds>(nanos);
             std::time_t theTime = secs.count();
             fractionOfSecond = nanos.count() % 1000000000;
-            struct tm *brokenDownTime = std::localtime(&theTime);
-            if(brokenDownTime != nullptr)
+            struct tm * brokenDownTime = std::localtime(&theTime);
+            if (brokenDownTime != nullptr)
             {
                 components = *brokenDownTime;
             }
         }
-
 
         template<class Clock>
         typename DateComponents<Clock>::date DateComponents<Clock>::getDate() const
         {
             struct tm componentsCopy = components;
             std::time_t theTime = mktime(&componentsCopy);
-            if(theTime == static_cast<std::time_t>(-1))
+            if (theTime == static_cast<std::time_t>(-1))
                 throw std::runtime_error("Unable to convert value in components to a Date object");
             seconds secs(theTime);
             nanoseconds nanos = duration_cast<nanoseconds>(secs);
             nanoseconds fractionalNanos(fractionOfSecond);
             return date(duration_cast<typename Clock::duration>(nanos + fractionalNanos));
         }
-
 
         template<class Clock>
         DateComponents<Clock>::DateComponents()
@@ -71,34 +68,30 @@ namespace TF
             fractionOfSecond = 0;
         }
 
-
         template<class Clock>
-        DateComponents<Clock>::DateComponents(const DateComponents &c)
+        DateComponents<Clock>::DateComponents(const DateComponents & c)
         {
             components = c.components;
             fractionOfSecond = c.fractionOfSecond;
         }
 
-
         template<class Clock>
-        DateComponents<Clock>::DateComponents(DateComponents &&c)
+        DateComponents<Clock>::DateComponents(DateComponents && c)
         {
             components = c.components;
             fractionOfSecond = c.fractionOfSecond;
         }
 
-
         template<class Clock>
-        DateComponents<Clock>::DateComponents(const date &d)
+        DateComponents<Clock>::DateComponents(const date & d)
         {
             retrieveComponents(d.pointInTime());
         }
 
-
         template<class Clock>
-        DateComponents<Clock> &DateComponents<Clock>::operator=(const DateComponents &c)
+        DateComponents<Clock> & DateComponents<Clock>::operator=(const DateComponents & c)
         {
-            if(this != &c)
+            if (this != &c)
             {
                 components = c.components;
                 fractionOfSecond = c.fractionOfSecond;
@@ -107,14 +100,12 @@ namespace TF
             return *this;
         }
 
-
         template<class Clock>
-        DateComponents<Clock> &DateComponents<Clock>::operator=(DateComponents &&c)
+        DateComponents<Clock> & DateComponents<Clock>::operator=(DateComponents && c)
         {
             components = c.components;
             fractionOfSecond = c.fractionOfSecond;
         }
-
 
         template<class Clock>
         typename DateComponents<Clock>::size_type DateComponents<Clock>::fractionalSeconds() const
@@ -122,13 +113,11 @@ namespace TF
             return fractionOfSecond;
         }
 
-
         template<class Clock>
         void DateComponents<Clock>::setFractionalSecond(size_type fs)
         {
             fractionOfSecond = fs;
         }
-
 
         template<class Clock>
         int DateComponents<Clock>::second() const
@@ -136,15 +125,13 @@ namespace TF
             return components.tm_sec;
         }
 
-
         template<class Clock>
         void DateComponents<Clock>::setSecond(int s)
         {
-            if(s < 0 || s > 60)
+            if (s < 0 || s > 60)
                 throw std::range_error("Argument outside of valid range (0-60)");
             components.tm_sec = s;
         }
-
 
         template<class Clock>
         int DateComponents<Clock>::minute() const
@@ -152,15 +139,13 @@ namespace TF
             return components.tm_min;
         }
 
-
         template<class Clock>
         void DateComponents<Clock>::setMinute(int m)
         {
-            if(m < 0 || m > 59)
+            if (m < 0 || m > 59)
                 throw std::range_error("Argument outside of valid range (0-59)");
             components.tm_min = m;
         }
-
 
         template<class Clock>
         int DateComponents<Clock>::hour() const
@@ -168,15 +153,13 @@ namespace TF
             return components.tm_hour;
         }
 
-
         template<class Clock>
         void DateComponents<Clock>::setHour(int h)
         {
-            if(h < 0 || h > 23)
+            if (h < 0 || h > 23)
                 throw std::range_error("Argument outside of valid range (0-23)");
             components.tm_hour = h;
         }
-
 
         template<class Clock>
         int DateComponents<Clock>::dayOfMonth() const
@@ -184,22 +167,20 @@ namespace TF
             return components.tm_mday;
         }
 
-
         template<class Clock>
         void DateComponents<Clock>::setDayOfMonth(int d)
         {
-            if(d < 1 || d > 31)
+            if (d < 1 || d > 31)
                 throw std::range_error("Argument outside of valid range (1-31)");
             components.tm_mday = d;
         }
-
 
         template<class Clock>
         MonthOfYear DateComponents<Clock>::monthOfYear() const
         {
             MonthOfYear theMonth;
 
-            switch(components.tm_mon)
+            switch (components.tm_mon)
             {
                 case 0:
                     theMonth = MonthOfYear::January;
@@ -242,11 +223,10 @@ namespace TF
             return theMonth;
         }
 
-
         template<class Clock>
         void DateComponents<Clock>::setMonthOfYear(MonthOfYear m)
         {
-            switch(m)
+            switch (m)
             {
                 case MonthOfYear::January:
                     components.tm_mon = 0;
@@ -287,7 +267,6 @@ namespace TF
             }
         }
 
-
         template<class Clock>
         int DateComponents<Clock>::year() const
         {
@@ -298,17 +277,16 @@ namespace TF
         template<class Clock>
         void DateComponents<Clock>::setYear(int y)
         {
-            if((y - 1900) < 0)
+            if ((y - 1900) < 0)
                 throw std::range_error("Argument lies outside valid range");
             components.tm_year = y - 1900;
         }
-
 
         template<class Clock>
         DayOfWeek DateComponents<Clock>::dayOfWeek() const
         {
             DayOfWeek theDay;
-            switch(components.tm_wday)
+            switch (components.tm_wday)
             {
                 case 0:
                     theDay = DayOfWeek::Sunday;
@@ -336,42 +314,38 @@ namespace TF
             return theDay;
         }
 
-
         template<class Clock>
         int DateComponents<Clock>::dayOfYear() const
         {
             return components.tm_yday;
         }
 
-
         template<class Clock>
         bool DateComponents<Clock>::isDaylightSavingsTime() const
         {
-            if(components.tm_isdst > 0)
+            if (components.tm_isdst > 0)
                 return true;
             return false;
         }
-
 
         template<class Clock>
         bool DateComponents<Clock>::isLeapYear() const
         {
             int theYear = year();
-            if(theYear % 400 == 0)
+            if (theYear % 400 == 0)
                 return true;
-            if(theYear % 100 == 0)
+            if (theYear % 100 == 0)
                 return false;
-            if(theYear % 4 == 0)
+            if (theYear % 4 == 0)
                 return true;
             return false;
         }
 
-
         template<class Clock>
-        std::ostream &DateComponents<Clock>::description(std::ostream &o) const
+        std::ostream & DateComponents<Clock>::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("DateComponents");
                 formatter->addClassMember<struct tm>("components", components);
@@ -382,14 +356,12 @@ namespace TF
             return o;
         }
 
-
         template<class Clock>
-        std::ostream &operator<<(std::ostream &o, const DateComponents<Clock> &d)
+        std::ostream & operator<<(std::ostream & o, const DateComponents<Clock> & d)
         {
             return d.description(o);
         }
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF

@@ -25,10 +25,8 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
-
 
 using namespace TF::Foundation;
 
@@ -40,14 +38,12 @@ TEST(EnvironmentTest, BasicEnvironmentSettingsTest)
     EXPECT_TRUE(es.hasVariable("USER"));
 }
 
-
 TEST(EnvironmentTest, GetValueForVariableTest)
 {
     EnvironmentSettings es;
     EXPECT_NO_THROW(es.getValueForVariable("HOME"));
     EXPECT_NO_THROW(es.getValueForVariable("USER"));
 }
-
 
 TEST(EnvironmentTest, SetValueForVariableTest)
 {
@@ -56,7 +52,6 @@ TEST(EnvironmentTest, SetValueForVariableTest)
     EXPECT_EQ(es.getValueForVariable("HORSE"), "THOR");
 }
 
-
 TEST(EnvironmentTest, AddToValueForVariableTest)
 {
     EnvironmentSettings es;
@@ -64,7 +59,6 @@ TEST(EnvironmentTest, AddToValueForVariableTest)
     es.addToValueForVariable("HORSE", "MJOLNIR");
     EXPECT_EQ(es.getValueForVariable("HORSE"), "THOR:MJOLNIR");
 }
-
 
 TEST(EnvironmentTest, RemoveVariableTest)
 {
@@ -75,7 +69,6 @@ TEST(EnvironmentTest, RemoveVariableTest)
     EXPECT_FALSE(es.hasVariable("HORSE"));
 }
 
-
 TEST(EnvironmentTest, NumberOfVariablesTest)
 {
     EnvironmentSettings es;
@@ -83,7 +76,6 @@ TEST(EnvironmentTest, NumberOfVariablesTest)
     es.setValueForVariable("HORSE", "THOR");
     EXPECT_EQ(es.numberOfVariables(), numVariables + 1);
 }
-
 
 TEST(EnvironmentTest, EnvironmentVariablesTest)
 {

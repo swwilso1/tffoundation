@@ -25,10 +25,8 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
-
 
 using namespace TF::Foundation;
 
@@ -38,7 +36,6 @@ TEST(FileManagerTest, TemporaryDirectoryTest)
     EXPECT_EQ(fm.temporaryDirectory(), "/tmp");
 }
 
-
 TEST(FileManagerTest, HomeDirectoryForCurrentUserTest)
 {
     FileManager fm;
@@ -47,7 +44,6 @@ TEST(FileManagerTest, HomeDirectoryForCurrentUserTest)
     auto userHomeDir = fm.homeDirectoryForUser(currentUser);
     EXPECT_EQ(fm.homeDirectoryForCurrentUser(), userHomeDir);
 }
-
 
 TEST(FileManagerTest, HomeDirectoryForUserTest)
 {
@@ -59,14 +55,12 @@ TEST(FileManagerTest, HomeDirectoryForUserTest)
 #endif
 }
 
-
 TEST(FileManagerTest, ContentsOfDirectoryAtPathTest)
 {
     FileManager fm;
     auto contents = fm.contentsOfDirectoryAtPath("/tmp");
     EXPECT_NE(contents.size(), 0);
 }
-
 
 TEST(FileManagerTest, SubpathsForDirectoryAtPathTest)
 {
@@ -75,14 +69,12 @@ TEST(FileManagerTest, SubpathsForDirectoryAtPathTest)
     EXPECT_NE(subPaths.size(), 0);
 }
 
-
 TEST(FileManagerTest, SubpathsAtPathTest)
 {
     FileManager fm;
     auto subPaths = fm.subpathsAtPath("/tmp");
     EXPECT_NE(subPaths.size(), 0);
 }
-
 
 TEST(FileManagerTest, CreateDirectoryAtPathTest)
 {
@@ -91,7 +83,6 @@ TEST(FileManagerTest, CreateDirectoryAtPathTest)
     EXPECT_TRUE(fm.directoryExistsAtPath("/tmp/foo"));
     fm.removeItemAtPath("/tmp/foo");
 }
-
 
 TEST(FileManagerTest, CreateDirectoriesAtPathTest)
 {
@@ -103,7 +94,6 @@ TEST(FileManagerTest, CreateDirectoriesAtPathTest)
     fm.removeItemAtPath("/tmp/foo");
 }
 
-
 TEST(FileManagerTest, CreateFileAtPathTest)
 {
     FileManager fm;
@@ -111,7 +101,6 @@ TEST(FileManagerTest, CreateFileAtPathTest)
     EXPECT_TRUE(fm.fileExistsAtPath("/tmp/foo"));
     fm.removeItemAtPath("/tmp/foo");
 }
-
 
 TEST(FileManagerTest, RemoveItemAtPathTest)
 {
@@ -125,7 +114,6 @@ TEST(FileManagerTest, RemoveItemAtPathTest)
     EXPECT_FALSE(fm.fileExistsAtPath("/tmp/foo"));
 }
 
-
 TEST(FileManagerTest, CopyItemAtPathToPathTest)
 {
     FileManager fm;
@@ -135,7 +123,6 @@ TEST(FileManagerTest, CopyItemAtPathToPathTest)
     fm.removeItemAtPath("/tmp/fileB");
     fm.removeItemAtPath("/tmp/fileA");
 }
-
 
 TEST(FileManagerTest, MoveItemAtPathToPathTest)
 {
@@ -147,7 +134,6 @@ TEST(FileManagerTest, MoveItemAtPathToPathTest)
     fm.removeItemAtPath("/tmp/mvB");
 }
 
-
 TEST(FileManagerTest, CreateSymbolicLinkAtPathWithDestinationPathTest)
 {
     FileManager fm;
@@ -157,7 +143,6 @@ TEST(FileManagerTest, CreateSymbolicLinkAtPathWithDestinationPathTest)
     fm.removeItemAtPath("/tmp/linkPath");
     fm.removeItemAtPath("/tmp/destinationPath");
 }
-
 
 TEST(FileManagerTest, CreateHardLinkAtPathWithDestinationPathTest)
 {
@@ -169,7 +154,6 @@ TEST(FileManagerTest, CreateHardLinkAtPathWithDestinationPathTest)
     fm.removeItemAtPath("/tmp/destinationPath");
 }
 
-
 TEST(FileManagerTest, IsReadableAtPathTest)
 {
     FileManager fm;
@@ -177,7 +161,6 @@ TEST(FileManagerTest, IsReadableAtPathTest)
     EXPECT_TRUE(fm.isReadableAtPath("/tmp/readFile"));
     fm.removeItemAtPath("/tmp/readFile");
 }
-
 
 TEST(FileManagerTest, IsWriteableAtPathTest)
 {
@@ -187,7 +170,6 @@ TEST(FileManagerTest, IsWriteableAtPathTest)
     fm.removeItemAtPath("/tmp/writeFile");
 }
 
-
 TEST(FileManagerTest, IsDeletableAtPathTest)
 {
     FileManager fm;
@@ -196,7 +178,6 @@ TEST(FileManagerTest, IsDeletableAtPathTest)
     fm.removeItemAtPath("/tmp/deleteFile");
 }
 
-
 TEST(FileManagerTest, IsExecutableAtPathTest)
 {
     FileManager fm;
@@ -204,7 +185,6 @@ TEST(FileManagerTest, IsExecutableAtPathTest)
     EXPECT_FALSE(fm.isExecutableAtPath("/tmp/executeFile"));
     fm.removeItemAtPath("/tmp/executeFile");
 }
-
 
 TEST(FileManagerTest, ChangeCurrentWorkingDirectoryToPathTest)
 {
@@ -218,7 +198,6 @@ TEST(FileManagerTest, ChangeCurrentWorkingDirectoryToPathTest)
 #endif
 }
 
-
 TEST(FileManagerTest, SizeofFileAtPathTest)
 {
     FileManager fm;
@@ -226,7 +205,6 @@ TEST(FileManagerTest, SizeofFileAtPathTest)
     EXPECT_EQ(fm.sizeofFileAtPath("/tmp/sizeFile"), 0);
     fm.removeItemAtPath("/tmp/sizeFile");
 }
-
 
 TEST(FileManagerTest, BasenameOfItemTest)
 {
@@ -237,7 +215,6 @@ TEST(FileManagerTest, BasenameOfItemTest)
     basename = fm.baseNameOfItemAtPath("/tmp/path/to/something/foo.file");
     EXPECT_EQ(basename, "foo.file");
 }
-
 
 TEST(FileManagerTest, DirnameOfItemTest)
 {
@@ -255,14 +232,14 @@ TEST(FileManagerTest, WalkDirectoriesTest)
     auto tmp_path = fm.temporaryDirectory();
     auto dir1 = tmp_path + fm.pathSeparator + "Directory1";
     auto dir2 = dir1 + fm.pathSeparator + "Directory2";
-    if(!fm.directoryExistsAtPath(dir1))
+    if (! fm.directoryExistsAtPath(dir1))
     {
         fm.createDirectoriesAtPath(dir2);
     }
 
     auto handle = FileHandle::fileHandleForWritingAtPath(dir1 + fm.pathSeparator + "File1.txt");
-    const char some_data[100] {};
-    Data file_contents {some_data, 100};
+    const char some_data[100]{};
+    Data file_contents{some_data, 100};
     handle.writeData(file_contents);
     handle.closeFile();
 
@@ -272,12 +249,10 @@ TEST(FileManagerTest, WalkDirectoriesTest)
 
     std::vector<String> walk_list;
 
-    fm.walkItemsAtPathRecursively(dir1,
-                                  [&walk_list](const String &path) -> bool
-                                  {
-                                      walk_list.emplace_back(path);
-                                      return true;
-                                  });
+    fm.walkItemsAtPathRecursively(dir1, [&walk_list](const String & path) -> bool {
+        walk_list.emplace_back(path);
+        return true;
+    });
 
     // walkItemsAtPathRecursively recurses depth first.
     EXPECT_EQ(walk_list[0], dir2 + fm.pathSeparator + "File2.txt");

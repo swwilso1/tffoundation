@@ -47,7 +47,6 @@ namespace TF
             LogXMLFormatterType
         };
 
-
         class FormatterFactory : public AllocatorInterface
         {
         public:
@@ -85,10 +84,10 @@ namespace TF
              *  @brief function to get a object of the current formatter type.
              *  @return a pointer to an object of the current formatter type.
              */
-            static default_formatter_type *getFormatter()
+            static default_formatter_type * getFormatter()
             {
-                default_formatter_type *theFormatter = nullptr;
-                switch(formatterType)
+                default_formatter_type * theFormatter = nullptr;
+                switch (formatterType)
                 {
                     case FormatterType::XMLFormatterType:
                         theFormatter = dynamic_cast<default_formatter_type *>(new xml_formatter_type());
@@ -108,8 +107,8 @@ namespace TF
             static formatter_type formatterType;
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFFORMATTERFACTORY_HPP
+#endif // TFFORMATTERFACTORY_HPP

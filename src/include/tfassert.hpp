@@ -43,9 +43,8 @@ namespace TF
 #    define TFASSERT(p)
 #endif
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-
-#endif    // TFASSERT_HPP
+#endif // TFASSERT_HPP

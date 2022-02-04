@@ -37,25 +37,25 @@ SOFTWARE.
  *  @param s the number of bytes to allocate.
  *  @return the allocated memory
  */
-extern void *operator new(TF::Foundation::Size_t s) noexcept(false);
+extern void * operator new(TF::Foundation::Size_t s) noexcept(false);
 
 /**
  *  @brief array object operator new function that ties in to the library allocator interface
  *  @param s the number of bytes to allocate.
  *  @return the allocated memory
  */
-extern void *operator new(TF::Foundation::Size_t s) noexcept(false);
+extern void * operator new(TF::Foundation::Size_t s) noexcept(false);
 
 /**
  *  @brief single object operator delete function that ties in to the library allocator interface.
  *  @param p the bytes to free.
  */
-extern void operator delete(void *p) noexcept;
+extern void operator delete(void * p) noexcept;
 
 /**
  *  @brief array object operator delete function that ties in to the library allocator interface.
  *  @param p the bytes to free.
  */
-extern void operator delete[](void *p) noexcept;
+extern void operator delete[](void * p) noexcept;
 
-#endif    // TFCXXALLOCATOR_HPP
+#endif // TFCXXALLOCATOR_HPP

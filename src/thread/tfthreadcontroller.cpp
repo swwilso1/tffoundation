@@ -34,10 +34,10 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &ThreadController::description(std::ostream &o) const
+        std::ostream & ThreadController::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("ThreadController");
                 formatter->addClassMember<bool>("theSignal", theSignal);
@@ -49,12 +49,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const ThreadController &c)
+        std::ostream & operator<<(std::ostream & o, const ThreadController & c)
         {
             return c.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

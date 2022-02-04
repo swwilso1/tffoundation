@@ -41,15 +41,15 @@ namespace TF
     {
 
         template<class Rep, class Ratio>
-        std::ostream &operator<<(std::ostream &o, const std::chrono::duration<Rep, Ratio> &d);
+        std::ostream & operator<<(std::ostream & o, const std::chrono::duration<Rep, Ratio> & d);
 
         template<class Dur>
-        std::ostream &operator<<(std::ostream &o, const std::chrono::time_point<Dur> &tp);
+        std::ostream & operator<<(std::ostream & o, const std::chrono::time_point<Dur> & tp);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfchronostream.cxx"
 
-#endif    // TFCHRONOSTREAM_HXX
+#endif // TFCHRONOSTREAM_HXX

@@ -55,10 +55,10 @@ namespace TF
         }
 #endif
 
-        std::ostream &operator<<(std::ostream &o, const std::condition_variable &c)
+        std::ostream & operator<<(std::ostream & o, const std::condition_variable & c)
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("std::condition_variable");
                 o << *formatter;
@@ -66,6 +66,6 @@ namespace TF
             }
             return o;
         }
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

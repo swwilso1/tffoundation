@@ -39,12 +39,11 @@ namespace TF
     {
 
         template<class T, class Allocator = std::allocator<T>>
-        std::ostream &operator<<(std::ostream &o, const std::list<T, Allocator> &l);
+        std::ostream & operator<<(std::ostream & o, const std::list<T, Allocator> & l);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-
-}    // namespace TF
+} // namespace TF
 
 #include "tflist.cxx"
 

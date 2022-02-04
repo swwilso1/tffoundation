@@ -42,12 +42,12 @@ namespace TF
     {
 
         template<class Key, class T, class Hash, class KeyEqual, class Allocator>
-        std::ostream &operator<<(std::ostream &o, const std::unordered_map<Key, T, Hash, KeyEqual, Allocator> &m);
+        std::ostream & operator<<(std::ostream & o, const std::unordered_map<Key, T, Hash, KeyEqual, Allocator> & m);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfunordered_map.cxx"
 
-#endif    // TFUNORDERED_MAP_HXX
+#endif // TFUNORDERED_MAP_HXX

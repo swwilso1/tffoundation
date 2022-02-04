@@ -32,4 +32,4 @@ SOFTWARE.
 
 using tfuuid_t = uuid_t;
 
-#endif    // TFUUIDTYPE_HPP
+#endif // TFUUIDTYPE_HPP

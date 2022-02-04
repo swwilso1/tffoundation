@@ -34,24 +34,24 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &LogXMLClassFormatter::writeToStream(std::ostream &o) const
+        std::ostream & LogXMLClassFormatter::writeToStream(std::ostream & o) const
         {
             o << Tab(indentLevel, tabWidth) << "<" << className;
-            if(classTemplateList.size() > 0)
+            if (classTemplateList.size() > 0)
             {
                 size_type i = 0;
                 size_type max = classTemplateList.size();
                 o << " template_types=\"";
-                for(auto templateType : classTemplateList)
+                for (auto templateType : classTemplateList)
                 {
                     o << templateType;
-                    if(i++ < (max - 1))
+                    if (i++ < (max - 1))
                         o << ",";
                 }
                 o << "\"";
             }
             o << ">";
-            for(auto member : classMemberList)
+            for (auto member : classMemberList)
             {
                 string_type theValue = member->value();
                 o << "<" << member->name() << " type=\"" << member->type() << "\">";
@@ -62,6 +62,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

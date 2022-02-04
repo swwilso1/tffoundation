@@ -47,8 +47,8 @@ namespace TF
 
         using Poller = PollerBase<int>;
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFPOLL_HPP
+#endif // TFPOLL_HPP

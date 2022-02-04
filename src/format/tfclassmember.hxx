@@ -60,17 +60,11 @@ namespace TF
             /** @brief simple size type */
             using size_type = Size_t;
 
-            ClassMember() : AllocatorInterface()
-            {
-            }
+            ClassMember() : AllocatorInterface() {}
 
-            ClassMember(const string_type &t, const string_type &n) : theType(t), theName(n)
-            {
-            }
+            ClassMember(const string_type & t, const string_type & n) : theType(t), theName(n) {}
 
-            virtual ~ClassMember()
-            {
-            }
+            virtual ~ClassMember() {}
 
             virtual string_type type()
             {
@@ -92,16 +86,14 @@ namespace TF
                 return 0;
             }
 
-            virtual std::ostream &writeToStream(std::ostream &o) const;
+            virtual std::ostream & writeToStream(std::ostream & o) const;
 
         protected:
             string_type theType;
             string_type theName;
         };
 
-
-        std::ostream &operator<<(std::ostream &o, const ClassMember &m);
-
+        std::ostream & operator<<(std::ostream & o, const ClassMember & m);
 
         class VoidClassMember : public ClassMember
         {
@@ -111,7 +103,7 @@ namespace TF
                 theValue = nullptr;
             }
 
-            VoidClassMember(const string_type &n, void *value) : ClassMember("void *", n)
+            VoidClassMember(const string_type & n, void * value) : ClassMember("void *", n)
             {
                 theValue = value;
             }
@@ -123,13 +115,11 @@ namespace TF
                 return theConverter.str();
             }
 
-
-            std::ostream &writeToStream(std::ostream &o) const override;
+            std::ostream & writeToStream(std::ostream & o) const override;
 
         private:
-            void *theValue;
+            void * theValue;
         };
-
 
         template<typename T>
         struct TemplateClassMember : public ClassMember
@@ -143,13 +133,12 @@ namespace TF
                 theType = typeid(v).name();
             }
 
-            TemplateClassMember(const string_type &n, const value_type &v)
+            TemplateClassMember(const string_type & n, const value_type & v)
             {
                 theType = typeid(v).name();
                 theName = n;
                 theValue = v;
             }
-
 
             string_type value() override
             {
@@ -158,8 +147,7 @@ namespace TF
                 return collector.str();
             }
 
-
-            std::ostream &writeToStream(std::ostream &o) const override
+            std::ostream & writeToStream(std::ostream & o) const override
             {
                 o << theType << " " << theName << " " << theValue;
                 return o;
@@ -168,7 +156,6 @@ namespace TF
         protected:
             value_type theValue;
         };
-
 
         template<typename T>
         struct TemplateClassMemberWithType : public ClassMember
@@ -181,13 +168,11 @@ namespace TF
                 value_type v;
             }
 
-
-            TemplateClassMemberWithType(const string_type &t, const string_type &n, const value_type &v)
-                : ClassMember(t, n)
+            TemplateClassMemberWithType(const string_type & t, const string_type & n, const value_type & v) :
+                ClassMember(t, n)
             {
                 theValue = v;
             }
-
 
             string_type value() override
             {
@@ -196,8 +181,7 @@ namespace TF
                 return collector.str();
             }
 
-
-            std::ostream &writeToStream(std::ostream &o) const override
+            std::ostream & writeToStream(std::ostream & o) const override
             {
                 o << theType << " " << theName << " " << theValue;
                 return o;
@@ -206,7 +190,6 @@ namespace TF
         protected:
             value_type theValue;
         };
-
 
         template<typename T>
         struct TemplateArrayClassMember : public ClassMember
@@ -225,14 +208,13 @@ namespace TF
                 theValue = nullptr;
             }
 
-
-            TemplateArrayClassMember(const string_type &n, const value_type *v, const size_type &l)
+            TemplateArrayClassMember(const string_type & n, const value_type * v, const size_type & l)
             {
                 value_type vt;
                 theType = typeid(vt).name();
                 theName = n;
                 theValue = new value_type[l];
-                for(size_type i = 0; i < l; i++)
+                for (size_type i = 0; i < l; i++)
                 {
                     theValue[i] = *(v + i);
                 }
@@ -240,24 +222,22 @@ namespace TF
                 theLength = l;
             }
 
-
             ~TemplateArrayClassMember()
             {
-                if(theLength > 0 && theValue != nullptr)
+                if (theLength > 0 && theValue != nullptr)
                     delete[] theValue;
             }
-
 
             string_type value() override
             {
                 std::stringstream collector;
-                if(theLength > 0)
+                if (theLength > 0)
                 {
                     collector << "{";
-                    for(size_type i = 0; i < theLength; i++)
+                    for (size_type i = 0; i < theLength; i++)
                     {
                         collector << theValue[i];
-                        if(i < (theLength - 1))
+                        if (i < (theLength - 1))
                             collector << ",";
                     }
                     collector << "}";
@@ -265,23 +245,21 @@ namespace TF
                 return collector.str();
             }
 
-
             size_type length() override
             {
                 return theLength;
             }
 
-
-            std::ostream &writeToStream(std::ostream &o) const override
+            std::ostream & writeToStream(std::ostream & o) const override
             {
                 o << theType << " " << theName << "[" << theLength << "]";
-                if(theLength > 0)
+                if (theLength > 0)
                 {
                     o << " {";
-                    for(size_type i = 0; i < theLength; i++)
+                    for (size_type i = 0; i < theLength; i++)
                     {
                         o << theValue[i];
-                        if(i < (theLength - 1))
+                        if (i < (theLength - 1))
                             o << ",";
                     }
                     o << "}";
@@ -290,16 +268,15 @@ namespace TF
             }
 
         protected:
-            value_type *theValue;
+            value_type * theValue;
             size_type theLength;
         };
-
 
         template<>
         TemplateArrayClassMember<unsigned char>::string_type TemplateArrayClassMember<unsigned char>::value();
 
         template<>
-        std::ostream &TemplateArrayClassMember<unsigned char>::writeToStream(std::ostream &o) const;
+        std::ostream & TemplateArrayClassMember<unsigned char>::writeToStream(std::ostream & o) const;
 
         template<typename T>
         struct TemplateArrayClassMemberWithType : public ClassMember
@@ -317,13 +294,12 @@ namespace TF
                 theValue = nullptr;
             }
 
-
-            TemplateArrayClassMemberWithType(const string_type &t, const string_type &n, const value_type *v,
-                                             const size_type &l)
-                : ClassMember(t, n)
+            TemplateArrayClassMemberWithType(const string_type & t, const string_type & n, const value_type * v,
+                                             const size_type & l) :
+                ClassMember(t, n)
             {
                 theValue = new value_type[l];
-                for(size_type i = 0; i < l; i++)
+                for (size_type i = 0; i < l; i++)
                 {
                     theValue[i] = *(v + i);
                 }
@@ -331,24 +307,22 @@ namespace TF
                 theLength = l;
             }
 
-
             ~TemplateArrayClassMemberWithType()
             {
-                if(theLength > 0 && theValue != nullptr)
+                if (theLength > 0 && theValue != nullptr)
                     delete[] theValue;
             }
-
 
             string_type value() override
             {
                 std::stringstream collector;
-                if(theLength > 0)
+                if (theLength > 0)
                 {
                     collector << "{";
-                    for(size_type i = 0; i < theLength; i++)
+                    for (size_type i = 0; i < theLength; i++)
                     {
                         collector << theValue[i];
-                        if(i < (theLength - 1))
+                        if (i < (theLength - 1))
                             collector << ",";
                     }
                     collector << "}";
@@ -356,22 +330,21 @@ namespace TF
                 return collector.str();
             }
 
-
             size_type length() override
             {
                 return theLength;
             }
 
-            std::ostream &writeToStream(std::ostream &o) const override
+            std::ostream & writeToStream(std::ostream & o) const override
             {
                 o << theType << " " << theName << "[" << theLength << "]";
-                if(theLength > 0)
+                if (theLength > 0)
                 {
                     o << " {";
-                    for(size_type i = 0; i < theLength; i++)
+                    for (size_type i = 0; i < theLength; i++)
                     {
                         o << theValue[i];
-                        if(i < (theLength - 1))
+                        if (i < (theLength - 1))
                             o << ",";
                     }
                     o << "}";
@@ -380,19 +353,19 @@ namespace TF
             }
 
         protected:
-            value_type *theValue;
+            value_type * theValue;
             size_type theLength;
         };
 
         template<>
         TemplateArrayClassMemberWithType<unsigned char>::string_type
-            TemplateArrayClassMemberWithType<unsigned char>::value();
+        TemplateArrayClassMemberWithType<unsigned char>::value();
 
         template<>
-        std::ostream &TemplateArrayClassMemberWithType<unsigned char>::writeToStream(std::ostream &o) const;
+        std::ostream & TemplateArrayClassMemberWithType<unsigned char>::writeToStream(std::ostream & o) const;
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFCLASSMEMBER_HXX
+#endif // TFCLASSMEMBER_HXX

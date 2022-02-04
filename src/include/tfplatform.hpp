@@ -43,4 +43,4 @@ SOFTWARE.
 #    error "TFPLATFORM does not recognize platform"
 #endif
 
-#endif    // TFPLATFORM_HPP
+#endif // TFPLATFORM_HPP

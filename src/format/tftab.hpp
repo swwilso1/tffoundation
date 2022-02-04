@@ -61,7 +61,7 @@ namespace TF
              *  @brief constructor with number of tabs.
              *  @param t the number of tabs.
              */
-            Tab(const size_type &t)
+            Tab(const size_type & t)
             {
                 tabs = t;
             }
@@ -71,7 +71,7 @@ namespace TF
              *  @param t the number of tabs.
              *  @param w the width of each tab in spaces.
              */
-            Tab(const size_type &t, const size_type &w)
+            Tab(const size_type & t, const size_type & w)
             {
                 tabs = t;
                 tabWidth = w;
@@ -80,7 +80,7 @@ namespace TF
             string_type str() const
             {
                 std::stringstream collector;
-                for(size_type i = 0; i < (tabs * tabWidth); i++)
+                for (size_type i = 0; i < (tabs * tabWidth); i++)
                     collector << " ";
                 return collector.str();
             }
@@ -90,7 +90,7 @@ namespace TF
                 return tabs * tabWidth;
             }
 
-            std::ostream &writeToStream(std::ostream &o) const
+            std::ostream & writeToStream(std::ostream & o) const
             {
                 o << str();
                 return o;
@@ -101,17 +101,16 @@ namespace TF
             size_type tabWidth;
         };
 
-
         /**
          *  @brief overloaded operator<< for writing tabs to streams
          *  @param o the stream.
          *  @param t the tab.
          *  @return @e o the stream.
          */
-        std::ostream &operator<<(std::ostream &o, const Tab &t);
+        std::ostream & operator<<(std::ostream & o, const Tab & t);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFTAB_HPP
+#endif // TFTAB_HPP

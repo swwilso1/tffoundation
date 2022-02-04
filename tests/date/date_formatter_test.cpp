@@ -25,10 +25,8 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
-
 
 using namespace TF::Foundation;
 
@@ -76,7 +74,6 @@ TEST(DateFormatter, YearTest)
     EXPECT_EQ(formatter5.stringFromDate(d), "02017");
 }
 
-
 TEST(DateFormatter, QuarterTest)
 {
     SystemDateFormatter formatter("Q");
@@ -94,7 +91,6 @@ TEST(DateFormatter, QuarterTest)
     SystemDateFormatter formatter4("QQQQ");
     EXPECT_EQ(formatter4.stringFromDate(d), "4th quarter");
 }
-
 
 TEST(DateFormatter, MonthTest)
 {
@@ -117,7 +113,6 @@ TEST(DateFormatter, MonthTest)
     EXPECT_EQ(formatter5.stringFromDate(d), "S");
 }
 
-
 TEST(DateFormatter, DayOfMonthTest)
 {
     SystemDateFormatter formatter("d");
@@ -129,7 +124,6 @@ TEST(DateFormatter, DayOfMonthTest)
     SystemDateFormatter formatter2("dd");
     EXPECT_EQ(formatter2.stringFromDate(d), "09");
 }
-
 
 TEST(DateFormatter, DayOfYearTest)
 {
@@ -145,7 +139,6 @@ TEST(DateFormatter, DayOfYearTest)
     SystemDateFormatter formatter3("DDD");
     EXPECT_EQ(formatter3.stringFromDate(d), "005");
 }
-
 
 TEST(DateFormatter, WeekDayTest)
 {
@@ -168,7 +161,6 @@ TEST(DateFormatter, WeekDayTest)
     EXPECT_EQ(formatter5.stringFromDate(d), "T");
 }
 
-
 TEST(DateFormatter, PeriodTest)
 {
     SystemDateFormatter formatter("a");
@@ -186,7 +178,6 @@ TEST(DateFormatter, PeriodTest)
     SystemDateFormatter formatter4("aaaaa");
     EXPECT_EQ(formatter4.stringFromDate(d), "A");
 }
-
 
 TEST(DateFormatter, StandardHourTest)
 {
@@ -212,7 +203,6 @@ TEST(DateFormatter, MilitaryHourTest)
     EXPECT_EQ(formatter2.stringFromDate(d), "02");
 }
 
-
 TEST(DateFormatter, NonstandardHourTest)
 {
     SystemDateFormatter formatter("K");
@@ -224,7 +214,6 @@ TEST(DateFormatter, NonstandardHourTest)
     SystemDateFormatter formatter2("KK");
     EXPECT_EQ(formatter2.stringFromDate(d), "02");
 }
-
 
 TEST(DateFormatter, NonstandardMilitaryHourTest)
 {
@@ -238,7 +227,6 @@ TEST(DateFormatter, NonstandardMilitaryHourTest)
     EXPECT_EQ(formatter2.stringFromDate(d), "03");
 }
 
-
 TEST(DateFormatter, MinuteTest)
 {
     SystemDateFormatter formatter("m");
@@ -250,7 +238,6 @@ TEST(DateFormatter, MinuteTest)
     SystemDateFormatter formatter2("mm");
     EXPECT_EQ(formatter2.stringFromDate(d), "08");
 }
-
 
 TEST(DateFormatter, SecondTest)
 {
@@ -264,7 +251,6 @@ TEST(DateFormatter, SecondTest)
     EXPECT_EQ(formatter2.stringFromDate(d), "06");
 }
 
-
 // Helper function for FractionalSecondTest.  Some machines have system clocks
 // with a duration period in the microseconds rather than the nanoseconds.
 // We use this function to recover the period denominator to check for microseconds.
@@ -273,7 +259,6 @@ std::intmax_t period_check(void)
 {
     return T::den;
 }
-
 
 TEST(DateFormatter, FractionalSecondTest)
 {
@@ -292,7 +277,7 @@ TEST(DateFormatter, FractionalSecondTest)
     // If the system clock is not a nanosecond clock, then the following two tests
     // will fail due a lack of precision in the clock.   So only test
     // if the duration period is in the nanoseconds.
-    if(period_check<SystemDate::duration::period>() >= 1000000000L)
+    if (period_check<SystemDate::duration::period>() >= 1000000000L)
     {
         SystemDateFormatter formatter4("SSSSSSSS");
         EXPECT_EQ(formatter4.stringFromDate(d), "18515103");
@@ -301,7 +286,6 @@ TEST(DateFormatter, FractionalSecondTest)
         EXPECT_EQ(formatter5.stringFromDate(d), "185151026");
     }
 }
-
 
 TEST(DateFormatter, DateFromStringTest)
 {
@@ -315,7 +299,6 @@ TEST(DateFormatter, DateFromStringTest)
 
     EXPECT_TRUE(theFormattedDate == theSecondFormattedDate);
 }
-
 
 TEST(DateFormatter, DateFromStringWithSingleDigitsTest)
 {

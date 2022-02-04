@@ -42,8 +42,8 @@ namespace TF
 
         using Endian = endian;
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #endif /* TFENDIAN_HPP */

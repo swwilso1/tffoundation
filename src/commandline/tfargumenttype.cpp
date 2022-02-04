@@ -31,9 +31,9 @@ namespace TF
 
     namespace Foundation
     {
-        std::ostream &operator<<(std::ostream &o, const ArgumentType &type)
+        std::ostream & operator<<(std::ostream & o, const ArgumentType & type)
         {
-            switch(type)
+            switch (type)
             {
                 case ArgumentType::Int:
                     o << "Int";
@@ -51,6 +51,6 @@ namespace TF
 
             return o;
         }
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

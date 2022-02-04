@@ -82,7 +82,6 @@ protected:
         temporaryDirectory = fileManager.temporaryDirectory();
     }
 
-
     static FileHandle::string_type lorumIpsum;
 
     static FileManager fileManager;
@@ -90,19 +89,16 @@ protected:
     static FileHandle::string_type temporaryDirectory;
 };
 
-
 FileHandle::string_type FileHandleTest::lorumIpsum;
 
 FileManager FileHandleTest::fileManager;
 
 FileHandle::string_type FileHandleTest::temporaryDirectory;
 
-
 TEST_F(FileHandleTest, SimpleConstructorTest)
 {
     FileHandle fh;
 }
-
 
 TEST_F(FileHandleTest, SimpleFileForWritingTest)
 {
@@ -117,10 +113,9 @@ TEST_F(FileHandleTest, SimpleFileForWritingTest)
     // with the length of the string.
     EXPECT_EQ(FileHandleTest::lorumIpsum.length(), FileHandleTest::fileManager.sizeofFileAtPath(fileName));
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }
-
 
 TEST_F(FileHandleTest, SimpleFileForReadingTest)
 {
@@ -138,16 +133,14 @@ TEST_F(FileHandleTest, SimpleFileForReadingTest)
 
     fh.closeFile();
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }
-
 
 TEST_F(FileHandleTest, ReadFileThatDoesNotExistTest)
 {
     EXPECT_ANY_THROW(FileHandle fh = FileHandle::fileHandleForReadingAtPath("/foo/bar/bat.txt"));
 }
-
 
 TEST_F(FileHandleTest, StdinHandleTest)
 {
@@ -155,20 +148,17 @@ TEST_F(FileHandleTest, StdinHandleTest)
     EXPECT_EQ(fh.fileDescriptor(), 0);
 }
 
-
 TEST_F(FileHandleTest, StdoutHandleTest)
 {
     FileHandle fh = FileHandle::fileHandleWithStandardOutput();
     EXPECT_EQ(fh.fileDescriptor(), 1);
 }
 
-
 TEST_F(FileHandleTest, StderrHandleTest)
 {
     FileHandle fh = FileHandle::fileHandleWithStandardError();
     EXPECT_EQ(fh.fileDescriptor(), 2);
 }
-
 
 TEST_F(FileHandleTest, OffsetTest)
 {
@@ -184,10 +174,9 @@ TEST_F(FileHandleTest, OffsetTest)
 
     fh.closeFile();
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }
-
 
 TEST_F(FileHandleTest, SeekToEndOfFileTest)
 {
@@ -205,10 +194,9 @@ TEST_F(FileHandleTest, SeekToEndOfFileTest)
 
     fh.closeFile();
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }
-
 
 TEST_F(FileHandleTest, SeekToStartOfFileTest)
 {
@@ -234,12 +222,11 @@ TEST_F(FileHandleTest, SeekToStartOfFileTest)
 
     fh.closeFile();
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
     {
         FileHandleTest::fileManager.removeItemAtPath(fileName);
     }
 }
-
 
 TEST_F(FileHandleTest, SeekToOffsetTest)
 {
@@ -261,10 +248,9 @@ TEST_F(FileHandleTest, SeekToOffsetTest)
 
     fh.closeFile();
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }
-
 
 TEST_F(FileHandleTest, TruncateFileTest)
 {
@@ -281,10 +267,9 @@ TEST_F(FileHandleTest, TruncateFileTest)
 
     fh.closeFile();
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }
-
 
 TEST_F(FileHandleTest, ReadFileBitsAtATimeTest)
 {
@@ -298,7 +283,7 @@ TEST_F(FileHandleTest, ReadFileBitsAtATimeTest)
 
     FileHandle::data_type d;
 
-    while(d.length() != FileHandleTest::lorumIpsum.length())
+    while (d.length() != FileHandleTest::lorumIpsum.length())
     {
         auto readData = fh.readDataOfLength(10);
         d.append(readData);
@@ -310,10 +295,9 @@ TEST_F(FileHandleTest, ReadFileBitsAtATimeTest)
 
     fh.closeFile();
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }
-
 
 TEST_F(FileHandleTest, AppendFileTest)
 {
@@ -330,6 +314,6 @@ TEST_F(FileHandleTest, AppendFileTest)
 
     EXPECT_EQ(FileHandleTest::lorumIpsum.length() * 2, FileHandleTest::fileManager.sizeofFileAtPath(fileName));
 
-    if(FileHandleTest::fileManager.isDeletableAtPath(fileName))
+    if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
 }

@@ -38,7 +38,7 @@ namespace TF
     namespace Foundation
     {
 
-        ArgumentParser::ArgumentParser(std::ostream &o) : m_outStream(o)
+        ArgumentParser::ArgumentParser(std::ostream & o) : m_outStream(o)
         {
             m_prefixCharacter = "-";
             addHelpArgument();
@@ -47,28 +47,28 @@ namespace TF
 
         ArgumentParser::~ArgumentParser()
         {
-            for(auto &entry : m_subParserMap)
+            for (auto & entry : m_subParserMap)
             {
                 delete entry.second;
             }
         }
 
-        void ArgumentParser::setName(const string_type &name)
+        void ArgumentParser::setName(const string_type & name)
         {
             m_name = name;
         }
 
-        void ArgumentParser::setDescription(const string_type &description)
+        void ArgumentParser::setDescription(const string_type & description)
         {
             m_description = description;
         }
 
-        void ArgumentParser::setEpilog(const string_type &epilog)
+        void ArgumentParser::setEpilog(const string_type & epilog)
         {
             m_epilog = epilog;
         }
 
-        void ArgumentParser::setPrefixCharacter(const string_type &character)
+        void ArgumentParser::setPrefixCharacter(const string_type & character)
         {
             m_prefixCharacter = character;
             addHelpArgument();
@@ -79,16 +79,15 @@ namespace TF
             m_exitAfterHelp = exit;
         }
 
-
-        void ArgumentParser::addArgument(const argument_type &a)
+        void ArgumentParser::addArgument(const argument_type & a)
         {
             m_arguments.emplace_back(a);
         }
 
-        void ArgumentParser::addArgument(const string_list_type &names, const argument_type::action_type action,
-                                         size_type nArgs, const string_type &dfault, const string_type &constant,
-                                         argument_type::argument_type type, const string_type &destination,
-                                         const string_list_type &choices, bool required, const string_type &help)
+        void ArgumentParser::addArgument(const string_list_type & names, const argument_type::action_type action,
+                                         size_type nArgs, const string_type & dfault, const string_type & constant,
+                                         argument_type::argument_type type, const string_type & destination,
+                                         const string_list_type & choices, bool required, const string_type & help)
         {
             argument_type arg;
             arg.setNames(names);
@@ -104,9 +103,10 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-        void ArgumentParser::addStoreArgument(const string_list_type &names, size_type nArgs, const string_type &dfault,
-                                              argument_type::argument_type type, const string_type &destination,
-                                              const string_list_type &choices, const string_type &help, bool required)
+        void ArgumentParser::addStoreArgument(const string_list_type & names, size_type nArgs,
+                                              const string_type & dfault, argument_type::argument_type type,
+                                              const string_type & destination, const string_list_type & choices,
+                                              const string_type & help, bool required)
         {
             argument_type arg;
             arg.setNames(names);
@@ -121,9 +121,9 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-        void ArgumentParser::addStoreConstArgument(const string_list_type &names, const string_type &constant,
-                                                   argument_type::argument_type type, const string_type &destination,
-                                                   const string_type &help, bool required)
+        void ArgumentParser::addStoreConstArgument(const string_list_type & names, const string_type & constant,
+                                                   argument_type::argument_type type, const string_type & destination,
+                                                   const string_type & help, bool required)
         {
             argument_type arg;
             arg.setNames(names);
@@ -137,8 +137,8 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-        void ArgumentParser::addStoreTrueArgument(const string_list_type &names, const string_type &destination,
-                                                  const string_type &help, bool required)
+        void ArgumentParser::addStoreTrueArgument(const string_list_type & names, const string_type & destination,
+                                                  const string_type & help, bool required)
         {
             argument_type arg;
             arg.setNames(names);
@@ -151,8 +151,8 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-        void ArgumentParser::addStoreFalseArgument(const string_list_type &names, const string_type &destination,
-                                                   const string_type &help, bool required)
+        void ArgumentParser::addStoreFalseArgument(const string_list_type & names, const string_type & destination,
+                                                   const string_type & help, bool required)
         {
             argument_type arg;
             arg.setNames(names);
@@ -165,9 +165,10 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-        void ArgumentParser::addAppendArgument(const string_list_type &names, size_type nArgs,
-                                               argument_type::argument_type type, const string_type &destination,
-                                               const string_list_type &choices, const string_type &help, bool required)
+        void ArgumentParser::addAppendArgument(const string_list_type & names, size_type nArgs,
+                                               argument_type::argument_type type, const string_type & destination,
+                                               const string_list_type & choices, const string_type & help,
+                                               bool required)
         {
             argument_type arg;
             arg.setNames(names);
@@ -181,9 +182,9 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-        void ArgumentParser::addAppendConstArgument(const string_list_type &names, const string_type &constant,
-                                                    argument_type::argument_type type, const string_type &destination,
-                                                    const string_type &help, bool required)
+        void ArgumentParser::addAppendConstArgument(const string_list_type & names, const string_type & constant,
+                                                    argument_type::argument_type type, const string_type & destination,
+                                                    const string_type & help, bool required)
         {
             argument_type arg;
             arg.setNames(names);
@@ -197,8 +198,8 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-        void ArgumentParser::addCountArgument(const string_list_type &names, const string_type &destination,
-                                              const string_type &help, bool required)
+        void ArgumentParser::addCountArgument(const string_list_type & names, const string_type & destination,
+                                              const string_type & help, bool required)
         {
             argument_type arg;
             arg.setNames(names);
@@ -209,9 +210,8 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-
-        void ArgumentParser::addPositionalArgument(const string_type &name, argument_type::argument_type type,
-                                                   const string_type &help, bool required)
+        void ArgumentParser::addPositionalArgument(const string_type & name, argument_type::argument_type type,
+                                                   const string_type & help, bool required)
         {
             argument_type arg;
             arg.setLongName(name);
@@ -221,11 +221,10 @@ namespace TF
             m_arguments.emplace_back(arg);
         }
 
-
-        bool ArgumentParser::parseArgs(int argc, const char **argv)
+        bool ArgumentParser::parseArgs(int argc, const char ** argv)
         {
             string_list_type argList;
-            for(int i = 0; i < argc; i++)
+            for (int i = 0; i < argc; i++)
             {
                 argList.emplace_back(argv[i]);
             }
@@ -233,7 +232,7 @@ namespace TF
             return parseArgs(argList);
         }
 
-        bool ArgumentParser::parseArgs(const string_type &args)
+        bool ArgumentParser::parseArgs(const string_type & args)
         {
             string_type::unicode_point_type c;
             string_type::unicode_point_type quoteChar = '"';
@@ -242,12 +241,12 @@ namespace TF
             string_type arg;
             string_list_type argList;
 
-            for(string_type::size_type i = 0; i < length; i++)
+            for (string_type::size_type i = 0; i < length; i++)
             {
                 c = args.characterAtIndex(i);
-                if(c == '"' || c == '\'')
+                if (c == '"' || c == '\'')
                 {
-                    if(!inQuotes)
+                    if (! inQuotes)
                     {
                         quoteChar = c;
                         inQuotes = true;
@@ -255,7 +254,7 @@ namespace TF
                     }
                     else
                     {
-                        if(c == quoteChar)
+                        if (c == quoteChar)
                         {
                             argList.push_back(arg);
                             arg = "";
@@ -264,9 +263,9 @@ namespace TF
                         }
                     }
                 }
-                else if(c == ' ' && !inQuotes)
+                else if (c == ' ' && ! inQuotes)
                 {
-                    if(arg.length() > 0)
+                    if (arg.length() > 0)
                         argList.push_back(arg);
                     arg = "";
                     continue;
@@ -276,55 +275,55 @@ namespace TF
                 arg = arg + s;
             }
 
-            if(arg.length() > 0)
+            if (arg.length() > 0)
                 argList.push_back(arg);
 
             return parseArgs(argList);
         }
 
-        bool ArgumentParser::parseArgs(const string_list_type &l)
+        bool ArgumentParser::parseArgs(const string_list_type & l)
         {
             m_symbolTable.clear();
 
-            if(m_name.length() == 0 && l.size() > 0)
+            if (m_name.length() == 0 && l.size() > 0)
             {
                 m_name = l[0];
             }
 
             // First run through the arguments and see if the arguments have
             // h or help.
-            for(auto iter = l.begin(); iter != l.end(); iter++)
+            for (auto iter = l.begin(); iter != l.end(); iter++)
             {
                 auto value = *iter;
-                if(valueMatchesArgument(value))
+                if (valueMatchesArgument(value))
                 {
                     auto arg = getArgumentForValue(value);
 
-                    if(arg.getLongNameWithoutPrefix(m_prefixCharacter) == "help")
+                    if (arg.getLongNameWithoutPrefix(m_prefixCharacter) == "help")
                     {
                         outputUsageMessage();
-                        if(m_exitAfterHelp)
+                        if (m_exitAfterHelp)
                             exit(0);
                         return true;
                     }
                 }
-                if(valueMatchesSubCommand(value))
+                if (valueMatchesSubCommand(value))
                 {
                     auto orig_iter = iter;
                     auto subParser = m_subParserMap[value];
 
-                    for(; iter != l.end(); iter++)
+                    for (; iter != l.end(); iter++)
                     {
                         value = *iter;
 
-                        if(subParser->parser->valueMatchesArgument(value))
+                        if (subParser->parser->valueMatchesArgument(value))
                         {
                             auto subArg = subParser->parser->getArgumentForValue(value);
 
-                            if(subArg.getLongNameWithoutPrefix(m_prefixCharacter) == "help")
+                            if (subArg.getLongNameWithoutPrefix(m_prefixCharacter) == "help")
                             {
                                 subParser->parser->outputUsageMessage();
-                                if(m_exitAfterHelp)
+                                if (m_exitAfterHelp)
                                     exit(0);
                                 return true;
                             }
@@ -338,24 +337,24 @@ namespace TF
             string_list_type::const_iterator iter;
 
             // Now process the arguments.
-            for(iter = l.cbegin(); iter != l.cend(); iter++)
+            for (iter = l.cbegin(); iter != l.cend(); iter++)
             {
-                auto &value = *iter;
+                auto & value = *iter;
 
-                if(valueMatchesArgument(value))
+                if (valueMatchesArgument(value))
                 {
                     auto arg = getArgumentForValue(value);
 
-                    if(arg.consumesMoreValues())
+                    if (arg.consumesMoreValues())
                     {
                         string_list_type moreValues;
 
                         iter++;
-                        while(arg.consumesMoreValues() && iter != l.cend())
+                        while (arg.consumesMoreValues() && iter != l.cend())
                         {
                             // If the value matches another argument or event looks like an argument
                             // then write an error message and return.
-                            if(valueMatchesArgument(*iter) || valueLooksLikeOptionalArgument(*iter))
+                            if (valueMatchesArgument(*iter) || valueLooksLikeOptionalArgument(*iter))
                             {
                                 notEnoughValuesForArgumentMessage(arg);
                                 return false;
@@ -367,7 +366,7 @@ namespace TF
                         }
 
                         // If we did not get all the values for the argument write an error message and return.
-                        if(arg.consumesMoreValues())
+                        if (arg.consumesMoreValues())
                         {
                             notEnoughValuesForArgumentMessage(arg);
                             return false;
@@ -381,7 +380,7 @@ namespace TF
 
                         // Check to see if the arg has existing values for choices.   If so we need
                         // to know if the values passed to us match those choices.
-                        if(arg.hasChoices() && !arg.valuesMatchChoices(moreValues))
+                        if (arg.hasChoices() && ! arg.valuesMatchChoices(moreValues))
                         {
                             m_outStream << "Value " << arg.valueThatDoesNotMatchChoice(moreValues);
                             m_outStream << " for argument " << arg.getShortName() << "/";
@@ -393,20 +392,20 @@ namespace TF
                         auto type = arg.getArgumentType();
                         auto action = arg.getAction();
 
-                        if(action == ArgumentAction::Store)
+                        if (action == ArgumentAction::Store)
                         {
-                            if(m_symbolTable.hasValueForKey(destinationName))
+                            if (m_symbolTable.hasValueForKey(destinationName))
                                 m_symbolTable.removeValueForKey(destinationName);
 
-                            if(type == ArgumentType::Int)
+                            if (type == ArgumentType::Int)
                             {
-                                if(moreValues.size() > 1)
+                                if (moreValues.size() > 1)
                                 {
                                     int_list_type intList;
-                                    for(auto &mValue : moreValues)
+                                    for (auto & mValue : moreValues)
                                     {
                                         auto res = Conversion::convertStringToInt(mValue);
-                                        if(!res)
+                                        if (! res)
                                         {
                                             errorConvertingStringToIntMessage(mValue);
                                             return false;
@@ -419,7 +418,7 @@ namespace TF
                                 else
                                 {
                                     auto res = Conversion::convertStringToInt(moreValues[0]);
-                                    if(!res)
+                                    if (! res)
                                     {
                                         errorConvertingStringToIntMessage(moreValues[0]);
                                         return false;
@@ -427,15 +426,15 @@ namespace TF
                                     m_symbolTable.setValueForKey<int>(destinationName, res.value());
                                 }
                             }
-                            else if(type == ArgumentType::Real)
+                            else if (type == ArgumentType::Real)
                             {
-                                if(moreValues.size() > 1)
+                                if (moreValues.size() > 1)
                                 {
                                     real_list_type realList;
-                                    for(auto &mValue : moreValues)
+                                    for (auto & mValue : moreValues)
                                     {
                                         auto res = Conversion::convertStringToDouble(mValue);
-                                        if(!res)
+                                        if (! res)
                                         {
                                             errorConvertingStringToDoubleMessage(mValue);
                                             return false;
@@ -448,7 +447,7 @@ namespace TF
                                 else
                                 {
                                     auto res = Conversion::convertStringToDouble(moreValues[0]);
-                                    if(!res)
+                                    if (! res)
                                     {
                                         errorConvertingStringToDoubleMessage(moreValues[0]);
                                         return false;
@@ -456,9 +455,9 @@ namespace TF
                                     m_symbolTable.setValueForKey<double>(destinationName, res.value());
                                 }
                             }
-                            else if(type == ArgumentType::String)
+                            else if (type == ArgumentType::String)
                             {
-                                if(moreValues.size() > 1)
+                                if (moreValues.size() > 1)
                                 {
                                     m_symbolTable.setValueForKey<string_list_type>(destinationName, moreValues);
                                 }
@@ -467,15 +466,15 @@ namespace TF
                                     m_symbolTable.setValueForKey<string_type>(destinationName, moreValues[0]);
                                 }
                             }
-                            else if(type == ArgumentType::Bool)
+                            else if (type == ArgumentType::Bool)
                             {
-                                if(moreValues.size() > 1)
+                                if (moreValues.size() > 1)
                                 {
                                     bool_list_type boolList;
-                                    for(auto &mValue : moreValues)
+                                    for (auto & mValue : moreValues)
                                     {
                                         auto res = Conversion::convertStringToBool(mValue);
-                                        if(!res)
+                                        if (! res)
                                         {
                                             errorConvertingStringToBoolMessage(mValue);
                                             return false;
@@ -488,7 +487,7 @@ namespace TF
                                 else
                                 {
                                     auto res = Conversion::convertStringToBool(moreValues[0]);
-                                    if(!res)
+                                    if (! res)
                                     {
                                         errorConvertingStringToBoolMessage(moreValues[0]);
                                         return false;
@@ -497,14 +496,14 @@ namespace TF
                                 }
                             }
                         }
-                        else if(action == ArgumentAction::Append)
+                        else if (action == ArgumentAction::Append)
                         {
                             addListValueForType(destinationName, type);
 
-                            for(auto &mValue : moreValues)
+                            for (auto & mValue : moreValues)
                             {
                                 bool result = addValueToListForType(destinationName, type, mValue);
-                                if(!result)
+                                if (! result)
                                     return false;
                             }
                         }
@@ -518,48 +517,48 @@ namespace TF
                         auto destinationName = arg.getDestination(m_prefixCharacter);
                         auto type = arg.getArgumentType();
 
-                        if(action == ArgumentAction::StoreConst)
+                        if (action == ArgumentAction::StoreConst)
                         {
                             // The argument should have a const value, check for that first.   If it does not
                             // exist then output an error.
                             auto constant = arg.getConstant();
-                            if(constant.length() == 0)
+                            if (constant.length() == 0)
                             {
                                 noConstantValueProvidedMessage(arg);
                                 return false;
                             }
 
-                            if(m_symbolTable.hasValueForKey(destinationName))
+                            if (m_symbolTable.hasValueForKey(destinationName))
                                 m_symbolTable.removeValueForKey(destinationName);
 
-                            if(type == ArgumentType::Int)
+                            if (type == ArgumentType::Int)
                             {
                                 auto res = Conversion::convertStringToInt(constant);
-                                if(!res)
+                                if (! res)
                                 {
                                     errorConvertingStringToIntMessage(constant);
                                     return false;
                                 }
                                 m_symbolTable.setValueForKey<int>(destinationName, res.value());
                             }
-                            else if(type == ArgumentType::Real)
+                            else if (type == ArgumentType::Real)
                             {
                                 auto res = Conversion::convertStringToDouble(constant);
-                                if(!res)
+                                if (! res)
                                 {
                                     errorConvertingStringToDoubleMessage(constant);
                                     return false;
                                 }
                                 m_symbolTable.setValueForKey<double>(destinationName, res.value());
                             }
-                            else if(type == ArgumentType::String)
+                            else if (type == ArgumentType::String)
                             {
                                 m_symbolTable.setValueForKey<string_type>(destinationName, constant);
                             }
-                            else if(type == ArgumentType::Bool)
+                            else if (type == ArgumentType::Bool)
                             {
                                 auto res = Conversion::convertStringToBool(constant);
-                                if(!res)
+                                if (! res)
                                 {
                                     errorConvertingStringToBoolMessage(constant);
                                     return false;
@@ -567,24 +566,24 @@ namespace TF
                                 m_symbolTable.setValueForKey<bool>(destinationName, res.value());
                             }
                         }
-                        else if(action == ArgumentAction::StoreTrue)
+                        else if (action == ArgumentAction::StoreTrue)
                         {
-                            if(m_symbolTable.hasValueForKey(destinationName))
+                            if (m_symbolTable.hasValueForKey(destinationName))
                                 m_symbolTable.removeValueForKey(destinationName);
 
                             m_symbolTable.setValueForKey<bool>(destinationName, true);
                         }
-                        else if(action == ArgumentAction::StoreFalse)
+                        else if (action == ArgumentAction::StoreFalse)
                         {
-                            if(m_symbolTable.hasValueForKey(destinationName))
+                            if (m_symbolTable.hasValueForKey(destinationName))
                                 m_symbolTable.removeValueForKey(destinationName);
 
                             m_symbolTable.setValueForKey<bool>(destinationName, false);
                         }
-                        else if(action == ArgumentAction::AppendConst)
+                        else if (action == ArgumentAction::AppendConst)
                         {
                             auto constant = arg.getConstant();
-                            if(constant.length() == 0)
+                            if (constant.length() == 0)
                             {
                                 noConstantValueProvidedMessage(arg);
                                 return false;
@@ -592,12 +591,12 @@ namespace TF
 
                             addListValueForType(destinationName, type);
                             bool res = addValueToListForType(destinationName, type, constant);
-                            if(!res)
+                            if (! res)
                                 return false;
                         }
-                        else if(action == ArgumentAction::Count)
+                        else if (action == ArgumentAction::Count)
                         {
-                            if(!m_symbolTable.hasValueForKey(destinationName))
+                            if (! m_symbolTable.hasValueForKey(destinationName))
                             {
                                 size_type i = 0;
                                 m_symbolTable.setValueForKey<size_type>(destinationName, i);
@@ -613,21 +612,21 @@ namespace TF
                 }
                 else
                 {
-                    if(valueMatchesSubCommand(value))
+                    if (valueMatchesSubCommand(value))
                     {
                         string_list_type remainingArgs;
 
                         iter++;
-                        for(; iter != l.end(); iter++)
+                        for (; iter != l.end(); iter++)
                         {
                             remainingArgs.emplace_back(*iter);
                         }
 
-                        SubParser *subParser = m_subParserMap[value];
-                        if(subParser != nullptr && subParser->parser != nullptr)
+                        SubParser * subParser = m_subParserMap[value];
+                        if (subParser != nullptr && subParser->parser != nullptr)
                         {
                             auto result = subParser->parser->parseArgs(remainingArgs);
-                            if(result)
+                            if (result)
                             {
                                 m_symbolTable.update(subParser->parser->m_symbolTable);
                             }
@@ -642,44 +641,44 @@ namespace TF
                         }
                     }
 
-                    for(auto &arg : m_arguments)
+                    for (auto & arg : m_arguments)
                     {
-                        if(!arg.argumentIsOptional(m_prefixCharacter) && !arg.getMatched())
+                        if (! arg.argumentIsOptional(m_prefixCharacter) && ! arg.getMatched())
                         {
                             auto destination = arg.getDestination(m_prefixCharacter);
                             auto type = arg.getArgumentType();
 
-                            if(m_symbolTable.hasValueForKey(destination))
+                            if (m_symbolTable.hasValueForKey(destination))
                                 m_symbolTable.removeValueForKey(destination);
 
-                            if(type == ArgumentType::String)
+                            if (type == ArgumentType::String)
                             {
                                 m_symbolTable.setValueForKey<string_type>(destination, value);
                             }
-                            else if(type == ArgumentType::Int)
+                            else if (type == ArgumentType::Int)
                             {
                                 auto result = Conversion::convertStringToInt(value);
-                                if(!result)
+                                if (! result)
                                 {
                                     errorConvertingStringToIntMessage(value);
                                     return false;
                                 }
                                 m_symbolTable.setValueForKey<int>(destination, result.value());
                             }
-                            else if(type == ArgumentType::Real)
+                            else if (type == ArgumentType::Real)
                             {
                                 auto result = Conversion::convertStringToDouble(value);
-                                if(!result)
+                                if (! result)
                                 {
                                     errorConvertingStringToDoubleMessage(value);
                                     return false;
                                 }
                                 m_symbolTable.setValueForKey<double>(destination, result.value());
                             }
-                            else if(type == ArgumentType::Bool)
+                            else if (type == ArgumentType::Bool)
                             {
                                 auto result = Conversion::convertStringToBool(value);
-                                if(!result)
+                                if (! result)
                                 {
                                     errorConvertingStringToBoolMessage(value);
                                     return false;
@@ -696,43 +695,43 @@ namespace TF
 
             // Search through the argument list for default arguments.   If an argument does not have a value and
             // the action is Store, and the arg has a default, then we must add a value to the symbol table.
-            for(auto &arg : m_arguments)
+            for (auto & arg : m_arguments)
             {
-                if(arg.getAction() == ArgumentAction::Store)
+                if (arg.getAction() == ArgumentAction::Store)
                 {
                     auto destinationName = arg.getDestination(m_prefixCharacter);
-                    if(!m_symbolTable.hasValueForKey(destinationName) && arg.getDefault().length() > 0)
+                    if (! m_symbolTable.hasValueForKey(destinationName) && arg.getDefault().length() > 0)
                     {
                         auto argType = arg.getArgumentType();
                         auto theDefault = arg.getDefault();
-                        if(argType == ArgumentType::Int)
+                        if (argType == ArgumentType::Int)
                         {
                             auto res = Conversion::convertStringToInt(theDefault);
-                            if(!res)
+                            if (! res)
                             {
                                 errorConvertingStringToIntMessage(theDefault);
                                 return false;
                             }
                             m_symbolTable.setValueForKey<int>(destinationName, res.value());
                         }
-                        else if(argType == ArgumentType::Real)
+                        else if (argType == ArgumentType::Real)
                         {
                             auto res = Conversion::convertStringToDouble(theDefault);
-                            if(!res)
+                            if (! res)
                             {
                                 errorConvertingStringToDoubleMessage(theDefault);
                                 return false;
                             }
                             m_symbolTable.setValueForKey<double>(destinationName, res.value());
                         }
-                        else if(argType == ArgumentType::String)
+                        else if (argType == ArgumentType::String)
                         {
                             m_symbolTable.setValueForKey<string_type>(destinationName, theDefault);
                         }
-                        else if(argType == ArgumentType::Bool)
+                        else if (argType == ArgumentType::Bool)
                         {
                             auto res = Conversion::convertStringToBool(theDefault);
-                            if(!res)
+                            if (! res)
                             {
                                 errorConvertingStringToBoolMessage(theDefault);
                                 return false;
@@ -745,12 +744,12 @@ namespace TF
 
             // Finally search through the argument list for any required arguments.   If a required argument
             // exists and the symbol table does not have a value for it, then output a message and return.
-            for(auto &arg : m_arguments)
+            for (auto & arg : m_arguments)
             {
-                if(arg.getRequired())
+                if (arg.getRequired())
                 {
                     auto destinationName = arg.getDestination(m_prefixCharacter);
-                    if(!m_symbolTable.hasValueForKey(destinationName))
+                    if (! m_symbolTable.hasValueForKey(destinationName))
                     {
                         m_outStream << "Argument " << arg.getShortName() << "/";
                         m_outStream << arg.getLongName() << " required but not given";
@@ -763,10 +762,9 @@ namespace TF
             return true;
         }
 
-
-        bool ArgumentParser::hasValueForSubcommand(const string_type &command)
+        bool ArgumentParser::hasValueForSubcommand(const string_type & command)
         {
-            if(m_subParserMap.count(command) > 0)
+            if (m_subParserMap.count(command) > 0)
             {
                 auto subParser = m_subParserMap[command];
                 return subParser->foundCommand;
@@ -774,8 +772,7 @@ namespace TF
             return false;
         }
 
-
-        bool ArgumentParser::hasValueForArgument(const string_type &arg)
+        bool ArgumentParser::hasValueForArgument(const string_type & arg)
         {
             return m_symbolTable.hasValueForKey(arg);
         }
@@ -783,7 +780,7 @@ namespace TF
         void ArgumentParser::reset()
         {
             m_symbolTable.clear();
-            for(auto &entry : m_subParserMap)
+            for (auto & entry : m_subParserMap)
             {
                 delete entry.second;
             }
@@ -797,16 +794,14 @@ namespace TF
             m_exitAfterHelp = false;
         }
 
-
-        ArgumentParser &ArgumentParser::addSubparser(const string_type &command, const string_type &help)
+        ArgumentParser & ArgumentParser::addSubparser(const string_type & command, const string_type & help)
         {
-            auto *subParser = new SubParser(new ArgumentParser(), help);
+            auto * subParser = new SubParser(new ArgumentParser(), help);
             subParser->parser->m_name = m_name;
             subParser->parser->m_subCommand = command;
             m_subParserMap[command] = subParser;
             return *subParser->parser;
         }
-
 
         void ArgumentParser::outputUsageMessage() const
         {
@@ -815,13 +810,13 @@ namespace TF
 
             m_outStream << "usage: ";
 
-            if(m_name.length() > 0)
+            if (m_name.length() > 0)
                 m_outStream << m_name << " ";
 
-            if(m_subCommand.length() > 0)
+            if (m_subCommand.length() > 0)
                 m_outStream << m_subCommand << " ";
 
-            if(!m_subParserMap.empty())
+            if (! m_subParserMap.empty())
             {
                 size_type numberOfSubCommands = m_subParserMap.size();
                 size_type i = 0;
@@ -829,10 +824,10 @@ namespace TF
 
                 m_outStream << "{";
 
-                for(i = 0; i < numberOfSubCommands; i++)
+                for (i = 0; i < numberOfSubCommands; i++)
                 {
                     m_outStream << (*iter).first;
-                    if(i < (numberOfSubCommands - 1))
+                    if (i < (numberOfSubCommands - 1))
                     {
                         m_outStream << ",";
                     }
@@ -845,22 +840,22 @@ namespace TF
             bool hasPositionalArgument = false;
             bool hasOptionalArgument = false;
             size_type i = 0;
-            for(auto &arg : m_arguments)
+            for (auto & arg : m_arguments)
             {
                 string_type shortestName = arg.getShortestName();
                 string_type upperCaseName = shortestName.uppercaseString();
                 string_type argExample =
                     upperCaseName.stringByReplacingOccurencesOfStringWithString(m_prefixCharacter, "");
-                if(arg.argumentIsOptional(m_prefixCharacter))
+                if (arg.argumentIsOptional(m_prefixCharacter))
                 {
                     auto numberOfArgs = arg.getNumberOfArgs();
-                    if(numberOfArgs > 0)
+                    if (numberOfArgs > 0)
                     {
                         m_outStream << "[" << shortestName << " ";
-                        for(size_type i = 1; i <= numberOfArgs; i++)
+                        for (size_type i = 1; i <= numberOfArgs; i++)
                         {
                             m_outStream << argExample << i;
-                            if(i < numberOfArgs)
+                            if (i < numberOfArgs)
                                 m_outStream << " ";
                         }
                         m_outStream << "]";
@@ -875,27 +870,27 @@ namespace TF
                     hasPositionalArgument = true;
                 }
 
-                if(i < (m_arguments.size() - 1))
+                if (i < (m_arguments.size() - 1))
                     m_outStream << " ";
 
                 size_type length = arg.lengthOfNamesForHelp();
-                if(length > lengthOfNameColumn)
+                if (length > lengthOfNameColumn)
                     lengthOfNameColumn = length;
 
                 length = arg.lengthOfHelp();
-                if(length > lengthOfHelpColumn)
+                if (length > lengthOfHelpColumn)
                     lengthOfHelpColumn = length;
             }
 
             m_outStream << std::endl << std::endl;
 
-            if(m_description.length() > 0)
+            if (m_description.length() > 0)
                 m_outStream << m_description << std::endl << std::endl;
 
-            if(!m_subParserMap.empty())
+            if (! m_subParserMap.empty())
             {
                 m_outStream << "Subcommands:" << std::endl;
-                for(auto &entry : m_subParserMap)
+                for (auto & entry : m_subParserMap)
                 {
                     m_outStream << std::left << std::setw((int)(lengthOfNameColumn + 1));
                     m_outStream << entry.first.stlString() << " ";
@@ -907,13 +902,13 @@ namespace TF
 
                 m_outStream << std::endl;
             }
-            if(hasPositionalArgument)
+            if (hasPositionalArgument)
             {
                 m_outStream << "Positional arguments:" << std::endl;
 
-                for(auto &arg : m_arguments)
+                for (auto & arg : m_arguments)
                 {
-                    if(!arg.argumentIsOptional(m_prefixCharacter))
+                    if (! arg.argumentIsOptional(m_prefixCharacter))
                     {
                         m_outStream << std::left << std::setw((int)(lengthOfNameColumn + 1));
                         m_outStream << arg.namesForHelp().stlString() << " ";
@@ -921,7 +916,7 @@ namespace TF
                         m_outStream << std::left << std::setw((int)(lengthOfHelpColumn + 1));
                         m_outStream << arg.getHelp().stlString();
 
-                        if(arg.getRequired())
+                        if (arg.getRequired())
                             m_outStream << "  [required]";
 
                         m_outStream << std::endl;
@@ -931,24 +926,24 @@ namespace TF
                 m_outStream << std::endl;
             }
 
-            if(hasOptionalArgument)
+            if (hasOptionalArgument)
             {
                 m_outStream << "Optional arguments:" << std::endl;
 
-                for(auto &arg : m_arguments)
+                for (auto & arg : m_arguments)
                 {
-                    if(arg.argumentIsOptional(m_prefixCharacter))
+                    if (arg.argumentIsOptional(m_prefixCharacter))
                     {
                         m_outStream << std::left << std::setw((int)(lengthOfNameColumn + 1));
                         m_outStream << arg.namesForHelp().stlString() << " ";
 
                         m_outStream << std::left << std::setw((int)(lengthOfHelpColumn + 1));
-                        if(arg.getHelp().length() > 0)
+                        if (arg.getHelp().length() > 0)
                             m_outStream << arg.getHelp().stlString();
                         else
                             m_outStream << " ";
 
-                        if(arg.getRequired())
+                        if (arg.getRequired())
                             m_outStream << " [required]";
 
                         m_outStream << std::endl;
@@ -958,7 +953,7 @@ namespace TF
                 m_outStream << std::endl;
             }
 
-            if(m_epilog.length() > 0)
+            if (m_epilog.length() > 0)
             {
                 m_outStream << m_epilog << std::endl;
             }
@@ -966,83 +961,82 @@ namespace TF
             m_outStream << std::endl;
         }
 
-        bool ArgumentParser::valueMatchesArgument(const string_type &s) const
+        bool ArgumentParser::valueMatchesArgument(const string_type & s) const
         {
-            for(auto &arg : m_arguments)
+            for (auto & arg : m_arguments)
             {
-                if(arg.valueMatchesName(s))
+                if (arg.valueMatchesName(s))
                     return true;
             }
 
             return false;
         }
 
-        ArgumentParser::argument_type ArgumentParser::getArgumentForValue(const string_type &v) const
+        ArgumentParser::argument_type ArgumentParser::getArgumentForValue(const string_type & v) const
         {
-            for(auto &arg : m_arguments)
+            for (auto & arg : m_arguments)
             {
-                if(arg.valueMatchesName(v))
+                if (arg.valueMatchesName(v))
                     return arg;
             }
 
             return argument_type();
         }
 
-
-        void ArgumentParser::notEnoughValuesForArgumentMessage(const argument_type &arg) const
+        void ArgumentParser::notEnoughValuesForArgumentMessage(const argument_type & arg) const
         {
             m_outStream << "Not enough values for " << arg.getShortName() << "/";
             m_outStream << arg.getLongName() << " argument" << std::endl;
         }
 
-        bool ArgumentParser::valueLooksLikeOptionalArgument(const string_type &v) const
+        bool ArgumentParser::valueLooksLikeOptionalArgument(const string_type & v) const
         {
             auto res = v.rangeOfString(m_prefixCharacter);
             return res.position == 0 && res.length > 0;
         }
 
-        void ArgumentParser::noConstantValueProvidedMessage(const argument_type &arg) const
+        void ArgumentParser::noConstantValueProvidedMessage(const argument_type & arg) const
         {
             m_outStream << "Argument " << arg.getShortName() << "/";
             m_outStream << arg.getLongName() << " configured to store a constant value,";
             m_outStream << " but no constant provided" << std::endl;
         }
 
-        void ArgumentParser::errorConvertingStringToIntMessage(const string_type &v) const
+        void ArgumentParser::errorConvertingStringToIntMessage(const string_type & v) const
         {
             m_outStream << "Cannot convert '" << v << "' to an integer" << std::endl;
         }
 
-        void ArgumentParser::errorConvertingStringToDoubleMessage(const string_type &v) const
+        void ArgumentParser::errorConvertingStringToDoubleMessage(const string_type & v) const
         {
             m_outStream << "Cannot convert '" << v << "' to a double" << std::endl;
         }
 
-        void ArgumentParser::errorConvertingStringToBoolMessage(const string_type &v) const
+        void ArgumentParser::errorConvertingStringToBoolMessage(const string_type & v) const
         {
             m_outStream << "Cannot convert '" << v << "' to a bool" << std::endl;
         }
 
-        void ArgumentParser::addListValueForType(const string_type &destinationName, ArgumentType type)
+        void ArgumentParser::addListValueForType(const string_type & destinationName, ArgumentType type)
         {
-            if(!m_symbolTable.hasValueForKey(destinationName))
+            if (! m_symbolTable.hasValueForKey(destinationName))
             {
-                if(type == ArgumentType::Int)
+                if (type == ArgumentType::Int)
                 {
                     int_list_type intList;
                     m_symbolTable.setValueForKey<int_list_type>(destinationName, intList);
                 }
-                else if(type == ArgumentType::Real)
+                else if (type == ArgumentType::Real)
                 {
                     real_list_type realList;
                     m_symbolTable.setValueForKey<real_list_type>(destinationName, realList);
                 }
-                else if(type == ArgumentType::String)
+                else if (type == ArgumentType::String)
                 {
                     string_list_type stringList;
                     m_symbolTable.setValueForKey<string_list_type>(destinationName, stringList);
                 }
-                else if(type == ArgumentType::Bool)
+                else if (type == ArgumentType::Bool)
                 {
                     bool_list_type boolList;
                     m_symbolTable.setValueForKey<bool_list_type>(destinationName, boolList);
@@ -1050,14 +1044,14 @@ namespace TF
             }
         }
 
-        bool ArgumentParser::addValueToListForType(const string_type &destinationName, ArgumentType type,
-                                                   const string_type &value)
+        bool ArgumentParser::addValueToListForType(const string_type & destinationName, ArgumentType type,
+                                                   const string_type & value)
         {
-            if(type == ArgumentType::Int)
+            if (type == ArgumentType::Int)
             {
                 int_list_type intList;
                 auto res = Conversion::convertStringToInt(value);
-                if(!res)
+                if (! res)
                 {
                     errorConvertingStringToIntMessage(value);
                     return false;
@@ -1067,11 +1061,11 @@ namespace TF
                 m_symbolTable.removeValueForKey(destinationName);
                 m_symbolTable.setValueForKey<int_list_type>(destinationName, intList);
             }
-            else if(type == ArgumentType::Real)
+            else if (type == ArgumentType::Real)
             {
                 real_list_type realList;
                 auto res = Conversion::convertStringToDouble(value);
-                if(!res)
+                if (! res)
                 {
                     errorConvertingStringToDoubleMessage(value);
                     return false;
@@ -1081,7 +1075,7 @@ namespace TF
                 m_symbolTable.removeValueForKey(destinationName);
                 m_symbolTable.setValueForKey<real_list_type>(destinationName, realList);
             }
-            else if(type == ArgumentType::String)
+            else if (type == ArgumentType::String)
             {
                 string_list_type stringList;
                 m_symbolTable.getValueForKey<string_list_type>(destinationName, stringList);
@@ -1089,11 +1083,11 @@ namespace TF
                 m_symbolTable.removeValueForKey(destinationName);
                 m_symbolTable.setValueForKey<string_list_type>(destinationName, stringList);
             }
-            else if(type == ArgumentType::Bool)
+            else if (type == ArgumentType::Bool)
             {
                 bool_list_type boolList;
                 auto res = Conversion::convertStringToBool(value);
-                if(!res)
+                if (! res)
                 {
                     errorConvertingStringToBoolMessage(value);
                     return false;
@@ -1111,7 +1105,7 @@ namespace TF
         {
             parser_key_list_type keyList;
 
-            for(auto &entry : m_subParserMap)
+            for (auto & entry : m_subParserMap)
             {
                 keyList.emplace_back(entry.first);
             }
@@ -1119,20 +1113,18 @@ namespace TF
             return keyList;
         }
 
-
-        bool ArgumentParser::valueMatchesSubCommand(const string_type &value) const
+        bool ArgumentParser::valueMatchesSubCommand(const string_type & value) const
         {
             parser_key_list_type keyList = getKeysForSubParserMap();
 
-            for(auto &key : keyList)
+            for (auto & key : keyList)
             {
-                if(value == key)
+                if (value == key)
                     return true;
             }
 
             return false;
         }
-
 
         void ArgumentParser::addHelpArgument()
         {
@@ -1142,7 +1134,7 @@ namespace TF
             string_type longName;
 
             shortName = m_prefixCharacter + "h";
-            if(m_prefixCharacter == "/")
+            if (m_prefixCharacter == "/")
             {
                 longName = m_prefixCharacter + "help";
             }
@@ -1154,17 +1146,16 @@ namespace TF
             help.setNames({shortName, longName});
             help.setHelp("Show this help message and exit");
 
-            if(!m_arguments.empty())
+            if (! m_arguments.empty())
                 m_arguments[0] = help;
             else
                 m_arguments.emplace_back(help);
         }
 
-
-        std::ostream &ArgumentParser::description(std::ostream &o) const
+        std::ostream & ArgumentParser::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("ArgumentParser");
                 formatter->addClassMember<symbol_table_type>("m_symbolTable", m_symbolTable);
@@ -1179,11 +1170,11 @@ namespace TF
             return o;
         }
 
-        std::ostream &operator<<(std::ostream &o, const ArgumentParser &p)
+        std::ostream & operator<<(std::ostream & o, const ArgumentParser & p)
         {
             return p.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

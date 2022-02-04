@@ -56,7 +56,6 @@ namespace TF
             SetGroupID = 0x800
         };
 
-
         class FilePermissions : public AllocatorInterface
         {
         public:
@@ -66,25 +65,23 @@ namespace TF
 
             FilePermissions();
 
-            FilePermissions(const int &p);
+            FilePermissions(const int & p);
 
-            FilePermissions(const FilePermissions &p);
+            FilePermissions(const FilePermissions & p);
 
-            ~FilePermissions()
-            {
-            }
+            ~FilePermissions() {}
 
-            FilePermissions &operator=(const FilePermissions &p);
+            FilePermissions & operator=(const FilePermissions & p);
 
-            FilePermissions &operator=(const int &p);
+            FilePermissions & operator=(const int & p);
 
-            bool operator==(const FilePermissions &p) const;
+            bool operator==(const FilePermissions & p) const;
 
-            bool operator==(const int &p) const;
+            bool operator==(const int & p) const;
 
-            bool operator!=(const FilePermissions &p) const;
+            bool operator!=(const FilePermissions & p) const;
 
-            bool operator!=(const int &p) const;
+            bool operator!=(const int & p) const;
 
             bool hasUserReadPermission() const;
 
@@ -136,18 +133,16 @@ namespace TF
 
             string_type unixForm() const;
 
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             int permissions;
         };
 
+        std::ostream & operator<<(std::ostream & o, const FilePermissions & p);
 
-        std::ostream &operator<<(std::ostream &o, const FilePermissions &p);
+    } // namespace Foundation
 
-    }    // namespace Foundation
+} // namespace TF
 
-}    // namespace TF
-
-
-#endif    // TFFILEPERMISSIONS_HPP
+#endif // TFFILEPERMISSIONS_HPP

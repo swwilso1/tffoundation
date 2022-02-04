@@ -83,10 +83,10 @@ namespace TF
          * @param action the action
          * @return the ostream object @e o.
          */
-        std::ostream &operator<<(std::ostream &o, const ArgumentAction &action);
+        std::ostream & operator<<(std::ostream & o, const ArgumentAction & action);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFARGUMENTACTION_HPP
+#endif // TFARGUMENTACTION_HPP

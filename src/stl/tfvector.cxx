@@ -33,14 +33,14 @@ namespace TF
     {
 
         template<typename K>
-        std::ostream &operator<<(std::ostream &o, const std::vector<K> &v)
+        std::ostream & operator<<(std::ostream & o, const std::vector<K> & v)
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("std::vector");
                 typename std::vector<K>::size_type i = 0;
-                for(auto &elem : v)
+                for (auto & elem : v)
                 {
                     formatter->addClassMember<K>(i++, elem);
                 }
@@ -50,6 +50,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

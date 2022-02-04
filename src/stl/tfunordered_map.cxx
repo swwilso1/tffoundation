@@ -34,14 +34,14 @@ namespace TF
     {
 
         template<class Key, class T, class Hash, class KeyEqual, class Allocator>
-        std::ostream &operator<<(std::ostream &o, const std::unordered_map<Key, T, Hash, KeyEqual, Allocator> &m)
+        std::ostream & operator<<(std::ostream & o, const std::unordered_map<Key, T, Hash, KeyEqual, Allocator> & m)
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("std::unordered_map");
                 Size_t i = 0;
-                for(auto &entry : m)
+                for (auto & entry : m)
                 {
                     formatter->addClassMember<std::pair<Key, T>>(i++, entry);
                 }
@@ -51,6 +51,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

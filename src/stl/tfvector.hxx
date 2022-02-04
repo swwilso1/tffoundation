@@ -38,12 +38,12 @@ namespace TF
     {
 
         template<typename K>
-        std::ostream &operator<<(std::ostream &o, const std::vector<K> &v);
+        std::ostream & operator<<(std::ostream & o, const std::vector<K> & v);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfvector.cxx"
 
-#endif    // TFVECTOR_HXX
+#endif // TFVECTOR_HXX

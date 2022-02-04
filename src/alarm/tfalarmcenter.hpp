@@ -67,7 +67,7 @@ namespace TF
             /**
              * @brief basic function callback type.   The callback can be a function pointer or a lambda.
              */
-            using receiver_type = std::function<void(const string_type &label)>;
+            using receiver_type = std::function<void(const string_type & label)>;
 
             /**
              * @brief pointer type used to refer to an AlarmCenter instance.
@@ -93,20 +93,20 @@ namespace TF
              * @param r the callback function
              * @param d the time in the future that the alarm should expire.
              */
-            void setAlarm(const string_type &l, receiver_type r, date_type d);
+            void setAlarm(const string_type & l, receiver_type r, date_type d);
 
             /**
              * @brief method to cancel an existing alarm that has not expired.
              * @param l the alarm label to cancel.
              */
-            void cancelAlarm(const string_type &l);
+            void cancelAlarm(const string_type & l);
 
             /**
              * @brief method for writing an AlarmCenter object to a stream
              * @param o the stream object
              * @return the stream object @e o.
              */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             /**
@@ -133,29 +133,28 @@ namespace TF
                  * @brief copy constructor
                  * @param e the other AlarmEntry.
                  */
-                AlarmEntry(const AlarmEntry &e);
+                AlarmEntry(const AlarmEntry & e);
 
                 /**
                  * @brief copy assignment operator
                  * @param e the other AlarmEntry
                  * @return this AlarmEntry updated with the contents of @e e.
                  */
-                AlarmEntry &operator=(const AlarmEntry &e);
+                AlarmEntry & operator=(const AlarmEntry & e);
 
                 /**
                  * @brief method to write an AlarmEntry object to a stream.
                  * @param o the stream object.
                  * @return the stream object @e o.
                  */
-                std::ostream &description(std::ostream &o) const;
+                std::ostream & description(std::ostream & o) const;
             };
-
 
             /**
              * declaration of friendship with operator<< for AlarmEntry class.  Needed
              * because AlarmEntry is a private internal class.
              */
-            friend std::ostream &operator<<(std::ostream &o, const AlarmEntry &e);
+            friend std::ostream & operator<<(std::ostream & o, const AlarmEntry & e);
 
             /** @brief entry type for the alarm map */
             using entry_type = AlarmEntry;
@@ -185,10 +184,8 @@ namespace TF
              */
             map_type alarmMap;
 
-
             /** @brief use a mutex to protect access to @e alarmMap from multiple threads */
             mutex_type mapMutex;
-
 
             /**
              * @brief the pointer to the shared AlarmCenter.
@@ -201,7 +198,6 @@ namespace TF
             static bool initializedCenter;
         };
 
-
         /**
          * Overloaded operator<< for AlarmEntry objects.
          * @param o the stream object.
@@ -210,8 +206,7 @@ namespace TF
          *
          * Writes the AlarmEntry contents to the stream and returns the stream object.
          */
-        std::ostream &operator<<(std::ostream &o, const AlarmCenter::AlarmEntry &e);
-
+        std::ostream & operator<<(std::ostream & o, const AlarmCenter::AlarmEntry & e);
 
         /**
          * Overloaded operator<< for AlarmCenter objects.
@@ -219,11 +214,10 @@ namespace TF
          * @param c the AlarmCenter object.
          * @return the stream object.
          */
-        std::ostream &operator<<(std::ostream &o, const AlarmCenter &c);
+        std::ostream & operator<<(std::ostream & o, const AlarmCenter & c);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-
-#endif    // TFALARMCENTER_HPP
+#endif // TFALARMCENTER_HPP

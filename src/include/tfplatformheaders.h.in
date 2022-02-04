@@ -150,8 +150,8 @@ namespace TF
 #cmakedefine HAS_POLL_H
 #cmakedefine HAS_SYS_SELECT_H
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFPLATFORMHEADERS_H
+#endif // TFPLATFORMHEADERS_H

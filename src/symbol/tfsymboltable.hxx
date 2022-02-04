@@ -48,9 +48,7 @@ namespace TF
         class Symbol
         {
         public:
-            virtual ~Symbol()
-            {
-            }
+            virtual ~Symbol() {}
         };
 
         /**
@@ -62,12 +60,9 @@ namespace TF
         {
         public:
             using symbol_type = T;
-            SpecializedSymbol()
-            {
-            }
+            SpecializedSymbol() {}
             symbol_type m_value;
         };
-
 
         /**
          * @brief Templated symbol table class.
@@ -88,25 +83,23 @@ namespace TF
             using key_list_type = std::list<key_type>;
 
             /** @brief simple default constructor */
-            SymbolTable()
-            {
-            }
+            SymbolTable() {}
 
             /** @brief copy constructor */
-            SymbolTable(const SymbolTable &t);
+            SymbolTable(const SymbolTable & t);
 
             /** @brief destructor */
             ~SymbolTable();
 
             /** @brief Assignment operator */
-            SymbolTable &operator=(const SymbolTable &t);
+            SymbolTable & operator=(const SymbolTable & t);
 
             /**
              * @brief method to see if the symbol table has a value for the given key
              * @param k the key
              * @return true if the symbol table has a value for @e k and false otherwise
              */
-            bool hasValueForKey(const key_type &k) const;
+            bool hasValueForKey(const key_type & k) const;
 
             /**
              * @brief method to set a value for a key
@@ -115,7 +108,7 @@ namespace TF
              * @param value the value to set.
              */
             template<typename T>
-            void setValueForKey(const key_type &k, const T &value);
+            void setValueForKey(const key_type & k, const T & value);
 
             /**
              * @brief method to get a value for a key
@@ -127,7 +120,7 @@ namespace TF
              * false otherwise.
              */
             template<typename T>
-            bool getValueForKey(const key_type &k, T &value);
+            bool getValueForKey(const key_type & k, T & value);
 
             /**
              * @brief method to directly get a value for a key.
@@ -139,13 +132,13 @@ namespace TF
              * this method will throw a std::runtime.
              */
             template<typename T>
-            T getValueForKey(const key_type &k);
+            T getValueForKey(const key_type & k);
 
             /**
              * @brief method to remove a key/value pair from the table
              * @param k the key to remove from the table.
              */
-            void removeValueForKey(const key_type &k);
+            void removeValueForKey(const key_type & k);
 
             /**
              * @brief method to remove all key/value pairs from the table.
@@ -174,14 +167,14 @@ namespace TF
              * If @e t contains a symbol name shared with the current table the
              * table will now contain the value from @e t
              */
-            void update(const SymbolTable &t);
+            void update(const SymbolTable & t);
 
             /**
              * @brief method to write the contents of the table to a stream object
              * @param o the stream object
              * @return @e o the stream object
              */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             /** @brief the type stored in the symbol table */
@@ -204,12 +197,12 @@ namespace TF
          * @return @e o the stream object.
          */
         template<typename K>
-        std::ostream &operator<<(std::ostream &o, const SymbolTable<K> t);
+        std::ostream & operator<<(std::ostream & o, const SymbolTable<K> t);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfsymboltable.cxx"
 
-#endif    // TFSYMBOLTABLE_HXX
+#endif // TFSYMBOLTABLE_HXX

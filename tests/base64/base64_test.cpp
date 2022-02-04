@@ -25,12 +25,10 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
 
 using namespace TF::Foundation;
-
 
 TEST(Base64Test, SimpleEncodeTest)
 {
@@ -79,7 +77,6 @@ TEST(Base64Test, PaddingEncodeTests)
     EXPECT_EQ(out, "SGVsbG8gV29ybGQsIGhvdyBhcmUgeW91Pw==");
 }
 
-
 TEST(Base64Test, SimpleDecodeTest)
 {
     String a("TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlz"
@@ -94,7 +91,6 @@ TEST(Base64Test, SimpleDecodeTest)
     Data out = Base64::decode(a);
     EXPECT_EQ(bAsData, out);
 }
-
 
 TEST(Base64Test, PaddingDecodeTest)
 {

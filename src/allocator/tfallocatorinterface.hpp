@@ -34,7 +34,6 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 
-
 namespace TF
 {
 
@@ -44,12 +43,11 @@ namespace TF
         extern "C"
         {
             /** @brief C-style allocator function type */
-            typedef void *(*AllocatorType)(Size_t n);
+            typedef void * (*AllocatorType)(Size_t n);
 
             /** @brief C-style deallocator function type */
-            typedef void (*DeallocatorType)(void *p);
+            typedef void (*DeallocatorType)(void * p);
         }
-
 
         /**
          * @brief Memory allocator interface class
@@ -61,7 +59,7 @@ namespace TF
             // Allow the new/delete operators to have access to this interface.
             friend void * ::operator new(TF::Foundation::Size_t s) noexcept(false);
             friend void * ::operator new[](TF::Foundation::Size_t s) noexcept(false);
-            friend void ::operator delete(void *)noexcept;
+            friend void ::operator delete(void *) noexcept;
             friend void ::operator delete[](void *) noexcept;
 
         public:
@@ -79,9 +77,7 @@ namespace TF
 
             /** @brief virtual destructor. This class anchors a whole chain of classes
              * that need access to the allocators */
-            virtual ~AllocatorInterface()
-            {
-            }
+            virtual ~AllocatorInterface() {}
 
             /**
              *  @brief static method for setting the root allocator function
@@ -95,7 +91,6 @@ namespace TF
              */
             static void setDeallocator(deallocator_type d);
 
-
             /**
              *  @brief static convenience function for setting the allocator and deallocator
              *  simultaneously.
@@ -104,13 +99,11 @@ namespace TF
              */
             static void setAllocatorAndDeallocator(allocator_type a, deallocator_type d);
 
-
             /**
              *  @brief static method for retrieving the currently used allocator function
              *  @return a pointer to the current allocator function.
              */
             static allocator_type getAllocator(void);
-
 
             /**
              *  @brief static method for retrieving the currently used deallocator function
@@ -126,22 +119,19 @@ namespace TF
              */
             static pair_type getAllocatorAndDeallocator(void);
 
-
             /**
              *  @brief class definition for single object new operator
              *  @param s the number of bytes to allocate for the new object.
              *  @return a pointer to an object of the new type.
              */
-            void *operator new(size_type s);
-
+            void * operator new(size_type s);
 
             /**
              *  @brief class definition for array new allocator.
              *  @param s the number of bytes to allocate for the new array.
              *  @return a pointer to an array of new objects
              */
-            void *operator new[](size_type s);
-
+            void * operator new[](size_type s);
 
             /**
              *  @brief class definition for the single object placement new operator.
@@ -149,8 +139,7 @@ namespace TF
              *  @param p the byte array to use as the basis for the new object.
              *  @return the pointer to p.
              */
-            void *operator new(size_type s, void *p);
-
+            void * operator new(size_type s, void * p);
 
             /**
              *  @brief class definition for the array placement new operator.
@@ -158,33 +147,29 @@ namespace TF
              *  @param p the byte byte array to use as the memory for the new array.
              *  @return the pointer to p.
              */
-            void *operator new[](size_type s, void *p);
-
+            void * operator new[](size_type s, void * p);
 
             /**
              *  @brief class definition for the single object delete operator
              *  @param p the pointer to the allocated object.
              */
-            void operator delete(void *p);
-
+            void operator delete(void * p);
 
             /**
              *  @brief class definition for the array object delete operator
              *  @param p the pointer to the allocated array of objects.
              */
-            void operator delete[](void *p);
-
+            void operator delete[](void * p);
 
             /**
              *  @brief class definition for the single object placement delete operator.
              */
-            void operator delete(void *p, void *q);
-
+            void operator delete(void * p, void * q);
 
             /**
              *  @brief class definition for the array object placement delete operator.
              */
-            void operator delete[](void *p, void *q);
+            void operator delete[](void * p, void * q);
 
         private:
             /** @brief mutex type */
@@ -201,8 +186,8 @@ namespace TF
             static deallocator_type getBlockDeallocator(void);
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFALLOCATORINTERFACE_HPP
+#endif // TFALLOCATORINTERFACE_HPP

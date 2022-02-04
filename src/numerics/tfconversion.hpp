@@ -54,7 +54,7 @@ namespace TF
              * @return a Result object with the int template parameter.
              * If successful the Result value property holds the integer.
              */
-            static std::optional<int> convertStringToInt(const string_type &s);
+            static std::optional<int> convertStringToInt(const string_type & s);
 
             /**
              * @brief method to convert a string to a double.
@@ -62,7 +62,7 @@ namespace TF
              * @return a Result object with the double template parameter.
              * If successful the Result value property holds the double.
              */
-            static std::optional<double> convertStringToDouble(const string_type &s);
+            static std::optional<double> convertStringToDouble(const string_type & s);
 
             /**
              * @brief method to convert a string to a bool
@@ -74,10 +74,10 @@ namespace TF
              * @return a Result object with the bool template parameter.
              * If successful the Result value property holds the bool.
              */
-            static std::optional<bool> convertStringToBool(const string_type &s);
+            static std::optional<bool> convertStringToBool(const string_type & s);
         };
 
-    }    // namespace Foundation
-}    // namespace TF
+    } // namespace Foundation
+} // namespace TF
 
-#endif    // TFCONVERSION_HPP
+#endif // TFCONVERSION_HPP

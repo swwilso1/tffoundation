@@ -25,10 +25,8 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
-
 
 using namespace TF::Foundation;
 
@@ -40,14 +38,12 @@ TEST(DateTest, NotEqualTest)
     EXPECT_NE(d, e);
 }
 
-
 TEST(DateTest, CopyConstructorTest)
 {
     SystemDate d;
     SystemDate e(d);
     EXPECT_EQ(d, e);
 }
-
 
 TEST(DateTest, DurationConstructorTest)
 {
@@ -57,7 +53,6 @@ TEST(DateTest, DurationConstructorTest)
     EXPECT_LT(d, e);
 }
 
-
 TEST(DateTest, AssignmentOperatorTest)
 {
     SystemDate d;
@@ -65,7 +60,6 @@ TEST(DateTest, AssignmentOperatorTest)
     e = d;
     EXPECT_EQ(d, e);
 }
-
 
 TEST(DateTest, OperatorEqualTest)
 {
@@ -75,7 +69,6 @@ TEST(DateTest, OperatorEqualTest)
     EXPECT_TRUE(d == e);
 }
 
-
 TEST(DateTest, OperatorNotEqualTest)
 {
     SystemDate::duration dur(129293334);
@@ -84,7 +77,6 @@ TEST(DateTest, OperatorNotEqualTest)
     EXPECT_TRUE(d != e);
 }
 
-
 TEST(DateTest, OperatorLessThanTest)
 {
     SystemDate::duration dur(239239);
@@ -92,7 +84,6 @@ TEST(DateTest, OperatorLessThanTest)
     SystemDate e(dur + SystemDate::duration(3489239));
     EXPECT_TRUE(d < e);
 }
-
 
 TEST(DateTest, OperatorLessThanEqualToTest)
 {
@@ -103,7 +94,6 @@ TEST(DateTest, OperatorLessThanEqualToTest)
     EXPECT_TRUE((d + SystemDate::duration(10)) <= e);
 }
 
-
 TEST(DateTest, OperatorGreaterThanEqualToTest)
 {
     SystemDate::duration dur(2349239239);
@@ -113,7 +103,6 @@ TEST(DateTest, OperatorGreaterThanEqualToTest)
     EXPECT_TRUE(e >= (d + SystemDate::duration(10)));
 }
 
-
 TEST(DateTest, OperatorGreaterThanTest)
 {
     SystemDate::duration dur(2939239);
@@ -122,7 +111,6 @@ TEST(DateTest, OperatorGreaterThanTest)
     EXPECT_TRUE(e > d);
 }
 
-
 TEST(DateTest, OperatorPlusTest)
 {
     SystemDate d;
@@ -130,14 +118,12 @@ TEST(DateTest, OperatorPlusTest)
     EXPECT_EQ(e, d + SystemDate::duration(10));
 }
 
-
 TEST(DateTest, OperatorMinusTest)
 {
     SystemDate d;
     SystemDate e(d - SystemDate::duration(100));
     EXPECT_EQ(e, d - SystemDate::duration(100));
 }
-
 
 TEST(DateTest, OperatorPlusEqualTest)
 {
@@ -147,7 +133,6 @@ TEST(DateTest, OperatorPlusEqualTest)
     EXPECT_EQ(d, e);
 }
 
-
 TEST(DateTest, OperatorMinusEqualTest)
 {
     SystemDate d;
@@ -156,7 +141,6 @@ TEST(DateTest, OperatorMinusEqualTest)
     EXPECT_EQ(d, e);
 }
 
-
 TEST(DateTest, DateMinusTest)
 {
     SystemDate d;
@@ -164,7 +148,6 @@ TEST(DateTest, DateMinusTest)
     auto diff = d - e;
     EXPECT_EQ(diff.count(), 100);
 }
-
 
 // TEST(DateTest, OstreamTest)
 //{

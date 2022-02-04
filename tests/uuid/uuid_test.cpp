@@ -71,8 +71,8 @@ TEST(UUIDTest, RValueAssignementOperatorTest)
 
 TEST(UUIDTest, StringAssigmentOperatorTest)
 {
-    UUID theUUID {};
-    theUUID = UUID::string_type {"9c017f6f-6dae-4bad-a18f-51a512bb83ef"};
+    UUID theUUID{};
+    theUUID = UUID::string_type{"9c017f6f-6dae-4bad-a18f-51a512bb83ef"};
     EXPECT_EQ(theUUID.toString(), "9C017F6F-6DAE-4BAD-A18F-51A512BB83EF");
 }
 

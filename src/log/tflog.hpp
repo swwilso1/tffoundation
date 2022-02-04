@@ -53,8 +53,7 @@ namespace TF
             Critical
         };
 
-        std::ostream &operator<<(std::ostream &o, const LogPriority &p);
-
+        std::ostream & operator<<(std::ostream & o, const LogPriority & p);
 
         class Logger : public AllocatorInterface
         {
@@ -63,28 +62,28 @@ namespace TF
 
             using string_type = String;
 
-            explicit Logger(const priority_type &p) : thePriority(p) {};
+            explicit Logger(const priority_type & p) : thePriority(p){};
 
             ~Logger() override;
 
-            void log(const string_type &format)
+            void log(const string_type & format)
             {
                 logMessage << format;
             }
 
             template<class Arg, class... Args>
-            void log(const string_type &format, Arg value, Args... args)
+            void log(const string_type & format, Arg value, Args... args)
             {
                 auto format_data = format.getAsDataInUTF8Encoding();
                 auto format_bytes = format_data.bytes();
-                for(decltype(format_data)::size_type i = 0; i < format_data.length(); i++)
+                for (decltype(format_data)::size_type i = 0; i < format_data.length(); i++)
                 {
-                    if(format_bytes[i] == '%')
+                    if (format_bytes[i] == '%')
                     {
                         std::stringstream formatter;
                         formatter << value;
                         logMessage << formatter.str();
-                        if((i + 2) < format.length())
+                        if ((i + 2) < format.length())
                         {
                             log(format.substringFromIndex(i + 2), args...);
                         }
@@ -99,14 +98,14 @@ namespace TF
                 return defaultPriority;
             }
 
-            static void setPriority(const priority_type &p)
+            static void setPriority(const priority_type & p)
             {
                 defaultPriority = p;
             }
 
-            static void logToFileAtPath(const string_type &path);
+            static void logToFileAtPath(const string_type & path);
 
-            static void logToFileAtPath(const char *path);
+            static void logToFileAtPath(const char * path);
 
             static void closeFiles();
 
@@ -131,22 +130,22 @@ namespace TF
             std::ostringstream logMessage;
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #define LOG_TO_FILE_AT_PATH(path) TF::Foundation::Logger::logToFileAtPath(path)
 
-#define LOG_TO_STDOUT() TF::Foundation::Logger::logToStdOutput()
+#define LOG_TO_STDOUT()           TF::Foundation::Logger::logToStdOutput()
 
-#define LOG_TO_STDERR() TF::Foundation::Logger::logToStdError()
+#define LOG_TO_STDERR()           TF::Foundation::Logger::logToStdError()
 
-#define LOG_SET_PRIORITY(p) TF::Foundation::Logger::setPriority(p)
+#define LOG_SET_PRIORITY(p)       TF::Foundation::Logger::setPriority(p)
 
-#define LOG(priority, format, args...)                                                                                 \
-    {                                                                                                                  \
-        TF::Foundation::Logger theLog(priority);                                                                       \
-        theLog.log(format, ##args);                                                                                    \
+#define LOG(priority, format, args...)           \
+    {                                            \
+        TF::Foundation::Logger theLog(priority); \
+        theLog.log(format, ##args);              \
     }
 
-#endif    // TFLOG_HPP
+#endif // TFLOG_HPP

@@ -37,7 +37,6 @@ SOFTWARE.
 #include "tfmap.hxx"
 #include "tfstring.hpp"
 
-
 namespace TF
 {
 
@@ -53,36 +52,25 @@ namespace TF
 
             using string_array_type = std::vector<string_type>;
 
-
             EnvironmentSettings();
-
 
             ~EnvironmentSettings();
 
-
             string_array_type environmentVariables() const;
 
+            string_type getValueForVariable(const string_type & variable) const;
 
-            string_type getValueForVariable(const string_type &variable) const;
+            bool hasVariable(const string_type & variable) const;
 
+            void setValueForVariable(const string_type & variable, const string_type & value);
 
-            bool hasVariable(const string_type &variable) const;
+            void addToValueForVariable(const string_type & variable, const string_type & value);
 
-
-            void setValueForVariable(const string_type &variable, const string_type &value);
-
-
-            void addToValueForVariable(const string_type &variable, const string_type &value);
-
-
-            void removeVariable(const string_type &variable);
-
+            void removeVariable(const string_type & variable);
 
             size_type numberOfVariables() const;
 
-
-            std::ostream &description(std::ostream &o) const;
-
+            std::ostream & description(std::ostream & o) const;
 
         private:
             using map_type = std::map<string_type, string_type>;
@@ -90,12 +78,10 @@ namespace TF
             map_type variableMap;
         };
 
+        std::ostream & operator<<(std::ostream & o, const EnvironmentSettings & s);
 
-        std::ostream &operator<<(std::ostream &o, const EnvironmentSettings &s);
+    } // namespace Foundation
 
-    }    // namespace Foundation
+} // namespace TF
 
-}    // namespace TF
-
-
-#endif    // TFENVIRONMENTSETTINGS_HPP
+#endif // TFENVIRONMENTSETTINGS_HPP

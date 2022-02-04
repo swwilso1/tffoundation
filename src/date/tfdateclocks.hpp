@@ -46,13 +46,11 @@ namespace TF
 
         using SteadyDate = Date<std::chrono::steady_clock>;
 
-
         using SystemDateComponents = DateComponents<std::chrono::system_clock>;
 
         using HighResolutionDateComponents = DateComponents<std::chrono::high_resolution_clock>;
 
         using SteadyDateComponents = DateComponents<std::chrono::steady_clock>;
-
 
         using SystemDateFormatter = DateFormatter<std::chrono::system_clock>;
 
@@ -60,8 +58,8 @@ namespace TF
 
         using SteadyDateFormatter = DateFormatter<std::chrono::steady_clock>;
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFDATECLOCKS_HPP
+#endif // TFDATECLOCKS_HPP

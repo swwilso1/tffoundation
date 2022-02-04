@@ -64,33 +64,31 @@ namespace TF
 
             using const_reference = typename Container::const_reference;
 
-            ThreadSafeQueue() : theQueue {}, theMutex {}
-            {
-            }
+            ThreadSafeQueue() : theQueue{}, theMutex{} {}
 
-            explicit ThreadSafeQueue(const container_type &container);
+            explicit ThreadSafeQueue(const container_type & container);
 
-            ThreadSafeQueue(const ThreadSafeQueue &other);
+            ThreadSafeQueue(const ThreadSafeQueue & other);
 
-            ThreadSafeQueue(ThreadSafeQueue &&other);
+            ThreadSafeQueue(ThreadSafeQueue && other);
 
             ~ThreadSafeQueue();
 
-            ThreadSafeQueue &operator=(const ThreadSafeQueue &other);
+            ThreadSafeQueue & operator=(const ThreadSafeQueue & other);
 
-            ThreadSafeQueue &operator=(ThreadSafeQueue &&other);
+            ThreadSafeQueue & operator=(ThreadSafeQueue && other);
 
-            bool operator==(const ThreadSafeQueue &other) const;
+            bool operator==(const ThreadSafeQueue & other) const;
 
-            bool operator!=(const ThreadSafeQueue &other) const;
+            bool operator!=(const ThreadSafeQueue & other) const;
 
-            bool operator<(const ThreadSafeQueue &other) const;
+            bool operator<(const ThreadSafeQueue & other) const;
 
-            bool operator<=(const ThreadSafeQueue &other) const;
+            bool operator<=(const ThreadSafeQueue & other) const;
 
-            bool operator>=(const ThreadSafeQueue &other) const;
+            bool operator>=(const ThreadSafeQueue & other) const;
 
-            bool operator>(const ThreadSafeQueue &other) const;
+            bool operator>(const ThreadSafeQueue & other) const;
 
             reference front();
 
@@ -104,9 +102,9 @@ namespace TF
 
             size_type size() const;
 
-            void push(const value_type &v);
+            void push(const value_type & v);
 
-            void push(value_type &&v);
+            void push(value_type && v);
 
             template<typename... Args>
             void emplace(Args &&... args)
@@ -117,9 +115,9 @@ namespace TF
 
             void pop();
 
-            void swap(ThreadSafeQueue &other);
+            void swap(ThreadSafeQueue & other);
 
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             using queue_type = std::queue<T, Container>;
@@ -133,15 +131,13 @@ namespace TF
             mutex_type theMutex;
         };
 
-
         template<class T, class Container = std::deque<T>>
-        std::ostream &operator<<(std::ostream &o, const ThreadSafeQueue<T, Container> &q);
+        std::ostream & operator<<(std::ostream & o, const ThreadSafeQueue<T, Container> & q);
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF
 
 #include "tfthreadsafequeue.cxx"
 
-#endif    // TFTHREADSAFEQUEUE_HXX
+#endif // TFTHREADSAFEQUEUE_HXX

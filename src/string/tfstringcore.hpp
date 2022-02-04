@@ -56,38 +56,37 @@ namespace TF
             StringCore();
 
             /** @brief copy constructor */
-            StringCore(const StringCore &c);
+            StringCore(const StringCore & c);
 
             /** @brief rvalue constructor */
-            StringCore(StringCore &&c) noexcept;
+            StringCore(StringCore && c) noexcept;
 
             /** @brief size constructor */
             explicit StringCore(size_type i);
 
             /** @brief array constructor */
-            StringCore(const char_type *t, size_type i);
+            StringCore(const char_type * t, size_type i);
 
             /** @brief destructor */
             ~StringCore() override;
 
-
             /** @brief assignment operator */
-            StringCore &operator=(const StringCore &c);
+            StringCore & operator=(const StringCore & c);
 
             /** @brief rvalue assignment operator */
-            StringCore &operator=(StringCore &&c) noexcept;
+            StringCore & operator=(StringCore && c) noexcept;
 
             /** @brief equality operator */
-            bool operator==(const StringCore &c) const;
+            bool operator==(const StringCore & c) const;
 
             /** @brief inequality operator */
-            bool operator!=(const StringCore &c) const;
+            bool operator!=(const StringCore & c) const;
 
             /** @brief length method */
             size_type length() const;
 
             /** @brief getter for byte array */
-            char_type *data();
+            char_type * data();
 
             /**
              * @brief method to set the number of characters as a cached value.
@@ -102,21 +101,20 @@ namespace TF
             size_type get_number_of_characters() const;
 
             /** @brief ostream method */
-            std::ostream &description(std::ostream &o) const;
-
+            std::ostream & description(std::ostream & o) const;
 
         private:
-            char_type *theBytes;
+            char_type * theBytes;
 
             size_type numberOfBytes;
 
             size_type m_number_of_characters;
         };
 
-        std::ostream &operator<<(std::ostream &o, const StringCore &c);
+        std::ostream & operator<<(std::ostream & o, const StringCore & c);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFSTRINGCORE_HPP
+#endif // TFSTRINGCORE_HPP

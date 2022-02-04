@@ -40,10 +40,10 @@ struct Foo
     unsigned long array[kArrayLength];
 };
 
-std::ostream &operator<<(std::ostream &o, const Foo &f)
+std::ostream & operator<<(std::ostream & o, const Foo & f)
 {
     TF::Foundation::FormatterFactory factory;
-    TF::Foundation::FormatterFactory::default_formatter_type *formatter = factory.getFormatter();
+    TF::Foundation::FormatterFactory::default_formatter_type * formatter = factory.getFormatter();
     std::stringstream converter;
     converter << f.a;
     formatter->setClassName("Foo");
@@ -56,12 +56,11 @@ std::ostream &operator<<(std::ostream &o, const Foo &f)
     return o;
 }
 
-
 int main()
 {
     TF::Foundation::FormatterFactory factory;
     factory.setFormatterType(TF::Foundation::FormatterType::XMLFormatterType);
-    TF::Foundation::FormatterFactory::default_formatter_type *formatter = factory.getFormatter();
+    TF::Foundation::FormatterFactory::default_formatter_type * formatter = factory.getFormatter();
     formatter->setClassName("TestClass");
     formatter->addClassTemplateType("char");
     formatter->addClassTemplateType("unsigned char");

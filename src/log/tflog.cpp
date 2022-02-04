@@ -42,9 +42,9 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &operator<<(std::ostream &o, const LogPriority &p)
+        std::ostream & operator<<(std::ostream & o, const LogPriority & p)
         {
-            switch(p)
+            switch (p)
             {
                 case LogPriority::Critical:
                     o << "CRITICAL";
@@ -76,10 +76,9 @@ namespace TF
 
         Logger::file_map_type Logger::logFiles;
 
-
         Logger::~Logger()
         {
-            if(thePriority >= defaultPriority)
+            if (thePriority >= defaultPriority)
             {
                 std::ostringstream preamble;
                 std::ostringstream priority;
@@ -87,7 +86,7 @@ namespace TF
                 preamble << calculateTimeForPreamble() << " ";
                 preamble << std::setw(10) << std::right << priority.str();
 
-                for(auto &member : logFiles)
+                for (auto & member : logFiles)
                 {
                     try
                     {
@@ -95,7 +94,7 @@ namespace TF
 
                         *member.second << logMessage.str() << std::endl << std::flush;
                     }
-                    catch(...)
+                    catch (...)
                     {
                         ;
                     }
@@ -103,32 +102,29 @@ namespace TF
             }
         }
 
-
-        void Logger::logToFileAtPath(const string_type &path)
+        void Logger::logToFileAtPath(const string_type & path)
         {
             auto pathStr = path.cStr();
-            std::fstream *theStream = new std::fstream(pathStr.get(), std::ios::out | std::ios::app);
-            if(theStream != nullptr && theStream->is_open())
+            std::fstream * theStream = new std::fstream(pathStr.get(), std::ios::out | std::ios::app);
+            if (theStream != nullptr && theStream->is_open())
             {
                 logFiles.insert(std::make_pair(path, static_cast<stream_type *>(theStream)));
             }
         }
 
-
-        void Logger::logToFileAtPath(const char *path)
+        void Logger::logToFileAtPath(const char * path)
         {
             string_type thePath(path);
             logToFileAtPath(thePath);
         }
 
-
         void Logger::closeFiles()
         {
-            for(auto &member : logFiles)
+            for (auto & member : logFiles)
             {
-                if(member.first != "stdout" && member.first != "stderr")
+                if (member.first != "stdout" && member.first != "stderr")
                 {
-                    std::fstream *theStream = static_cast<std::fstream *>(member.second);
+                    std::fstream * theStream = static_cast<std::fstream *>(member.second);
                     theStream->close();
                     delete theStream;
                 }
@@ -137,24 +133,21 @@ namespace TF
             logFiles.clear();
         }
 
-
         void Logger::logToStdOutput()
         {
-            if(logFiles.count("stdout") == 0)
+            if (logFiles.count("stdout") == 0)
             {
                 logFiles.insert(std::make_pair(string_type("stdout"), &std::cout));
             }
         }
 
-
         void Logger::logToStdError()
         {
-            if(logFiles.count("stderr") == 0)
+            if (logFiles.count("stderr") == 0)
             {
                 logFiles.insert(std::make_pair(string_type("stderr"), &std::cerr));
             }
         }
-
 
         Logger::string_type Logger::calculateTimeForPreamble()
         {
@@ -166,6 +159,6 @@ namespace TF
             return theFormattedDate;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

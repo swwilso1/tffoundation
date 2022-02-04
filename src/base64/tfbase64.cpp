@@ -43,17 +43,17 @@ namespace TF
             char theChar = 'A';
 
             // Load the capital letters first.
-            for(int i = 0; i < 26; i++)
+            for (int i = 0; i < 26; i++)
                 theMap.insert(std::make_pair(i, theChar + i));
 
             // Now load the lowercase letters.
             theChar = 'a';
-            for(int i = 26; i < 52; i++)
+            for (int i = 26; i < 52; i++)
                 theMap.insert(std::make_pair(i, theChar + i - 26));
 
             // Now load the digits 0-9
             theChar = '0';
-            for(int i = 52; i < 62; i++)
+            for (int i = 52; i < 62; i++)
                 theMap.insert(std::make_pair(i, theChar + i - 52));
 
             // Insert the last two chars.
@@ -63,24 +63,23 @@ namespace TF
             return theMap;
         }
 
-
         Base64::decoding_map_type Base64::loadDecodingMap()
         {
             decoding_map_type theMap;
             char theChar = 'A';
 
             // Insert the capital letters.
-            for(int i = 0; i < 26; i++)
+            for (int i = 0; i < 26; i++)
                 theMap.insert(std::make_pair(theChar + i, i));
 
             // Insert the lowercase letters.
             theChar = 'a';
-            for(int i = 26; i < 52; i++)
+            for (int i = 26; i < 52; i++)
                 theMap.insert(std::make_pair(theChar + i - 26, i));
 
             // Insert the digits 0-9
             theChar = '0';
-            for(int i = 52; i < 62; i++)
+            for (int i = 52; i < 62; i++)
                 theMap.insert(std::make_pair(theChar + i - 52, i));
 
             // Insert the last two chars.
@@ -90,20 +89,18 @@ namespace TF
             return theMap;
         }
 
-
-        Base64::string_type Base64::encode(const data_type &data)
+        Base64::string_type Base64::encode(const data_type & data)
         {
             string_type s;
-            const char *bytes = nullptr;
+            const char * bytes = nullptr;
             unsigned int holder = 0;
             data_type dataCopy = data;
-
 
             data_type::size_type padBytesToAdd = sBaseNumberOfBytes - (dataCopy.length() % sBaseNumberOfBytes);
 
             padBytesToAdd = padBytesToAdd == sBaseNumberOfBytes ? 0 : padBytesToAdd;
 
-            for(data_type::size_type i = 0; i < padBytesToAdd; i++)
+            for (data_type::size_type i = 0; i < padBytesToAdd; i++)
             {
                 char byte = 0;
                 dataCopy.append(&byte, 1);
@@ -111,7 +108,7 @@ namespace TF
 
             bytes = dataCopy.bytes();
 
-            for(data_type::size_type i = 0; i < dataCopy.length(); i++)
+            for (data_type::size_type i = 0; i < dataCopy.length(); i++)
             {
                 holder = bytes[i++];
                 holder <<= 8;
@@ -142,29 +139,28 @@ namespace TF
                 s += encodedValue;
             }
 
-            if(padBytesToAdd > 0)
+            if (padBytesToAdd > 0)
             {
                 s = s.substringWithRange(Range(0, s.length() - padBytesToAdd));
-                for(data_type::size_type i = 0; i < padBytesToAdd; i++)
+                for (data_type::size_type i = 0; i < padBytesToAdd; i++)
                     s += sPadChar;
             }
 
             return s;
         }
 
-
-        Base64::data_type Base64::decode(const string_type &s)
+        Base64::data_type Base64::decode(const string_type & s)
         {
             data_type d;
             unsigned int decodeHelper = 0;
             size_type padCharsFound = 0;
 
-            if(s.length() == 0)
+            if (s.length() == 0)
                 return d;
 
             // The string only has ASCII codes in it so we can go character by character
             // and convert back to the byte array.
-            for(string_type::size_type i = 0; i < s.length(); i++)
+            for (string_type::size_type i = 0; i < s.length(); i++)
             {
                 auto code = s[i++];
                 padCharsFound += code == sPadChar ? 1 : 0;
@@ -201,6 +197,6 @@ namespace TF
             return d;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

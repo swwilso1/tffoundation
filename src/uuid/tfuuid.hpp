@@ -49,31 +49,31 @@ namespace TF
 
             UUID();
 
-            UUID(const UUID &id);
+            UUID(const UUID & id);
 
-            UUID(UUID &&id);
+            UUID(UUID && id);
 
             ~UUID();
 
-            UUID &operator=(const UUID &id);
+            UUID & operator=(const UUID & id);
 
-            UUID &operator=(UUID &&id);
+            UUID & operator=(UUID && id);
 
-            UUID &operator=(const string_type &s);
+            UUID & operator=(const string_type & s);
 
-            bool operator==(const UUID &id) const;
+            bool operator==(const UUID & id) const;
 
-            bool operator==(const string_type &s) const;
+            bool operator==(const string_type & s) const;
 
-            bool operator!=(const UUID &id) const;
+            bool operator!=(const UUID & id) const;
 
-            bool operator!=(const string_type &s) const;
+            bool operator!=(const string_type & s) const;
 
             string_type toString() const;
 
-            static std::optional<UUID> fromString(const string_type &s);
+            static std::optional<UUID> fromString(const string_type & s);
 
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
             static const int uuidStringLength = 36;
 
@@ -83,10 +83,10 @@ namespace TF
             tfuuid_t m_theUUID;
         };
 
-        std::ostream &operator<<(std::ostream &o, const UUID &id);
+        std::ostream & operator<<(std::ostream & o, const UUID & id);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFUUID_HPP
+#endif // TFUUID_HPP

@@ -37,115 +37,99 @@ namespace TF
             theTime = clock::now();
         }
 
-
         template<class Clock>
-        Date<Clock>::Date(const Date &d)
+        Date<Clock>::Date(const Date & d)
         {
             theTime = d.theTime;
         }
 
-
         template<class Clock>
-        Date<Clock>::Date(Date &&d)
+        Date<Clock>::Date(Date && d)
         {
             theTime = d.theTime;
         }
 
+        template<class Clock>
+        Date<Clock>::Date(const duration & d) : theTime(typename clock::time_point(d))
+        {}
 
         template<class Clock>
-        Date<Clock>::Date(const duration &d) : theTime(typename clock::time_point(d))
+        Date<Clock> & Date<Clock>::operator=(const Date & d)
         {
-        }
-
-
-        template<class Clock>
-        Date<Clock> &Date<Clock>::operator=(const Date &d)
-        {
-            if(this != &d)
+            if (this != &d)
             {
                 theTime = d.theTime;
             }
             return *this;
         }
 
-
         template<class Clock>
-        Date<Clock> &Date<Clock>::operator=(Date &&d)
+        Date<Clock> & Date<Clock>::operator=(Date && d)
         {
             theTime = d.theTime;
             return *this;
         }
 
-
         template<class Clock>
-        bool Date<Clock>::operator==(const Date &d) const
+        bool Date<Clock>::operator==(const Date & d) const
         {
             return theTime == d.theTime;
         }
 
-
         template<class Clock>
-        bool Date<Clock>::operator!=(const Date &d) const
+        bool Date<Clock>::operator!=(const Date & d) const
         {
             return theTime != d.theTime;
         }
 
-
         template<class Clock>
-        bool Date<Clock>::operator<(const Date &d) const
+        bool Date<Clock>::operator<(const Date & d) const
         {
             return theTime < d.theTime;
         }
 
-
         template<class Clock>
-        bool Date<Clock>::operator<=(const Date &d) const
+        bool Date<Clock>::operator<=(const Date & d) const
         {
             return theTime <= d.theTime;
         }
 
-
         template<class Clock>
-        bool Date<Clock>::operator>=(const Date &d) const
+        bool Date<Clock>::operator>=(const Date & d) const
         {
             return theTime >= d.theTime;
         }
 
-
         template<class Clock>
-        bool Date<Clock>::operator>(const Date &d) const
+        bool Date<Clock>::operator>(const Date & d) const
         {
             return theTime > d.theTime;
         }
 
-
         template<class Clock>
-        Date<Clock> Date<Clock>::operator+(const duration &d) const
+        Date<Clock> Date<Clock>::operator+(const duration & d) const
         {
             duration epicDuration = theTime.time_since_epoch();
             return Date(epicDuration + d);
         }
 
-
         template<class Clock>
-        Date<Clock> Date<Clock>::operator-(const duration &d) const
+        Date<Clock> Date<Clock>::operator-(const duration & d) const
         {
             duration epicDuration = theTime.time_since_epoch();
             return Date(epicDuration - d);
         }
 
-
         template<class Clock>
-        Date<Clock> &Date<Clock>::operator+=(const duration &d)
+        Date<Clock> & Date<Clock>::operator+=(const duration & d)
         {
             Date newDate = *this + d;
             theTime = newDate.theTime;
             return *this;
         }
 
-
         template<class Clock>
-        Date<Clock> &Date<Clock>::operator-=(const duration &d)
+        Date<Clock> & Date<Clock>::operator-=(const duration & d)
         {
             duration epicDuration = theTime.time_since_epoch();
             duration newDuration = epicDuration - d;
@@ -153,19 +137,17 @@ namespace TF
             return *this;
         }
 
-
         template<class Clock>
-        typename Date<Clock>::duration Date<Clock>::operator-(const Date &d) const
+        typename Date<Clock>::duration Date<Clock>::operator-(const Date & d) const
         {
             return theTime - d.theTime;
         }
 
-
         template<class Clock>
-        std::ostream &Date<Clock>::description(std::ostream &o) const
+        std::ostream & Date<Clock>::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("Date");
                 formatter->addClassMember<time_point>("theTime", theTime);
@@ -175,15 +157,12 @@ namespace TF
             return o;
         }
 
-
         template<class Clock>
-        std::ostream &operator<<(std::ostream &o, const Date<Clock> &d)
+        std::ostream & operator<<(std::ostream & o, const Date<Clock> & d)
         {
             return d.description(o);
         }
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-
-}    // namespace TF
+} // namespace TF

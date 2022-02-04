@@ -35,7 +35,6 @@ SOFTWARE.
 #include "tfallocator.hpp"
 #include "tfchronostream.hxx"
 
-
 namespace TF
 {
 
@@ -62,72 +61,61 @@ namespace TF
              */
             Date();
 
-
             /**
              * @brief copy constructor
              */
-            Date(const Date &d);
-
+            Date(const Date & d);
 
             /**
              * @brief rvalue(move) constructor
              */
-            Date(Date &&d);
-
+            Date(Date && d);
 
             /**
              * @brief duration constructor
              * @return
              */
-            Date(const duration &d);
-
+            Date(const duration & d);
 
             /**
              * @brief destructor
              */
-            ~Date() override
-            {
-            }
-
+            ~Date() override {}
 
             /**
              * @brief assignment operator
              * @param d the date to assign
              * @return the current date updated with the contents of @e d.
              */
-            Date &operator=(const Date &d);
-
+            Date & operator=(const Date & d);
 
             /**
              * @brief rvalue (move) assignment operator
              * @param d the date to move
              * @return the current date updated with the contents of @e d.
              */
-            Date &operator=(Date &&d);
-
+            Date & operator=(Date && d);
 
             /**
              * @brief equality operator
              * @param d the date to compare
              * @return true if the two dates refer to the same point in time and false otherwise.
              */
-            bool operator==(const Date &d) const;
-
+            bool operator==(const Date & d) const;
 
             /**
              * @brief inequality operator
              * @param d the date to compare
              * @return true if the dates to not refer to the same point in time and false otherwise.
              */
-            bool operator!=(const Date &d) const;
-
+            bool operator!=(const Date & d) const;
 
             /**
              * @brief less-than operator
              * @param d the date to compare
              * @return true if the current date occurs prior to @e d in time and false otherwise.
              */
-            bool operator<(const Date &d) const;
+            bool operator<(const Date & d) const;
 
             /**
              * @brief less-than-equal-to operator
@@ -135,8 +123,7 @@ namespace TF
              * @return true if the two dates refer to the same point in time, or if the current date occurs
              * prior to @e in time, otherwise false.
              */
-            bool operator<=(const Date &d) const;
-
+            bool operator<=(const Date & d) const;
 
             /**
              * @brief greater-than-equal-to operator
@@ -144,56 +131,49 @@ namespace TF
              * @return true if the two dates refer to the same point in time, or if the current date occurs
              * after @e d in time, otherwise false.
              */
-            bool operator>=(const Date &d) const;
-
+            bool operator>=(const Date & d) const;
 
             /**
              * @brief greater-than operator
              * @param d the date to compare
              * @return @return true if the current date occurs after @e d in time, otherwise false.
              */
-            bool operator>(const Date &d) const;
-
+            bool operator>(const Date & d) const;
 
             /**
              * @brief overloaded + operator for duration types.
              * @param d the duration
              * @return the new date offset by the duration @e d.
              */
-            Date operator+(const duration &d) const;
-
+            Date operator+(const duration & d) const;
 
             /**
              * @brief overloaded - operator for duration types
              * @param d the duration
              * @return the new date less the duration @e d.
              */
-            Date operator-(const duration &d) const;
-
+            Date operator-(const duration & d) const;
 
             /**
              * @brief overloaded += operator for duration types
              * @param d the duration
              * @return this date object updated by the offset duration @e d.
              */
-            Date &operator+=(const duration &d);
-
+            Date & operator+=(const duration & d);
 
             /**
              * @brief overloaded -= operator for duration types
              * @param d the duration
              * @return this date object moved to an earlier point in time by the duration @e d.
              */
-            Date &operator-=(const duration &d);
-
+            Date & operator-=(const duration & d);
 
             /**
              * @brief subtract one point in time from another
              * @param d the date to subtract
              * @return the duration of time between the two dates.
              */
-            duration operator-(const Date &d) const;
-
+            duration operator-(const Date & d) const;
 
             /**
              * @brief get the time_point object for the date.
@@ -204,26 +184,24 @@ namespace TF
                 return theTime;
             }
 
-
             /**
              * @brief stream output function
              * @param o the stream
              * @return @e o
              */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             time_point theTime;
         };
 
-
         template<class Clock>
-        std::ostream &operator<<(std::ostream &o, const Date<Clock> &d);
+        std::ostream & operator<<(std::ostream & o, const Date<Clock> & d);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfdate.cxx"
 
-#endif    // TFDATE_HPP
+#endif // TFDATE_HPP

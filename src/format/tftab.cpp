@@ -33,11 +33,11 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &operator<<(std::ostream &o, const Tab &t)
+        std::ostream & operator<<(std::ostream & o, const Tab & t)
         {
             return t.writeToStream(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

@@ -41,16 +41,15 @@ namespace TF
             controller = std::make_shared<thread_controller_type>(false);
         }
 
-        AlarmCenter::AlarmEntry::AlarmEntry(const AlarmEntry &e)
+        AlarmCenter::AlarmEntry::AlarmEntry(const AlarmEntry & e)
         {
             controller = e.controller;
             thread = e.thread;
         }
 
-
-        AlarmCenter::AlarmEntry &AlarmCenter::AlarmEntry::operator=(const AlarmEntry &e)
+        AlarmCenter::AlarmEntry & AlarmCenter::AlarmEntry::operator=(const AlarmEntry & e)
         {
-            if(this != &e)
+            if (this != &e)
             {
                 controller = e.controller;
                 thread = e.thread;
@@ -59,10 +58,10 @@ namespace TF
             return *this;
         }
 
-        std::ostream &AlarmCenter::AlarmEntry::description(std::ostream &o) const
+        std::ostream & AlarmCenter::AlarmEntry::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("AlarmEntry");
                 o << *formatter;
@@ -71,21 +70,18 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const AlarmCenter::AlarmEntry &e)
+        std::ostream & operator<<(std::ostream & o, const AlarmCenter::AlarmEntry & e)
         {
             return e.description(o);
         }
-
 
         AlarmCenter::pointer AlarmCenter::sharedCenter;
 
         bool AlarmCenter::initializedCenter = false;
 
-
         AlarmCenter::pointer AlarmCenter::defaultCenter()
         {
-            if(!initializedCenter)
+            if (! initializedCenter)
             {
                 // Use new here (rather than std::make_shared),because AlarmCenter
                 // constructor is a private class member.
@@ -95,8 +91,7 @@ namespace TF
             return sharedCenter;
         }
 
-
-        void AlarmCenter::setAlarm(const string_type &l, receiver_type r, date_type d)
+        void AlarmCenter::setAlarm(const string_type & l, receiver_type r, date_type d)
         {
             lock_type lock(mapMutex);
             entry_type entry;
@@ -116,11 +111,11 @@ namespace TF
 
                 // The controller wait_for method will return Signaled when cancelAlarm tries to cancel
                 // the method.
-                if(status == WaitStatus::Signaled)
+                if (status == WaitStatus::Signaled)
                     return;
 
                 // The controller wait_for method will return Expired with the wait reaches the timeout.
-                if(status == WaitStatus::Expired)
+                if (status == WaitStatus::Expired)
                 {
                     this->alarmMap.erase(l);
 
@@ -136,11 +131,10 @@ namespace TF
             alarmMap.insert(std::make_pair(l, entry));
         }
 
-
-        void AlarmCenter::cancelAlarm(const string_type &l)
+        void AlarmCenter::cancelAlarm(const string_type & l)
         {
             lock_type lock(mapMutex);
-            if(alarmMap.count(l) > 0)
+            if (alarmMap.count(l) > 0)
             {
                 auto entry = alarmMap[l];
 
@@ -151,11 +145,10 @@ namespace TF
             }
         }
 
-
-        std::ostream &AlarmCenter::description(std::ostream &o) const
+        std::ostream & AlarmCenter::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("AlarmCenter");
                 formatter->addClassMember<map_type>("alarmMap", alarmMap);
@@ -166,12 +159,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const AlarmCenter &c)
+        std::ostream & operator<<(std::ostream & o, const AlarmCenter & c)
         {
             return c.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

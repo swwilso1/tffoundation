@@ -35,20 +35,19 @@ struct MemoryBlock
 {
     foo_type foo;
     unsigned int bar;
-    char *mem;
+    char * mem;
 };
 
 extern "C"
 {
-    void *allocator(TF::Foundation::Size_t n);
-    void deallocator(void *p);
+    void * allocator(TF::Foundation::Size_t n);
+    void deallocator(void * p);
 }
 
-
-void *allocator(TF::Foundation::Size_t n)
+void * allocator(TF::Foundation::Size_t n)
 {
-    MemoryBlock *newBlock = reinterpret_cast<MemoryBlock *>(malloc(n * sizeof(MemoryBlock)));
-    if(newBlock != nullptr)
+    MemoryBlock * newBlock = reinterpret_cast<MemoryBlock *>(malloc(n * sizeof(MemoryBlock)));
+    if (newBlock != nullptr)
     {
         return reinterpret_cast<void *>(&newBlock->mem);
     }
@@ -56,31 +55,29 @@ void *allocator(TF::Foundation::Size_t n)
     return nullptr;
 }
 
-
-void deallocator(void *p)
+void deallocator(void * p)
 {
-    if(p == nullptr)
+    if (p == nullptr)
         return;
 
-    MemoryBlock *theBlock = reinterpret_cast<MemoryBlock *>(reinterpret_cast<char *>(p) - offsetof(MemoryBlock, mem));
+    MemoryBlock * theBlock = reinterpret_cast<MemoryBlock *>(reinterpret_cast<char *>(p) - offsetof(MemoryBlock, mem));
     free(reinterpret_cast<void *>(theBlock));
 }
-
 
 int main()
 {
     // Allocate several blocks of memory with the original allocator.
-    char *foo = new char[100];
-    int *bar = new int;
-    double *bat = new double[500];
+    char * foo = new char[100];
+    int * bar = new int;
+    double * bat = new double[500];
 
     // Swap in the alternate allocator
     TF::Foundation::AllocatorInterface::setAllocatorAndDeallocator(allocator, deallocator);
 
     // Use the alternate allocator to allocate several more blocks of memory.
-    float *f = new float[256];
+    float * f = new float[256];
     delete[] f;
-    unsigned long *ul = new unsigned long[20];
+    unsigned long * ul = new unsigned long[20];
     delete[] ul;
 
     // Now delete the original blocks of memory.  These should delete using the

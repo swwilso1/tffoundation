@@ -34,10 +34,10 @@ namespace TF
     {
 
         template<class A, class B>
-        std::ostream &operator<<(std::ostream &o, const std::pair<A, B> &p)
+        std::ostream & operator<<(std::ostream & o, const std::pair<A, B> & p)
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("std::pair");
                 formatter->addClassMember<A>("first", p.first);
@@ -48,6 +48,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

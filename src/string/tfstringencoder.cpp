@@ -32,84 +32,80 @@ namespace TF
     namespace Foundation
     {
 
-        bool StringEncoder::doesRangeOfBytesLieInString(const char_type *start, size_type length,
-                                                        const range_type &range)
+        bool StringEncoder::doesRangeOfBytesLieInString(const char_type * start, size_type length,
+                                                        const range_type & range)
         {
-            if(range.position > length)
+            if (range.position > length)
                 return false;
 
-            if(range.length > (length - range.position))
+            if (range.length > (length - range.position))
                 return false;
 
             return true;
         }
 
-
-        bool StringEncoder::doesRangeOfCharactersLieInString(const char_type *start, size_type length,
-                                                             const range_type &range)
+        bool StringEncoder::doesRangeOfCharactersLieInString(const char_type * start, size_type length,
+                                                             const range_type & range)
         {
             size_type theNumberOfCharacters = this->numberOfCharacters(start, length);
 
-            if(range.position > theNumberOfCharacters)
+            if (range.position > theNumberOfCharacters)
                 return false;
 
-            if(range.length > (theNumberOfCharacters - range.position))
+            if (range.length > (theNumberOfCharacters - range.position))
                 return false;
 
             return true;
         }
 
-
-        ComparisonResult StringEncoder::compareStrings(const char_type *firstStringStart, size_type firstStringLength,
-                                                       const char_type *secondStringStart, size_type secondStringLength)
+        ComparisonResult StringEncoder::compareStrings(const char_type * firstStringStart, size_type firstStringLength,
+                                                       const char_type * secondStringStart,
+                                                       size_type secondStringLength)
         {
             size_type firstStringNumberOfCharacters = this->numberOfCharacters(firstStringStart, firstStringLength);
             size_type secondStringNumberOfCharacters = this->numberOfCharacters(secondStringStart, secondStringLength);
 
-            size_type numberOfCharactersToCompare = firstStringNumberOfCharacters >= secondStringNumberOfCharacters
-                                                        ? secondStringNumberOfCharacters
-                                                        : firstStringNumberOfCharacters;
+            size_type numberOfCharactersToCompare = firstStringNumberOfCharacters >= secondStringNumberOfCharacters ?
+                                                        secondStringNumberOfCharacters :
+                                                        firstStringNumberOfCharacters;
 
             unicode_point_type code1;
             unicode_point_type code2;
 
-            for(size_type i = 0; i < numberOfCharactersToCompare; i++)
+            for (size_type i = 0; i < numberOfCharactersToCompare; i++)
             {
                 code1 = this->unicodeCodePointForCharacterAtIndex(firstStringStart, firstStringLength, i);
                 code2 = this->unicodeCodePointForCharacterAtIndex(secondStringStart, secondStringLength, i);
 
-                if(code1 < code2)
+                if (code1 < code2)
                     return OrderedAscending;
-                if(code1 > code2)
+                if (code1 > code2)
                     return OrderedDescending;
             }
 
-            if(firstStringNumberOfCharacters == secondStringNumberOfCharacters)
+            if (firstStringNumberOfCharacters == secondStringNumberOfCharacters)
                 return OrderedSame;
-            if(firstStringNumberOfCharacters > secondStringNumberOfCharacters)
+            if (firstStringNumberOfCharacters > secondStringNumberOfCharacters)
                 return OrderedAscending;
 
             return OrderedDescending;
         }
 
-
-        bool StringEncoder::operator!=(const StringEncoder &e)
+        bool StringEncoder::operator!=(const StringEncoder & e)
         {
-            if(*this == e)
+            if (*this == e)
                 return false;
             return true;
         }
 
-
         Endian StringEncoder::thisSystemEndianness()
         {
             unsigned short value = 0xFEFF;
-            unsigned char *bytes = reinterpret_cast<unsigned char *>(&value);
-            if(*bytes == 0xFE)
+            unsigned char * bytes = reinterpret_cast<unsigned char *>(&value);
+            if (*bytes == 0xFE)
                 return Endian::BigEndian;
             return Endian::LittleEndian;
         }
-
 
         const Endian StringEncoder::myEndianValue = thisSystemEndianness();
 
@@ -118,6 +114,6 @@ namespace TF
             return std::string("F278B0F5-7BF1-4216-96DD-DE9F16FAAF52");
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

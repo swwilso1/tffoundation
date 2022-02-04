@@ -25,7 +25,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
 #include <chrono>
@@ -52,7 +51,6 @@ TEST(DateComponentsTest, MomentTest)
     EXPECT_FALSE(dc.isLeapYear());
 }
 
-
 TEST(DateComponentsTest, LeapYearTest)
 {
     std::chrono::nanoseconds ns(1580136984185151026L);
@@ -60,7 +58,6 @@ TEST(DateComponentsTest, LeapYearTest)
     SystemDateComponents dc(d);
     EXPECT_TRUE(dc.isLeapYear());
 }
-
 
 TEST(DateComponentsTest, RecoverDateTest)
 {

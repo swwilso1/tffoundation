@@ -55,8 +55,7 @@ namespace TF
             SharedMemory
         };
 
-        std::ostream &operator<<(std::ostream &o, const FileType &t);
-
+        std::ostream & operator<<(std::ostream & o, const FileType & t);
 
         struct FileProperties : public AllocatorInterface
         {
@@ -82,28 +81,21 @@ namespace TF
 
             FileProperties();
 
+            FileProperties(const FileProperties & p);
 
-            FileProperties(const FileProperties &p);
+            FileProperties & operator=(const FileProperties & p);
 
+            bool operator==(const FileProperties & p);
 
-            FileProperties &operator=(const FileProperties &p);
+            bool operator!=(const FileProperties & p);
 
-
-            bool operator==(const FileProperties &p);
-
-
-            bool operator!=(const FileProperties &p);
-
-
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
         };
 
+        std::ostream & operator<<(std::ostream & o, const FileProperties & p);
 
-        std::ostream &operator<<(std::ostream &o, const FileProperties &p);
+    } // namespace Foundation
 
+} // namespace TF
 
-    }    // namespace Foundation
-
-}    // namespace TF
-
-#endif    // TFFILEPROPERTIES_HPP
+#endif // TFFILEPROPERTIES_HPP

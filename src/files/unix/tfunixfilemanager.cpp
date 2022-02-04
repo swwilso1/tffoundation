@@ -49,18 +49,17 @@ namespace TF
         {
             EnvironmentSettings es;
 
-            if(es.hasVariable("TEMP"))
+            if (es.hasVariable("TEMP"))
                 return es.getValueForVariable("TEMP");
-            else if(es.hasVariable("TMP"))
+            else if (es.hasVariable("TMP"))
                 return es.getValueForVariable("TMP");
-            else if(es.hasVariable("TEMP_DIR"))
+            else if (es.hasVariable("TEMP_DIR"))
                 return es.getValueForVariable("TEMP_DIR");
-            else if(es.hasVariable("TMP_DIR"))
+            else if (es.hasVariable("TMP_DIR"))
                 return es.getValueForVariable("TMP_DIR");
 
             return "/tmp";
         }
-
 
         FileManager::string_type FileManager::homeDirectoryForCurrentUser() const
         {
@@ -68,24 +67,23 @@ namespace TF
             return es.getValueForVariable("HOME");
         }
 
-
-        FileManager::string_array_type FileManager::contentsOfDirectoryAtPath(const string_type &path) const
+        FileManager::string_array_type FileManager::contentsOfDirectoryAtPath(const string_type & path) const
         {
             string_array_type contentsArray;
 
-            struct dirent *dirEntry;
-            DIR *opaqueDirHandle;
+            struct dirent * dirEntry;
+            DIR * opaqueDirHandle;
 
             auto pathStr = path.cStr();
 
             opaqueDirHandle = opendir(pathStr.get());
-            if(opaqueDirHandle == nullptr)
+            if (opaqueDirHandle == nullptr)
                 return contentsArray;
 
-            while((dirEntry = readdir(opaqueDirHandle)) != nullptr)
+            while ((dirEntry = readdir(opaqueDirHandle)) != nullptr)
             {
                 string_type entryName(dirEntry->d_name);
-                if(entryName == "." || entryName == "..")
+                if (entryName == "." || entryName == "..")
                     continue;
                 contentsArray.push_back(entryName);
             }
@@ -95,100 +93,94 @@ namespace TF
             return contentsArray;
         }
 
-
-        void FileManager::createDirectoryAtPath(const string_type &path) const
+        void FileManager::createDirectoryAtPath(const string_type & path) const
         {
             auto pathStr = path.cStr();
             auto result = mkdir(pathStr.get(), S_IRUSR | S_IWUSR | S_IXUSR | S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Failed to create directory"};
+                throw std::system_error{errno, std::system_category(), "Failed to create directory"};
             }
         }
 
-
-        void FileManager::createFileAtPath(const string_type &path) const
+        void FileManager::createFileAtPath(const string_type & path) const
         {
             auto pathStr = path.cStr();
-            if(!fileExistsAtPath(path) && !directoryExistsAtPath(path))
+            if (! fileExistsAtPath(path) && ! directoryExistsAtPath(path))
             {
                 auto result = open(pathStr.get(), O_RDWR | O_CREAT, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
-                if(result < 0)
+                if (result < 0)
                 {
-                    throw std::system_error {errno, std::system_category(), "Failed to create file"};
+                    throw std::system_error{errno, std::system_category(), "Failed to create file"};
                 }
                 close(result);
             }
         }
 
-
-        void FileManager::removeItemAtPath(const string_type &path) const
+        void FileManager::removeItemAtPath(const string_type & path) const
         {
             auto pathStr = path.cStr();
-            if(directoryExistsAtPath(path))
+            if (directoryExistsAtPath(path))
             {
                 auto result = rmdir(pathStr.get());
-                if(result < 0)
+                if (result < 0)
                 {
-                    throw std::system_error {errno, std::system_category(), "Failed to remove directory"};
+                    throw std::system_error{errno, std::system_category(), "Failed to remove directory"};
                 }
             }
-            else if(fileExistsAtPath(path))
+            else if (fileExistsAtPath(path))
             {
                 auto result = unlink(pathStr.get());
-                if(result < 0)
+                if (result < 0)
                 {
-                    throw std::system_error {errno, std::system_category(), "Failed to remove file"};
+                    throw std::system_error{errno, std::system_category(), "Failed to remove file"};
                 }
             }
         }
 
-        void FileManager::moveItemAtPathToPath(const string_type &sourcePath, const string_type &destPath) const
+        void FileManager::moveItemAtPathToPath(const string_type & sourcePath, const string_type & destPath) const
         {
             auto sourceStr = sourcePath.cStr();
             auto destStr = destPath.cStr();
             auto result = rename(sourceStr.get(), destStr.get());
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to move entry to new location"};
+                throw std::system_error{errno, std::system_category(), "Unable to move entry to new location"};
             }
         }
 
-
-        void FileManager::createSymbolicLinkAtPathWithDestinationPath(const string_type &linkPath,
-                                                                      const string_type &destPath) const
+        void FileManager::createSymbolicLinkAtPathWithDestinationPath(const string_type & linkPath,
+                                                                      const string_type & destPath) const
         {
             auto linkStr = linkPath.cStr();
             auto destStr = destPath.cStr();
             auto result = symlink(destStr.get(), linkStr.get());
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to create symbolic link"};
+                throw std::system_error{errno, std::system_category(), "Unable to create symbolic link"};
             }
         }
 
-
-        void FileManager::createHardLinkAtPathWithDestinationPath(const string_type &linkPath,
-                                                                  const string_type &destPath) const
+        void FileManager::createHardLinkAtPathWithDestinationPath(const string_type & linkPath,
+                                                                  const string_type & destPath) const
         {
             auto linkStr = linkPath.cStr();
             auto destStr = destPath.cStr();
             auto result = link(destStr.get(), linkStr.get());
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to create hard link"};
+                throw std::system_error{errno, std::system_category(), "Unable to create hard link"};
             }
         }
 
-
-        bool FileManager::itemAtPathIsLink(const string_type &path) const
+        bool FileManager::itemAtPathIsLink(const string_type & path) const
         {
             struct stat item_stats;
 
             auto lstat_api_result = lstat(path.stlString().c_str(), &item_stats);
-            if(lstat_api_result == 0)
+            if (lstat_api_result == 0)
             {
-                if((item_stats.st_mode & S_IFMT) == S_IFLNK)
+                if ((item_stats.st_mode & S_IFMT) == S_IFLNK)
                 {
                     return true;
                 }
@@ -197,26 +189,24 @@ namespace TF
             return false;
         }
 
-
-        bool FileManager::fileExistsAtPath(const string_type &path) const
+        bool FileManager::fileExistsAtPath(const string_type & path) const
         {
             struct stat pathData;
 
             auto pathStr = path.cStr();
 
             auto result = lstat(pathStr.get(), &pathData);
-            if(result < 0)
+            if (result < 0)
                 return false;
 
-            if(S_ISREG(pathData.st_mode) || S_ISCHR(pathData.st_mode) || S_ISBLK(pathData.st_mode) ||
-               S_ISFIFO(pathData.st_mode) || S_ISLNK(pathData.st_mode) || S_ISSOCK(pathData.st_mode))
+            if (S_ISREG(pathData.st_mode) || S_ISCHR(pathData.st_mode) || S_ISBLK(pathData.st_mode) ||
+                S_ISFIFO(pathData.st_mode) || S_ISLNK(pathData.st_mode) || S_ISSOCK(pathData.st_mode))
                 return true;
 
             return false;
         }
 
-
-        bool FileManager::directoryExistsAtPath(const string_type &path) const
+        bool FileManager::directoryExistsAtPath(const string_type & path) const
         {
             struct stat pathData;
 
@@ -224,37 +214,35 @@ namespace TF
 
             auto result = lstat(pathStr.get(), &pathData);
 
-            if(result < 0)
-                return false;    // probably not a standard file or directory.
+            if (result < 0)
+                return false; // probably not a standard file or directory.
 
-            if(S_ISDIR(pathData.st_mode))
+            if (S_ISDIR(pathData.st_mode))
                 return true;
 
-            if(S_ISLNK(pathData.st_mode))
+            if (S_ISLNK(pathData.st_mode))
             {
                 struct stat linkData;
                 auto statResult = stat(pathStr.get(), &linkData);
 
-                if(statResult < 0)
+                if (statResult < 0)
                     return false;
 
-                if(S_ISDIR(linkData.st_mode))
+                if (S_ISDIR(linkData.st_mode))
                     return true;
             }
 
             return false;
         }
 
-
-        bool FileManager::itemExistsAtPath(const string_type &path) const
+        bool FileManager::itemExistsAtPath(const string_type & path) const
         {
             auto path_cstr = path.cStr();
             auto access_api_result = access(path_cstr.get(), F_OK);
             return access_api_result == 0;
         }
 
-
-        FileManager::file_properties_type FileManager::propertiesForItemAtPath(const string_type &path) const
+        FileManager::file_properties_type FileManager::propertiesForItemAtPath(const string_type & path) const
         {
             file_properties_type theProperties;
             struct stat pathData;
@@ -262,73 +250,72 @@ namespace TF
             auto pathStr = path.cStr();
 
             auto result = lstat(pathStr.get(), &pathData);
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to query file system object"};
+                throw std::system_error{errno, std::system_category(), "Unable to query file system object"};
             }
 
             theProperties.size = pathData.st_size;
 
-            if(S_ISREG(pathData.st_mode))
+            if (S_ISREG(pathData.st_mode))
                 theProperties.type = FileType::Regular;
-            else if(S_ISDIR(pathData.st_mode))
+            else if (S_ISDIR(pathData.st_mode))
                 theProperties.type = FileType::Directory;
-            else if(S_ISCHR(pathData.st_mode))
+            else if (S_ISCHR(pathData.st_mode))
                 theProperties.type = FileType::CharacterSpecial;
-            else if(S_ISBLK(pathData.st_mode))
+            else if (S_ISBLK(pathData.st_mode))
                 theProperties.type = FileType::Block;
-            else if(S_ISFIFO(pathData.st_mode))
+            else if (S_ISFIFO(pathData.st_mode))
                 theProperties.type = FileType::Pipe;
-            else if(S_ISLNK(pathData.st_mode))
+            else if (S_ISLNK(pathData.st_mode))
                 theProperties.type = FileType::Link;
-            else if(S_ISSOCK(pathData.st_mode))
+            else if (S_ISSOCK(pathData.st_mode))
                 theProperties.type = FileType::Socket;
-            else if(S_TYPEISMQ(&pathData))
+            else if (S_TYPEISMQ(&pathData))
                 theProperties.type = FileType::MessageQueue;
-            else if(S_TYPEISSEM(&pathData))
+            else if (S_TYPEISSEM(&pathData))
                 theProperties.type = FileType::Semaphore;
-            else if(S_TYPEISSEM(&pathData))
+            else if (S_TYPEISSEM(&pathData))
                 theProperties.type = FileType::SharedMemory;
 
-            if((pathData.st_mode & S_IRUSR) != 0)
+            if ((pathData.st_mode & S_IRUSR) != 0)
                 theProperties.permission.setUserReadPermission(true);
-            if((pathData.st_mode & S_IWUSR) != 0)
+            if ((pathData.st_mode & S_IWUSR) != 0)
                 theProperties.permission.setUserWritePermission(true);
-            if((pathData.st_mode & S_IXUSR) != 0)
+            if ((pathData.st_mode & S_IXUSR) != 0)
                 theProperties.permission.setUserExecutePermission(true);
-            if((pathData.st_mode & S_IRGRP) != 0)
+            if ((pathData.st_mode & S_IRGRP) != 0)
                 theProperties.permission.setGroupReadPermission(true);
-            if((pathData.st_mode & S_IWGRP) != 0)
+            if ((pathData.st_mode & S_IWGRP) != 0)
                 theProperties.permission.setGroupWritePermission(true);
-            if((pathData.st_mode & S_IXGRP) != 0)
+            if ((pathData.st_mode & S_IXGRP) != 0)
                 theProperties.permission.setGroupExecutePermission(true);
-            if((pathData.st_mode & S_IROTH) != 0)
+            if ((pathData.st_mode & S_IROTH) != 0)
                 theProperties.permission.setOtherReadPermission(true);
-            if((pathData.st_mode & S_IWOTH) != 0)
+            if ((pathData.st_mode & S_IWOTH) != 0)
                 theProperties.permission.setOtherWritePermission(true);
-            if((pathData.st_mode & S_IXOTH) != 0)
+            if ((pathData.st_mode & S_IXOTH) != 0)
                 theProperties.permission.setOtherExecutePermission(true);
-            if((pathData.st_mode & S_ISVTX) != 0)
+            if ((pathData.st_mode & S_ISVTX) != 0)
                 theProperties.permission.setStickyBit(true);
-            if((pathData.st_mode & S_ISUID) != 0)
+            if ((pathData.st_mode & S_ISUID) != 0)
                 theProperties.permission.setSetUserID(true);
-            if((pathData.st_mode & S_ISGID) != 0)
+            if ((pathData.st_mode & S_ISGID) != 0)
                 theProperties.permission.setSetGroupID(true);
 
             theProperties.userID = static_cast<int>(pathData.st_uid);
             theProperties.groupID = static_cast<int>(pathData.st_gid);
 
-
-            if(theProperties.type == FileType::Link && theProperties.size > 0)
+            if (theProperties.type == FileType::Link && theProperties.size > 0)
             {
                 // We want to read the target of the link.
                 char buffer[theProperties.size + 1];
 
                 auto result = readlink(pathStr.get(), buffer, theProperties.size);
 
-                if(result < 0)
+                if (result < 0)
                 {
-                    throw std::system_error {errno, std::system_category(), "Unable to read link target"};
+                    throw std::system_error{errno, std::system_category(), "Unable to read link target"};
                 }
 
                 buffer[theProperties.size] = '\0';
@@ -336,36 +323,34 @@ namespace TF
                 theProperties.linkTarget = buffer;
             }
 
-
             return theProperties;
         }
 
-
-        void FileManager::setPermissionsForItemAtPath(const string_type &path, const file_permissions_type &p) const
+        void FileManager::setPermissionsForItemAtPath(const string_type & path, const file_permissions_type & p) const
         {
             mode_t newMode = 0;
 
-            if(p.hasUserReadPermission())
+            if (p.hasUserReadPermission())
                 newMode |= S_IRUSR;
-            if(p.hasUserWritePermission())
+            if (p.hasUserWritePermission())
                 newMode |= S_IWUSR;
-            if(p.hasSetUserID())
+            if (p.hasSetUserID())
                 newMode |= S_ISUID;
-            else if(p.hasUserExecutePermission())
+            else if (p.hasUserExecutePermission())
                 newMode |= S_IXUSR;
-            if(p.hasGroupReadPermission())
+            if (p.hasGroupReadPermission())
                 newMode |= S_IRGRP;
-            if(p.hasGroupWritePermission())
+            if (p.hasGroupWritePermission())
                 newMode |= S_IWGRP;
-            if(p.hasSetGroupID())
+            if (p.hasSetGroupID())
                 newMode |= S_ISGID;
-            else if(p.hasGroupExecutePermission())
+            else if (p.hasGroupExecutePermission())
                 newMode |= S_IXGRP;
-            if(p.hasOtherReadPermission())
+            if (p.hasOtherReadPermission())
                 newMode |= S_IROTH;
-            if(p.hasOtherWritePermission())
+            if (p.hasOtherWritePermission())
                 newMode |= S_IWOTH;
-            if(p.hasOtherExecutePermission())
+            if (p.hasOtherExecutePermission())
                 newMode |= S_IXOTH;
 
             // Disable the umask so we can get an exact permissions change.
@@ -374,139 +359,134 @@ namespace TF
             auto pathStr = path.cStr();
 
             auto result = chmod(pathStr.get(), newMode);
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(),
-                                         "Unable to change permissions on file system object"};
+                throw std::system_error{errno, std::system_category(),
+                                        "Unable to change permissions on file system object"};
             }
 
             // Re-enable the umask.
             umask(origUmask);
         }
 
-
-        bool FileManager::isReadableAtPath(const string_type &path) const
+        bool FileManager::isReadableAtPath(const string_type & path) const
         {
             struct stat pathData;
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to query file"};
+                throw std::system_error{errno, std::system_category(), "Unable to query file"};
             }
 
             auto effectiveUserID = geteuid();
             auto effectiveGroupID = getegid();
 
-            if(pathData.st_uid == effectiveUserID)
+            if (pathData.st_uid == effectiveUserID)
             {
-                if((pathData.st_mode & S_IRUSR) != 0)
+                if ((pathData.st_mode & S_IRUSR) != 0)
                     return true;
                 return false;
             }
-            else if(pathData.st_gid == effectiveGroupID)
+            else if (pathData.st_gid == effectiveGroupID)
             {
-                if((pathData.st_mode & S_IRGRP) != 0)
+                if ((pathData.st_mode & S_IRGRP) != 0)
                     return true;
                 return false;
             }
 
             // Check the OTH permission bits.
-            if((pathData.st_mode & S_IROTH) != 0)
+            if ((pathData.st_mode & S_IROTH) != 0)
                 return true;
 
             return false;
         }
 
-
-        bool FileManager::isWritableAtPath(const string_type &path) const
+        bool FileManager::isWritableAtPath(const string_type & path) const
         {
             struct stat pathData;
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to query file"};
+                throw std::system_error{errno, std::system_category(), "Unable to query file"};
             }
 
             auto effectiveUserID = geteuid();
             auto effectiveGroupID = getegid();
 
-            if(pathData.st_uid == effectiveUserID)
+            if (pathData.st_uid == effectiveUserID)
             {
-                if((pathData.st_mode & S_IWUSR) != 0)
+                if ((pathData.st_mode & S_IWUSR) != 0)
                     return true;
                 return false;
             }
-            else if(pathData.st_gid == effectiveGroupID)
+            else if (pathData.st_gid == effectiveGroupID)
             {
-                if((pathData.st_mode & S_IWGRP) != 0)
+                if ((pathData.st_mode & S_IWGRP) != 0)
                     return true;
                 return false;
             }
 
             // Check the OTH permission bits.
-            if((pathData.st_mode & S_IWOTH) != 0)
+            if ((pathData.st_mode & S_IWOTH) != 0)
                 return true;
 
             return false;
         }
 
-
-        bool FileManager::isExecutableAtPath(const string_type &path) const
+        bool FileManager::isExecutableAtPath(const string_type & path) const
         {
             struct stat pathData;
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to query file"};
+                throw std::system_error{errno, std::system_category(), "Unable to query file"};
             }
 
             auto effectiveUserID = geteuid();
             auto effectiveGroupID = getegid();
 
-            if(pathData.st_uid == effectiveUserID)
+            if (pathData.st_uid == effectiveUserID)
             {
-                if((pathData.st_mode & S_IXUSR) != 0)
+                if ((pathData.st_mode & S_IXUSR) != 0)
                     return true;
                 return false;
             }
-            else if(pathData.st_gid == effectiveGroupID)
+            else if (pathData.st_gid == effectiveGroupID)
             {
-                if((pathData.st_mode & S_IXGRP) != 0)
+                if ((pathData.st_mode & S_IXGRP) != 0)
                     return true;
                 return false;
             }
 
             // Check the OTH permission bits.
-            if((pathData.st_mode & S_IXOTH) != 0)
+            if ((pathData.st_mode & S_IXOTH) != 0)
                 return true;
 
             return false;
         }
 
-
-        void FileManager::changeCurrentWorkingDirectoryToPath(const string_type &path)
+        void FileManager::changeCurrentWorkingDirectoryToPath(const string_type & path)
         {
             auto pathStr = path.cStr();
             auto result = chdir(pathStr.get());
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to change current workingd directory"};
+                throw std::system_error{errno, std::system_category(), "Unable to change current workingd directory"};
             }
         }
-
 
         FileManager::string_type FileManager::currentWorkingDirectoryPath() const
         {
             size_type i = 1024;
 
-            for(int j = 0; j < 10; j++)
+            for (int j = 0; j < 10; j++)
             {
                 auto tmp = new char[i];
                 auto buffer = getcwd(tmp, i);
-                if(buffer == nullptr)
+                if (buffer == nullptr)
                 {
                     delete[] tmp;
                     i *= 2;
@@ -522,8 +502,7 @@ namespace TF
             throw std::runtime_error("Unable to retrieve current working directory");
         }
 
-
-        FileManager::size_type FileManager::sizeofFileAtPath(const string_type &path) const
+        FileManager::size_type FileManager::sizeofFileAtPath(const string_type & path) const
         {
             struct stat info;
 
@@ -531,29 +510,27 @@ namespace TF
 
             auto result = stat(pathStr.get(), &info);
 
-            if(result < 0)
+            if (result < 0)
             {
-                throw std::system_error {errno, std::system_category(), "Unable to get file size"};
+                throw std::system_error{errno, std::system_category(), "Unable to get file size"};
             }
 
             return info.st_size;
         }
 
-
-        FileManager::string_type FileManager::baseNameOfItemAtPath(const string_type &path) const
+        FileManager::string_type FileManager::baseNameOfItemAtPath(const string_type & path) const
         {
             auto separator_ranges = path.rangesOfString(pathSeparator);
-            auto &last_range = separator_ranges[separator_ranges.size() - 1];
+            auto & last_range = separator_ranges[separator_ranges.size() - 1];
             return path.substringFromIndex(last_range.position + 1);
         }
 
-
-        FileManager::string_type FileManager::dirNameOfItemAtPath(const string_type &path) const
+        FileManager::string_type FileManager::dirNameOfItemAtPath(const string_type & path) const
         {
             auto separator_ranges = path.rangesOfString(pathSeparator);
-            auto &last_range = separator_ranges[separator_ranges.size() - 1];
+            auto & last_range = separator_ranges[separator_ranges.size() - 1];
             return path.substringToIndex(last_range.position);
         }
 
-    }    // namespace Foundation
-}    // namespace TF
+    } // namespace Foundation
+} // namespace TF

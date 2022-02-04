@@ -35,14 +35,14 @@ namespace TF
     {
 
         template<class T, class Allocator>
-        std::ostream &operator<<(std::ostream &o, const std::list<T, Allocator> &l)
+        std::ostream & operator<<(std::ostream & o, const std::list<T, Allocator> & l)
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("std::list");
                 Size_t i = 0;
-                for(auto element : l)
+                for (auto element : l)
                 {
                     formatter->addClassMember(i++, element);
                 }
@@ -53,7 +53,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-
-}    // namespace TF
+} // namespace TF

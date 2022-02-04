@@ -63,38 +63,38 @@ namespace TF::Foundation
         using const_pointer = typename std::allocator_traits<Allocator>::const_pointer;
         using key_list_type = std::vector<key_type>;
 
-        ThreadSafeUnorderedMap() : m_map {}, m_mutex {}
+        ThreadSafeUnorderedMap() : m_map{}, m_mutex{}
         {
-            m_map = map_pointer_type(new map_type {});
+            m_map = map_pointer_type(new map_type{});
         }
 
-        ThreadSafeUnorderedMap(ThreadSafeUnorderedMap &m) : m_map {}, m_mutex {}
+        ThreadSafeUnorderedMap(ThreadSafeUnorderedMap & m) : m_map{}, m_mutex{}
         {
-            lock_guard_type guard {m.m_mutex};
-            m_map = map_pointer_type(new map_type {});
-            if(m.m_map)
+            lock_guard_type guard{m.m_mutex};
+            m_map = map_pointer_type(new map_type{});
+            if (m.m_map)
             {
                 *m_map = *m.m_map;
             }
         }
 
-        ThreadSafeUnorderedMap(ThreadSafeUnorderedMap &&m) : m_map {}, m_mutex {}
+        ThreadSafeUnorderedMap(ThreadSafeUnorderedMap && m) : m_map{}, m_mutex{}
         {
-            lock_guard_type guard {m.m_mutex};
+            lock_guard_type guard{m.m_mutex};
             m_map = std::move(m.m_map);
         }
 
-        ThreadSafeUnorderedMap &operator=(ThreadSafeUnorderedMap &m)
+        ThreadSafeUnorderedMap & operator=(ThreadSafeUnorderedMap & m)
         {
-            if(this == &m)
+            if (this == &m)
             {
                 return *this;
             }
 
-            lock_guard_type my_guard {m_mutex};
-            lock_guard_type other_guard {m.m_mutex};
+            lock_guard_type my_guard{m_mutex};
+            lock_guard_type other_guard{m.m_mutex};
 
-            if(m.m_map)
+            if (m.m_map)
             {
                 *m_map = *m.m_map;
             }
@@ -102,150 +102,150 @@ namespace TF::Foundation
             return *this;
         }
 
-        ThreadSafeUnorderedMap &operator=(ThreadSafeUnorderedMap &&m)
+        ThreadSafeUnorderedMap & operator=(ThreadSafeUnorderedMap && m)
         {
-            if(this == &m)
+            if (this == &m)
             {
                 return this;
             }
 
-            lock_guard_type my_guard {m_mutex};
-            lock_guard_type other_guard {m.m_mutex};
+            lock_guard_type my_guard{m_mutex};
+            lock_guard_type other_guard{m.m_mutex};
             m_map = std::move(m.m_map);
         }
 
         [[nodiscard]] bool empty() noexcept
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->empty();
         }
 
         [[nodiscard]] size_type size() noexcept
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->size();
         }
 
         [[nodiscard]] size_type max_size() noexcept
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->max_size();
         }
 
         void clear() noexcept
         {
-            lock_guard_type guard {m_mutex};
+            lock_guard_type guard{m_mutex};
             m_map->clear();
         }
 
-        void insert(const value_type &value)
+        void insert(const value_type & value)
         {
-            lock_guard_type guard {m_mutex};
+            lock_guard_type guard{m_mutex};
             m_map->insert(value);
         }
 
-        void insert(value_type &&value)
+        void insert(value_type && value)
         {
-            lock_guard_type guard {m_mutex};
+            lock_guard_type guard{m_mutex};
             m_map->insert(value);
         }
 
-        [[nodiscard]] size_type erase(const key_type &key)
+        [[nodiscard]] size_type erase(const key_type & key)
         {
-            lock_guard_type guard {m_mutex};
+            lock_guard_type guard{m_mutex};
             return m_map->erase(key);
         }
 
-        void swap(ThreadSafeUnorderedMap &m)
+        void swap(ThreadSafeUnorderedMap & m)
         {
-            if(this == &m)
+            if (this == &m)
             {
                 return;
             }
 
-            lock_guard_type my_guard {m_mutex};
-            lock_guard_type other_guard {m.m_mutex};
+            lock_guard_type my_guard{m_mutex};
+            lock_guard_type other_guard{m.m_mutex};
             m_map->swap(*m.m_map);
         }
 
-        [[nodiscard]] mapped_type &at(const key_type &key)
+        [[nodiscard]] mapped_type & at(const key_type & key)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->at(key);
         }
 
-        [[nodiscard]] mapped_type &operator[](const key_type &key)
+        [[nodiscard]] mapped_type & operator[](const key_type & key)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->operator[](key);
         }
 
-        [[nodiscard]] mapped_type &operator[](key_type &&key)
+        [[nodiscard]] mapped_type & operator[](key_type && key)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->operator[](key);
         }
 
-        [[nodiscard]] size_type count(const key_type &key)
+        [[nodiscard]] size_type count(const key_type & key)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->count(key);
         }
 
         [[nodiscard]] float load_factor()
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->load_factor();
         }
 
         [[nodiscard]] float max_load_factor()
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             return m_map->max_load_factor();
         }
 
         void max_float_factor(float ml)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             m_map->max_float_factor(ml);
         }
 
         void rehash(size_type count)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             m_map->rehash(count);
         }
 
         void reserve(size_type count)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             m_map->reserve(count);
         }
 
         [[nodiscard]] hasher hash_function()
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             m_map->hash_function();
         }
 
         [[nodiscard]] key_equal key_eq()
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             m_map->key_eq();
         }
 
-        [[nodiscard]] bool contains(const key_type &key)
+        [[nodiscard]] bool contains(const key_type & key)
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             // TODO: With C++20, change this to m_map.contains().
             return m_map->count(key) > 0;
         }
 
         [[nodiscard]] key_list_type keys()
         {
-            lock_guard_type my_guard {m_mutex};
+            lock_guard_type my_guard{m_mutex};
             key_list_type key_list;
-            for(auto &entry : *m_map)
+            for (auto & entry : *m_map)
             {
                 key_list.emplace_back(entry.first);
             }
@@ -262,6 +262,6 @@ namespace TF::Foundation
         mutex_type m_mutex;
     };
 
-}    // namespace TF::Foundation
+} // namespace TF::Foundation
 
-#endif    // TFTHREADSAFEUNORDEREDMAP_HXX
+#endif // TFTHREADSAFEUNORDEREDMAP_HXX

@@ -63,20 +63,17 @@ namespace TF
             */
             using byte_order_query_type = std::pair<bool, Endian>;
 
-
             /** @brief basic character type */
             using char_type = unsigned char;
 
-
             /** @brief basic unicode point */
             using unicode_point_type = unsigned int;
-
 
             /** @brief destructor */
             virtual ~StringEncoder() = default;
 
             /** @brief clone method for creating a new encoder */
-            virtual StringEncoder *clone() = 0;
+            virtual StringEncoder * clone() = 0;
 
             /**
                     @brief length in bytes of the basic code used by the encoder's encoding scheme.
@@ -130,7 +127,7 @@ namespace TF
                     @param start the pointer to the beginning of the byte array.
                     @param length the number of bytes in the byte array.
             */
-            virtual void writeByteOrderMark(char_type *start, size_type length) = 0;
+            virtual void writeByteOrderMark(char_type * start, size_type length) = 0;
 
             /**
                     @brief given a byte array, check if the array has a byte order mark and record the endian
@@ -139,7 +136,7 @@ namespace TF
                     @param length the number of bytes in the bytes array.
                     @return the byte_order_query (std::pair<bool,Endian>).
             */
-            virtual byte_order_query_type hasByteOrderMark(const char_type *start, size_type length) = 0;
+            virtual byte_order_query_type hasByteOrderMark(const char_type * start, size_type length) = 0;
 
             /**
                     @brief given a byte array, return the number of characters encoded in the array.
@@ -147,7 +144,7 @@ namespace TF
                     @param length the number of bytes in the byte array.
                     @return the number of characters encoded in the byte array.
             */
-            virtual size_type numberOfCharacters(const char_type *start, size_type length) = 0;
+            virtual size_type numberOfCharacters(const char_type * start, size_type length) = 0;
 
             /**
                     @brief given a byte array, check the array to make sure it contains correctly encoded
@@ -156,8 +153,7 @@ namespace TF
                     @param length the number of bytes in the byte array.
                     @return true if the bytes correctly encode characters, false otherwise.
             */
-            virtual bool checkStringForCorrectness(const char_type *start, size_type length) = 0;
-
+            virtual bool checkStringForCorrectness(const char_type * start, size_type length) = 0;
 
             /**
                     @brief given a pointer to location in a byte array, calculate the Unicode code point encoded
@@ -170,7 +166,7 @@ namespace TF
 
                     Use this method as the basis of an iterator for iterating through a byte array for characters.
             */
-            virtual std::pair<unicode_point_type, size_type> nextCodePoint(const char_type *start, size_type length,
+            virtual std::pair<unicode_point_type, size_type> nextCodePoint(const char_type * start, size_type length,
                                                                            Endian endian) = 0;
 
             /**
@@ -184,7 +180,7 @@ namespace TF
 
                     The return code is not a Unicode value, but rather the value of the next code in the array.
             */
-            virtual std::pair<unicode_point_type, size_type> nextCode(const char_type *start, size_type length,
+            virtual std::pair<unicode_point_type, size_type> nextCode(const char_type * start, size_type length,
                                                                       Endian endian) = 0;
 
             /**
@@ -195,7 +191,7 @@ namespace TF
                     @param index the character index of the code point to retrieve.
                     @return the Unicode code point value of the character located at @e index.
             */
-            virtual unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type *start, size_type length,
+            virtual unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type * start, size_type length,
                                                                            size_type index) = 0;
 
             /**
@@ -215,7 +211,7 @@ namespace TF
                     @param endian the byte order of the string.
                     @return the number of bytes used to encode @e code.
             */
-            virtual size_type encodeCodePoint(char_type *start, size_type length, unicode_point_type code,
+            virtual size_type encodeCodePoint(char_type * start, size_type length, unicode_point_type code,
                                               Endian endian) = 0;
 
             /**
@@ -226,7 +222,7 @@ namespace TF
                     @param index the character index.
                     @return the offset in bytes in the byte array of the location of the character at @e index.
             */
-            virtual size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length,
+            virtual size_type arrayIndexOfCharacterAtCharacterIndex(const char_type * start, size_type length,
                                                                     size_type index) = 0;
 
             /**
@@ -237,7 +233,8 @@ namespace TF
                     @param range the byte range.
                     @return true if the byte array contains the byte range, false otherwise.
             */
-            virtual bool doesRangeOfBytesLieInString(const char_type *start, size_type length, const range_type &range);
+            virtual bool doesRangeOfBytesLieInString(const char_type * start, size_type length,
+                                                     const range_type & range);
 
             /**
                     @brief given a pointer to a byte array and range object, caculate whether or not that range of
@@ -247,9 +244,8 @@ namespace TF
                     @param range the character range.
                     @return true if the byte array contains the character range, false otherwise.
             */
-            virtual bool doesRangeOfCharactersLieInString(const char_type *start, size_type length,
-                                                          const range_type &range);
-
+            virtual bool doesRangeOfCharactersLieInString(const char_type * start, size_type length,
+                                                          const range_type & range);
 
             /**
                     @brief given a byte array and a range of characters, calculate the number of bytes from the byte
@@ -261,8 +257,8 @@ namespace TF
 
                     This method does *not* include the bytes for the byte order mark.
             */
-            virtual size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
-                                                                      const range_type &range) = 0;
+            virtual size_type numberOfBytesToCaptureCharactersInRange(const char_type * start, size_type length,
+                                                                      const range_type & range) = 0;
 
             /**
                     @brief given a byte array, calculate whether or not the array has a zero value character.
@@ -271,7 +267,7 @@ namespace TF
                     @return true if the byte array contains a character with the Unicode point value 0, false
                     otherwise.
             */
-            virtual bool containsCharacterWithZeroValue(const char_type *start, size_type length) = 0;
+            virtual bool containsCharacterWithZeroValue(const char_type * start, size_type length) = 0;
 
             /**
                     @brief given a byte array, caclulate whether or not the array has a character value that
@@ -281,7 +277,7 @@ namespace TF
                     @return true if the byte array contains a character that lies outside the range of ASCII characters,
                     false otherwise.
             */
-            virtual bool containsCharacterNotInASCIIRange(const char_type *start, size_type length) = 0;
+            virtual bool containsCharacterNotInASCIIRange(const char_type * start, size_type length) = 0;
 
             /**
                     @brief given a byte array and another byte array representing the contents of a substring,
@@ -294,8 +290,8 @@ namespace TF
                     @return a range object specifying the start location and number of bytes of the first occurance
                     of the substring in the string.
             */
-            virtual range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
-                                                                const char_type *substringStart,
+            virtual range_type findByteRangeOfSubstringInString(const char_type * stringStart, size_type stringLength,
+                                                                const char_type * substringStart,
                                                                 size_type substringLength) = 0;
 
             /**
@@ -309,9 +305,9 @@ namespace TF
                     @return an array of range objects specifying the location and lengths of bytes that match
                     the substring in the string.
             */
-            virtual range_array_type findByteRangesOfSubstringInString(const char_type *stringStart,
+            virtual range_array_type findByteRangesOfSubstringInString(const char_type * stringStart,
                                                                        size_type stringLength,
-                                                                       const char_type *substringStart,
+                                                                       const char_type * substringStart,
                                                                        size_type substringLength) = 0;
 
             /**
@@ -325,9 +321,9 @@ namespace TF
                     @return a range object specifying the start location and number of characters of the first occurance
                     of the substring in the string.
             */
-            virtual range_type findCharacterRangeForSubstringInString(const char_type *stringStart,
+            virtual range_type findCharacterRangeForSubstringInString(const char_type * stringStart,
                                                                       size_type stringLength,
-                                                                      const char_type *substringStart,
+                                                                      const char_type * substringStart,
                                                                       size_type substringLength) = 0;
 
             /**
@@ -341,9 +337,9 @@ namespace TF
                     @return an array of range objects specifying the location and lengths of characters that match
                     the substring in the string.
             */
-            virtual range_array_type findCharacterRangesForSubstringInString(const char_type *stringStart,
+            virtual range_array_type findCharacterRangesForSubstringInString(const char_type * stringStart,
                                                                              size_type stringLength,
-                                                                             const char_type *substringStart,
+                                                                             const char_type * substringStart,
                                                                              size_type substringLength) = 0;
 
             /**
@@ -358,7 +354,7 @@ namespace TF
                     not match the substring from the string.
             */
             virtual range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(
-                const char_type *stringStart, size_type stringLength, const char_type *substringStart,
+                const char_type * stringStart, size_type stringLength, const char_type * substringStart,
                 size_type substringLength) = 0;
 
             /**
@@ -372,8 +368,8 @@ namespace TF
                     string come lexically after the characters in the second string and OrderedSame of the
                     contents of the two strings are equal.
             */
-            virtual ComparisonResult compareStrings(const char_type *firstStringStart, size_type firstStringLength,
-                                                    const char_type *secondStringStart, size_type secondStringLength);
+            virtual ComparisonResult compareStrings(const char_type * firstStringStart, size_type firstStringLength,
+                                                    const char_type * secondStringStart, size_type secondStringLength);
 
             /**
                     @brief given a byte array and case conversion specificer, convert the characters in the byte
@@ -384,7 +380,7 @@ namespace TF
                     should be converted to upper case.  TFLowerCase indicates that all upper case values shoul
                     be converted to lower case.
             */
-            virtual void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase) = 0;
+            virtual void convertStringCharacters(char_type * start, size_type length, StringCase convertToCase) = 0;
 
             /**
                     @brief calculate the number of bytes needed to create a new string from an old string with a
@@ -401,9 +397,9 @@ namespace TF
                     This method must include the number of bytes needed for any byte order mark used by the encoder.
             */
             virtual size_type computeArraySizeInBytesForStringByReplacingSubstrings(
-                const char_type *stringStart, size_type stringLength, const char_type *substringStart,
-                size_type substringLength, const char_type *replaceStringStart, size_type replaceStringLength,
-                range_array_type &ranges) = 0;
+                const char_type * stringStart, size_type stringLength, const char_type * substringStart,
+                size_type substringLength, const char_type * replaceStringStart, size_type replaceStringLength,
+                range_array_type & ranges) = 0;
 
             /**
                     @brief give a byte array and new byte array and a replacement byte array and an array of ranges of
@@ -426,12 +422,12 @@ namespace TF
                     In addition, the replacementString and the originalString will both contain byte order marks if
                     the encoder uses byte order marks.
             */
-            virtual void replaceOccurancesOfStringWithString(const char_type *originalStringStart,
-                                                             size_type originalStringLength, char_type *newStringStart,
+            virtual void replaceOccurancesOfStringWithString(const char_type * originalStringStart,
+                                                             size_type originalStringLength, char_type * newStringStart,
                                                              size_type newStringLength,
-                                                             const char_type *replacementStringStart,
+                                                             const char_type * replacementStringStart,
                                                              size_type replacementStringLength,
-                                                             range_array_type &substringRanges) = 0;
+                                                             range_array_type & substringRanges) = 0;
 
             /**
                     @brief given a byte array and a byte order direction, retrieve the Unicode value for the character
@@ -441,7 +437,7 @@ namespace TF
                     @param endian the byte order of the characters in the array.
                     @return the Unicode code point value for the character at the beginning of the array.
             */
-            virtual unicode_point_type correctValueForPlatform(const char_type *start, size_type length,
+            virtual unicode_point_type correctValueForPlatform(const char_type * start, size_type length,
                                                                Endian endian) = 0;
 
             /**
@@ -449,14 +445,14 @@ namespace TF
                     @param e the other string encoder.
                     @return true if @e e is of the same class as this encoder, false otherwise.
             */
-            virtual bool operator==(const StringEncoder &e) = 0;
+            virtual bool operator==(const StringEncoder & e) = 0;
 
             /**
                     @brief test whether a given string encoder is not the same class as this string encoder.
                     @param e the other string encoder.
                     @return true if @e is not from the same class as this encoder, false otherwise.
             */
-            virtual bool operator!=(const StringEncoder &e);
+            virtual bool operator!=(const StringEncoder & e);
 
             /** @brief caculate the byte order used by the currently running system. */
             static Endian thisSystemEndianness();
@@ -464,7 +460,7 @@ namespace TF
             /**
                     @brief ostream interaction method.
             */
-            virtual std::ostream &description(std::ostream &o) const = 0;
+            virtual std::ostream & description(std::ostream & o) const = 0;
 
             /** @brief method to return an id string to identify the class of encoder */
             virtual std::string getEncoderID() const;
@@ -474,10 +470,8 @@ namespace TF
             static const Endian myEndianValue;
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-
-}    // namespace TF
-
+} // namespace TF
 
 #endif /* TFSTRINGENCODER_HPP */

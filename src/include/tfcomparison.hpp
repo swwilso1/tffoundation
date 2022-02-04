@@ -42,8 +42,8 @@ namespace TF
 
         using ComparisonResult = comparison_result;
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #endif /* TFCOMPARISON_HPP */

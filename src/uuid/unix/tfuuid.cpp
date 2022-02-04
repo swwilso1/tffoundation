@@ -36,22 +36,22 @@ namespace TF
 
         const int UUID::uuidStringLength;
 
-        UUID::UUID() : m_theUUID {}
+        UUID::UUID() : m_theUUID{}
         {
             uuid_generate(m_theUUID);
         }
 
-        UUID::UUID(const UUID &id) : m_theUUID {}
+        UUID::UUID(const UUID & id) : m_theUUID{}
         {
             uuid_copy(m_theUUID, id.m_theUUID);
         }
 
-        UUID::UUID(UUID &&id) : m_theUUID {}
+        UUID::UUID(UUID && id) : m_theUUID{}
         {
             uuid_copy(m_theUUID, id.m_theUUID);
         }
 
-        UUID::UUID(tfuuid_t uid) : m_theUUID {}
+        UUID::UUID(tfuuid_t uid) : m_theUUID{}
         {
             uuid_copy(m_theUUID, uid);
         }
@@ -61,59 +61,59 @@ namespace TF
             uuid_clear(m_theUUID);
         }
 
-        UUID &UUID::operator=(const UUID &id)
+        UUID & UUID::operator=(const UUID & id)
         {
             uuid_copy(m_theUUID, id.m_theUUID);
             return *this;
         }
 
-        UUID &UUID::operator=(UUID &&id)
+        UUID & UUID::operator=(UUID && id)
         {
             uuid_copy(m_theUUID, id.m_theUUID);
             return *this;
         }
 
-        UUID &UUID::operator=(const string_type &s)
+        UUID & UUID::operator=(const string_type & s)
         {
             auto uuid_conversion = UUID::fromString(s);
-            if(uuid_conversion)
+            if (uuid_conversion)
             {
                 *this = uuid_conversion.value();
             }
             else
             {
-                throw std::runtime_error {"Unable to convert string to UUID"};
+                throw std::runtime_error{"Unable to convert string to UUID"};
             }
             return *this;
         }
 
-        bool UUID::operator==(const UUID &id) const
+        bool UUID::operator==(const UUID & id) const
         {
-            if(uuid_compare(m_theUUID, id.m_theUUID) == 0)
+            if (uuid_compare(m_theUUID, id.m_theUUID) == 0)
                 return true;
             return false;
         }
 
-        bool UUID::operator==(const string_type &s) const
+        bool UUID::operator==(const string_type & s) const
         {
             auto theUUID = fromString(s);
-            if(theUUID)
+            if (theUUID)
             {
                 return *this == theUUID.value();
             }
             return false;
         }
 
-        bool UUID::operator!=(const UUID &id) const
+        bool UUID::operator!=(const UUID & id) const
         {
-            if(*this == id)
+            if (*this == id)
                 return false;
             return true;
         }
 
-        bool UUID::operator!=(const string_type &s) const
+        bool UUID::operator!=(const string_type & s) const
         {
-            if(*this == s)
+            if (*this == s)
                 return false;
             return true;
         }
@@ -131,32 +131,31 @@ namespace TF
             return s.uppercaseString();
         }
 
-        std::optional<UUID> UUID::fromString(const string_type &s)
+        std::optional<UUID> UUID::fromString(const string_type & s)
         {
             tfuuid_t theUUID;
             auto cStr = s.cStr();
             int result = uuid_parse(cStr.get(), theUUID);
-            if(result == 0)
+            if (result == 0)
             {
-                UUID new_uuid {theUUID};
-                std::optional<UUID> the_optional {new_uuid};
+                UUID new_uuid{theUUID};
+                std::optional<UUID> the_optional{new_uuid};
                 return the_optional;
             }
-            return std::optional<UUID> {};
+            return std::optional<UUID>{};
         }
 
-        std::ostream &UUID::description(std::ostream &o) const
+        std::ostream & UUID::description(std::ostream & o) const
         {
             o << toString();
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const UUID &id)
+        std::ostream & operator<<(std::ostream & o, const UUID & id)
         {
             return id.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

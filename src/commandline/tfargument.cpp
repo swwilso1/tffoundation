@@ -42,7 +42,7 @@ namespace TF
             m_matched = false;
         }
 
-        void Argument::setShortName(const string_type &name)
+        void Argument::setShortName(const string_type & name)
         {
             m_shortName = name;
         }
@@ -52,12 +52,12 @@ namespace TF
             return m_shortName;
         }
 
-        Argument::string_type Argument::getShortNameWithoutPrefix(const string_type &prefix) const
+        Argument::string_type Argument::getShortNameWithoutPrefix(const string_type & prefix) const
         {
             return m_shortName.stringByReplacingOccurencesOfStringWithString(prefix, "");
         }
 
-        void Argument::setLongName(const string_type &name)
+        void Argument::setLongName(const string_type & name)
         {
             m_longName = name;
         }
@@ -67,17 +67,17 @@ namespace TF
             return m_longName;
         }
 
-        Argument::string_type Argument::getLongNameWithoutPrefix(const string_type &prefix) const
+        Argument::string_type Argument::getLongNameWithoutPrefix(const string_type & prefix) const
         {
             return m_longName.stringByReplacingOccurencesOfStringWithString(prefix, "");
         }
 
-        void Argument::setNames(const string_list_type &names)
+        void Argument::setNames(const string_list_type & names)
         {
-            if(names.size() >= 1)
+            if (names.size() >= 1)
                 m_shortName = names[0];
 
-            if(names.size() >= 2)
+            if (names.size() >= 2)
                 m_longName = names[1];
         }
 
@@ -89,7 +89,7 @@ namespace TF
             return names;
         }
 
-        void Argument::setAction(const action_type &action)
+        void Argument::setAction(const action_type & action)
         {
             m_action = action;
         }
@@ -99,7 +99,7 @@ namespace TF
             return m_action;
         }
 
-        void Argument::setNumberOfArgs(const size_type &n)
+        void Argument::setNumberOfArgs(const size_type & n)
         {
             m_nArgs = n;
         }
@@ -109,7 +109,7 @@ namespace TF
             return m_nArgs;
         }
 
-        void Argument::setDefault(const string_type &value)
+        void Argument::setDefault(const string_type & value)
         {
             m_default = value;
         }
@@ -119,7 +119,7 @@ namespace TF
             return m_default;
         }
 
-        void Argument::setConstant(const string_type &constant)
+        void Argument::setConstant(const string_type & constant)
         {
             m_constant = constant;
         }
@@ -129,7 +129,7 @@ namespace TF
             return m_constant;
         }
 
-        void Argument::setArgumentType(const argument_type &type)
+        void Argument::setArgumentType(const argument_type & type)
         {
             m_argumentType = type;
         }
@@ -139,20 +139,20 @@ namespace TF
             return m_argumentType;
         }
 
-        void Argument::setDestination(const string_type &destination)
+        void Argument::setDestination(const string_type & destination)
         {
             m_destination = destination;
         }
 
-        Argument::string_type Argument::getDestination(const string_type &prefix) const
+        Argument::string_type Argument::getDestination(const string_type & prefix) const
         {
-            if(m_destination.length() > 0)
+            if (m_destination.length() > 0)
                 return m_destination;
 
             return m_longName.stringByReplacingOccurencesOfStringWithString(prefix, "");
         }
 
-        void Argument::setChoices(const string_list_type &choices)
+        void Argument::setChoices(const string_list_type & choices)
         {
             m_choices = choices;
         }
@@ -172,7 +172,7 @@ namespace TF
             return m_required;
         }
 
-        void Argument::setHelp(const string_type &help)
+        void Argument::setHelp(const string_type & help)
         {
             m_help = help;
         }
@@ -180,49 +180,49 @@ namespace TF
         Argument::string_type Argument::getHelp() const
         {
             string_type helpString = m_help;
-            if(m_choices.size() > 0)
+            if (m_choices.size() > 0)
             {
                 helpString += " {";
                 string_list_type::size_type i = 0;
-                for(auto &choice : m_choices)
+                for (auto & choice : m_choices)
                 {
                     helpString += choice;
-                    if(i++ < (m_choices.size() - 1))
+                    if (i++ < (m_choices.size() - 1))
                         helpString += ", ";
                 }
                 helpString += "}";
             }
 
-            if(m_default.length() > 0)
+            if (m_default.length() > 0)
             {
                 helpString += " (Default: " + m_default + ")";
             }
             return helpString;
         }
 
-        bool Argument::valueMatchesName(const string_type &value) const
+        bool Argument::valueMatchesName(const string_type & value) const
         {
             return value == m_shortName || value == m_longName;
         }
 
-        bool Argument::valueMatchesChoice(const string_type &value) const
+        bool Argument::valueMatchesChoice(const string_type & value) const
         {
-            for(auto &choice : m_choices)
+            for (auto & choice : m_choices)
             {
-                if(choice == value)
+                if (choice == value)
                     return true;
             }
             return false;
         }
 
-        bool Argument::argumentIsOptional(const string_type &prefix) const
+        bool Argument::argumentIsOptional(const string_type & prefix) const
         {
             auto result = m_shortName.rangeOfString(prefix);
-            if(result.position == 0 && result.length > 0)
+            if (result.position == 0 && result.length > 0)
                 return true;
 
             result = m_longName.rangeOfString(prefix);
-            if(result.position == 0 && result.length > 0)
+            if (result.position == 0 && result.length > 0)
                 return true;
 
             return false;
@@ -257,13 +257,13 @@ namespace TF
             size_type shortLength = m_shortName.length();
             size_type longLength = m_longName.length();
 
-            if(shortLength > 0)
+            if (shortLength > 0)
                 nameJoin = m_shortName;
 
-            if(shortLength > 0 && longLength > 0)
+            if (shortLength > 0 && longLength > 0)
                 nameJoin += ", ";
 
-            if(longLength > 0)
+            if (longLength > 0)
                 nameJoin += m_longName;
 
             return nameJoin;
@@ -284,11 +284,11 @@ namespace TF
             return m_valuesConsumed < m_nArgs;
         }
 
-        bool Argument::valuesMatchChoices(const string_list_type &values) const
+        bool Argument::valuesMatchChoices(const string_list_type & values) const
         {
-            for(auto &value : values)
+            for (auto & value : values)
             {
-                if(!valueMatchesChoice(value))
+                if (! valueMatchesChoice(value))
                     return false;
             }
             return true;
@@ -309,21 +309,20 @@ namespace TF
             m_matched = m;
         }
 
-        Argument::string_type Argument::valueThatDoesNotMatchChoice(const string_list_type &values) const
+        Argument::string_type Argument::valueThatDoesNotMatchChoice(const string_list_type & values) const
         {
-            for(auto &value : values)
+            for (auto & value : values)
             {
-                if(!valueMatchesChoice(value))
+                if (! valueMatchesChoice(value))
                     return value;
             }
             return string_type();
         }
 
-
-        std::ostream &Argument::description(std::ostream &o) const
+        std::ostream & Argument::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("Argument");
                 formatter->addClassMember<string_type>("m_shortName", m_shortName);
@@ -344,11 +343,11 @@ namespace TF
             return o;
         }
 
-        std::ostream &operator<<(std::ostream &o, const Argument &a)
+        std::ostream & operator<<(std::ostream & o, const Argument & a)
         {
             return a.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

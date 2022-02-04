@@ -34,34 +34,34 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &XMLClassFormatter::writeToStream(std::ostream &o) const
+        std::ostream & XMLClassFormatter::writeToStream(std::ostream & o) const
         {
             o << std::endl << Tab(indentLevel, tabWidth) << "<" << className;
-            if(classTemplateList.size() > 0)
+            if (classTemplateList.size() > 0)
             {
                 size_type i = 0;
                 size_type max = classTemplateList.size();
                 o << " template_types=\"";
-                for(auto templateType : classTemplateList)
+                for (auto templateType : classTemplateList)
                 {
                     o << templateType;
-                    if(i++ < (max - 1))
+                    if (i++ < (max - 1))
                         o << ",";
                 }
                 o << "\"";
             }
             o << ">";
             indentLevel++;
-            for(auto member : classMemberList)
+            for (auto member : classMemberList)
             {
                 string_type theValue = member->value();
                 bool doIndent = theValue.find("\n") != string_type::npos ? true : false;
                 o << std::endl << Tab(indentLevel, tabWidth);
                 o << "<" << member->name() << " type=\"" << member->type() << "\">";
-                if(doIndent)
+                if (doIndent)
                     indentLevel++;
                 o << member->value();
-                if(doIndent)
+                if (doIndent)
                 {
                     indentLevel--;
                     o << std::endl << Tab(indentLevel, tabWidth);
@@ -73,6 +73,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

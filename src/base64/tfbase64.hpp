@@ -48,9 +48,9 @@ namespace TF
 
             using string_type = String;
 
-            static string_type encode(const data_type &data);
+            static string_type encode(const data_type & data);
 
-            static data_type decode(const string_type &s);
+            static data_type decode(const string_type & s);
 
         private:
             using encoding_map_type = std::map<int, char>;
@@ -72,9 +72,8 @@ namespace TF
             static const char sPadChar = '=';
         };
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
+} // namespace TF
 
-}    // namespace TF
-
-#endif    // TFBASE64_HPP
+#endif // TFBASE64_HPP

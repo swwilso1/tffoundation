@@ -39,11 +39,11 @@ namespace TF
         class XMLClassFormatter : public ClassFormatter
         {
         public:
-            std::ostream &writeToStream(std::ostream &o) const override;
+            std::ostream & writeToStream(std::ostream & o) const override;
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFXMLCLASSFORMATTER_HPP
+#endif // TFXMLCLASSFORMATTER_HPP

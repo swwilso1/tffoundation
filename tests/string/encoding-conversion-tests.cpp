@@ -33,7 +33,6 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-
 TEST(StringTest, GetAsDataInASCIIEncodingTest)
 {
     unsigned int array[5];
@@ -84,7 +83,6 @@ TEST(StringTest, GetAsDataInASCIIEncodingTest)
     EXPECT_EQ(theData[31], '0');
 }
 
-
 TEST(StringTest, GetAsDataInUTF8Encoding)
 {
     unsigned int array[5];
@@ -117,7 +115,6 @@ TEST(StringTest, GetAsDataInUTF8Encoding)
     EXPECT_EQ(theData[11], 0x80);
 }
 
-
 TEST(StringTest, GetAsDataInUTF16Encoding)
 {
     unsigned int array[5];
@@ -133,7 +130,7 @@ TEST(StringTest, GetAsDataInUTF16Encoding)
 
     EXPECT_EQ(theData.length(), 12);
 
-    if(theData[0] == 0xFF)
+    if (theData[0] == 0xFF)
     {
         // Little Ending encoding.
 
@@ -177,7 +174,6 @@ TEST(StringTest, GetAsDataInUTF16Encoding)
     }
 }
 
-
 TEST(StringTest, GetAsDataInUTF32Encoding)
 {
     unsigned int array[5];
@@ -193,7 +189,7 @@ TEST(StringTest, GetAsDataInUTF32Encoding)
 
     EXPECT_EQ(theData.length(), 20);
 
-    if(theData[0] == 0xFF)
+    if (theData[0] == 0xFF)
     {
         // Little Endian encoding.
         EXPECT_EQ(theData[0], 0xFF);

@@ -31,7 +31,7 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tfformatter.hpp"
 
-extern char **environ;
+extern char ** environ;
 
 namespace TF
 {
@@ -42,7 +42,7 @@ namespace TF
         {
             auto tmp = environ;
 
-            while(tmp != nullptr && *tmp != nullptr)
+            while (tmp != nullptr && *tmp != nullptr)
             {
                 string_type entry = *tmp;
                 auto equalsLocation = entry.rangeOfString("=");
@@ -56,17 +56,13 @@ namespace TF
             }
         }
 
-
-        EnvironmentSettings::~EnvironmentSettings()
-        {
-        }
-
+        EnvironmentSettings::~EnvironmentSettings() {}
 
         EnvironmentSettings::string_array_type EnvironmentSettings::environmentVariables() const
         {
             string_array_type variables;
 
-            for(auto &mapEntry : variableMap)
+            for (auto & mapEntry : variableMap)
             {
                 variables.push_back(mapEntry.first);
             }
@@ -74,15 +70,14 @@ namespace TF
             return variables;
         }
 
-
-        EnvironmentSettings::string_type EnvironmentSettings::getValueForVariable(const string_type &variable) const
+        EnvironmentSettings::string_type EnvironmentSettings::getValueForVariable(const string_type & variable) const
         {
-            if(variableMap.count(variable) > 0)
+            if (variableMap.count(variable) > 0)
                 return variableMap.at(variable);
 
             // Try using getenv to find the variable.
             auto value = std::getenv(variable.cStr().get());
-            if(value != nullptr)
+            if (value != nullptr)
             {
                 return string_type(value);
             }
@@ -90,24 +85,22 @@ namespace TF
             throw std::runtime_error("Unable to locate variable in system environment");
         }
 
-
-        bool EnvironmentSettings::hasVariable(const string_type &variable) const
+        bool EnvironmentSettings::hasVariable(const string_type & variable) const
         {
-            if(variableMap.count(variable) > 0)
+            if (variableMap.count(variable) > 0)
                 return true;
 
             auto value = std::getenv(variable.cStr().get());
-            if(value != nullptr)
+            if (value != nullptr)
                 return true;
 
             return false;
         }
 
-
-        void EnvironmentSettings::setValueForVariable(const string_type &variable, const string_type &value)
+        void EnvironmentSettings::setValueForVariable(const string_type & variable, const string_type & value)
         {
             bool overwrite = false;
-            if(variableMap.count(variable) > 0)
+            if (variableMap.count(variable) > 0)
             {
                 variableMap[variable] = value;
                 overwrite = true;
@@ -120,12 +113,11 @@ namespace TF
             setenv(variable.cStr().get(), value.cStr().get(), overwrite ? 1 : 0);
         }
 
-
-        void EnvironmentSettings::addToValueForVariable(const string_type &variable, const string_type &value)
+        void EnvironmentSettings::addToValueForVariable(const string_type & variable, const string_type & value)
         {
             bool overwrite = false;
 
-            if(variableMap.count(variable) > 0)
+            if (variableMap.count(variable) > 0)
             {
                 auto theValue = variableMap.at(variable);
                 theValue += ":" + value;
@@ -138,24 +130,21 @@ namespace TF
             setenv(variable.cStr().get(), value.cStr().get(), overwrite ? 1 : 0);
         }
 
-
-        void EnvironmentSettings::removeVariable(const string_type &variable)
+        void EnvironmentSettings::removeVariable(const string_type & variable)
         {
             variableMap.erase(variable);
             unsetenv(variable.cStr().get());
         }
-
 
         EnvironmentSettings::size_type EnvironmentSettings::numberOfVariables() const
         {
             return variableMap.size();
         }
 
-
-        std::ostream &EnvironmentSettings::description(std::ostream &o) const
+        std::ostream & EnvironmentSettings::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("EnvironmentSettings");
                 formatter->addClassMember<map_type>("variableMap", variableMap);
@@ -165,12 +154,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const EnvironmentSettings &s)
+        std::ostream & operator<<(std::ostream & o, const EnvironmentSettings & s)
         {
             return s.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

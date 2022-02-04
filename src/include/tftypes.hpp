@@ -25,14 +25,12 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #ifndef TFTYPES_HPP
 #define TFTYPES_HPP 1
 
 #define NEEDS_CSTDDEF
 #define NEEDS_LIMITS_H
 #include "tfheaders.hpp"
-
 
 namespace TF
 {
@@ -58,34 +56,26 @@ namespace TF
             Float height;
 
             /** @brief default constructor */
-            Size() : width(0.0), height(0.0)
-            {
-            }
+            Size() : width(0.0), height(0.0) {}
 
             /** @brief lvalue constructor */
-            Size(const Float &w, const Float &h) : width(w), height(h)
-            {
-            }
+            Size(const Float & w, const Float & h) : width(w), height(h) {}
 
             /** @brief rvalue constructor */
-            Size(const Float &&w, const Float &&h) : width(w), height(h)
-            {
-            }
+            Size(const Float && w, const Float && h) : width(w), height(h) {}
 
-            bool operator==(const Size &s) const
+            bool operator==(const Size & s) const
             {
                 return width == s.width && height == s.height;
             }
 
-
-            bool operator!=(const Size &s) const
+            bool operator!=(const Size & s) const
             {
-                if(*this == s)
+                if (*this == s)
                     return false;
                 return true;
             }
         };
-
 
         /** @brief Cartesian point (x,y) */
         struct Point
@@ -94,35 +84,26 @@ namespace TF
             Float y;
 
             /** @brief default constructor */
-            Point() : x(0.0), y(0.0)
-            {
-            }
+            Point() : x(0.0), y(0.0) {}
 
             /** @brief lvalue constructor */
-            Point(const Float &a, const Float &b) : x(a), y(b)
-            {
-            }
+            Point(const Float & a, const Float & b) : x(a), y(b) {}
 
             /** @brief rvalue constructor */
-            Point(const Float &&a, const Float &&b) : x(a), y(b)
-            {
-            }
+            Point(const Float && a, const Float && b) : x(a), y(b) {}
 
-
-            bool operator==(const Point &p) const
+            bool operator==(const Point & p) const
             {
                 return x == p.x && y == p.y;
             }
 
-
-            bool operator!=(const Point &p) const
+            bool operator!=(const Point & p) const
             {
-                if(*this == p)
+                if (*this == p)
                     return false;
                 return true;
             }
         };
-
 
         /** @brief basic rectangle */
         struct Rectangle
@@ -131,30 +112,23 @@ namespace TF
             Size size;
 
             /** @brief point/size constructor */
-            Rectangle(const Point &p, const Size &s) : origin(p), size(s)
-            {
-            }
+            Rectangle(const Point & p, const Size & s) : origin(p), size(s) {}
 
             /** @brief width/height, x/y constructor */
-            Rectangle(const Float &w, const Float &h, const Float &x, const Float &y) : origin(w, h), size(x, y)
-            {
-            }
+            Rectangle(const Float & w, const Float & h, const Float & x, const Float & y) : origin(w, h), size(x, y) {}
 
-
-            bool operator==(const Rectangle &r) const
+            bool operator==(const Rectangle & r) const
             {
                 return origin == r.origin && size == r.size;
             }
 
-
-            bool operator!=(const Rectangle &r) const
+            bool operator!=(const Rectangle & r) const
             {
-                if(*this == r)
+                if (*this == r)
                     return false;
                 return true;
             }
         };
-
 
         /** @brief range object */
         struct Range
@@ -163,25 +137,19 @@ namespace TF
             Size_t length;
 
             /** @brief default constructor */
-            Range() : position(0), length(0)
-            {
-            }
+            Range() : position(0), length(0) {}
 
             /** @brief lvalue constructor */
-            Range(const Size_t &p, const Size_t &l) : position(p), length(l)
-            {
-            }
+            Range(const Size_t & p, const Size_t & l) : position(p), length(l) {}
 
-
-            bool operator==(const Range &r) const
+            bool operator==(const Range & r) const
             {
                 return position == r.position && length == r.length;
             }
 
-
-            bool operator!=(const Range &r) const
+            bool operator!=(const Range & r) const
             {
-                if(*this == r)
+                if (*this == r)
                     return false;
                 return true;
             }
@@ -198,13 +166,11 @@ namespace TF
             T value;
             bool succeeded;
 
-            Result() : value {}, succeeded {false}
-            {
-            }
+            Result() : value{}, succeeded{false} {}
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #endif /* TFTYPES_HPP */

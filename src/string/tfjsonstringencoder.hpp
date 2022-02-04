@@ -57,22 +57,20 @@ namespace TF
 
             using data_type = unsigned char;
 
-            ~JSONStringEncoder()
-            {
-            }
+            ~JSONStringEncoder() {}
 
-            StringEncoder *clone() override;
+            StringEncoder * clone() override;
 
             size_type numberOfBytesRequiredForLargestCharacterValue() override;
 
-            std::ostream &description(std::ostream &o) const override;
+            std::ostream & description(std::ostream & o) const override;
 
             std::string getEncoderID() const override;
 
         protected:
-            size_type bytesToExpectInUTF8Sequence(const data_type *s, size_type length) override;
+            size_type bytesToExpectInUTF8Sequence(const data_type * s, size_type length) override;
 
-            unicode_point_type convertUTF8SequenceToUnicodePoint(const data_type *start, size_type length) override;
+            unicode_point_type convertUTF8SequenceToUnicodePoint(const data_type * start, size_type length) override;
 
         private:
             struct EscapedCodeStatus
@@ -80,19 +78,18 @@ namespace TF
                 bool m_escaped_unicode;
                 unicode_point_type m_code;
 
-                EscapedCodeStatus() : m_escaped_unicode {false}, m_code {0} {};
+                EscapedCodeStatus() : m_escaped_unicode{false}, m_code{0} {};
             };
 
-            std::pair<bool, unicode_point_type> calculateTheUPoint(const char_type *s, size_type length);
+            std::pair<bool, unicode_point_type> calculateTheUPoint(const char_type * s, size_type length);
 
-            std::pair<bool, EscapedCodeStatus> calculateTheEscapedCode(const char_type *s, size_type length);
-
+            std::pair<bool, EscapedCodeStatus> calculateTheEscapedCode(const char_type * s, size_type length);
 
             static const size_type byteOrderMarkLength;
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #endif /* TFJSONSTRINGENCODER_HPP */

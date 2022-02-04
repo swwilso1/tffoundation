@@ -32,7 +32,6 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-
 TEST(StringTest, EmptyStringIteratorsTest)
 {
     String s;
@@ -41,7 +40,6 @@ TEST(StringTest, EmptyStringIteratorsTest)
     EXPECT_EQ(b, e);
 }
 
-
 TEST(StringTest, BeginEndIteratorsTest)
 {
     String s("Hello World");
@@ -49,7 +47,6 @@ TEST(StringTest, BeginEndIteratorsTest)
     auto e = s.end();
     EXPECT_NE(b, e);
 }
-
 
 TEST(StringTest, IteratorValueTest)
 {
@@ -91,7 +88,6 @@ TEST(StringTest, IteratorValueTest)
     EXPECT_EQ(b, s.end());
 }
 
-
 TEST(StringTest, UnicodeValueTest)
 {
     String s = String::initWithASCIIEncodedUnicode("a\\:002387\\:002231");
@@ -109,21 +105,19 @@ TEST(StringTest, UnicodeValueTest)
     EXPECT_EQ(b, s.end());
 }
 
-
 TEST(StringTest, SimpleForLoopTest)
 {
     String s = String::initWithASCIIEncodedUnicode("abcdefg\\:10FFFAq\\:005422");
-    for(auto i = s.begin(); i != s.end(); ++i)
+    for (auto i = s.begin(); i != s.end(); ++i)
     {
         EXPECT_NE(i, s.end());
     }
 }
 
-
 TEST(StringTest, StrongerForLoopTest)
 {
     String s = String::initWithASCIIEncodedUnicode("\\:003293aqqweiewi\\:10ADD3");
-    for(auto u : s)
+    for (auto u : s)
     {
         EXPECT_NE(u, 0);
     }

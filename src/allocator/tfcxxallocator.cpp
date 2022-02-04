@@ -28,55 +28,51 @@ SOFTWARE.
 #include "tfallocatorinterface.hpp"
 #include "tfcxxallocator.hpp"
 
-
-void *operator new(TF::Foundation::Size_t s) noexcept(false)
+void * operator new(TF::Foundation::Size_t s) noexcept(false)
 {
     auto allocator = TF::Foundation::AllocatorInterface::getBlockAllocator();
-    if(allocator != nullptr)
+    if (allocator != nullptr)
     {
-        void *memory = allocator(s);
-        if(memory == nullptr)
+        void * memory = allocator(s);
+        if (memory == nullptr)
             throw std::bad_alloc();
         return memory;
     }
     throw std::bad_alloc();
 }
 
-
-void *operator new[](TF::Foundation::Size_t s) noexcept(false)
+void * operator new[](TF::Foundation::Size_t s) noexcept(false)
 {
     auto allocator = TF::Foundation::AllocatorInterface::getBlockAllocator();
-    if(allocator != nullptr)
+    if (allocator != nullptr)
     {
-        void *memory = allocator(s);
-        if(memory == nullptr)
+        void * memory = allocator(s);
+        if (memory == nullptr)
             throw std::bad_alloc();
         return memory;
     }
     throw std::bad_alloc();
 }
 
-
-void operator delete(void *p) noexcept
+void operator delete(void * p) noexcept
 {
-    if(p == nullptr)
+    if (p == nullptr)
         return;
 
     auto deallocator = TF::Foundation::AllocatorInterface::getBlockDeallocator();
-    if(deallocator != nullptr)
+    if (deallocator != nullptr)
     {
         deallocator(p);
     }
 }
 
-
-void operator delete[](void *p) noexcept
+void operator delete[](void * p) noexcept
 {
-    if(p == nullptr)
+    if (p == nullptr)
         return;
 
     auto deallocator = TF::Foundation::AllocatorInterface::getBlockDeallocator();
-    if(deallocator != nullptr)
+    if (deallocator != nullptr)
     {
         deallocator(p);
     }

@@ -42,44 +42,42 @@ namespace TF
          */
         using FileHandle = FileHandleBase<FILE *, int>;
 
-
         /**
          * Declare template specializations for all the methods of the FileHandleBase template type.
          */
-
 
         template<>
         FileHandleBase<FILE *, int>::FileHandleBase(bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase &fh);
+        FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase & fh);
 
         template<>
-        FileHandleBase<FILE *, int>::FileHandleBase(FileHandleBase &&fh);
+        FileHandleBase<FILE *, int>::FileHandleBase(FileHandleBase && fh);
 
         template<>
         FileHandleBase<FILE *, int>::~FileHandleBase();
 
         template<>
-        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(const FileHandleBase &fh);
+        FileHandleBase<FILE *, int> & FileHandleBase<FILE *, int>::operator=(const FileHandleBase & fh);
 
         template<>
-        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(FileHandleBase &&fh);
+        FileHandleBase<FILE *, int> & FileHandleBase<FILE *, int>::operator=(FileHandleBase && fh);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type &path,
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type & path,
                                                                                             bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type &path,
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type & path,
                                                                                             bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int>
-            FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(const string_type &path, bool auto_close);
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(
+            const string_type & path, bool auto_close);
 
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type &path,
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type & path,
                                                                                               bool auto_close);
 
         template<>
@@ -104,7 +102,7 @@ namespace TF
         FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readDataOfLength(size_type length);
 
         template<>
-        void FileHandleBase<FILE *, int>::writeData(const data_type &d);
+        void FileHandleBase<FILE *, int>::writeData(const data_type & d);
 
         template<>
         FileHandleBase<FILE *, int>::size_type FileHandleBase<FILE *, int>::offsetInFile();
@@ -122,10 +120,10 @@ namespace TF
         void FileHandleBase<FILE *, int>::truncateFileAtOffset(size_type offset);
 
         template<>
-        std::ostream &FileHandleBase<FILE *, int>::description(std::ostream &o) const;
+        std::ostream & FileHandleBase<FILE *, int>::description(std::ostream & o) const;
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFUNIXFILEHANDLE_HPP
+#endif // TFUNIXFILEHANDLE_HPP

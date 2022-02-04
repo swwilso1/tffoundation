@@ -33,7 +33,6 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-
 TEST(StringTest, SubstringFromIndexTest)
 {
     String s("A house high in the hills overlooks those high in oxygination");
@@ -41,10 +40,9 @@ TEST(StringTest, SubstringFromIndexTest)
     EXPECT_EQ(t, s);
 }
 
-
 TEST(StringTest, SubstringFromIndexTest2)
 {
-    const char *a[16];
+    const char * a[16];
 
     a[0] = "A big red house";
     a[1] = " big red house";
@@ -65,18 +63,17 @@ TEST(StringTest, SubstringFromIndexTest2)
 
     String s("A big red house");
 
-    for(size_t i = 0; i < s.length(); i++)
+    for (size_t i = 0; i < s.length(); i++)
     {
         EXPECT_EQ(s.substringFromIndex(i), a[i]);
     }
 }
 
-
 TEST(StringTest, SubstringFromIndexTest3)
 {
     String s = String::initWithASCIIEncodedUnicode("abc\\:103333\\:00003445");
 
-    const char *a[8];
+    const char * a[8];
 
     a[0] = "abc\\:103333\\:00003445";
     a[1] = "bc\\:103333\\:00003445";
@@ -87,12 +84,11 @@ TEST(StringTest, SubstringFromIndexTest3)
     a[6] = "5";
     a[7] = "";
 
-    for(size_t i = 0; i < s.length(); i++)
+    for (size_t i = 0; i < s.length(); i++)
     {
         EXPECT_EQ(s.substringFromIndex(i), String::initWithASCIIEncodedUnicode(a[i]));
     }
 }
-
 
 TEST(StringTest, SubstringFromIndexTest4)
 {
@@ -100,13 +96,11 @@ TEST(StringTest, SubstringFromIndexTest4)
     EXPECT_ANY_THROW(auto v = s.substringFromIndex(3));
 }
 
-
 TEST(StringTest, SubstringWithRangeTest)
 {
     String s("abc");
     EXPECT_ANY_THROW(auto v = s.substringWithRange(Range(0, 4)));
 }
-
 
 TEST(StringTest, SubstringWithRangeTest2)
 {
@@ -115,14 +109,12 @@ TEST(StringTest, SubstringWithRangeTest2)
     EXPECT_EQ(v, " you ");
 }
 
-
 TEST(StringTest, SubstringWithRangeTest3)
 {
     String s = String::initWithASCIIEncodedUnicode("Would you \\:004432 like to play \\:000034 a game?");
     auto v = s.substringWithRange(Range(10, 18));
     EXPECT_EQ(v, "䐲 like to play 4 a");
 }
-
 
 TEST(StringTest, SubstringsNotInRangeTest)
 {
@@ -133,7 +125,6 @@ TEST(StringTest, SubstringsNotInRangeTest)
     EXPECT_EQ(substrings[1], " jumped over the log.");
 }
 
-
 TEST(StringTest, SubstringsNotInRangeTest2)
 {
     String s("The quick brown fox jumped over the log.");
@@ -141,7 +132,6 @@ TEST(StringTest, SubstringsNotInRangeTest2)
     EXPECT_EQ(substrings.size(), 1);
     EXPECT_EQ(substrings[0], "uick brown fox jumped over the log.");
 }
-
 
 TEST(StringTest, SubstringsNotInRangeTest3)
 {
@@ -160,14 +150,12 @@ TEST(StringTest, SubstringsNotInRangeTest4)
     EXPECT_EQ(substrings[1], "W5orldish");
 }
 
-
 TEST(StringTest, SubstringsNotInRangeTest5)
 {
     String s("Hello World");
     auto substrings = s.substringsNotInRange(Range(0, 40));
     EXPECT_EQ(substrings.size(), 0);
 }
-
 
 TEST(StringTest, SubstringToIndexTest)
 {
@@ -176,20 +164,17 @@ TEST(StringTest, SubstringToIndexTest)
     EXPECT_EQ(t, "Butternut wood ");
 }
 
-
 TEST(StringTest, SubstringToIndexTest2)
 {
     String s("Basswood wood is best");
     EXPECT_ANY_THROW(auto t = s.substringToIndex(30));
 }
 
-
 TEST(StringTest, SubstringToIndexTest3)
 {
     String s("Basswood wood is best");
     EXPECT_ANY_THROW(auto t = s.substringToIndex(21));
 }
-
 
 TEST(StringTest, SubstringsThatDoNotMatchStringTest)
 {
@@ -201,7 +186,6 @@ TEST(StringTest, SubstringsThatDoNotMatchStringTest)
     EXPECT_EQ(substrings[2], " cow");
 }
 
-
 TEST(StringTest, SubstringsThatDoNotMatchStringTest2)
 {
     String s("How now brown cow");
@@ -212,7 +196,6 @@ TEST(StringTest, SubstringsThatDoNotMatchStringTest2)
     EXPECT_EQ(substrings[2], " br");
     EXPECT_EQ(substrings[3], "n c");
 }
-
 
 TEST(StringTest, SubstringsThatDoNotMatchStringTest3)
 {
@@ -226,7 +209,6 @@ TEST(StringTest, SubstringsThatDoNotMatchStringTest3)
     EXPECT_EQ(substrings[3], "n c");
 }
 
-
 TEST(StringTest, SplitTest)
 {
     String s("How now brown now cow");
@@ -236,7 +218,6 @@ TEST(StringTest, SplitTest)
     EXPECT_EQ(substrings[1], " brown ");
     EXPECT_EQ(substrings[2], " cow");
 }
-
 
 TEST(StringTest, SplitTest2)
 {
@@ -248,7 +229,6 @@ TEST(StringTest, SplitTest2)
     EXPECT_EQ(substrings[2], " br");
     EXPECT_EQ(substrings[3], "n c");
 }
-
 
 TEST(StringTest, SplitTest3)
 {

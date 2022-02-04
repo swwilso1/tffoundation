@@ -25,7 +25,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #ifndef TFTHREADCONTROLLER_HPP
 #define TFTHREADCONTROLLER_HPP
 
@@ -63,17 +62,15 @@ namespace TF
         public:
             using wait_status_type = WaitStatus;
 
-            ThreadController(bool reset = false) : theSignal(false), autoReset(reset), theStop(false)
-            {
-            }
+            ThreadController(bool reset = false) : theSignal(false), autoReset(reset), theStop(false) {}
 
             wait_status_type wait()
             {
                 lock_type theLock(theMutex);
                 theConditional.wait(theLock);
-                if(theSignal)
+                if (theSignal)
                 {
-                    if(autoReset)
+                    if (autoReset)
                         theSignal = false;
                     return WaitStatus::Signaled;
                 }
@@ -85,95 +82,90 @@ namespace TF
             {
                 lock_type theLock(theMutex);
                 theConditional.wait(theLock, pred);
-                if(theSignal)
+                if (theSignal)
                 {
-                    if(autoReset)
+                    if (autoReset)
                         theSignal = false;
                     return WaitStatus::Signaled;
                 }
                 return WaitStatus::NotSignaled;
             }
 
-
             template<class Rep, class Period>
-            wait_status_type wait_for(const std::chrono::duration<Rep, Period> &relTime)
+            wait_status_type wait_for(const std::chrono::duration<Rep, Period> & relTime)
             {
                 lock_type theLock(theMutex);
                 auto waitResult = theConditional.wait_for(theLock, relTime);
 
-                if(theSignal)
+                if (theSignal)
                 {
-                    if(autoReset)
+                    if (autoReset)
                         theSignal = false;
                     return WaitStatus::Signaled;
                 }
 
-                if(waitResult == std::cv_status::timeout)
+                if (waitResult == std::cv_status::timeout)
                     return WaitStatus::Expired;
 
                 return WaitStatus::NotSignaled;
             }
 
-
             template<class Rep, class Period, class Predicate>
-            wait_status_type wait_for(const std::chrono::duration<Rep, Period> &relTime, Predicate pred)
+            wait_status_type wait_for(const std::chrono::duration<Rep, Period> & relTime, Predicate pred)
             {
                 lock_type theLock(theMutex);
                 auto waitResult = theConditional.wait_for(theLock, relTime, pred);
 
-                if(theSignal)
+                if (theSignal)
                 {
-                    if(autoReset)
+                    if (autoReset)
                         theSignal = false;
                     return WaitStatus::Signaled;
                 }
 
-                if(waitResult == std::cv_status::timeout)
+                if (waitResult == std::cv_status::timeout)
                     return WaitStatus::Expired;
 
                 return WaitStatus::NotSignaled;
             }
 
-
             template<class Clock, class Duration>
-            wait_status_type wait_until(const std::chrono::time_point<Clock, Duration> &timeout_time)
+            wait_status_type wait_until(const std::chrono::time_point<Clock, Duration> & timeout_time)
             {
                 lock_type theLock(theMutex);
                 auto waitResult = theConditional.wait_until(theLock, timeout_time);
 
-                if(theSignal)
+                if (theSignal)
                 {
-                    if(autoReset)
+                    if (autoReset)
                         theSignal = false;
                     return WaitStatus::Signaled;
                 }
 
-                if(waitResult == std::cv_status::timeout)
+                if (waitResult == std::cv_status::timeout)
                     return WaitStatus::Expired;
 
                 return WaitStatus::NotSignaled;
             }
 
-
             template<class Clock, class Duration, class Predicate>
-            wait_status_type wait_until(const std::chrono::time_point<Clock, Duration> &timeout_time, Predicate pred)
+            wait_status_type wait_until(const std::chrono::time_point<Clock, Duration> & timeout_time, Predicate pred)
             {
                 lock_type theLock(theMutex);
                 auto waitResult = theConditional.wait_until(theLock, timeout_time, pred);
 
-                if(theSignal)
+                if (theSignal)
                 {
-                    if(autoReset)
+                    if (autoReset)
                         theSignal = false;
                     return WaitStatus::Signaled;
                 }
 
-                if(waitResult == std::cv_status::timeout)
+                if (waitResult == std::cv_status::timeout)
                     return WaitStatus::Expired;
 
                 return WaitStatus::NotSignaled;
             }
-
 
             void reset()
             {
@@ -181,12 +173,10 @@ namespace TF
                 theSignal = false;
             }
 
-
             void signal()
             {
                 theConditional.notify_all();
             }
-
 
             void signalStop()
             {
@@ -194,14 +184,13 @@ namespace TF
                 theStop = true;
             }
 
-
             bool shouldStop()
             {
                 lock_type theLock(theMutex);
                 return theStop;
             }
 
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             mutex_type theMutex;
@@ -215,12 +204,10 @@ namespace TF
             bool theStop;
         };
 
+        std::ostream & operator<<(std::ostream &, const ThreadController & c);
 
-        std::ostream &operator<<(std::ostream &, const ThreadController &c);
+    } // namespace Foundation
 
-    }    // namespace Foundation
+} // namespace TF
 
-}    // namespace TF
-
-
-#endif    // THFTHREADCONTROLLER_HPP
+#endif // THFTHREADCONTROLLER_HPP

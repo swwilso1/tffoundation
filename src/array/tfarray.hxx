@@ -45,7 +45,6 @@ namespace TF
         template<class T>
         class Array;
 
-
         /**
          * @brief Simple class to iterate through members of class @e Array.
          * @tparam T
@@ -57,89 +56,74 @@ namespace TF
             /** @brief type of data contained in the array iterator */
             using value_type = T;
 
-
             /** @brief size_type */
             using size_type = Size_t;
-
 
             /**
              * @brief Default constructor
              */
             ArrayIterator();
 
-
             /**
              * @brief Array constructor
              * @param i the location of the iterator index.
              */
-            ArrayIterator(Array<value_type> &a, size_type i);
-
+            ArrayIterator(Array<value_type> & a, size_type i);
 
             /**
              * @brief copy constructor
              */
-            ArrayIterator(const ArrayIterator &i);
-
+            ArrayIterator(const ArrayIterator & i);
 
             /**
              * @brief rvalue constructor
              */
-            ArrayIterator(ArrayIterator &&i);
-
+            ArrayIterator(ArrayIterator && i);
 
             /**
              * @brief Destructor
              */
             ~ArrayIterator();
 
-
             /**
              * @brief assignment operator
              */
-            ArrayIterator &operator=(const ArrayIterator &i);
-
+            ArrayIterator & operator=(const ArrayIterator & i);
 
             /**
              * @brief rvalue assignment operator
              */
-            ArrayIterator &operator=(ArrayIterator &&i);
-
+            ArrayIterator & operator=(ArrayIterator && i);
 
             /**
              * @brief equality operator
              */
-            bool operator==(const ArrayIterator &i) const;
-
+            bool operator==(const ArrayIterator & i) const;
 
             /**
              * @brief inequality operator
              */
-            bool operator!=(const ArrayIterator &i) const;
-
+            bool operator!=(const ArrayIterator & i) const;
 
             /**
              * @brief less-than operator
              */
-            bool operator<(const ArrayIterator &i) const;
-
+            bool operator<(const ArrayIterator & i) const;
 
             /**
              * @brief less-than-equal operator
              */
-            bool operator<=(const ArrayIterator &i) const;
-
+            bool operator<=(const ArrayIterator & i) const;
 
             /**
              * @brief greater-than-equal operator
              */
-            bool operator>=(const ArrayIterator &i) const;
-
+            bool operator>=(const ArrayIterator & i) const;
 
             /**
              * @brief greater-than operator
              */
-            bool operator>(const ArrayIterator &i) const;
-
+            bool operator>(const ArrayIterator & i) const;
 
             /**
              * @brief helper method to set the iterator to the end.
@@ -152,20 +136,17 @@ namespace TF
             /**
              * @brief prefix increment operator
              */
-            ArrayIterator &operator++();
-
+            ArrayIterator & operator++();
 
             /**
              * @brief postfix increment operator
              */
             ArrayIterator operator++(int);
 
-
             /**
              * @brief prefix decrement operator
              */
-            ArrayIterator &operator--();
-
+            ArrayIterator & operator--();
 
             /**
              * @brief postfix decrement operator
@@ -177,44 +158,37 @@ namespace TF
              */
             ArrayIterator operator+(int i);
 
-
             /**
              * @brief subtraction operator
              */
             ArrayIterator operator-(int i);
 
-
             /**
              * @brief operator +=
              */
-            ArrayIterator &operator+=(int i);
-
+            ArrayIterator & operator+=(int i);
 
             /**
              * @brief operator-=
              */
-            ArrayIterator &operator-=(int i);
-
+            ArrayIterator & operator-=(int i);
 
             /**
              * @brief dereference operator
              */
             value_type operator*();
 
-
             /**
              * @brief pointer access operator
              */
-            value_type *operator->();
-
+            value_type * operator->();
 
             /**
              * @brief helper function for writing an iterator to a stream
              * @param o the stream object
              * @return @e o the stream object
              */
-            std::ostream &description(std::ostream &o) const;
-
+            std::ostream & description(std::ostream & o) const;
 
         private:
             enum class ArrayIteratorKind
@@ -230,7 +204,6 @@ namespace TF
             iterator_kind theKind;
         };
 
-
         /**
          * @brief overloaded operator<< for iterator objects.
          * @tparam T
@@ -239,8 +212,7 @@ namespace TF
          * @return @e o the stream object
          */
         template<class T>
-        std::ostream &operator<<(std::ostream &o, const ArrayIterator<T> &i);
-
+        std::ostream & operator<<(std::ostream & o, const ArrayIterator<T> & i);
 
         /**
          * @brief Simple class that matches most of std::array semantics except that it does
@@ -286,43 +258,37 @@ namespace TF
              */
             Array();
 
-
             /**
              * @brief array size constructor
              * @param l the length of the array
              *
              * Creates an array of length @e l
              */
-            Array(const size_type &l);
-
+            Array(const size_type & l);
 
             /**
              * @brief array value constructor
              * @param a the array of raw values
              * @param l the length of the array
              */
-            Array(const value_type *a, size_type l);
-
+            Array(const value_type * a, size_type l);
 
             /**
              * @brief copy constructor
              * @param a the other array
              */
-            Array(const Array &a);
-
+            Array(const Array & a);
 
             /**
              * @brief rvalue constructor
              * @param a the other array
              */
-            Array(Array &&a);
-
+            Array(Array && a);
 
             /**
              * @brief Destructor
              */
             ~Array();
-
 
             /**
              * @brief assignment operator
@@ -332,32 +298,28 @@ namespace TF
              *
              * Overwrites each element with the elements from the @e a array.
              */
-            Array &operator=(const Array &a);
-
+            Array & operator=(const Array & a);
 
             /**
              * @brief rvalue assignment operator
              * @param a the other array.
              * @return this array object with the stolen contents of @e a.
              */
-            Array &operator=(Array &&a);
-
+            Array & operator=(Array && a);
 
             /**
              * @brief equality operator
              * @param a the other array
              * @return true if the size and contents of the arrays match, and false otherwise.
              */
-            bool operator==(const Array &a) const;
-
+            bool operator==(const Array & a) const;
 
             /**
              * @brief inequaltiy operator
              * @param a the other array
              * @return true if th size or contents of the arrays do not match, and false otherwise.
              */
-            bool operator!=(const Array &a) const;
-
+            bool operator!=(const Array & a) const;
 
             /**
              * @brief return an iterator to the first element of the array
@@ -365,20 +327,17 @@ namespace TF
              */
             iterator begin();
 
-
             /**
              * @brief return a const iterator to the first element of the array
              * @return const iterator pointing to the first element of the array.
              */
             const_iterator cbegin();
 
-
             /**
              * @brief return an iterator pointing the one element past the end of the array
              * @return the iterator pointing past the end of the array.
              */
             iterator end();
-
 
             /**
              * @brief return a const iterator pointing to one element past the end of the array
@@ -396,7 +355,6 @@ namespace TF
              */
             reference at(size_type i);
 
-
             /**
              * @brief return a constant reference to the element at the specified index with bounds
              * checking
@@ -407,7 +365,6 @@ namespace TF
              */
             const_reference at(size_type i) const;
 
-
             /**
              * @brief overloaded [] to access the element at the index without bounds checking
              * @param i the index
@@ -415,14 +372,12 @@ namespace TF
              */
             reference operator[](size_type i);
 
-
             /**
              * @brief overloaded[] to access the element at the index without bounds checking
              * @param i the index
              * @return a constant reference to the element.
              */
             const_reference operator[](size_type i) const;
-
 
             /**
              * @brief return a reference to the first element in the array.
@@ -432,7 +387,6 @@ namespace TF
              */
             reference front();
 
-
             /**
              * @brief return a const reference to the first element in the array.
              * @return the const reference to the element.
@@ -440,7 +394,6 @@ namespace TF
              * Calling front() on an empty Array is undefined
              */
             const_reference front() const;
-
 
             /**
              * @brief return a reference to the last element in the array.
@@ -450,7 +403,6 @@ namespace TF
              */
             reference back();
 
-
             /**
              * @brief return a constant reference to the last element in the array.
              * @return the constant reference
@@ -459,13 +411,11 @@ namespace TF
              */
             const_reference back() const;
 
-
             /**
              * @brief get a pointer to the underlying data array
              * @return a pointer to the array.
              */
             pointer data();
-
 
             /**
              * @brief get a constant pointer to the underlying data array.
@@ -473,13 +423,11 @@ namespace TF
              */
             const_pointer data() const;
 
-
             /**
              * @brief check if the Array has no elements.
              * @return true if the Array has no elements and false otherwise.
              */
             constexpr bool empty() const;
-
 
             /**
              * @brief return the number of elements in the Array
@@ -487,20 +435,17 @@ namespace TF
              */
             constexpr size_type size() const;
 
-
             /**
              * @brief assign the given value to all elements of the array
              * @param value the value
              */
             void fill(const_reference value);
 
-
             /**
              * @brief exchange the contents of the array with another array
              * @param other the other array
              */
-            void swap(Array &makeother);
-
+            void swap(Array & makeother);
 
             /**
              * @brief method to get the array contents as a Data object
@@ -508,20 +453,17 @@ namespace TF
              */
             operator Data() const;
 
-
             /**
              * @brief method to write an Array contents to a stream.
              * @param o the stream object
              * @return @e o the stream object
              */
-            std::ostream &description(std::ostream &o) const;
-
+            std::ostream & description(std::ostream & o) const;
 
         private:
             std::shared_ptr<value_type> theArray;
             size_type theLength;
         };
-
 
         /**
          * @brief overloaded operator<< for Array objects
@@ -531,13 +473,12 @@ namespace TF
          * @return @e o the stream object
          */
         template<class T>
-        std::ostream &operator<<(std::ostream &o, const Array<T> &a);
+        std::ostream & operator<<(std::ostream & o, const Array<T> & a);
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF
 
 #include "tfarray.cxx"
 
-#endif    // TFARRAY_HXX
+#endif // TFARRAY_HXX

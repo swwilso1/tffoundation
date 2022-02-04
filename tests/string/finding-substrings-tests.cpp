@@ -40,14 +40,12 @@ TEST(StringTest, RangeOfStringTest)
     EXPECT_EQ(theRange, Range(14, 6));
 }
 
-
 TEST(StringTest, RangeOfStringTest2)
 {
     String s = String::initWithASCIIEncodedUnicode("Might as well \\:004443 jump");
     auto theRange = s.rangeOfString(String::initWithASCIIEncodedUnicode("\\:004443 j"));
     EXPECT_EQ(theRange, Range(14, 3));
 }
-
 
 TEST(StringTest, RangeOfCStringTest)
 {
@@ -56,14 +54,12 @@ TEST(StringTest, RangeOfCStringTest)
     EXPECT_EQ(theRange, Range(14, 6));
 }
 
-
 TEST(StringTest, RangeOfSTLStringTest)
 {
     String s("Permission is hereby granted");
     auto theRange = s.rangeOfString(std::string("hereby"));
     EXPECT_EQ(theRange, Range(14, 6));
 }
-
 
 TEST(StringTest, RangesOfStringTest)
 {
@@ -77,7 +73,6 @@ TEST(StringTest, RangesOfStringTest)
     EXPECT_EQ(theRanges[4], Range(58, 3));
 }
 
-
 TEST(StringTest, RangesOfCStyleStringTest)
 {
     String s("the dog ate the homework after the cat licked the bowl of the food");
@@ -90,7 +85,6 @@ TEST(StringTest, RangesOfCStyleStringTest)
     EXPECT_EQ(theRanges[4], Range(58, 3));
 }
 
-
 TEST(StringTest, RangesOfSTLStringTest)
 {
     String s("the dog ate the homework after the cat licked the bowl of the food");
@@ -102,7 +96,6 @@ TEST(StringTest, RangesOfSTLStringTest)
     EXPECT_EQ(theRanges[3], Range(46, 3));
     EXPECT_EQ(theRanges[4], Range(58, 3));
 }
-
 
 TEST(StringTest, RangeOfUnicodeStringTest)
 {

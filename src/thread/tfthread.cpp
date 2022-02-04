@@ -41,29 +41,22 @@ namespace TF
         class ThreadID : public AllocatorInterface
         {
         public:
-            ThreadID() noexcept
-            {
-            }
+            ThreadID() noexcept {}
         };
 
+        Thread::Thread() : nativeHandle(), handleValid(false) {}
 
-        Thread::Thread() : nativeHandle(), handleValid(false)
-        {
-        }
-
-
-        Thread::Thread(Thread &&t) : nativeHandle(), handleValid(false)
+        Thread::Thread(Thread && t) : nativeHandle(), handleValid(false)
         {
             nativeHandle = t.nativeHandle;
             handleValid = true;
             t.handleValid = false;
         }
 
-
-        Thread::Thread(thread_function_type f, void *arg) : nativeHandle(), handleValid(false)
+        Thread::Thread(thread_function_type f, void * arg) : nativeHandle(), handleValid(false)
         {
             int apiResult = pthread_create(&nativeHandle, nullptr, f, arg);
-            if(apiResult != 0)
+            if (apiResult != 0)
             {
                 throw std::system_error(apiResult, std::system_category(), "thread constructor error");
             }
@@ -71,15 +64,11 @@ namespace TF
             handleValid = true;
         }
 
+        Thread::~Thread() {}
 
-        Thread::~Thread()
+        Thread & Thread::operator=(Thread && t)
         {
-        }
-
-
-        Thread &Thread::operator=(Thread &&t)
-        {
-            if(this != &t)
+            if (this != &t)
             {
                 nativeHandle = t.nativeHandle;
                 handleValid = true;
@@ -89,24 +78,20 @@ namespace TF
             return *this;
         }
 
-
         bool Thread::joinable() const
         {
             return handleValid;
         }
-
 
         Thread::id Thread::get_id() const
         {
             return id();
         }
 
-
         Thread::native_handle_type Thread::native_handle()
         {
             return nativeHandle;
         }
-
 
         unsigned Thread::hardware_concurrency()
         {
@@ -115,31 +100,28 @@ namespace TF
             return 1;
         }
 
-
         void Thread::join()
         {
-            if(handleValid)
+            if (handleValid)
             {
                 int apiResult = pthread_join(nativeHandle, nullptr);
-                if(apiResult == 0)
+                if (apiResult == 0)
                     handleValid = false;
             }
         }
 
-
         void Thread::detach()
         {
-            if(handleValid)
+            if (handleValid)
             {
                 int apiResult = pthread_detach(nativeHandle);
 
-                if(apiResult == 0)
+                if (apiResult == 0)
                     handleValid = 0;
             }
         }
 
-
-        void Thread::swap(Thread &t)
+        void Thread::swap(Thread & t)
         {
             native_handle_type tmpHandle = t.nativeHandle;
             bool tmpValid = t.handleValid;
@@ -151,11 +133,10 @@ namespace TF
             handleValid = tmpValid;
         }
 
-
-        std::ostream &Thread::description(std::ostream &o) const
+        std::ostream & Thread::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("Thread");
                 formatter->addClassMember<bool>("handleValid", handleValid);
@@ -165,13 +146,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const Thread &t)
+        std::ostream & operator<<(std::ostream & o, const Thread & t)
         {
             return t.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-
-}    // namespace TF
+} // namespace TF

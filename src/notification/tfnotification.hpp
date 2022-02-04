@@ -65,12 +65,10 @@ namespace TF
             /** @brief object type to use for the sender */
             using object_type = void *;
 
-
             /**
              * @brief Default constructor
              */
             Notification();
-
 
             /**
              * @brief basic message constructor
@@ -78,83 +76,72 @@ namespace TF
              * @param d the notification data
              * @param s the sending object
              */
-            Notification(const notification_label &l, const notification_data &d, object_type s);
-
+            Notification(const notification_label & l, const notification_data & d, object_type s);
 
             /**
              * @brief message consructor without data object.
              * @param l the label.
              * @param s the sender.
              */
-            Notification(const notification_label &l, object_type s);
-
+            Notification(const notification_label & l, object_type s);
 
             /**
              * @brief message constructor with label and data, but no sender
              * @param l the label
              * @param d the data
              */
-            Notification(const notification_label &l, const notification_data &d);
-
+            Notification(const notification_label & l, const notification_data & d);
 
             /**
              * @brief message constructor without data object or sender
              * @param l the label.
              */
-            Notification(const notification_label &l);
-
+            Notification(const notification_label & l);
 
             /**
              * @brief copy constructor
              * @param n the other notification
              */
-            Notification(const Notification &n);
-
+            Notification(const Notification & n);
 
             /**
              * @brief rvalue constructor
              * @param n the other notification
              */
-            Notification(Notification &&n);
-
+            Notification(Notification && n);
 
             /**
              * @brief destructor
              */
             ~Notification();
 
-
             /**
              * @brief assignment operator
              * @param n the other Notification
              * @return this object updated with the contents of @e n
              */
-            Notification &operator=(const Notification &n);
-
+            Notification & operator=(const Notification & n);
 
             /**
              * @brief rvalue assignment operator
              * @param n the other Notification
              * @return this object with the exact contents of &e n
              */
-            Notification &operator=(Notification &&n);
-
+            Notification & operator=(Notification && n);
 
             /**
              * @brief equality operator
              * @param n the other Notification
              * @return true if the two notifications are equal and false otherwise.
              */
-            bool operator==(const Notification &n);
-
+            bool operator==(const Notification & n);
 
             /**
              * @brief inequality operator
              * @param n the other Notification
              * @return true if the two notifications are not equal and false otherwise.
              */
-            bool operator!=(const Notification &n);
-
+            bool operator!=(const Notification & n);
 
             /**
              * @brief method to get the notification label
@@ -165,7 +152,6 @@ namespace TF
                 return theLabel;
             }
 
-
             /**
              * @brief method to get the notification data
              * @return a copy of the notification data
@@ -174,7 +160,6 @@ namespace TF
             {
                 return theData;
             }
-
 
             /**
              * @brief method to get the sender object
@@ -185,13 +170,12 @@ namespace TF
                 return theSender;
             }
 
-
             /**
              * @brief helper method for writing the method to stream
              * @param o the stream object
              * @return the stream object @e o.
              */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             /** @brief the label */
@@ -204,17 +188,16 @@ namespace TF
             object_type theSender;
         };
 
-
         /**
          * @brief overloaded << operator for Notification objects.
          * @param o the stream object
          * @param n the notification object
          * @return @e o the stream object
          */
-        std::ostream &operator<<(std::ostream &o, const Notification &n);
+        std::ostream & operator<<(std::ostream & o, const Notification & n);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFNOTIFICATION_HPP
+#endif // TFNOTIFICATION_HPP

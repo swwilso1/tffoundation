@@ -25,7 +25,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "tfdatesymbol.hxx"
 
 namespace TF
@@ -35,18 +34,17 @@ namespace TF
     {
 
         template<class Clock>
-        DateSymbol<Clock>::DateSymbol(const DateSymbol &s)
+        DateSymbol<Clock>::DateSymbol(const DateSymbol & s)
         {
             count = s.count;
             className = s.className;
             theCharacter = s.theCharacter;
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> &DateSymbol<Clock>::operator=(const DateSymbol &s)
+        DateSymbol<Clock> & DateSymbol<Clock>::operator=(const DateSymbol & s)
         {
-            if(this != &s)
+            if (this != &s)
             {
                 count = s.count;
                 className = s.className;
@@ -56,26 +54,23 @@ namespace TF
             return *this;
         }
 
-
         template<class Clock>
-        typename DateSymbol<Clock>::string_type DateSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename DateSymbol<Clock>::string_type DateSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             return string_type("");
         }
 
-
         template<class Clock>
-        int DateSymbol<Clock>::convert(const string_type &s)
+        int DateSymbol<Clock>::convert(const string_type & s)
         {
             return 0;
         }
 
-
         template<class Clock>
-        std::ostream &DateSymbol<Clock>::description(std::ostream &o) const
+        std::ostream & DateSymbol<Clock>::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName(className.stlString());
                 formatter->addClassMember<int>("count", count);
@@ -86,13 +81,11 @@ namespace TF
             return o;
         }
 
-
         template<class Clock>
-        std::ostream &operator<<(std::ostream &o, const DateSymbol<Clock> &s)
+        std::ostream & operator<<(std::ostream & o, const DateSymbol<Clock> & s)
         {
             return s.description(o);
         }
-
 
         template<class Clock>
         class EraSymbol : public DateSymbol<Clock>
@@ -106,19 +99,15 @@ namespace TF
                 DateSymbol<Clock>::className = "EraSymbol";
             }
 
-            EraSymbol(const EraSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            EraSymbol(const EraSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~EraSymbol()
-            {
-            }
+            ~EraSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
+            string_type convert(const DateComponents<Clock> & c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Era;
@@ -137,66 +126,63 @@ namespace TF
             static bool commonEra;
         };
 
-
         template<class Clock>
         bool EraSymbol<Clock>::commonEra = false;
 
         template<class Clock>
-        typename EraSymbol<Clock>::string_type EraSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename EraSymbol<Clock>::string_type EraSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
-            if(c.year() >= 1)
+            if (c.year() >= 1)
             {
                 // AD/CE
-                if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
+                if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
                     return commonEra ? string_type("CE") : string_type("AD");
-                else if(DateSymbol<Clock>::count == 4)
+                else if (DateSymbol<Clock>::count == 4)
                     return commonEra ? string_type("Common Era") : string_type("Anno Domini");
-                else if(DateSymbol<Clock>::count == 5)
+                else if (DateSymbol<Clock>::count == 5)
                     return commonEra ? string_type("C") : string_type("A");
             }
             else
             {
-                if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
+                if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
                     return commonEra ? string_type("BCE") : string_type("BC");
-                else if(DateSymbol<Clock>::count == 4)
+                else if (DateSymbol<Clock>::count == 4)
                     return commonEra ? string_type("Before Common Era") : string_type("Before Christ");
-                else if(DateSymbol<Clock>::count == 5)
+                else if (DateSymbol<Clock>::count == 5)
                     return string_type("B");
             }
             return "";
         }
 
-
         template<class Clock>
         int EraSymbol<Clock>::minimumCharactersToExpect()
         {
-            switch(DateSymbol<Clock>::count)
+            switch (DateSymbol<Clock>::count)
             {
                 case 1:
                 case 2:
                 case 3:
-                    return 2;    // 2 for CE/AD/BC
+                    return 2; // 2 for CE/AD/BC
                 case 4:
-                    return 10;    // 10 for 'Common Era'
+                    return 10; // 10 for 'Common Era'
                 case 5:
                     return 1;
             }
 
             return 0;
         }
-
 
         template<class Clock>
         int EraSymbol<Clock>::maximumCharactersToExpect()
         {
-            switch(DateSymbol<Clock>::count)
+            switch (DateSymbol<Clock>::count)
             {
                 case 1:
                 case 2:
                 case 3:
-                    return 3;    // 3  for BCE
+                    return 3; // 3  for BCE
                 case 4:
-                    return 17;    // 17 for 'Before Common Era'
+                    return 17; // 17 for 'Before Common Era'
                 case 5:
                     return 1;
             }
@@ -204,46 +190,44 @@ namespace TF
             return 0;
         }
 
-
         template<class Clock>
-        bool EraSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool EraSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
-            if(v == "BC")
+            if (v == "BC")
                 return true;
 
-            if(v == "AD")
+            if (v == "AD")
                 return true;
 
-            if(v == "CE")
+            if (v == "CE")
                 return true;
 
-            if(v == "BCE")
+            if (v == "BCE")
                 return true;
 
-            if(v == "Common Era")
+            if (v == "Common Era")
                 return true;
 
-            if(v == "Anno Domini")
+            if (v == "Anno Domini")
                 return true;
 
-            if(v == "Before Common Era")
+            if (v == "Before Common Era")
                 return true;
 
-            if(v == "Before Christ")
+            if (v == "Before Christ")
                 return true;
 
-            if(v == "A")
+            if (v == "A")
                 return true;
 
-            if(v == "B")
+            if (v == "B")
                 return true;
 
-            if(v == "C")
+            if (v == "C")
                 return true;
 
             return false;
         }
-
 
         template<class Clock>
         class YearSymbol : public DateSymbol<Clock>
@@ -257,44 +241,39 @@ namespace TF
                 DateSymbol<Clock>::className = "YearSymbol";
             }
 
-            YearSymbol(const YearSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            YearSymbol(const YearSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~YearSymbol()
-            {
-            }
+            ~YearSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Year;
             }
         };
 
-
         template<class Clock>
-        typename YearSymbol<Clock>::string_type YearSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename YearSymbol<Clock>::string_type YearSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            switch(DateSymbol<Clock>::count)
+            switch (DateSymbol<Clock>::count)
             {
                 case 1:
                     accumulator << c.year();
                     break;
                 case 2:
-                {
-                    int theTwo = c.year() % 100;
-                    accumulator.width(2);
-                    accumulator.fill('0');
-                    accumulator << theTwo;
-                }
-                break;
+                    {
+                        int theTwo = c.year() % 100;
+                        accumulator.width(2);
+                        accumulator.fill('0');
+                        accumulator << theTwo;
+                    }
+                    break;
                 default:
                     accumulator.width(DateSymbol<Clock>::count);
                     accumulator.fill('0');
@@ -304,21 +283,19 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int YearSymbol<Clock>::convert(const string_type &s)
+        int YearSymbol<Clock>::convert(const string_type & s)
         {
             return std::atoi(s.cStr().get());
         }
 
-
         template<class Clock>
         int YearSymbol<Clock>::minimumCharactersToExpect()
         {
-            switch(DateSymbol<Clock>::count)
+            switch (DateSymbol<Clock>::count)
             {
                 case 1:
-                    return 4;    // at least four because our year value should not go below 1900.
+                    return 4; // at least four because our year value should not go below 1900.
                 case 2:
                     return 2;
                 default:
@@ -327,15 +304,14 @@ namespace TF
 
             return 0;
         }
-
 
         template<class Clock>
         int YearSymbol<Clock>::maximumCharactersToExpect()
         {
-            switch(DateSymbol<Clock>::count)
+            switch (DateSymbol<Clock>::count)
             {
                 case 1:
-                    return 4;    // Not happy with a maximum of four, but don't know how to tell otherwise.
+                    return 4; // Not happy with a maximum of four, but don't know how to tell otherwise.
                 case 2:
                     return 2;
                 default:
@@ -345,37 +321,34 @@ namespace TF
             return 0;
         }
 
-
         template<class Clock>
-        bool YearSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool YearSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             // Check to make sure all the characters are digit characters.
-            for(auto c : v)
+            for (auto c : v)
             {
-                if(!(c >= '0' && c <= '9'))
+                if (! (c >= '0' && c <= '9'))
                     return false;
             }
 
             // Now check that the value length is the correct length.
-            if(DateSymbol<Clock>::count == 1)
+            if (DateSymbol<Clock>::count == 1)
             {
-                if(v.length() != 4)
-                    return false;    // Not happy with four.
+                if (v.length() != 4)
+                    return false; // Not happy with four.
             }
 
-            if(DateSymbol<Clock>::count == 2)
+            if (DateSymbol<Clock>::count == 2)
             {
-                if(v.length() != 2)
+                if (v.length() != 2)
                     return false;
             }
 
-
-            if(DateSymbol<Clock>::count != v.length())
+            if (DateSymbol<Clock>::count != v.length())
                 return false;
 
             return true;
         }
-
 
         template<class Clock>
         class QuarterSymbol : public DateSymbol<Clock>
@@ -389,53 +362,47 @@ namespace TF
                 DateSymbol<Clock>::className = "QuarterSymbol";
             }
 
-            QuarterSymbol(const QuarterSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            QuarterSymbol(const QuarterSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~QuarterSymbol()
-            {
-            }
+            ~QuarterSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
+            string_type convert(const DateComponents<Clock> & c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Quarter;
             }
         };
 
-
-#define SET_QUARTER(quarter, phrase)                                                                                   \
-    {                                                                                                                  \
-        if(DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5)                                             \
-            accumulator << quarter;                                                                                    \
-        else if(DateSymbol<Clock>::count == 2)                                                                         \
-        {                                                                                                              \
-            accumulator.width(2);                                                                                      \
-            accumulator.fill('0');                                                                                     \
-            accumulator << quarter;                                                                                    \
-        }                                                                                                              \
-        else if(DateSymbol<Clock>::count == 3)                                                                         \
-            accumulator << "Q" << quarter;                                                                             \
-        else if(DateSymbol<Clock>::count == 4)                                                                         \
-            accumulator << phrase;                                                                                     \
+#define SET_QUARTER(quarter, phrase)                                        \
+    {                                                                       \
+        if (DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5) \
+            accumulator << quarter;                                         \
+        else if (DateSymbol<Clock>::count == 2)                             \
+        {                                                                   \
+            accumulator.width(2);                                           \
+            accumulator.fill('0');                                          \
+            accumulator << quarter;                                         \
+        }                                                                   \
+        else if (DateSymbol<Clock>::count == 3)                             \
+            accumulator << "Q" << quarter;                                  \
+        else if (DateSymbol<Clock>::count == 4)                             \
+            accumulator << phrase;                                          \
     }
 
-
         template<class Clock>
-        typename QuarterSymbol<Clock>::string_type QuarterSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename QuarterSymbol<Clock>::string_type QuarterSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
             auto monthOfYear = c.monthOfYear();
-            if(monthOfYear >= MonthOfYear::January && monthOfYear <= MonthOfYear::March)
+            if (monthOfYear >= MonthOfYear::January && monthOfYear <= MonthOfYear::March)
                 SET_QUARTER(1, "1st quarter")
-            else if(monthOfYear >= MonthOfYear::April && monthOfYear <= MonthOfYear::June)
+            else if (monthOfYear >= MonthOfYear::April && monthOfYear <= MonthOfYear::June)
                 SET_QUARTER(2, "2nd quarter")
-            else if(monthOfYear >= MonthOfYear::July && monthOfYear <= MonthOfYear::September)
+            else if (monthOfYear >= MonthOfYear::July && monthOfYear <= MonthOfYear::September)
                 SET_QUARTER(3, "3rd quarter")
             else
                 SET_QUARTER(4, "4th quarter")
@@ -443,20 +410,18 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
         int QuarterSymbol<Clock>::minimumCharactersToExpect()
         {
-            if(DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5)
+            if (DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5)
                 return 1;
-            else if(DateSymbol<Clock>::count == 2 || DateSymbol<Clock>::count == 3)
+            else if (DateSymbol<Clock>::count == 2 || DateSymbol<Clock>::count == 3)
                 return 2;
-            else if(DateSymbol<Clock>::count == 4)
-                return 11;    // 11 characters for 'xth quarter'
+            else if (DateSymbol<Clock>::count == 4)
+                return 11; // 11 characters for 'xth quarter'
 
             return 0;
         }
-
 
         template<class Clock>
         int QuarterSymbol<Clock>::maximumCharactersToExpect()
@@ -464,58 +429,56 @@ namespace TF
             return minimumCharactersToExpect();
         }
 
-
         template<class Clock>
-        bool QuarterSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool QuarterSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
-            if(DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5)
+            if (DateSymbol<Clock>::count == 1 || DateSymbol<Clock>::count == 5)
             {
-                if(v == "1")
+                if (v == "1")
                     return true;
-                if(v == "2")
+                if (v == "2")
                     return true;
-                if(v == "3")
+                if (v == "3")
                     return true;
-                if(v == "4")
+                if (v == "4")
                     return true;
             }
-            else if(DateSymbol<Clock>::count == 2)
+            else if (DateSymbol<Clock>::count == 2)
             {
-                if(v == "01")
+                if (v == "01")
                     return true;
-                if(v == "02")
+                if (v == "02")
                     return true;
-                if(v == "03")
+                if (v == "03")
                     return true;
-                if(v == "04")
+                if (v == "04")
                     return true;
             }
-            else if(DateSymbol<Clock>::count == 3)
+            else if (DateSymbol<Clock>::count == 3)
             {
-                if(v == "Q1")
+                if (v == "Q1")
                     return true;
-                if(v == "Q2")
+                if (v == "Q2")
                     return true;
-                if(v == "Q3")
+                if (v == "Q3")
                     return true;
-                if(v == "Q4")
+                if (v == "Q4")
                     return true;
             }
-            else if(DateSymbol<Clock>::count == 4)
+            else if (DateSymbol<Clock>::count == 4)
             {
-                if(v == "1st quarter")
+                if (v == "1st quarter")
                     return true;
-                if(v == "2nd quarter")
+                if (v == "2nd quarter")
                     return true;
-                if(v == "3rd quarter")
+                if (v == "3rd quarter")
                     return true;
-                if(v == "4th quarter")
+                if (v == "4th quarter")
                     return true;
             }
 
             return false;
         }
-
 
         template<class Clock>
         class MonthSymbol : public DateSymbol<Clock>
@@ -529,39 +492,34 @@ namespace TF
                 DateSymbol<Clock>::className = "MonthSymbol";
             }
 
-            MonthSymbol(const MonthSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            MonthSymbol(const MonthSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~MonthSymbol()
-            {
-            }
+            ~MonthSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Month;
             }
         };
 
-
         template<class Clock>
-        typename MonthSymbol<Clock>::string_type MonthSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename MonthSymbol<Clock>::string_type MonthSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
                 }
-                switch(c.monthOfYear())
+                switch (c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << 1;
@@ -601,9 +559,9 @@ namespace TF
                         break;
                 }
             }
-            else if(DateSymbol<Clock>::count == 3)
+            else if (DateSymbol<Clock>::count == 3)
             {
-                switch(c.monthOfYear())
+                switch (c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << "Jan";
@@ -643,9 +601,9 @@ namespace TF
                         break;
                 }
             }
-            else if(DateSymbol<Clock>::count == 4)
+            else if (DateSymbol<Clock>::count == 4)
             {
-                switch(c.monthOfYear())
+                switch (c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << "January";
@@ -685,9 +643,9 @@ namespace TF
                         break;
                 }
             }
-            else if(DateSymbol<Clock>::count == 5)
+            else if (DateSymbol<Clock>::count == 5)
             {
-                switch(c.monthOfYear())
+                switch (c.monthOfYear())
                 {
                     case MonthOfYear::January:
                         accumulator << 'J';
@@ -731,223 +689,218 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int MonthSymbol<Clock>::convert(const string_type &s)
+        int MonthSymbol<Clock>::convert(const string_type & s)
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            switch(theCount)
+            switch (theCount)
             {
                 case 1:
                 case 2:
-                {
-                    auto theValue = std::atoi(s.cStr().get());
-                    return theValue;
-                }
-                break;
+                    {
+                        auto theValue = std::atoi(s.cStr().get());
+                        return theValue;
+                    }
+                    break;
                 case 3:
-                {
-                    if(s == "Jan")
-                        return 1;
-                    if(s == "Feb")
-                        return 2;
-                    if(s == "Mar")
-                        return 3;
-                    if(s == "Apr")
-                        return 4;
-                    if(s == "May")
-                        return 5;
-                    if(s == "June")
-                        return 6;
-                    if(s == "July")
-                        return 7;
-                    if(s == "Aug")
-                        return 8;
-                    if(s == "Sept")
-                        return 9;
-                    if(s == "Oct")
-                        return 10;
-                    if(s == "Nov")
-                        return 11;
-                    if(s == "Dec")
-                        return 12;
-                }
-                break;
+                    {
+                        if (s == "Jan")
+                            return 1;
+                        if (s == "Feb")
+                            return 2;
+                        if (s == "Mar")
+                            return 3;
+                        if (s == "Apr")
+                            return 4;
+                        if (s == "May")
+                            return 5;
+                        if (s == "June")
+                            return 6;
+                        if (s == "July")
+                            return 7;
+                        if (s == "Aug")
+                            return 8;
+                        if (s == "Sept")
+                            return 9;
+                        if (s == "Oct")
+                            return 10;
+                        if (s == "Nov")
+                            return 11;
+                        if (s == "Dec")
+                            return 12;
+                    }
+                    break;
                 case 4:
-                {
-                    if(s == "January")
-                        return 1;
-                    if(s == "February")
-                        return 2;
-                    if(s == "March")
-                        return 3;
-                    if(s == "April")
-                        return 4;
-                    if(s == "May")
-                        return 5;
-                    if(s == "June")
-                        return 6;
-                    if(s == "July")
-                        return 7;
-                    if(s == "August")
-                        return 8;
-                    if(s == "September")
-                        return 9;
-                    if(s == "October")
-                        return 10;
-                    if(s == "November")
-                        return 11;
-                    if(s == "December")
-                        return 12;
-                }
-                break;
+                    {
+                        if (s == "January")
+                            return 1;
+                        if (s == "February")
+                            return 2;
+                        if (s == "March")
+                            return 3;
+                        if (s == "April")
+                            return 4;
+                        if (s == "May")
+                            return 5;
+                        if (s == "June")
+                            return 6;
+                        if (s == "July")
+                            return 7;
+                        if (s == "August")
+                            return 8;
+                        if (s == "September")
+                            return 9;
+                        if (s == "October")
+                            return 10;
+                        if (s == "November")
+                            return 11;
+                        if (s == "December")
+                            return 12;
+                    }
+                    break;
                 case 5:
-                    if(s == "F")
+                    if (s == "F")
                         return 2;
-                    if(s == "S")
+                    if (s == "S")
                         return 9;
-                    if(s == "N")
+                    if (s == "N")
                         return 11;
-                    if(s == "O")
+                    if (s == "O")
                         return 10;
-                    if(s == "D")
+                    if (s == "D")
                         return 12;
                     throw std::runtime_error("Insufficient information to reconstruct month value");
             }
             return 0;
         }
 
-
         template<class Clock>
         int MonthSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
-            if(theCount == 3)
+            if (theCount == 3)
                 return 3;
-            if(theCount == 4)
+            if (theCount == 4)
                 return 3;
-            if(theCount == 5)
+            if (theCount == 5)
                 return 1;
 
             return 0;
         }
-
 
         template<class Clock>
         int MonthSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount == 1)
-                return 2;    // Double digit month value.
-            if(theCount == 2)
-                return 2;    // always 2 characters.
-            if(theCount == 3)
-                return 4;    // June/July/Sept all have 4 characters
-            if(theCount == 4)
-                return 9;    // September has 9 characters
-            if(theCount == 5)
+            if (theCount == 1)
+                return 2; // Double digit month value.
+            if (theCount == 2)
+                return 2; // always 2 characters.
+            if (theCount == 3)
+                return 4; // June/July/Sept all have 4 characters
+            if (theCount == 4)
+                return 9; // September has 9 characters
+            if (theCount == 5)
                 return 1;
 
             return 0;
         }
 
-
         template<class Clock>
-        bool MonthSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool MonthSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount <= 2)
+            if (theCount <= 2)
             {
-                if(theCount == 2 && v.length() == 1)
+                if (theCount == 2 && v.length() == 1)
                     return false;
 
                 auto theValue = std::atoi(v.cStr().get());
-                if(theValue >= 1 && theValue <= 12)
+                if (theValue >= 1 && theValue <= 12)
                     return true;
             }
-            if(theCount == 3)
+            if (theCount == 3)
             {
-                if(v == "Jan")
+                if (v == "Jan")
                     return true;
-                if(v == "Feb")
+                if (v == "Feb")
                     return true;
-                if(v == "Mar")
+                if (v == "Mar")
                     return true;
-                if(v == "Apr")
+                if (v == "Apr")
                     return true;
-                if(v == "May")
+                if (v == "May")
                     return true;
-                if(v == "June")
+                if (v == "June")
                     return true;
-                if(v == "July")
+                if (v == "July")
                     return true;
-                if(v == "Aug")
+                if (v == "Aug")
                     return true;
-                if(v == "Sept")
+                if (v == "Sept")
                     return true;
-                if(v == "Oct")
+                if (v == "Oct")
                     return true;
-                if(v == "Nov")
+                if (v == "Nov")
                     return true;
-                if(v == "Dec")
+                if (v == "Dec")
                     return true;
             }
-            if(theCount == 4)
+            if (theCount == 4)
             {
-                if(v == "January")
+                if (v == "January")
                     return true;
-                if(v == "February")
+                if (v == "February")
                     return true;
-                if(v == "March")
+                if (v == "March")
                     return true;
-                if(v == "April")
+                if (v == "April")
                     return true;
-                if(v == "May")
+                if (v == "May")
                     return true;
-                if(v == "June")
+                if (v == "June")
                     return true;
-                if(v == "July")
+                if (v == "July")
                     return true;
-                if(v == "August")
+                if (v == "August")
                     return true;
-                if(v == "September")
+                if (v == "September")
                     return true;
-                if(v == "October")
+                if (v == "October")
                     return true;
-                if(v == "November")
+                if (v == "November")
                     return true;
-                if(v == "December")
+                if (v == "December")
                     return true;
             }
-            if(theCount == 5)
+            if (theCount == 5)
             {
-                if(v == "J")
+                if (v == "J")
                     return true;
-                if(v == "F")
+                if (v == "F")
                     return true;
-                if(v == "M")
+                if (v == "M")
                     return true;
-                if(v == "A")
+                if (v == "A")
                     return true;
-                if(v == "S")
+                if (v == "S")
                     return true;
-                if(v == "N")
+                if (v == "N")
                     return true;
-                if(v == "D")
+                if (v == "D")
                     return true;
             }
 
             return false;
         }
-
 
         template<class Clock>
         class DayOfMonthSymbol : public DateSymbol<Clock>
@@ -961,34 +914,29 @@ namespace TF
                 DateSymbol<Clock>::className = "DayOfMonthSymbol";
             }
 
-            DayOfMonthSymbol(const DayOfMonthSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            DayOfMonthSymbol(const DayOfMonthSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~DayOfMonthSymbol()
-            {
-            }
+            ~DayOfMonthSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::DayOfMonth;
             }
         };
 
-
         template<class Clock>
-        typename DayOfMonthSymbol<Clock>::string_type DayOfMonthSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename DayOfMonthSymbol<Clock>::string_type DayOfMonthSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
@@ -999,55 +947,50 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int DayOfMonthSymbol<Clock>::convert(const string_type &s)
+        int DayOfMonthSymbol<Clock>::convert(const string_type & s)
         {
             return std::atoi(s.cStr().get());
         }
-
 
         template<class Clock>
         int DayOfMonthSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
-
 
         template<class Clock>
         int DayOfMonthSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 2;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
 
-
         template<class Clock>
-        bool DayOfMonthSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool DayOfMonthSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount == 2)
+            if (theCount == 2)
             {
-                if(v.length() == 1)
+                if (v.length() == 1)
                     return false;
             }
 
-            if(theValue >= 1 && theValue <= 31)
+            if (theValue >= 1 && theValue <= 31)
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class DayOfYearSymbol : public DateSymbol<Clock>
@@ -1061,39 +1004,34 @@ namespace TF
                 DateSymbol<Clock>::className = "DayOfYearSymbol";
             }
 
-            DayOfYearSymbol(const DayOfYearSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            DayOfYearSymbol(const DayOfYearSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~DayOfYearSymbol()
-            {
-            }
+            ~DayOfYearSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::DayOfYear;
             }
         };
 
-
         template<class Clock>
-        typename DayOfYearSymbol<Clock>::string_type DayOfYearSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename DayOfYearSymbol<Clock>::string_type DayOfYearSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
                 }
-                else if(DateSymbol<Clock>::count == 3)
+                else if (DateSymbol<Clock>::count == 3)
                 {
                     accumulator.width(3);
                     accumulator.fill('0');
@@ -1103,66 +1041,61 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int DayOfYearSymbol<Clock>::convert(const string_type &s)
+        int DayOfYearSymbol<Clock>::convert(const string_type & s)
         {
             return std::atoi(s.cStr().get());
         }
-
 
         template<class Clock>
         int DayOfYearSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
-            if(theCount == 3)
+            if (theCount == 3)
                 return 3;
 
             return 0;
         }
-
 
         template<class Clock>
         int DayOfYearSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount >= 1 && theCount <= 3)
+            if (theCount >= 1 && theCount <= 3)
                 return 3;
 
             return 0;
         }
 
-
         template<class Clock>
-        bool DayOfYearSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool DayOfYearSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount == 2)
+            if (theCount == 2)
             {
-                if(v.length() < 2)
+                if (v.length() < 2)
                     return false;
             }
-            else if(theCount == 3)
+            else if (theCount == 3)
             {
-                if(v.length() < 3)
+                if (v.length() < 3)
                     return false;
             }
 
-            if(theValue >= 1 && theValue <= 365)
+            if (theValue >= 1 && theValue <= 365)
                 return true;
-            if(theValue == 0 && (v == "0" || v == "00" || v == "000"))
+            if (theValue == 0 && (v == "0" || v == "00" || v == "000"))
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class DayOfWeekSymbol : public DateSymbol<Clock>
@@ -1176,35 +1109,30 @@ namespace TF
                 DateSymbol<Clock>::className = "DayOfWeekSymbol";
             }
 
-            DayOfWeekSymbol(const DayOfWeekSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            DayOfWeekSymbol(const DayOfWeekSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~DayOfWeekSymbol()
-            {
-            }
+            ~DayOfWeekSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::DayOfWeek;
             }
         };
 
-
         template<class Clock>
-        typename DayOfWeekSymbol<Clock>::string_type DayOfWeekSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename DayOfWeekSymbol<Clock>::string_type DayOfWeekSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
 
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 3)
             {
-                switch(c.dayOfWeek())
+                switch (c.dayOfWeek())
                 {
                     case DayOfWeek::Sunday:
                         accumulator << "Sun";
@@ -1229,9 +1157,9 @@ namespace TF
                         break;
                 }
             }
-            else if(DateSymbol<Clock>::count == 4)
+            else if (DateSymbol<Clock>::count == 4)
             {
-                switch(c.dayOfWeek())
+                switch (c.dayOfWeek())
                 {
                     case DayOfWeek::Sunday:
                         accumulator << "Sunday";
@@ -1256,9 +1184,9 @@ namespace TF
                         break;
                 }
             }
-            else if(DateSymbol<Clock>::count == 5)
+            else if (DateSymbol<Clock>::count == 5)
             {
-                switch(c.dayOfWeek())
+                switch (c.dayOfWeek())
                 {
                     case DayOfWeek::Sunday:
                         accumulator << "S";
@@ -1287,145 +1215,140 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int DayOfWeekSymbol<Clock>::convert(const string_type &s)
+        int DayOfWeekSymbol<Clock>::convert(const string_type & s)
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount >= 1 && theCount <= 3)
+            if (theCount >= 1 && theCount <= 3)
             {
-                if(s == "Sun")
+                if (s == "Sun")
                     return 0;
-                if(s == "Mon")
+                if (s == "Mon")
                     return 1;
-                if(s == "Tues")
+                if (s == "Tues")
                     return 2;
-                if(s == "Wed")
+                if (s == "Wed")
                     return 3;
-                if(s == "Thurs")
+                if (s == "Thurs")
                     return 4;
-                if(s == "Fri")
+                if (s == "Fri")
                     return 5;
-                if(s == "Sat")
+                if (s == "Sat")
                     return 6;
             }
-            else if(theCount == 4)
+            else if (theCount == 4)
             {
-                if(s == "Sunday")
+                if (s == "Sunday")
                     return 0;
-                if(s == "Monday")
+                if (s == "Monday")
                     return 1;
-                if(s == "Tuesday")
+                if (s == "Tuesday")
                     return 2;
-                if(s == "Wednesday")
+                if (s == "Wednesday")
                     return 3;
-                if(s == "Thursday")
+                if (s == "Thursday")
                     return 4;
-                if(s == "Friday")
+                if (s == "Friday")
                     return 6;
-                if(s == "Saturday")
+                if (s == "Saturday")
                     return 7;
             }
-            else if(theCount == 5)
+            else if (theCount == 5)
             {
-                if(s == "M")
+                if (s == "M")
                     return 1;
-                if(s == "W")
+                if (s == "W")
                     return 3;
-                if(s == "F")
+                if (s == "F")
                     return 4;
                 throw std::runtime_error("Insufficient information to reconstruct day of week");
             }
             return 0;
         }
 
-
         template<class Clock>
         int DayOfWeekSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount >= 1 && theCount <= 3)
+            if (theCount >= 1 && theCount <= 3)
                 return 3;
-            if(theCount == 4)
+            if (theCount == 4)
                 return 6;
-            if(theCount == 5)
+            if (theCount == 5)
                 return 1;
             return 0;
         }
-
 
         template<class Clock>
         int DayOfWeekSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount >= 1 && theCount <= 3)
+            if (theCount >= 1 && theCount <= 3)
                 return 5;
-            if(theCount == 4)
+            if (theCount == 4)
                 return 9;
-            if(theCount == 5)
+            if (theCount == 5)
                 return 1;
             return 0;
         }
 
-
         template<class Clock>
-        bool DayOfWeekSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool DayOfWeekSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount >= 1 && theCount <= 3)
+            if (theCount >= 1 && theCount <= 3)
             {
-                if(v == "Sun")
+                if (v == "Sun")
                     return true;
-                if(v == "Mon")
+                if (v == "Mon")
                     return true;
-                if(v == "Tues")
+                if (v == "Tues")
                     return true;
-                if(v == "Wed")
+                if (v == "Wed")
                     return true;
-                if(v == "Thurs")
+                if (v == "Thurs")
                     return true;
-                if(v == "Fri")
+                if (v == "Fri")
                     return true;
-                if(v == "Sat")
+                if (v == "Sat")
                     return true;
             }
-            if(theCount == 4)
+            if (theCount == 4)
             {
-                if(v == "Sunday")
+                if (v == "Sunday")
                     return true;
-                if(v == "Monday")
+                if (v == "Monday")
                     return true;
-                if(v == "Tuesday")
+                if (v == "Tuesday")
                     return true;
-                if(v == "Wednesday")
+                if (v == "Wednesday")
                     return true;
-                if(v == "Thursday")
+                if (v == "Thursday")
                     return true;
-                if(v == "Friday")
+                if (v == "Friday")
                     return true;
-                if(v == "Saturday")
+                if (v == "Saturday")
                     return true;
             }
-            if(theCount == 5)
+            if (theCount == 5)
             {
-                if(v == "S")
+                if (v == "S")
                     return true;
-                if(v == "M")
+                if (v == "M")
                     return true;
-                if(v == "T")
+                if (v == "T")
                     return true;
-                if(v == "W")
+                if (v == "W")
                     return true;
-                if(v == "F")
+                if (v == "F")
                     return true;
             }
             return false;
         }
-
 
         template<class Clock>
         class PeriodSymbol : public DateSymbol<Clock>
@@ -1439,40 +1362,35 @@ namespace TF
                 DateSymbol<Clock>::className = "PeriodSymbol";
             }
 
-            PeriodSymbol(const PeriodSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            PeriodSymbol(const PeriodSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~PeriodSymbol()
-            {
-            }
+            ~PeriodSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
+            string_type convert(const DateComponents<Clock> & c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Period;
             }
         };
 
-
         template<class Clock>
-        typename PeriodSymbol<Clock>::string_type PeriodSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename PeriodSymbol<Clock>::string_type PeriodSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 4)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 4)
             {
-                if(c.hour() < 12)
+                if (c.hour() < 12)
                     accumulator << "AM";
                 else
                     accumulator << "PM";
             }
-            else if(DateSymbol<Clock>::count == 5)
+            else if (DateSymbol<Clock>::count == 5)
             {
-                if(c.hour() < 12)
+                if (c.hour() < 12)
                     accumulator << "A";
                 else
                     accumulator << "P";
@@ -1480,19 +1398,17 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
         int PeriodSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount >= 1 && theCount <= 4)
+            if (theCount >= 1 && theCount <= 4)
                 return 2;
-            if(theCount == 5)
+            if (theCount == 5)
                 return 1;
             return 0;
         }
-
 
         template<class Clock>
         int PeriodSymbol<Clock>::maximumCharactersToExpect()
@@ -1500,29 +1416,27 @@ namespace TF
             return minimumCharactersToExpect();
         }
 
-
         template<class Clock>
-        bool PeriodSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool PeriodSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theCount = DateSymbol<Clock>::count;
 
-            if(theCount >= 1 && theCount <= 4)
+            if (theCount >= 1 && theCount <= 4)
             {
-                if(v == "AM")
+                if (v == "AM")
                     return true;
-                if(v == "PM")
+                if (v == "PM")
                     return true;
             }
-            if(theCount == 5)
+            if (theCount == 5)
             {
-                if(v == "A")
+                if (v == "A")
                     return true;
-                if(v == "P")
+                if (v == "P")
                     return true;
             }
             return false;
         }
-
 
         template<class Clock>
         class NormalHourSymbol : public DateSymbol<Clock>
@@ -1536,33 +1450,28 @@ namespace TF
                 DateSymbol<Clock>::className = "NormalHourSymbol";
             }
 
-            NormalHourSymbol(const NormalHourSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            NormalHourSymbol(const NormalHourSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~NormalHourSymbol()
-            {
-            }
+            ~NormalHourSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
+            string_type convert(const DateComponents<Clock> & c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::NormalHour;
             }
         };
 
-
         template<class Clock>
-        typename NormalHourSymbol<Clock>::string_type NormalHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename NormalHourSymbol<Clock>::string_type NormalHourSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
@@ -1576,47 +1485,43 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
         int NormalHourSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
-
 
         template<class Clock>
         int NormalHourSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 2;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
 
-
         template<class Clock>
-        bool NormalHourSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool NormalHourSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
 
-            if(DateSymbol<Clock>::count == 2)
+            if (DateSymbol<Clock>::count == 2)
             {
-                if(v.length() != 2)
+                if (v.length() != 2)
                     return false;
             }
 
-            if(theValue >= 1 && theValue <= 12)
+            if (theValue >= 1 && theValue <= 12)
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class MilitaryHourSymbol : public DateSymbol<Clock>
@@ -1630,35 +1535,30 @@ namespace TF
                 DateSymbol<Clock>::className = "MilitaryHourSymbol";
             }
 
-            MilitaryHourSymbol(const MilitaryHourSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            MilitaryHourSymbol(const MilitaryHourSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~MilitaryHourSymbol()
-            {
-            }
+            ~MilitaryHourSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::MilitaryHour;
             }
         };
 
-
         template<class Clock>
-        typename MilitaryHourSymbol<Clock>::string_type
-            MilitaryHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename MilitaryHourSymbol<Clock>::string_type MilitaryHourSymbol<Clock>::convert(
+            const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
@@ -1668,57 +1568,52 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int MilitaryHourSymbol<Clock>::convert(const string_type &s)
+        int MilitaryHourSymbol<Clock>::convert(const string_type & s)
         {
             auto theValue = std::atoi(s.cStr().get());
             return theValue;
         }
 
-
         template<class Clock>
         int MilitaryHourSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
-
 
         template<class Clock>
         int MilitaryHourSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 2;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
 
-
         template<class Clock>
-        bool MilitaryHourSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool MilitaryHourSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
 
-            if(DateSymbol<Clock>::count == 2)
+            if (DateSymbol<Clock>::count == 2)
             {
-                if(v.length() != 2)
+                if (v.length() != 2)
                     return false;
             }
 
-            if(theValue >= 1 && theValue <= 23)
+            if (theValue >= 1 && theValue <= 23)
                 return true;
-            if(theValue == 0 && (v == "0" || v == "00"))
+            if (theValue == 0 && (v == "0" || v == "00"))
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class NonstandardHourSymbol : public DateSymbol<Clock>
@@ -1732,34 +1627,29 @@ namespace TF
                 DateSymbol<Clock>::className = "NonstandardHourSymbol";
             }
 
-            NonstandardHourSymbol(const NonstandardHourSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            NonstandardHourSymbol(const NonstandardHourSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~NonstandardHourSymbol()
-            {
-            }
+            ~NonstandardHourSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
+            string_type convert(const DateComponents<Clock> & c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::NonStandardHour;
             }
         };
 
-
         template<class Clock>
-        typename NonstandardHourSymbol<Clock>::string_type
-            NonstandardHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename NonstandardHourSymbol<Clock>::string_type NonstandardHourSymbol<Clock>::convert(
+            const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
@@ -1769,49 +1659,45 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
         int NonstandardHourSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
-
 
         template<class Clock>
         int NonstandardHourSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 2;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
 
-
         template<class Clock>
-        bool NonstandardHourSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool NonstandardHourSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
 
-            if(DateSymbol<Clock>::count == 2)
+            if (DateSymbol<Clock>::count == 2)
             {
-                if(v.length() != 2)
+                if (v.length() != 2)
                     return false;
             }
 
-            if(theValue >= 1 && theValue <= 11)
+            if (theValue >= 1 && theValue <= 11)
                 return true;
-            if(theValue == 0 && (v == "0" || v == "00"))
+            if (theValue == 0 && (v == "0" || v == "00"))
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class NonstandardMilitaryHourSymbol : public DateSymbol<Clock>
@@ -1825,34 +1711,29 @@ namespace TF
                 DateSymbol<Clock>::className = "NonstandardMilitaryHourSymbol";
             }
 
-            NonstandardMilitaryHourSymbol(const NonstandardMilitaryHourSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            NonstandardMilitaryHourSymbol(const NonstandardMilitaryHourSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~NonstandardMilitaryHourSymbol()
-            {
-            }
+            ~NonstandardMilitaryHourSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
+            string_type convert(const DateComponents<Clock> & c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::NonStandardMilitaryHour;
             }
         };
 
-
         template<class Clock>
-        typename NonstandardMilitaryHourSymbol<Clock>::string_type
-            NonstandardMilitaryHourSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename NonstandardMilitaryHourSymbol<Clock>::string_type NonstandardMilitaryHourSymbol<Clock>::convert(
+            const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
@@ -1862,45 +1743,41 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
         int NonstandardMilitaryHourSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
-
 
         template<class Clock>
         int NonstandardMilitaryHourSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 2;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
 
-
         template<class Clock>
-        bool NonstandardMilitaryHourSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool NonstandardMilitaryHourSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
-            if(DateSymbol<Clock>::count == 2)
+            if (DateSymbol<Clock>::count == 2)
             {
-                if(v.length() != 2)
+                if (v.length() != 2)
                     return false;
             }
-            if(theValue >= 1 && theValue <= 24)
+            if (theValue >= 1 && theValue <= 24)
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class MinuteSymbol : public DateSymbol<Clock>
@@ -1914,34 +1791,29 @@ namespace TF
                 DateSymbol<Clock>::className = "MinuteSymbol";
             }
 
-            MinuteSymbol(const MinuteSymbol &s) : MinuteSymbol<Clock>(s)
-            {
-            }
+            MinuteSymbol(const MinuteSymbol & s) : MinuteSymbol<Clock>(s) {}
 
-            ~MinuteSymbol()
-            {
-            }
+            ~MinuteSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Minute;
             }
         };
 
-
         template<class Clock>
-        typename MinuteSymbol<Clock>::string_type MinuteSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename MinuteSymbol<Clock>::string_type MinuteSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
@@ -1951,56 +1823,51 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int MinuteSymbol<Clock>::convert(const string_type &s)
+        int MinuteSymbol<Clock>::convert(const string_type & s)
         {
             return std::atoi(s.cStr().get());
         }
-
 
         template<class Clock>
         int MinuteSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
-
 
         template<class Clock>
         int MinuteSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 2;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
 
-
         template<class Clock>
-        bool MinuteSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool MinuteSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
 
-            if(DateSymbol<Clock>::count == 2)
+            if (DateSymbol<Clock>::count == 2)
             {
-                if(v.length() != 2)
+                if (v.length() != 2)
                     return false;
             }
 
-            if(theValue >= 1 && theValue <= 59)
+            if (theValue >= 1 && theValue <= 59)
                 return true;
-            if(theValue == 0 && (v == "0" || v == "00"))
+            if (theValue == 0 && (v == "0" || v == "00"))
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class SecondSymbol : public DateSymbol<Clock>
@@ -2014,34 +1881,29 @@ namespace TF
                 DateSymbol<Clock>::className = "SecondSymbol";
             }
 
-            SecondSymbol(const SecondSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            SecondSymbol(const SecondSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~SecondSymbol()
-            {
-            }
+            ~SecondSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Second;
             }
         };
 
-
         template<class Clock>
-        typename SecondSymbol<Clock>::string_type SecondSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename SecondSymbol<Clock>::string_type SecondSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
-            if(DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
+            if (DateSymbol<Clock>::count >= 1 && DateSymbol<Clock>::count <= 2)
             {
-                if(DateSymbol<Clock>::count == 2)
+                if (DateSymbol<Clock>::count == 2)
                 {
                     accumulator.width(2);
                     accumulator.fill('0');
@@ -2051,56 +1913,51 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int SecondSymbol<Clock>::convert(const string_type &s)
+        int SecondSymbol<Clock>::convert(const string_type & s)
         {
             return std::atoi(s.cStr().get());
         }
-
 
         template<class Clock>
         int SecondSymbol<Clock>::minimumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 1;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
-
 
         template<class Clock>
         int SecondSymbol<Clock>::maximumCharactersToExpect()
         {
             auto theCount = DateSymbol<Clock>::count;
-            if(theCount == 1)
+            if (theCount == 1)
                 return 2;
-            if(theCount == 2)
+            if (theCount == 2)
                 return 2;
             return 0;
         }
 
-
         template<class Clock>
-        bool SecondSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool SecondSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
 
-            if(DateSymbol<Clock>::count == 2)
+            if (DateSymbol<Clock>::count == 2)
             {
-                if(v.length() != 2)
+                if (v.length() != 2)
                     return false;
             }
 
-            if(theValue >= 1 && theValue <= 60)
+            if (theValue >= 1 && theValue <= 60)
                 return true;
-            if(theValue == 0 && (v == "0" || v == "00"))
+            if (theValue == 0 && (v == "0" || v == "00"))
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class FractionalSecondSymbol : public DateSymbol<Clock>
@@ -2114,30 +1971,25 @@ namespace TF
                 DateSymbol<Clock>::className = "FractionalSecondSymbol";
             }
 
-            FractionalSecondSymbol(const FractionalSecondSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            FractionalSecondSymbol(const FractionalSecondSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~FractionalSecondSymbol()
-            {
-            }
+            ~FractionalSecondSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
-            int convert(const string_type &s) override;
+            string_type convert(const DateComponents<Clock> & c) override;
+            int convert(const string_type & s) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::FractionalSecond;
             }
         };
 
-
         template<class Clock>
-        typename FractionalSecondSymbol<Clock>::string_type
-            FractionalSecondSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename FractionalSecondSymbol<Clock>::string_type FractionalSecondSymbol<Clock>::convert(
+            const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
             std::stringstream converter;
@@ -2147,13 +1999,13 @@ namespace TF
 
             auto length = converter.str().length();
 
-            if(DateSymbol<Clock>::count > length)
+            if (DateSymbol<Clock>::count > length)
                 accumulator << fSecs;
             else
             {
                 long divisor = 1;
 
-                for(int i = 0; i < (length - DateSymbol<Clock>::count); i++)
+                for (int i = 0; i < (length - DateSymbol<Clock>::count); i++)
                     divisor *= 10;
 
                 double dividedVal = static_cast<double>(fSecs) / divisor;
@@ -2166,13 +2018,11 @@ namespace TF
             return accumulator.str();
         }
 
-
         template<class Clock>
-        int FractionalSecondSymbol<Clock>::convert(const string_type &s)
+        int FractionalSecondSymbol<Clock>::convert(const string_type & s)
         {
             return std::atoi(s.cStr().get());
         }
-
 
         template<class Clock>
         int FractionalSecondSymbol<Clock>::minimumCharactersToExpect()
@@ -2180,29 +2030,26 @@ namespace TF
             return 1;
         }
 
-
         template<class Clock>
         int FractionalSecondSymbol<Clock>::maximumCharactersToExpect()
         {
             return DateSymbol<Clock>::count;
         }
 
-
         template<class Clock>
-        bool FractionalSecondSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool FractionalSecondSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
             auto theValue = std::atoi(v.cStr().get());
 
-            if(v.length() != DateSymbol<Clock>::count)
+            if (v.length() != DateSymbol<Clock>::count)
                 return false;
 
-            if(theValue > 0)
+            if (theValue > 0)
                 return true;
-            if(theValue == 0 && v == "0")
+            if (theValue == 0 && v == "0")
                 return true;
             return false;
         }
-
 
         template<class Clock>
         class NormalSymbol : public DateSymbol<Clock>
@@ -2216,34 +2063,28 @@ namespace TF
                 DateSymbol<Clock>::className = "NormalSymbol";
             }
 
-            NormalSymbol(const NormalSymbol &s) : DateSymbol<Clock>(s)
-            {
-            }
+            NormalSymbol(const NormalSymbol & s) : DateSymbol<Clock>(s) {}
 
-            ~NormalSymbol()
-            {
-            }
+            ~NormalSymbol() {}
 
-            string_type convert(const DateComponents<Clock> &c) override;
+            string_type convert(const DateComponents<Clock> & c) override;
 
             int minimumCharactersToExpect() override;
             int maximumCharactersToExpect() override;
-            bool validValueForSymbol(const string_type &v) override;
+            bool validValueForSymbol(const string_type & v) override;
             semantic_type semanticValue() const override
             {
                 return SymbolSemantic::Normal;
             }
         };
 
-
         template<class Clock>
-        typename NormalSymbol<Clock>::string_type NormalSymbol<Clock>::convert(const DateComponents<Clock> &c)
+        typename NormalSymbol<Clock>::string_type NormalSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
             std::stringstream accumulator;
             accumulator << DateSymbol<Clock>::theCharacter;
             return accumulator.str();
         }
-
 
         template<class Clock>
         int NormalSymbol<Clock>::minimumCharactersToExpect()
@@ -2251,134 +2092,116 @@ namespace TF
             return 1;
         }
 
-
         template<class Clock>
         int NormalSymbol<Clock>::maximumCharactersToExpect()
         {
             return 1;
         }
 
-
         template<class Clock>
-        bool NormalSymbol<Clock>::validValueForSymbol(const string_type &v)
+        bool NormalSymbol<Clock>::validValueForSymbol(const string_type & v)
         {
-            if(v.length() == 1)
+            if (v.length() == 1)
                 return true;
             return false;
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForEra()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForEra()
         {
             return new EraSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForYear()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForYear()
         {
             return new YearSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForQuarter()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForQuarter()
         {
             return new QuarterSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForMonth()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForMonth()
         {
             return new MonthSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForDayOfMonth()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForDayOfMonth()
         {
             return new DayOfMonthSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForDayOfYear()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForDayOfYear()
         {
             return new DayOfYearSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForDayOfWeek()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForDayOfWeek()
         {
             return new DayOfWeekSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForPeriod()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForPeriod()
         {
             return new PeriodSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForStandardHour()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForStandardHour()
         {
             return new NormalHourSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForMilitaryHour()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForMilitaryHour()
         {
             return new MilitaryHourSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForNonStandardHour()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForNonStandardHour()
         {
             return new NonstandardHourSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForNonStandardMilitaryHour()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForNonStandardMilitaryHour()
         {
             return new NonstandardMilitaryHourSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForMinute()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForMinute()
         {
             return new MinuteSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForStandardSecond()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForStandardSecond()
         {
             return new SecondSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForFractionalSecond()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForFractionalSecond()
         {
             return new FractionalSecondSymbol<Clock>();
         }
 
-
         template<class Clock>
-        DateSymbol<Clock> *DateSymbolFactory<Clock>::symbolForNormalCharacter()
+        DateSymbol<Clock> * DateSymbolFactory<Clock>::symbolForNormalCharacter()
         {
             return new NormalSymbol<Clock>();
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

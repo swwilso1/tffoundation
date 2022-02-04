@@ -33,7 +33,6 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-
 TEST(StringTest, AppendFormatTest)
 {
     String s("Hello");
@@ -41,14 +40,12 @@ TEST(StringTest, AppendFormatTest)
     EXPECT_EQ(t, "Hello World");
 }
 
-
 TEST(StringTest, AppendFormatTest2)
 {
     String s("foo");
     String t = s.stringByAppendingFormat("%d bar ⍁", 10);
     EXPECT_EQ(t, "foo10 bar ⍁");
 }
-
 
 TEST(StringTest, AppendStringTest)
 {
@@ -58,14 +55,12 @@ TEST(StringTest, AppendStringTest)
     EXPECT_EQ(u, "foobar");
 }
 
-
 TEST(StringTest, AppendCStringTest)
 {
     String s("foo");
     String u = s.stringByAppendingString("bar");
     EXPECT_EQ(u, "foobar");
 }
-
 
 TEST(StringTest, AppendSTLStringTest)
 {
@@ -74,7 +69,6 @@ TEST(StringTest, AppendSTLStringTest)
     String u = s.stringByAppendingString(b);
     EXPECT_EQ(u, "foobar");
 }
-
 
 TEST(StringTest, ConcatenateStringTest)
 {
@@ -102,14 +96,12 @@ TEST(StringTest, ConcatenateStringTest)
     EXPECT_EQ(stlStr, "\\:005848\\:103333\\:00FFFFJ4\\:000200\\:001123K");
 }
 
-
 TEST(StringTest, OperatorPlusCStringTest)
 {
     String s("foo");
     String t = s + "bar";
     EXPECT_EQ(t, "foobar");
 }
-
 
 TEST(StringTest, OperatorPlusSTLStringTest)
 {
@@ -118,14 +110,12 @@ TEST(StringTest, OperatorPlusSTLStringTest)
     EXPECT_EQ(t, "foobar");
 }
 
-
 TEST(StringTest, OperatorPlusStringTest)
 {
     String s("foo");
     String t = s + String("bar");
     EXPECT_EQ(t, "foobar");
 }
-
 
 TEST(StringTest, OperatorPlusCharacterTest)
 {
@@ -134,7 +124,6 @@ TEST(StringTest, OperatorPlusCharacterTest)
     String y = s + 'b';
     EXPECT_EQ(y, t);
 }
-
 
 TEST(StringTest, OperatorPlusEqualCharacterTest)
 {

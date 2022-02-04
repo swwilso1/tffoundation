@@ -32,9 +32,9 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &operator<<(std::ostream &o, const ArgumentAction &action)
+        std::ostream & operator<<(std::ostream & o, const ArgumentAction & action)
         {
-            switch(action)
+            switch (action)
             {
                 case ArgumentAction::Store:
                     o << "Store";
@@ -62,6 +62,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

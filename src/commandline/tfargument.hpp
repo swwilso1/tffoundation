@@ -77,7 +77,7 @@ namespace TF
              * Short names are usually a one character value
              * such as -n or -h.
              */
-            void setShortName(const string_type &name);
+            void setShortName(const string_type & name);
 
             /**
              * @brief method to return the argument short name.
@@ -90,7 +90,7 @@ namespace TF
              * @param prefix the prefix character to strip off the string.
              * @return the short name without the prefix character.
              */
-            string_type getShortNameWithoutPrefix(const string_type &prefix) const;
+            string_type getShortNameWithoutPrefix(const string_type & prefix) const;
 
             /**
              * @brief method to set the long name of the argument
@@ -99,7 +99,7 @@ namespace TF
              * Long names are a longer readable form of the argument
              * name.   Example: -help, -foo
              */
-            void setLongName(const string_type &name);
+            void setLongName(const string_type & name);
 
             /**
              * @brief method to the get the long name of the argument.
@@ -113,7 +113,7 @@ namespace TF
              * @param prefix the character to remove from the long name.
              * @return the long name without any prefix characters.
              */
-            string_type getLongNameWithoutPrefix(const string_type &prefix) const;
+            string_type getLongNameWithoutPrefix(const string_type & prefix) const;
 
             /**
              * @brief a method to set both the short name and the long name for the
@@ -122,7 +122,7 @@ namespace TF
              * short name of the argument and the second has the long name of the
              * argument.
              */
-            void setNames(const string_list_type &names);
+            void setNames(const string_list_type & names);
 
             /**
              * @brief method to return a string list that contains both the short
@@ -136,7 +136,7 @@ namespace TF
              * @brief method to set the argument action.
              * @param action the action.
              */
-            void setAction(const action_type &action);
+            void setAction(const action_type & action);
 
             /**
              * @brief getter method to get the argument action.
@@ -149,7 +149,7 @@ namespace TF
              * consumed by the argument
              * @param n the number of values to consume.
              */
-            void setNumberOfArgs(const size_type &n);
+            void setNumberOfArgs(const size_type & n);
 
             /**
              * @brief getter method to get the number of values
@@ -169,7 +169,7 @@ namespace TF
              * string should contain a floating point number eg: "4.442"
              * @param value the default value
              */
-            void setDefault(const string_type &value);
+            void setDefault(const string_type & value);
 
             /**
              * @brief getter method for the argument default value.
@@ -187,7 +187,7 @@ namespace TF
              * the string should contain a boolean value eg: "true"
              * @param constant the value for the constant.
              */
-            void setConstant(const string_type &constant);
+            void setConstant(const string_type & constant);
 
             /**
              * @brief getter method for the constant value for argument.
@@ -199,7 +199,7 @@ namespace TF
              * @brief setter method for the argument type.
              * @param type the arg type.
              */
-            void setArgumentType(const argument_type &type);
+            void setArgumentType(const argument_type & type);
 
             /**
              * @brief getter function for the argument type
@@ -218,7 +218,7 @@ namespace TF
              * the destination name for retrieving the argument value.
              * @param destination the destination string.
              */
-            void setDestination(const string_type &destination);
+            void setDestination(const string_type & destination);
 
             /**
              * @brief method to get the destination value for the argument.
@@ -232,7 +232,7 @@ namespace TF
              * @return a string containing the destination name to use
              * for argument value lookup.
              */
-            string_type getDestination(const string_type &prefix) const;
+            string_type getDestination(const string_type & prefix) const;
 
             /**
              * @brief method to set the list of possible values for an argument.
@@ -241,7 +241,7 @@ namespace TF
              * @param choices a string list of possible values that the argument
              * can accept.
              */
-            void setChoices(const string_list_type &choices);
+            void setChoices(const string_list_type & choices);
 
             /**
              * @brief method to get the list of possible values supported by the
@@ -271,7 +271,7 @@ namespace TF
              * @brief method for setting the help message for the argument.
              * @param help the help message.
              */
-            void setHelp(const string_type &help);
+            void setHelp(const string_type & help);
 
             /**
              * @brief method for getting the argument's help message.
@@ -286,7 +286,7 @@ namespace TF
              * @return true if either the short name or the long name match
              * the @e value and false otherwise.
              */
-            bool valueMatchesName(const string_type &value) const;
+            bool valueMatchesName(const string_type & value) const;
 
             /**
              * @brief method that matches a value against the argument choices
@@ -294,7 +294,7 @@ namespace TF
              * @param value the value to match.
              * @return true if the value matches a choice and false otherwise.
              */
-            bool valueMatchesChoice(const string_type &value) const;
+            bool valueMatchesChoice(const string_type & value) const;
 
             /**
              * @brief method to check if the argument is optional or positional.
@@ -303,7 +303,7 @@ namespace TF
              * @return true if the argument is optional and false if the argument
              * is positional.
              */
-            bool argumentIsOptional(const string_type &prefix) const;
+            bool argumentIsOptional(const string_type & prefix) const;
 
             /**
              * @brief method that returns the shorter of the long name and the
@@ -361,7 +361,7 @@ namespace TF
              * @param values the list of values
              * @return true if the values match the argument choices and false otherwise.
              */
-            bool valuesMatchChoices(const string_list_type &values) const;
+            bool valuesMatchChoices(const string_list_type & values) const;
 
             /**
              * @brief method that compares a list of values with argument choices and returns
@@ -369,7 +369,7 @@ namespace TF
              * @param values the list of values.
              * @return a value from the list of values that does not match the choices.
              */
-            string_type valueThatDoesNotMatchChoice(const string_list_type &values) const;
+            string_type valueThatDoesNotMatchChoice(const string_list_type & values) const;
 
             /**
              * @brief method that indicates if the argument has choices.
@@ -389,7 +389,7 @@ namespace TF
              */
             void setMatched(bool m);
 
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             /**
@@ -425,10 +425,10 @@ namespace TF
             string_type m_help;
         };
 
-        std::ostream &operator<<(std::ostream &o, const Argument &a);
+        std::ostream & operator<<(std::ostream & o, const Argument & a);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFARGUMENT_HPP
+#endif // TFARGUMENT_HPP

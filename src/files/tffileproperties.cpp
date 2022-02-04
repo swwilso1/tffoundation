@@ -34,9 +34,9 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &operator<<(std::ostream &o, const FileType &t)
+        std::ostream & operator<<(std::ostream & o, const FileType & t)
         {
-            switch(t)
+            switch (t)
             {
                 case FileType::Regular:
                     o << "Regular";
@@ -73,12 +73,9 @@ namespace TF
             return o;
         }
 
-        FileProperties::FileProperties() : size(0), type(FileType::Regular), userID(0), groupID(0)
-        {
-        }
+        FileProperties::FileProperties() : size(0), type(FileType::Regular), userID(0), groupID(0) {}
 
-
-        FileProperties::FileProperties(const FileProperties &p)
+        FileProperties::FileProperties(const FileProperties & p)
         {
             size = p.size;
             type = p.type;
@@ -88,10 +85,9 @@ namespace TF
             linkTarget = p.linkTarget;
         }
 
-
-        FileProperties &FileProperties::operator=(const FileProperties &p)
+        FileProperties & FileProperties::operator=(const FileProperties & p)
         {
-            if(this != &p)
+            if (this != &p)
             {
                 size = p.size;
                 type = p.type;
@@ -104,40 +100,37 @@ namespace TF
             return *this;
         }
 
-
-        bool FileProperties::operator==(const FileProperties &p)
+        bool FileProperties::operator==(const FileProperties & p)
         {
-            if(this != &p)
+            if (this != &p)
             {
-                if(size != p.size)
+                if (size != p.size)
                     return false;
-                if(type != p.type)
+                if (type != p.type)
                     return false;
-                if(permission != p.permission)
+                if (permission != p.permission)
                     return false;
-                if(userID != p.userID)
+                if (userID != p.userID)
                     return false;
-                if(groupID != p.groupID)
+                if (groupID != p.groupID)
                     return false;
-                if(linkTarget != p.linkTarget)
+                if (linkTarget != p.linkTarget)
                     return false;
             }
             return true;
         }
 
-
-        bool FileProperties::operator!=(const FileProperties &p)
+        bool FileProperties::operator!=(const FileProperties & p)
         {
-            if(*this == p)
+            if (*this == p)
                 return false;
             return true;
         }
 
-
-        std::ostream &FileProperties::description(std::ostream &o) const
+        std::ostream & FileProperties::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("FileProperties");
                 formatter->addClassMember<size_type>("size_type", "size", size);
@@ -152,12 +145,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const FileProperties &p)
+        std::ostream & operator<<(std::ostream & o, const FileProperties & p)
         {
             return p.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

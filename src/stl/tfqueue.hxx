@@ -40,12 +40,12 @@ namespace TF
     {
 
         template<class T, class Container = std::deque<T>>
-        std::ostream &operator<<(std::ostream &o, const std::queue<T, Container> &q);
+        std::ostream & operator<<(std::ostream & o, const std::queue<T, Container> & q);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfqueue.cxx"
 
-#endif    // TFQUEUE_HXX
+#endif // TFQUEUE_HXX

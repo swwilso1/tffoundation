@@ -58,7 +58,7 @@ namespace TF
 
             virtual ~UTF8StringEncoder();
 
-            virtual StringEncoder *clone() override;
+            virtual StringEncoder * clone() override;
 
             virtual size_type basicCodeLengthInBytes() override;
 
@@ -72,92 +72,93 @@ namespace TF
 
             virtual size_type lengthOfByteOrderMarkInBytes() override;
 
-            virtual void writeByteOrderMark(char_type *start, size_type length) override;
+            virtual void writeByteOrderMark(char_type * start, size_type length) override;
 
-            virtual byte_order_query_type hasByteOrderMark(const char_type *start, size_type length) override;
+            virtual byte_order_query_type hasByteOrderMark(const char_type * start, size_type length) override;
 
-            virtual size_type numberOfCharacters(const char_type *start, size_type length) override;
+            virtual size_type numberOfCharacters(const char_type * start, size_type length) override;
 
-            virtual bool checkStringForCorrectness(const char_type *start, size_type length) override;
+            virtual bool checkStringForCorrectness(const char_type * start, size_type length) override;
 
-            virtual std::pair<unicode_point_type, size_type> nextCodePoint(const char_type *start, size_type length,
+            virtual std::pair<unicode_point_type, size_type> nextCodePoint(const char_type * start, size_type length,
                                                                            Endian endian) override;
 
-            virtual std::pair<unicode_point_type, size_type> nextCode(const char_type *start, size_type length,
+            virtual std::pair<unicode_point_type, size_type> nextCode(const char_type * start, size_type length,
                                                                       Endian endian) override;
 
-            virtual unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type *start, size_type length,
+            virtual unicode_point_type unicodeCodePointForCharacterAtIndex(const char_type * start, size_type length,
                                                                            size_type index) override;
 
             virtual size_type bytesNeededForRepresentationOfCode(unicode_point_type code) override;
 
-            virtual size_type encodeCodePoint(char_type *start, size_type length, unicode_point_type code,
+            virtual size_type encodeCodePoint(char_type * start, size_type length, unicode_point_type code,
                                               Endian endian) override;
 
-            virtual size_type arrayIndexOfCharacterAtCharacterIndex(const char_type *start, size_type length,
+            virtual size_type arrayIndexOfCharacterAtCharacterIndex(const char_type * start, size_type length,
                                                                     size_type index) override;
 
-            virtual size_type numberOfBytesToCaptureCharactersInRange(const char_type *start, size_type length,
-                                                                      const range_type &range) override;
+            virtual size_type numberOfBytesToCaptureCharactersInRange(const char_type * start, size_type length,
+                                                                      const range_type & range) override;
 
-            virtual bool containsCharacterWithZeroValue(const char_type *start, size_type length) override;
+            virtual bool containsCharacterWithZeroValue(const char_type * start, size_type length) override;
 
-            virtual bool containsCharacterNotInASCIIRange(const char_type *start, size_type length) override;
+            virtual bool containsCharacterNotInASCIIRange(const char_type * start, size_type length) override;
 
-            virtual range_type findByteRangeOfSubstringInString(const char_type *stringStart, size_type stringLength,
-                                                                const char_type *substringStart,
+            virtual range_type findByteRangeOfSubstringInString(const char_type * stringStart, size_type stringLength,
+                                                                const char_type * substringStart,
                                                                 size_type substringLength) override;
 
-            virtual range_array_type findByteRangesOfSubstringInString(const char_type *stringStart,
+            virtual range_array_type findByteRangesOfSubstringInString(const char_type * stringStart,
                                                                        size_type stringLength,
-                                                                       const char_type *substringStart,
+                                                                       const char_type * substringStart,
                                                                        size_type substringLength) override;
 
-            virtual range_type findCharacterRangeForSubstringInString(const char_type *stringStart,
+            virtual range_type findCharacterRangeForSubstringInString(const char_type * stringStart,
                                                                       size_type stringLength,
-                                                                      const char_type *substringStart,
+                                                                      const char_type * substringStart,
                                                                       size_type substringLength) override;
 
-            virtual range_array_type findCharacterRangesForSubstringInString(const char_type *stringStart,
+            virtual range_array_type findCharacterRangesForSubstringInString(const char_type * stringStart,
                                                                              size_type stringLength,
-                                                                             const char_type *substringStart,
+                                                                             const char_type * substringStart,
                                                                              size_type substringLength) override;
 
             virtual range_array_type findCharacterRangesOfSubstringsThatDoNotMatchSubstring(
-                const char_type *stringStart, size_type stringLength, const char_type *substringStart,
+                const char_type * stringStart, size_type stringLength, const char_type * substringStart,
                 size_type substringLength) override;
 
-            virtual ComparisonResult compareStrings(const char_type *firstStringStart, size_type firstStringLength,
-                                                    const char_type *secondStringStart,
+            virtual ComparisonResult compareStrings(const char_type * firstStringStart, size_type firstStringLength,
+                                                    const char_type * secondStringStart,
                                                     size_type secondStringLength) override;
 
-            virtual void convertStringCharacters(char_type *start, size_type length, StringCase convertToCase) override;
+            virtual void convertStringCharacters(char_type * start, size_type length,
+                                                 StringCase convertToCase) override;
 
             virtual size_type computeArraySizeInBytesForStringByReplacingSubstrings(
-                const char_type *stringStart, size_type stringLength, const char_type *substringStart,
-                size_type substringLength, const char_type *replaceStringStart, size_type replaceStringLength,
-                range_array_type &ranges) override;
+                const char_type * stringStart, size_type stringLength, const char_type * substringStart,
+                size_type substringLength, const char_type * replaceStringStart, size_type replaceStringLength,
+                range_array_type & ranges) override;
 
-            virtual void replaceOccurancesOfStringWithString(const char_type *originalStringStart,
-                                                             size_type originalStringLength, char_type *newStringStart,
+            virtual void replaceOccurancesOfStringWithString(const char_type * originalStringStart,
+                                                             size_type originalStringLength, char_type * newStringStart,
                                                              size_type newStringLength,
-                                                             const char_type *replacementStringStart,
+                                                             const char_type * replacementStringStart,
                                                              size_type replacementStringLength,
-                                                             range_array_type &substringRanges) override;
+                                                             range_array_type & substringRanges) override;
 
-            virtual unicode_point_type correctValueForPlatform(const char_type *start, size_type length,
+            virtual unicode_point_type correctValueForPlatform(const char_type * start, size_type length,
                                                                Endian endian) override;
 
-            virtual bool operator==(const StringEncoder &e) override;
+            virtual bool operator==(const StringEncoder & e) override;
 
-            virtual std::ostream &description(std::ostream &o) const override;
+            virtual std::ostream & description(std::ostream & o) const override;
 
             virtual std::string getEncoderID() const override;
 
         protected:
-            virtual size_type bytesToExpectInUTF8Sequence(const data_type *s, size_type length);
+            virtual size_type bytesToExpectInUTF8Sequence(const data_type * s, size_type length);
 
-            virtual unicode_point_type convertUTF8SequenceToUnicodePoint(const data_type *start, size_type length);
+            virtual unicode_point_type convertUTF8SequenceToUnicodePoint(const data_type * start, size_type length);
 
             virtual size_type bytesNeededForUTF8RepresenationOfUnicodePoint(unicode_point_type point);
 
@@ -165,8 +166,8 @@ namespace TF
             static const size_type byteOrderMarkLength;
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #endif /* TFUTF8STRINGENCODER_HPP */

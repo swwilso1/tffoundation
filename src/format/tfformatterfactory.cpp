@@ -35,6 +35,6 @@ namespace TF
 
         FormatterFactory::formatter_type FormatterFactory::formatterType = FormatterType::DefaultFormatterType;
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

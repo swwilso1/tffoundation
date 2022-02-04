@@ -28,7 +28,6 @@ SOFTWARE.
 #include "tfdisabledwarnings.h"
 #include "tfplatformheaders.h"
 
-
 // Standard C headers
 
 #if defined(NEEDS_ASSERT_H)
@@ -40,7 +39,6 @@ SOFTWARE.
 #    undef NEEDS_ASSERT_H
 #endif
 
-
 #if defined(NEEDS_CTYPE_H)
 #    if defined(HAS_CTYPE_H)
 #        include <ctype.h>
@@ -49,7 +47,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CTYPE_H
 #endif
-
 
 #if defined(NEEDS_ERRNO_H)
 #    if defined(HAS_ERRNO_H)
@@ -60,7 +57,6 @@ SOFTWARE.
 #    undef NEEDS_ERRNO_H
 #endif
 
-
 #if defined(NEEDS_FENV_H)
 #    if defined(HAS_FENV_H)
 #        include <fenv.h>
@@ -69,7 +65,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_FENV_H
 #endif
-
 
 #if defined(NEEDS_FLOAT_H)
 #    if defined(HAS_FLOAT_H)
@@ -80,7 +75,6 @@ SOFTWARE.
 #    undef NEEDS_FLOAT_H
 #endif
 
-
 #if defined(NEEDS_INTTYPES_H)
 #    if defined(HAS_INTTYPES_H)
 #        include <inttypes.h>
@@ -89,7 +83,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_INTTYPES_H
 #endif
-
 
 #if defined(NEEDS_ISO646_H)
 #    if defined(HAS_ISO646_H)
@@ -100,7 +93,6 @@ SOFTWARE.
 #    undef NEEDS_ISO646_H
 #endif
 
-
 #if defined(NEEDS_LIMITS_H)
 #    if defined(HAS_LIMITS_H)
 #        include <limits.h>
@@ -109,7 +101,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_LIMITS_H
 #endif
-
 
 #if defined(NEEDS_LOCALE_H)
 #    if defined(HAS_LOCALE_H)
@@ -120,7 +111,6 @@ SOFTWARE.
 #    undef NEEDS_LOCALE_H
 #endif
 
-
 #if defined(NEEDS_MATH_H)
 #    if defined(HAS_MATH_H)
 #        include <math.h>
@@ -129,7 +119,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_MATH_H
 #endif
-
 
 #if defined(NEEDS_SETJMP_H)
 #    if defined(HAS_SETJMP_H)
@@ -140,7 +129,6 @@ SOFTWARE.
 #    undef NEEDS_SETJMP_H
 #endif
 
-
 #if defined(NEEDS_SIGNAL_H)
 #    if defined(HAS_SIGNAL_H)
 #        include <signal.h>
@@ -149,7 +137,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_SIGNAL_H
 #endif
-
 
 #if defined(NEEDS_STDALIGN_H)
 #    if defined(HAS_STDALIGN_H)
@@ -160,7 +147,6 @@ SOFTWARE.
 #    undef NEEDS_STDALIGN_H
 #endif
 
-
 #if defined(NEEDS_STDARG_H)
 #    if defined(HAS_STDARG_H)
 #        include <stdarg.h>
@@ -169,7 +155,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STDARG_H
 #endif
-
 
 #if defined(NEEDS_STDATOMIC_H)
 #    if defined(HAS_STDATOMIC_H)
@@ -180,7 +165,6 @@ SOFTWARE.
 #    undef NEEDS_STDATOMIC_H
 #endif
 
-
 #if defined(NEEDS_STDBOOL_H)
 #    if defined(HAS_STDBOOL_H)
 #        include <stdbool.h>
@@ -189,7 +173,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STDBOOL_H
 #endif
-
 
 #if defined(NEEDS_STDDEF_H)
 #    if defined(HAS_STDDEF_H)
@@ -200,7 +183,6 @@ SOFTWARE.
 #    undef NEEDS_STDDEF_H
 #endif
 
-
 #if defined(NEEDS_STDINT_H)
 #    if defined(HAS_STDINT_H)
 #        include <stdint.h>
@@ -209,7 +191,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STDINT_H
 #endif
-
 
 #if defined(NEEDS_STDIO_H)
 #    if defined(HAS_STDIO_H)
@@ -220,7 +201,6 @@ SOFTWARE.
 #    undef NEEDS_STDIO_H
 #endif
 
-
 #if defined(NEEDS_STDLIB_H)
 #    if defined(HAS_STDLIB_H)
 #        include <stdlib.h>
@@ -229,7 +209,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STDLIB_H
 #endif
-
 
 #if defined(NEEDS_STDNORETURN_H)
 #    if defined(HAS_STDNORETURN_H)
@@ -240,7 +219,6 @@ SOFTWARE.
 #    undef NEEDS_STDNORETURN_H
 #endif
 
-
 #if defined(NEEDS_STRING_H)
 #    if defined(HAS_STRING_H)
 #        include <string.h>
@@ -249,7 +227,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STRING_H
 #endif
-
 
 #if defined(NEEDS_TGMATH_H)
 #    if defined(HAS_TGMATH_H)
@@ -260,7 +237,6 @@ SOFTWARE.
 #    undef NEEDS_TGMATH_H
 #endif
 
-
 #if defined(NEEDS_THREADS_H)
 #    if defined(HAS_THREADS_H)
 #        include <threads.h>
@@ -269,7 +245,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_THREADS_H
 #endif
-
 
 #if defined(NEEDS_TIME_H)
 #    if defined(HAS_TIME_H)
@@ -280,7 +255,6 @@ SOFTWARE.
 #    undef NEEDS_TIME_H
 #endif
 
-
 #if defined(NEEDS_UCHAR_H)
 #    if defined(HAS_UCHAR_H)
 #        include <uchar.h>
@@ -289,7 +263,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_UCHAR_H
 #endif
-
 
 #if defined(NEEDS_WCHAR_H)
 #    if defined(HAS_WCHAR_H)
@@ -300,7 +273,6 @@ SOFTWARE.
 #    undef NEEDS_WCHAR_H
 #endif
 
-
 #if defined(NEEDS_WCTYPE_H)
 #    if defined(HAS_WCTYPE_H)
 #        include <wctype.h>
@@ -309,7 +281,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_WCTYPE_H
 #endif
-
 
 // Standard C++ headers
 
@@ -322,7 +293,6 @@ SOFTWARE.
 #    undef NEEDS_ANY
 #endif
 
-
 #if defined(NEEDS_ALGORITHM)
 #    if defined(HAS_ALGORITHM)
 #        include <algorithm>
@@ -331,7 +301,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_ALGORITHM
 #endif
-
 
 #if defined(NEEDS_ARRAY)
 #    if defined(HAS_ARRAY)
@@ -342,7 +311,6 @@ SOFTWARE.
 #    undef NEEDS_ARRAY
 #endif
 
-
 #if defined(NEEDS_ATOMIC)
 #    if defined(HAS_ATOMIC)
 #        include <atomic>
@@ -351,7 +319,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_ATOMIC
 #endif
-
 
 #if defined(NEEDS_BITSET)
 #    if defined(HAS_BITSET)
@@ -362,7 +329,6 @@ SOFTWARE.
 #    undef NEEDS_BITSET
 #endif
 
-
 #if defined(NEEDS_CASSERT)
 #    if defined(HAS_CASSERT)
 #        include <cassert>
@@ -371,7 +337,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CASSERT
 #endif
-
 
 #if defined(NEEDS_CCTYPE)
 #    if defined(HAS_CCTYPE)
@@ -382,7 +347,6 @@ SOFTWARE.
 #    undef NEEDS_CCTYPE
 #endif
 
-
 #if defined(NEEDS_CERRNO)
 #    if defined(HAS_CERRNO)
 #        include <cerrno>
@@ -391,7 +355,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CERRNO
 #endif
-
 
 #if defined(NEEDS_CFENV)
 #    if defined(HAS_CFENV)
@@ -402,7 +365,6 @@ SOFTWARE.
 #    undef NEEDS_CFENV
 #endif
 
-
 #if defined(NEEDS_CFLOAT)
 #    if defined(HAS_CFLOAT)
 #        include <cfloat>
@@ -411,7 +373,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CFLOAT
 #endif
-
 
 #if defined(NEEDS_CHRONO)
 #    if defined(HAS_CHRONO)
@@ -422,7 +383,6 @@ SOFTWARE.
 #    undef NEEDS_CHRONO
 #endif
 
-
 #if defined(NEEDS_CINTTYPES)
 #    if defined(HAS_CINTTYPES)
 #        include <cinttypes>
@@ -431,7 +391,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CINTTYPES
 #endif
-
 
 #if defined(NEEDS_CLIMITS)
 #    if defined(HAS_CLIMITS)
@@ -442,7 +401,6 @@ SOFTWARE.
 #    undef NEEDS_CLIMITS
 #endif
 
-
 #if defined(NEEDS_CLOCALE)
 #    if defined(HAS_CLOCALE)
 #        include <clocale>
@@ -451,7 +409,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CLOCALE
 #endif
-
 
 #if defined(NEEDS_CMATH)
 #    if defined(HAS_CMATH)
@@ -462,7 +419,6 @@ SOFTWARE.
 #    undef NEEDS_CMATH
 #endif
 
-
 #if defined(NEEDS_CODECVT)
 #    if defined(HAS_CODECVT)
 #        include <codecvt>
@@ -471,7 +427,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CODECVT
 #endif
-
 
 #if defined(NEEDS_COMPLEX)
 #    if defined(HAS_COMPLEX)
@@ -482,7 +437,6 @@ SOFTWARE.
 #    undef NEEDS_COMPLEX
 #endif
 
-
 #if defined(NEEDS_CONDITION_VARIABLE)
 #    if defined(HAS_CONDITION_VARIABLE)
 #        include <condition_variable>
@@ -491,7 +445,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CONDITION_VARIABLE
 #endif
-
 
 #if defined(NEEDS_CSTDIO)
 #    if defined(HAS_CSTDIO)
@@ -502,7 +455,6 @@ SOFTWARE.
 #    undef NEEDS_CSTDIO
 #endif
 
-
 #if defined(NEEDS_CSTDLIB)
 #    if defined(HAS_CSTDLIB)
 #        include <cstdlib>
@@ -511,7 +463,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CSTDLIB
 #endif
-
 
 #if defined(NEEDS_CSIGNAL)
 #    if defined(HAS_CSIGNAL)
@@ -522,7 +473,6 @@ SOFTWARE.
 #    undef NEEDS_CSIGNAL
 #endif
 
-
 #if defined(NEEDS_CSETJMP)
 #    if defined(HAS_CSETJMP)
 #        include <csetjmp>
@@ -531,7 +481,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CSETJMP
 #endif
-
 
 #if defined(NEEDS_CSTDARG)
 #    if defined(HAS_CSTDARG)
@@ -542,7 +491,6 @@ SOFTWARE.
 #    undef NEEDS_CSTDARG
 #endif
 
-
 #if defined(NEEDS_CSTDDEF)
 #    if defined(HAS_CSTDDEF)
 #        include <cstddef>
@@ -551,7 +499,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CSTDDEF
 #endif
-
 
 #if defined(NEEDS_CSTDINT)
 #    if defined(HAS_CSTDINT)
@@ -562,7 +509,6 @@ SOFTWARE.
 #    undef NEEDS_CSTDINT
 #endif
 
-
 #if defined(NEEDS_CSTRING)
 #    if defined(HAS_CSTRING)
 #        include <cstring>
@@ -571,7 +517,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CSTRING
 #endif
-
 
 #if defined(NEEDS_CTIME)
 #    if defined(HAS_CTIME)
@@ -582,7 +527,6 @@ SOFTWARE.
 #    undef NEEDS_CTIME
 #endif
 
-
 #if defined(NEEDS_CUCHAR)
 #    if defined(HAS_CUCHAR)
 #        include <cuchar>
@@ -591,7 +535,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CUCHAR
 #endif
-
 
 #if defined(NEEDS_CWCHAR)
 #    if defined(HAS_CWCHAR)
@@ -602,7 +545,6 @@ SOFTWARE.
 #    undef NEEDS_CWCHAR
 #endif
 
-
 #if defined(NEEDS_CWCTYPE)
 #    if defined(HAS_CWCTYPE)
 #        include <cwctype>
@@ -611,7 +553,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_CWCTYPE
 #endif
-
 
 #if defined(NEEDS_DEQUE)
 #    if defined(HAS_DEQUE)
@@ -622,7 +563,6 @@ SOFTWARE.
 #    undef NEEDS_DEQUE
 #endif
 
-
 #if defined(NEEDS_EXCEPTION)
 #    if defined(HAS_EXCEPTION)
 #        include <exception>
@@ -631,7 +571,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_EXCEPTION
 #endif
-
 
 #if defined(NEEDS_EXECUTION)
 #    if defined(HAS_EXECUTION)
@@ -642,7 +581,6 @@ SOFTWARE.
 #    undef NEEDS_EXECUTION
 #endif
 
-
 #if defined(NEEDS_FILESYSTEM)
 #    if defined(HAS_FILESYSTEM)
 #        include <filesystem>
@@ -651,7 +589,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_FILESYSTEM
 #endif
-
 
 #if defined(NEEDS_FORWARD_LIST)
 #    if defined(HAS_FORWARD_LIST)
@@ -662,7 +599,6 @@ SOFTWARE.
 #    undef NEEDS_FORWARD_LIST
 #endif
 
-
 #if defined(NEEDS_FSTREAM)
 #    if defined(HAS_FSTREAM)
 #        include <fstream>
@@ -671,7 +607,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_FSTREAM
 #endif
-
 
 #if defined(NEEDS_FUNCTIONAL)
 #    if defined(HAS_FUNCTIONAL)
@@ -682,7 +617,6 @@ SOFTWARE.
 #    undef NEEDS_FUNCTIONAL
 #endif
 
-
 #if defined(NEEDS_FUTURE)
 #    if defined(HAS_FUTURE)
 #        include <future>
@@ -691,7 +625,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_FUTURE
 #endif
-
 
 #if defined(NEEDS_INITIALIZER_LIST)
 #    if defined(HAS_INITIALIZER_LIST)
@@ -702,7 +635,6 @@ SOFTWARE.
 #    undef NEEDS_INITIALIZER_LIST
 #endif
 
-
 #if defined(NEEDS_IOMANIP)
 #    if defined(HAS_IOMANIP)
 #        include <iomanip>
@@ -711,7 +643,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_IOMANIP
 #endif
-
 
 #if defined(NEEDS_IOS)
 #    if defined(HAS_IOS)
@@ -722,7 +653,6 @@ SOFTWARE.
 #    undef NEEDS_IOS
 #endif
 
-
 #if defined(NEEDS_IOSFWD)
 #    if defined(HAS_IOSFWD)
 #        include <iosfwd>
@@ -731,7 +661,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_IOSFWD
 #endif
-
 
 #if defined(NEEDS_IOSTREAM)
 #    if defined(HAS_IOSTREAM)
@@ -742,7 +671,6 @@ SOFTWARE.
 #    undef NEEDS_IOSTREAM
 #endif
 
-
 #if defined(NEEDS_ISTREAM)
 #    if defined(HAS_ISTREAM)
 #        include <istream>
@@ -751,7 +679,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_ISTREAM
 #endif
-
 
 #if defined(NEEDS_ITERATOR)
 #    if defined(HAS_ITERATOR)
@@ -762,7 +689,6 @@ SOFTWARE.
 #    undef NEEDS_ITERATOR
 #endif
 
-
 #if defined(NEEDS_LIMITS)
 #    if defined(HAS_LIMITS)
 #        include <limits>
@@ -771,7 +697,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_LIMITS
 #endif
-
 
 #if defined(NEEDS_LIST)
 #    if defined(HAS_LIST)
@@ -782,7 +707,6 @@ SOFTWARE.
 #    undef NEEDS_LIST
 #endif
 
-
 #if defined(NEEDS_LOCALE)
 #    if defined(HAS_LOCALE)
 #        include <locale>
@@ -791,7 +715,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_LOCALE
 #endif
-
 
 #if defined(NEEDS_MAP)
 #    if defined(HAS_MAP)
@@ -802,7 +725,6 @@ SOFTWARE.
 #    undef NEEDS_MAP
 #endif
 
-
 #if defined(NEEDS_MEMORY)
 #    if defined(HAS_MEMORY)
 #        include <memory>
@@ -811,7 +733,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_MEMORY
 #endif
-
 
 #if defined(NEEDS_MUTEX)
 #    if defined(HAS_MUTEX)
@@ -822,7 +743,6 @@ SOFTWARE.
 #    undef NEEDS_MUTEX
 #endif
 
-
 #if defined(NEEDS_NEW)
 #    if defined(HAS_NEW)
 #        include <new>
@@ -831,7 +751,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_NEW
 #endif
-
 
 #if defined(NEEDS_NUMERIC)
 #    if defined(HAS_NUMERIC)
@@ -842,7 +761,6 @@ SOFTWARE.
 #    undef NEEDS_NUMERIC
 #endif
 
-
 #if defined(NEEDS_OPTIONAL)
 #    if defined(HAS_OPTIONAL)
 #        include <optional>
@@ -851,7 +769,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_OPTIONAL
 #endif
-
 
 #if defined(NEEDS_OSTREAM)
 #    if defined(HAS_OSTREAM)
@@ -862,7 +779,6 @@ SOFTWARE.
 #    undef NEEDS_OSTREAM
 #endif
 
-
 #if defined(NEEDS_QUEUE)
 #    if defined(HAS_QUEUE)
 #        include <queue>
@@ -871,7 +787,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_QUEUE
 #endif
-
 
 #if defined(NEEDS_RANDOM)
 #    if defined(HAS_RANDOM)
@@ -882,7 +797,6 @@ SOFTWARE.
 #    undef NEEDS_RANDOM
 #endif
 
-
 #if defined(NEEDS_RATIO)
 #    if defined(HAS_RATIO)
 #        include <ratio>
@@ -891,7 +805,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_RATIO
 #endif
-
 
 #if defined(NEEDS_REGEX)
 #    if defined(HAS_REGEX)
@@ -902,7 +815,6 @@ SOFTWARE.
 #    undef NEEDS_REGEX
 #endif
 
-
 #if defined(NEEDS_SCOPED_ALLOCATOR)
 #    if defined(HAS_SCOPED_ALLOCATOR)
 #        include <scoped_allocator>
@@ -911,7 +823,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_SCOPED_ALLOCATOR
 #endif
-
 
 #if defined(NEEDS_SET)
 #    if defined(HAS_SET)
@@ -922,7 +833,6 @@ SOFTWARE.
 #    undef NEEDS_SET
 #endif
 
-
 #if defined(NEEDS_SHARED_MUTEX)
 #    if defined(HAS_SHARED_MUTEX)
 #        include <shared_mutex>
@@ -931,7 +841,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_SHARED_MUTEX
 #endif
-
 
 #if defined(NEEDS_SSTREAM)
 #    if defined(HAS_SSTREAM)
@@ -942,7 +851,6 @@ SOFTWARE.
 #    undef NEEDS_SSTREAM
 #endif
 
-
 #if defined(NEEDS_STACK)
 #    if defined(HAS_STACK)
 #        include <stack>
@@ -951,7 +859,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STACK
 #endif
-
 
 #if defined(NEEDS_STDEXCEPT)
 #    if defined(HAS_STDEXCEPT)
@@ -962,7 +869,6 @@ SOFTWARE.
 #    undef NEEDS_STDEXCEPT
 #endif
 
-
 #if defined(NEEDS_STREAMBUF)
 #    if defined(HAS_STREAMBUF)
 #        include <streambuf>
@@ -971,7 +877,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STREAMBUF
 #endif
-
 
 #if defined(NEEDS_STRING)
 #    if defined(HAS_STRING)
@@ -982,7 +887,6 @@ SOFTWARE.
 #    undef NEEDS_STRING
 #endif
 
-
 #if defined(NEEDS_STRING_VIEW)
 #    if defined(HAS_STRING_VIEW)
 #        include <string_view>
@@ -991,7 +895,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_STRING_VIEW
 #endif
-
 
 #if defined(NEEDS_STRSTREAM)
 #    if defined(HAS_STRSTREAM)
@@ -1002,7 +905,6 @@ SOFTWARE.
 #    undef NEEDS_STRSTREAM
 #endif
 
-
 #if defined(NEEDS_SYSTEM_ERROR)
 #    if defined(HAS_SYSTEM_ERROR)
 #        include <system_error>
@@ -1011,7 +913,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_SYSTEM_ERROR
 #endif
-
 
 #if defined(NEEDS_THREAD)
 #    if defined(HAS_THREAD)
@@ -1022,7 +923,6 @@ SOFTWARE.
 #    undef NEEDS_THREAD
 #endif
 
-
 #if defined(NEEDS_TUPLE)
 #    if defined(HAS_TUPLE)
 #        include <tuple>
@@ -1031,7 +931,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_TUPLE
 #endif
-
 
 #if defined(NEEDS_TYPEINFO)
 #    if defined(HAS_TYPEINFO)
@@ -1042,7 +941,6 @@ SOFTWARE.
 #    undef NEEDS_TYPEINFO
 #endif
 
-
 #if defined(NEEDS_TYPEINDEX)
 #    if defined(HAS_TYPEINDEX)
 #        include <typeindex>
@@ -1051,7 +949,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_TYPEINDEX
 #endif
-
 
 #if defined(NEEDS_TYPE_TRAITS)
 #    if defined(HAS_TYPE_TRAITS)
@@ -1062,7 +959,6 @@ SOFTWARE.
 #    undef NEEDS_TYPE_TRAITS
 #endif
 
-
 #if defined(NEEDS_UNORDERED_MAP)
 #    if defined(HAS_UNORDERED_MAP)
 #        include <unordered_map>
@@ -1071,7 +967,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_UNORDERED_MAP
 #endif
-
 
 #if defined(NEEDS_UNORDERED_SET)
 #    if defined(HAS_UNORDERED_SET)
@@ -1082,7 +977,6 @@ SOFTWARE.
 #    undef NEEDS_UNORDERED_SET
 #endif
 
-
 #if defined(NEEDS_UTILITY)
 #    if defined(HAS_UTILITY)
 #        include <utility>
@@ -1091,7 +985,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_UTILITY
 #endif
-
 
 #if defined(NEEDS_VALARRAY)
 #    if defined(HAS_VALARRAY)
@@ -1102,7 +995,6 @@ SOFTWARE.
 #    undef NEEDS_VALARRAY
 #endif
 
-
 #if defined(NEEDS_VARIANT)
 #    if defined(HAS_VARIANT)
 #        include <variant>
@@ -1111,7 +1003,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_VARIANT
 #endif
-
 
 #if defined(NEEDS_VECTOR)
 #    if defined(HAS_VECTOR)
@@ -1122,7 +1013,6 @@ SOFTWARE.
 #    undef NEEDS_VECTOR
 #endif
 
-
 #if defined(NEEDS_POLL_H)
 #    if defined(HAS_POLL_H)
 #        include <poll.h>
@@ -1131,7 +1021,6 @@ SOFTWARE.
 #    endif
 #    undef NEEDS_POLL_H
 #endif
-
 
 #if defined(NEEDS_SYS_SELECT_H)
 #    if defined(HAS_SYS_SELECT_H)

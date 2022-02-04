@@ -48,7 +48,6 @@ TEST(StringTest, BracketOperatorTest)
     EXPECT_EQ(s[8], 1053236);
 }
 
-
 TEST(StringTest, CharacterAtIndexTest)
 {
     String s = String::initWithASCIIEncodedUnicode("Hello \\:004435\\:003848\\:101234");
@@ -63,14 +62,12 @@ TEST(StringTest, CharacterAtIndexTest)
     EXPECT_EQ(s.characterAtIndex(8), 1053236);
 }
 
-
 TEST(StringTest, CharactersInRangeTest1)
 {
     String s("The large house on the left.");
     String t = s.getCharactersInRange(Range(0, 1));
     EXPECT_EQ(t, "T");
 }
-
 
 TEST(StringTest, CharactersInRangeTest2)
 {
@@ -79,14 +76,12 @@ TEST(StringTest, CharactersInRangeTest2)
     EXPECT_EQ(t, "The large ");
 }
 
-
 TEST(StringTest, CharactersInRangeTest3)
 {
     String s("The large house on the left.");
     String t = s.getCharactersInRange(Range(5, 10));
     EXPECT_EQ(t, "arge house");
 }
-
 
 TEST(StringTest, CharactersInRangeTest4)
 {

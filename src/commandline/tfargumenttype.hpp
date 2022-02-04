@@ -58,8 +58,8 @@ namespace TF
          * @return @e o the ostream object after writing the type info
          * to the stream.
          */
-        std::ostream &operator<<(std::ostream &o, const ArgumentType &type);
-    }    // namespace Foundation
-}    // namespace TF
+        std::ostream & operator<<(std::ostream & o, const ArgumentType & type);
+    } // namespace Foundation
+} // namespace TF
 
-#endif    // TFARGUMENTTYPE_HPP
+#endif // TFARGUMENTTYPE_HPP

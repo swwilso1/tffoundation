@@ -38,10 +38,10 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &operator<<(std::ostream &o, const std::mutex &m);
+        std::ostream & operator<<(std::ostream & o, const std::mutex & m);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFMUTEX_HPP
+#endif // TFMUTEX_HPP

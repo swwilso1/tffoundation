@@ -37,22 +37,18 @@ namespace TF
     namespace Foundation
     {
         template<>
-        FileHandleBase<FILE *, int>::FileHandleBase(bool auto_close)
-            : m_handle {nullptr}, m_autoClose {auto_close}, m_fileName {}
-        {
-        }
-
+        FileHandleBase<FILE *, int>::FileHandleBase(bool auto_close) :
+            m_handle{nullptr}, m_autoClose{auto_close}, m_fileName{}
+        {}
 
         template<>
-        FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase &fh)
-            : m_handle {fh.m_handle}, m_autoClose {fh.m_autoClose}, m_fileName {fh.m_fileName}
-        {
-        }
-
+        FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase & fh) :
+            m_handle{fh.m_handle}, m_autoClose{fh.m_autoClose}, m_fileName{fh.m_fileName}
+        {}
 
         template<>
-        FileHandleBase<FILE *, int>::FileHandleBase(FileHandleBase &&fh)
-            : m_handle {fh.m_handle}, m_autoClose {fh.m_autoClose}, m_fileName {fh.m_fileName}
+        FileHandleBase<FILE *, int>::FileHandleBase(FileHandleBase && fh) :
+            m_handle{fh.m_handle}, m_autoClose{fh.m_autoClose}, m_fileName{fh.m_fileName}
         {
             fh.m_handle = nullptr;
             fh.m_autoClose = false;
@@ -62,23 +58,22 @@ namespace TF
         template<>
         FileHandleBase<FILE *, int>::~FileHandleBase()
         {
-            if(m_autoClose && m_handle != nullptr)
+            if (m_autoClose && m_handle != nullptr)
             {
                 fclose(m_handle);
                 m_handle = nullptr;
             }
         }
 
-
         template<>
-        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(const FileHandleBase &fh)
+        FileHandleBase<FILE *, int> & FileHandleBase<FILE *, int>::operator=(const FileHandleBase & fh)
         {
-            if(this == &fh)
+            if (this == &fh)
             {
                 return *this;
             }
 
-            if(m_autoClose && m_handle != nullptr)
+            if (m_autoClose && m_handle != nullptr)
             {
                 fclose(m_handle);
                 m_handle = nullptr;
@@ -91,16 +86,15 @@ namespace TF
             return *this;
         }
 
-
         template<>
-        FileHandleBase<FILE *, int> &FileHandleBase<FILE *, int>::operator=(FileHandleBase &&fh)
+        FileHandleBase<FILE *, int> & FileHandleBase<FILE *, int>::operator=(FileHandleBase && fh)
         {
-            if(this == &fh)
+            if (this == &fh)
             {
                 return *this;
             }
 
-            if(m_autoClose && m_handle != nullptr)
+            if (m_autoClose && m_handle != nullptr)
             {
                 fclose(m_handle);
                 m_handle = nullptr;
@@ -117,14 +111,13 @@ namespace TF
             return *this;
         }
 
-
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type &path,
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAtPath(const string_type & path,
                                                                                             bool auto_close)
         {
             FileManager fm;
             FileHandleBase<FILE *, int> fh;
-            if(!fm.fileExistsAtPath(path))
+            if (! fm.fileExistsAtPath(path))
             {
                 string_type msg("No such file or directory");
                 msg += " '" + path + "'";
@@ -134,7 +127,7 @@ namespace TF
 
             auto pathCStr = path.cStr();
             fh.m_handle = fopen(pathCStr.get(), "r");
-            if(fh.m_handle == nullptr)
+            if (fh.m_handle == nullptr)
             {
                 string_type msg("Unable to open ");
                 msg += "'" + path + "': " + strerror(errno);
@@ -148,16 +141,15 @@ namespace TF
             return fh;
         }
 
-
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type &path,
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingAtPath(const string_type & path,
                                                                                             bool auto_close)
         {
             FileHandleBase fh;
             auto pathCStr = path.cStr();
 
             fh.m_handle = fopen(pathCStr.get(), "w");
-            if(fh.m_handle == nullptr)
+            if (fh.m_handle == nullptr)
             {
                 string_type msg("Unable to open ");
                 msg += "'" + path + "' for writing: " + strerror(errno);
@@ -171,16 +163,15 @@ namespace TF
             return fh;
         }
 
-
         template<>
-        FileHandleBase<FILE *, int>
-            FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(const string_type &path, bool auto_close)
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingAtPath(
+            const string_type & path, bool auto_close)
         {
             FileHandleBase fh;
             auto pathCStr = path.cStr();
 
             fh.m_handle = fopen(pathCStr.get(), "r+");
-            if(fh.m_handle == nullptr)
+            if (fh.m_handle == nullptr)
             {
                 string_type msg("Unable to open ");
                 msg += "'" + path + "' for reading and writing: " + strerror(errno);
@@ -194,16 +185,15 @@ namespace TF
             return fh;
         }
 
-
         template<>
-        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type &path,
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingAtPath(const string_type & path,
                                                                                               bool auto_close)
         {
             FileHandleBase fh;
             auto pathCstr = path.cStr();
 
             fh.m_handle = fopen(pathCstr.get(), "a");
-            if(fh.m_handle == nullptr)
+            if (fh.m_handle == nullptr)
             {
                 string_type msg("Unable to open ");
                 msg += "'" + path + "' for reading and writing: " + strerror(errno);
@@ -227,7 +217,6 @@ namespace TF
             return fh;
         }
 
-
         template<>
         FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardOutput(bool auto_close)
         {
@@ -237,7 +226,6 @@ namespace TF
             fh.setAutoClose(auto_close);
             return fh;
         }
-
 
         template<>
         FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardError(bool auto_close)
@@ -249,15 +237,13 @@ namespace TF
             return fh;
         }
 
-
         template<>
         FileHandleBase<FILE *, int>::descriptor_type FileHandleBase<FILE *, int>::fileDescriptor()
         {
-            if(m_handle != nullptr)
+            if (m_handle != nullptr)
                 return fileno(m_handle);
             return -1;
         }
-
 
 #define kReadBufferSize 1024
 
@@ -267,13 +253,13 @@ namespace TF
             data_type d;
             char buffer[kReadBufferSize];
 
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return d;
 
             size_t amountRead = fread(buffer, sizeof(char), kReadBufferSize, m_handle);
-            if(amountRead != kReadBufferSize)
+            if (amountRead != kReadBufferSize)
             {
-                if(ferror(m_handle))
+                if (ferror(m_handle))
                 {
                     string_type msg("Error reading stream from ");
                     msg += m_fileName;
@@ -286,21 +272,20 @@ namespace TF
             return d;
         }
 
-
         template<>
         FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readToEndOfFile()
         {
             data_type d;
             char buffer[kReadBufferSize];
 
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return d;
 
-            while(!feof(m_handle))
+            while (! feof(m_handle))
             {
                 size_t amountRead = fread(buffer, sizeof(char), kReadBufferSize, m_handle);
 
-                if(ferror(m_handle))
+                if (ferror(m_handle))
                 {
                     string_type msg("Error reading stream from ");
                     msg += m_fileName;
@@ -313,23 +298,22 @@ namespace TF
             return d;
         }
 
-
         template<>
         FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readDataOfLength(size_type length)
         {
             data_type d;
-            char *buffer = new char[length];
-            char *tmp = buffer;
+            char * buffer = new char[length];
+            char * tmp = buffer;
             size_t bytesToRead = length;
             size_t bytesRead = 0;
 
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return d;
 
-            while(bytesToRead > 0)
+            while (bytesToRead > 0)
             {
                 bytesRead = fread(tmp, sizeof(char), bytesToRead, m_handle);
-                if(ferror(m_handle))
+                if (ferror(m_handle))
                 {
                     string_type msg("Error reading stream from ");
                     msg += m_fileName;
@@ -341,29 +325,28 @@ namespace TF
                 tmp += bytesRead;
                 bytesToRead -= bytesRead;
 
-                if(feof(m_handle))
+                if (feof(m_handle))
                     return d;
             }
 
             return d;
         }
 
-
         template<>
-        void FileHandleBase<FILE *, int>::writeData(const data_type &d)
+        void FileHandleBase<FILE *, int>::writeData(const data_type & d)
         {
-            const char *bytes = d.bytes();
+            const char * bytes = d.bytes();
             auto bytesToWrite = d.length();
-            const char *tmp = bytes;
+            const char * tmp = bytes;
             size_t bytesWrote = 0;
 
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return;
 
-            while(bytesToWrite > 0)
+            while (bytesToWrite > 0)
             {
                 bytesWrote = fwrite(tmp, sizeof(char), bytesToWrite, m_handle);
-                if(ferror(m_handle))
+                if (ferror(m_handle))
                 {
                     string_type msg("Error writing to stream for file ");
                     msg += m_fileName;
@@ -376,65 +359,59 @@ namespace TF
             }
         }
 
-
         template<>
         FileHandleBase<FILE *, int>::size_type FileHandleBase<FILE *, int>::offsetInFile()
         {
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return 0;
             return static_cast<size_type>(ftello(m_handle));
         }
 
-
         template<>
         void FileHandleBase<FILE *, int>::seekToEndOfFile()
         {
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return;
             fseeko(m_handle, 0, SEEK_END);
         }
 
-
         template<>
         void FileHandleBase<FILE *, int>::seekToStartOfFile()
         {
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
             {
                 return;
             }
             fseeko(m_handle, 0, SEEK_SET);
         }
 
-
         template<>
         void FileHandleBase<FILE *, int>::seekToFileOffset(size_type offset)
         {
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return;
             fseeko(m_handle, static_cast<off_t>(offset), SEEK_CUR);
         }
 
-
         template<>
         void FileHandleBase<FILE *, int>::closeFile()
         {
-            if(m_handle != nullptr)
+            if (m_handle != nullptr)
             {
                 fclose(m_handle);
                 m_handle = nullptr;
             }
         }
 
-
         template<>
         void FileHandleBase<FILE *, int>::truncateFileAtOffset(size_type offset)
         {
-            if(m_handle == nullptr)
+            if (m_handle == nullptr)
                 return;
 
             auto descriptor = fileDescriptor();
             auto apiResult = ftruncate(descriptor, static_cast<off_t>(offset));
-            if(apiResult != 0)
+            if (apiResult != 0)
             {
                 string_type msg("Unable to truncate file ");
                 msg += m_fileName + ": ";
@@ -444,12 +421,11 @@ namespace TF
             }
         }
 
-
         template<>
-        std::ostream &FileHandleBase<FILE *, int>::description(std::ostream &o) const
+        std::ostream & FileHandleBase<FILE *, int>::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("FileHandle");
                 formatter->addClassTemplateType<FILE *>();
@@ -463,6 +439,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

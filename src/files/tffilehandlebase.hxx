@@ -103,8 +103,7 @@ namespace TF
              * have two objects potentially with auto-close settings.  The caller must call setAutoClose(false)
              * for the object that should no longer automatically close the file handle.
              */
-            FileHandleBase(const FileHandleBase &fh);
-
+            FileHandleBase(const FileHandleBase & fh);
 
             /**
              * @brief move constructor
@@ -113,7 +112,7 @@ namespace TF
              * After the object is constructed the original @e fh object will no longer contain a valid
              * file handle.
              */
-            FileHandleBase(FileHandleBase &&fh);
+            FileHandleBase(FileHandleBase && fh);
 
             /**
              * @brief Simple destructor.
@@ -122,7 +121,6 @@ namespace TF
              * depending if the caller called the setAutoClose(true) method.
              */
             ~FileHandleBase();
-
 
 #pragma mark - Assignment operators
 
@@ -137,7 +135,7 @@ namespace TF
              * be turned off.  The caller must explicitly call setAutoClose(false) on the handle that
              * should no longer auto close the file.  This requirement may change in the future.
              */
-            FileHandleBase &operator=(const FileHandleBase &fh);
+            FileHandleBase & operator=(const FileHandleBase & fh);
 
             /**
              * @brief move assignment operator
@@ -148,7 +146,7 @@ namespace TF
              * the handle before copying the handle from @e fh.  After the move operation the original file
              * handle object will no longer refer to a valid file handle.
              */
-            FileHandleBase &operator=(FileHandleBase &&fh);
+            FileHandleBase & operator=(FileHandleBase && fh);
 
 #pragma mark - Static methods to create FileHandles
 
@@ -163,7 +161,7 @@ namespace TF
              * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object initialized to read the contents of the file located at @e path.
              */
-            static FileHandleBase fileHandleForReadingAtPath(const string_type &path, bool auto_close = false);
+            static FileHandleBase fileHandleForReadingAtPath(const string_type & path, bool auto_close = false);
 
             /**
              * @brief static method that returns an object with a handle for writing to a file system object at @e
@@ -178,7 +176,7 @@ namespace TF
              * @param auto_close true if the handle should automatically close the handle and false otherwise.
              * @return a FileHandleBase object initialized to write to the object in the file system located at @e path.
              */
-            static FileHandleBase fileHandleForWritingAtPath(const string_type &path, bool auto_close = false);
+            static FileHandleBase fileHandleForWritingAtPath(const string_type & path, bool auto_close = false);
 
             /**
              * @brief static method that returns an object suitable for reading and writing to the file system object
@@ -193,7 +191,7 @@ namespace TF
              * @return a FileHandleBase object initialized to read/write to object in the file system located at @e
              * path.
              */
-            static FileHandleBase fileHandleForReadingAndWritingAtPath(const string_type &path,
+            static FileHandleBase fileHandleForReadingAndWritingAtPath(const string_type & path,
                                                                        bool auto_close = false);
 
             /**
@@ -211,7 +209,7 @@ namespace TF
              * @return a FileHandleBase object initialized to append data to the object in the file system located at
              * @e path.
              */
-            static FileHandleBase fileHandleForAppendingAtPath(const string_type &path, bool auto_close = false);
+            static FileHandleBase fileHandleForAppendingAtPath(const string_type & path, bool auto_close = false);
 
             /**
              * @brief static method that returns a file handle opened for reading from the process' standard input
@@ -237,7 +235,6 @@ namespace TF
              */
             static FileHandleBase fileHandleWithStandardError(bool auto_close = false);
 
-
 #pragma mark - Method to get descriptor object
 
             /**
@@ -245,7 +242,6 @@ namespace TF
              * @return the descriptor object that represents the file.
              */
             descriptor_type fileDescriptor();
-
 
 #pragma mark - Methods for reading data
             /**
@@ -275,7 +271,6 @@ namespace TF
              */
             data_type readDataOfLength(size_type length);
 
-
 #pragma mark - Methods for writing data
 
             /**
@@ -285,8 +280,7 @@ namespace TF
              *
              * @param d the data object containing the bytes to write to the file.
              */
-            void writeData(const data_type &d);
-
+            void writeData(const data_type & d);
 
 #pragma mark - Methods for controlling file offsets
 
@@ -315,7 +309,6 @@ namespace TF
              * @param offset the number of bytes in the file to position the read location.
              */
             void seekToFileOffset(size_type offset);
-
 
 #pragma mark - Method to close file
 
@@ -357,7 +350,7 @@ namespace TF
              * @param o the output stream object
              * @return @e o after writing the contents of the file to the stream.
              */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         public:
 #pragma mark - Class members
@@ -374,7 +367,6 @@ namespace TF
             string_type m_fileName;
         };
 
-
         /**
          * @brief overloaded << operator for writing file handle objects to an ostream.
          * @tparam Handle the type of the underlying file system object.
@@ -384,12 +376,12 @@ namespace TF
          * @return @e o after writing the contents of the handle @e h to stream @e o.
          */
         template<class Handle, class Description>
-        std::ostream &operator<<(std::ostream &o, const FileHandleBase<Handle, Description> &h);
+        std::ostream & operator<<(std::ostream & o, const FileHandleBase<Handle, Description> & h);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tffilehandlebase.cxx"
 
-#endif    // TFFILEHANDLEBASE_HXX
+#endif // TFFILEHANDLEBASE_HXX

@@ -77,11 +77,9 @@ namespace TF
 
             using semantic_type = SymbolSemantic;
 
-            virtual ~DateSymbol()
-            {
-            }
+            virtual ~DateSymbol() {}
 
-            DateSymbol &operator=(const DateSymbol &s);
+            DateSymbol & operator=(const DateSymbol & s);
 
             void incrementCount()
             {
@@ -105,7 +103,7 @@ namespace TF
             {
                 return 0;
             }
-            virtual bool validValueForSymbol(const string_type &v)
+            virtual bool validValueForSymbol(const string_type & v)
             {
                 return false;
             }
@@ -119,10 +117,9 @@ namespace TF
                 theCharacter = c;
             }
 
-            virtual string_type convert(const DateComponents<Clock> &c);
-            virtual int convert(const string_type &s);
-            virtual std::ostream &description(std::ostream &o) const;
-
+            virtual string_type convert(const DateComponents<Clock> & c);
+            virtual int convert(const string_type & s);
+            virtual std::ostream & description(std::ostream & o) const;
 
         protected:
             DateSymbol()
@@ -131,7 +128,7 @@ namespace TF
                 className = "DateSymbol";
             }
 
-            DateSymbol(const DateSymbol &s);
+            DateSymbol(const DateSymbol & s);
 
             int count;
 
@@ -140,10 +137,8 @@ namespace TF
             string_type className;
         };
 
-
         template<class Clock>
-        std::ostream &operator<<(std::ostream &o, const DateSymbol<Clock> &s);
-
+        std::ostream & operator<<(std::ostream & o, const DateSymbol<Clock> & s);
 
         template<class Clock>
         class DateSymbolFactory : public AllocatorInterface
@@ -151,29 +146,28 @@ namespace TF
         public:
             using clock = Clock;
 
-            static DateSymbol<Clock> *symbolForEra();
-            static DateSymbol<Clock> *symbolForYear();
-            static DateSymbol<Clock> *symbolForQuarter();
-            static DateSymbol<Clock> *symbolForMonth();
-            static DateSymbol<Clock> *symbolForDayOfMonth();
-            static DateSymbol<Clock> *symbolForDayOfYear();
-            static DateSymbol<Clock> *symbolForDayOfWeek();
-            static DateSymbol<Clock> *symbolForPeriod();
-            static DateSymbol<Clock> *symbolForStandardHour();
-            static DateSymbol<Clock> *symbolForMilitaryHour();
-            static DateSymbol<Clock> *symbolForNonStandardHour();
-            static DateSymbol<Clock> *symbolForNonStandardMilitaryHour();
-            static DateSymbol<Clock> *symbolForMinute();
-            static DateSymbol<Clock> *symbolForStandardSecond();
-            static DateSymbol<Clock> *symbolForFractionalSecond();
-            static DateSymbol<Clock> *symbolForNormalCharacter();
+            static DateSymbol<Clock> * symbolForEra();
+            static DateSymbol<Clock> * symbolForYear();
+            static DateSymbol<Clock> * symbolForQuarter();
+            static DateSymbol<Clock> * symbolForMonth();
+            static DateSymbol<Clock> * symbolForDayOfMonth();
+            static DateSymbol<Clock> * symbolForDayOfYear();
+            static DateSymbol<Clock> * symbolForDayOfWeek();
+            static DateSymbol<Clock> * symbolForPeriod();
+            static DateSymbol<Clock> * symbolForStandardHour();
+            static DateSymbol<Clock> * symbolForMilitaryHour();
+            static DateSymbol<Clock> * symbolForNonStandardHour();
+            static DateSymbol<Clock> * symbolForNonStandardMilitaryHour();
+            static DateSymbol<Clock> * symbolForMinute();
+            static DateSymbol<Clock> * symbolForStandardSecond();
+            static DateSymbol<Clock> * symbolForFractionalSecond();
+            static DateSymbol<Clock> * symbolForNormalCharacter();
         };
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF
 
 #include "tfdatesymbol.cxx"
 
-#endif    // TFDATESYMBOL_HXX
+#endif // TFDATESYMBOL_HXX

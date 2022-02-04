@@ -37,12 +37,12 @@ namespace TF
     namespace Foundation
     {
 
-        FileManager::string_type FileManager::homeDirectoryForUser(const string_type &user) const
+        FileManager::string_type FileManager::homeDirectoryForUser(const string_type & user) const
         {
             auto usrStr = user.cStr();
-            struct passwd *dbEntry = getpwnam(usrStr.get());
+            struct passwd * dbEntry = getpwnam(usrStr.get());
 
-            if(dbEntry != nullptr)
+            if (dbEntry != nullptr)
             {
                 return FileManager::string_type(dbEntry->pw_dir);
             }
@@ -50,6 +50,6 @@ namespace TF
             throw std::runtime_error("User not found on system");
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

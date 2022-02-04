@@ -45,33 +45,31 @@ namespace TF
 
     namespace Foundation
     {
-        void FileManager::forcefullyRemoveItemAtPath(const string_type &path) const
+        void FileManager::forcefullyRemoveItemAtPath(const string_type & path) const
         {
-            walkItemsAtPathRecursively(path,
-                                       [this](const string_type &subitem) -> bool
-                                       {
-                                           this->removeItemAtPath(subitem);
-                                           return true;
-                                       });
+            walkItemsAtPathRecursively(path, [this](const string_type & subitem) -> bool {
+                this->removeItemAtPath(subitem);
+                return true;
+            });
             removeItemAtPath(path);
         }
 
-        FileManager::string_array_type FileManager::subpathsOfDirectoryAtPath(const string_type &path) const
+        FileManager::string_array_type FileManager::subpathsOfDirectoryAtPath(const string_type & path) const
         {
             string_array_type subPaths;
 
             auto contentsArray = contentsOfDirectoryAtPath(path);
 
-            for(auto &entry : contentsArray)
+            for (auto & entry : contentsArray)
             {
                 auto newPath = path + pathSeparator + entry;
 
                 subPaths.push_back(newPath);
 
-                if(directoryExistsAtPath(newPath))
+                if (directoryExistsAtPath(newPath))
                 {
                     auto theseSubPaths = subpathsOfDirectoryAtPath(newPath);
-                    for(auto &subEntry : theseSubPaths)
+                    for (auto & subEntry : theseSubPaths)
                         subPaths.push_back(subEntry);
                 }
             }
@@ -79,14 +77,13 @@ namespace TF
             return subPaths;
         }
 
-
-        FileManager::string_array_type FileManager::subpathsAtPath(const string_type &path) const
+        FileManager::string_array_type FileManager::subpathsAtPath(const string_type & path) const
         {
             string_array_type subPaths;
 
             auto contentsArray = contentsOfDirectoryAtPath(path);
 
-            for(auto &entry : contentsArray)
+            for (auto & entry : contentsArray)
             {
                 auto newPath = path + pathSeparator + entry;
 
@@ -96,23 +93,21 @@ namespace TF
             return subPaths;
         }
 
-
-        void FileManager::createDirectoriesAtPath(const string_type &path) const
+        void FileManager::createDirectoriesAtPath(const string_type & path) const
         {
             String fullPath(path);
             auto components = fullPath.split(pathSeparator);
             String subPath;
 
-            for(auto &entry : components)
+            for (auto & entry : components)
             {
                 subPath += String(pathSeparator) + entry;
-                if(!directoryExistsAtPath(subPath))
+                if (! directoryExistsAtPath(subPath))
                     createDirectoryAtPath(subPath);
             }
         }
 
-
-        void FileManager::copyItemAtPathToPath(const string_type &sourcePath, const string_type &destPath) const
+        void FileManager::copyItemAtPathToPath(const string_type & sourcePath, const string_type & destPath) const
         {
             auto sourceStr = sourcePath.cStr();
             auto destStr = destPath.cStr();
@@ -120,57 +115,54 @@ namespace TF
             std::ofstream outFile(destStr.get(), std::ios::out | std::ios::trunc);
             bool wroteBytes = false;
 
-            if(!inFile)
+            if (! inFile)
                 throw std::runtime_error("Unable to read from input file");
 
-            if(!outFile)
+            if (! outFile)
                 throw std::runtime_error("Unable to write to output file");
 
             char c;
 
-            while(inFile.get(c))
+            while (inFile.get(c))
             {
                 outFile.put(c);
-                if(!wroteBytes)
+                if (! wroteBytes)
                     wroteBytes = true;
             }
 
-            if(!wroteBytes)
+            if (! wroteBytes)
             {
                 // The source file was empty so we have to create an empty output file.
                 createFileAtPath(destPath);
             }
         }
 
-
-        FileManager::file_permissions_type FileManager::permissionsForItemAtPath(const string_type &path) const
+        FileManager::file_permissions_type FileManager::permissionsForItemAtPath(const string_type & path) const
         {
             auto properties = propertiesForItemAtPath(path);
             return properties.permission;
         }
 
-
-        bool FileManager::isDeletableAtPath(const string_type &path) const
+        bool FileManager::isDeletableAtPath(const string_type & path) const
         {
             auto components = path.split(pathSeparator);
 
             string_type theDirPath;
 
-            for(size_type i = 0; i < (components.size() - 1); i++)
+            for (size_type i = 0; i < (components.size() - 1); i++)
             {
                 theDirPath += pathSeparator + components[i];
             }
 
-            if(isWritableAtPath(theDirPath) || isExecutableAtPath(theDirPath))
+            if (isWritableAtPath(theDirPath) || isExecutableAtPath(theDirPath))
                 return true;
 
             return false;
         }
 
-
-        bool FileManager::contentsEqualAtPathAndPath(const string_type &pathA, const string_type &pathB) const
+        bool FileManager::contentsEqualAtPathAndPath(const string_type & pathA, const string_type & pathB) const
         {
-            if(sizeofFileAtPath(pathA) != sizeofFileAtPath(pathB))
+            if (sizeofFileAtPath(pathA) != sizeofFileAtPath(pathB))
                 return false;
 
             auto pathAStr = pathA.cStr();
@@ -179,56 +171,55 @@ namespace TF
             std::ifstream streamA(pathAStr.get());
             std::ifstream streamB(pathBStr.get());
 
-            if(!streamA)
+            if (! streamA)
                 throw std::runtime_error("Unable to read from file 1.");
 
-            if(!streamB)
+            if (! streamB)
                 throw std::runtime_error("Unable to read from file 2.");
 
             char a, b;
 
-            while(streamA.get(a) && streamB.get(b))
+            while (streamA.get(a) && streamB.get(b))
             {
-                if(a != b)
+                if (a != b)
                     return false;
             }
 
             return true;
         }
 
-
-        void FileManager::walkItemsAtPathRecursively(const string_type &path,
-                                                     const std::function<bool(const string_type &path)> &callback,
-                                                     bool *keep_running) const
+        void FileManager::walkItemsAtPathRecursively(const string_type & path,
+                                                     const std::function<bool(const string_type & path)> & callback,
+                                                     bool * keep_running) const
         {
             bool my_keep_running = true;
-            if(keep_running == nullptr)
+            if (keep_running == nullptr)
             {
                 keep_running = &my_keep_running;
             }
 
-            if(!itemExistsAtPath(path))
+            if (! itemExistsAtPath(path))
             {
                 return;
             }
 
-            if(!directoryExistsAtPath(path))
+            if (! directoryExistsAtPath(path))
             {
                 *keep_running = callback(path);
                 return;
             }
 
-            string_array_type directories {};
-            string_array_type files {};
+            string_array_type directories{};
+            string_array_type files{};
 
             auto contents = contentsOfDirectoryAtPath(path);
 
             // Separate into files and directories.
-            for(auto &item : contents)
+            for (auto & item : contents)
             {
                 auto fullpath = path + pathSeparator + item;
 
-                if(directoryExistsAtPath(fullpath))
+                if (directoryExistsAtPath(fullpath))
                 {
                     directories.emplace_back(fullpath);
                 }
@@ -239,36 +230,35 @@ namespace TF
             }
 
             // Walk the directories first.
-            for(auto &directory : directories)
+            for (auto & directory : directories)
             {
                 walkItemsAtPathRecursively(directory, callback, keep_running);
-                if(!*keep_running)
+                if (! *keep_running)
                 {
                     return;
                 }
                 *keep_running = callback(directory);
-                if(!*keep_running)
+                if (! *keep_running)
                 {
                     return;
                 }
             }
 
             // Now the files.
-            for(auto &file : files)
+            for (auto & file : files)
             {
                 *keep_running = callback(file);
-                if(!*keep_running)
+                if (! *keep_running)
                 {
                     return;
                 }
             }
         }
 
-
-        std::ostream &FileManager::description(std::ostream &o) const
+        std::ostream & FileManager::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("FileManager");
                 o << *formatter;
@@ -277,12 +267,11 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const FileManager &m)
+        std::ostream & operator<<(std::ostream & o, const FileManager & m)
         {
             return m.description(o);
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

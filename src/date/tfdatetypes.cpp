@@ -34,9 +34,9 @@ namespace TF
     namespace Foundation
     {
 
-        std::ostream &operator<<(std::ostream &o, const DayOfWeek &d)
+        std::ostream & operator<<(std::ostream & o, const DayOfWeek & d)
         {
-            switch(d)
+            switch (d)
             {
                 case DayOfWeek::Sunday:
                     o << "Sunday";
@@ -64,10 +64,9 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const MonthOfYear &m)
+        std::ostream & operator<<(std::ostream & o, const MonthOfYear & m)
         {
-            switch(m)
+            switch (m)
             {
                 case MonthOfYear::January:
                     o << "January";
@@ -110,10 +109,9 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const HalfOfDay &h)
+        std::ostream & operator<<(std::ostream & o, const HalfOfDay & h)
         {
-            switch(h)
+            switch (h)
             {
                 case HalfOfDay::AM:
                     o << "AM";
@@ -126,11 +124,10 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const struct tm &t)
+        std::ostream & operator<<(std::ostream & o, const struct tm & t)
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("struct tm");
                 formatter->addClassMember<int>("tm_sec", t.tm_sec);
@@ -148,7 +145,6 @@ namespace TF
             return o;
         }
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF

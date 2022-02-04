@@ -25,7 +25,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
 
@@ -844,7 +843,6 @@ TEST(ArgumentParserTest, BreakItTest)
     EXPECT_FALSE(parser.parseArgs("-i 3 -d 4.5"));
 }
 
-
 TEST(ArgumentParserTest, PositionalArgumentTest)
 {
     ArgumentParser parser;
@@ -906,9 +904,9 @@ TEST(ArgumentParserTest, SubParserTest)
 
     parser.setName("testprog");
     parser.addStoreArgument({"-i", "--integer"}, 1, "", ArgumentType::Int, "", {}, "Integer help text");
-    auto &fooParser = parser.addSubparser("foo", "Foo help text");
+    auto & fooParser = parser.addSubparser("foo", "Foo help text");
     fooParser.addStoreArgument({"-d", "--double"}, 1, "", ArgumentType::Real, "", {}, "Double help text");
-    auto &barParser = parser.addSubparser("bar", "Bar's really long help text that you might or might not read");
+    auto & barParser = parser.addSubparser("bar", "Bar's really long help text that you might or might not read");
     barParser.addStoreTrueArgument({"-p", "--pow"}, "", "Pow help text");
     barParser.addPositionalArgument("bubba", ArgumentType::Int, "Bubba help text", true);
 
@@ -965,7 +963,7 @@ TEST(ArgumentParserTest, ArgcArgvTest)
     parser.addStoreTrueArgument({"-t", "--true"}, "", "Help for true argument");
     parser.addAppendArgument({"-f", "--foo"}, 2, ArgumentType::Int, "", {}, "Help for foo argument");
 
-    const char *argv[] = {"-t", "-f", "5", "6", nullptr};
+    const char * argv[] = {"-t", "-f", "5", "6", nullptr};
     int argc = 4;
 
     parser.parseArgs(argc, argv);
@@ -982,7 +980,7 @@ TEST(ArgumentParserTest, HasValueForCommandTest)
 {
     ArgumentParser parser;
 
-    ArgumentParser &listParser = parser.addSubparser("list", "List help text");
+    ArgumentParser & listParser = parser.addSubparser("list", "List help text");
     listParser.addStoreArgument({"-n", "--name"}, 1, "", ArgumentType::String, "", {}, "Name help text");
 
     EXPECT_TRUE(parser.parseArgs("list -n foo"));

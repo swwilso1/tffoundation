@@ -39,7 +39,6 @@ SOFTWARE.
 #include "tfdate.hxx"
 #include "tfdatetypes.hpp"
 
-
 namespace TF
 {
 
@@ -64,50 +63,40 @@ namespace TF
 
             using size_type = size_t;
 
-
             /**
              * @brief default constructor
              */
             DateComponents();
 
-
             /**
              * @brief copy constructor
              */
-            DateComponents(const DateComponents &c);
-
+            DateComponents(const DateComponents & c);
 
             /**
              * @brief rvalue (move) constructor
              */
-            DateComponents(DateComponents &&c);
-
+            DateComponents(DateComponents && c);
 
             /**
              * @brief Date constructor
              */
-            DateComponents(const date &d);
-
+            DateComponents(const date & d);
 
             /**
              * @brief destructor
              */
-            ~DateComponents() override
-            {
-            }
-
+            ~DateComponents() override {}
 
             /**
              * @brief assignment operator
              */
-            DateComponents &operator=(const DateComponents &c);
-
+            DateComponents & operator=(const DateComponents & c);
 
             /**
              * @brief rvalue (move) assignment operator
              */
-            DateComponents &operator=(DateComponents &&c);
-
+            DateComponents & operator=(DateComponents && c);
 
             /**
              * @brief gives the fractional value of seconds.
@@ -115,13 +104,11 @@ namespace TF
              */
             size_type fractionalSeconds() const;
 
-
             /**
              * @brief set the fractional second of the components object
              * @param fs the fractional second.
              */
             void setFractionalSecond(size_type fs);
-
 
             /**
              * @brief give the value of the seconds between 0-60.
@@ -131,13 +118,11 @@ namespace TF
              */
             int second() const;
 
-
             /**
              * @brief set the seconds value (0-60) for the components object.
              * @param s the seconds value
              */
             void setSecond(int s);
-
 
             /**
              * @brief return the minutes between 0 - 59.
@@ -145,13 +130,11 @@ namespace TF
              */
             int minute() const;
 
-
             /**
              * @brief set the minute value (0-59) for the components object.
              * @param m the minutes
              */
             void setMinute(int m);
-
 
             /**
              * @brief return the hour of the day between 0 - 23
@@ -159,13 +142,11 @@ namespace TF
              */
             int hour() const;
 
-
             /**
              * @brief set the hour value (0-23) for the components object.
              * @param h the hour.
              */
             void setHour(int h);
-
 
             /**
              * @brief return the day of the month 1-31
@@ -173,13 +154,11 @@ namespace TF
              */
             int dayOfMonth() const;
 
-
             /**
              * @brief set the day of the month (1-31) for the components object.
              * @param d the day.
              */
             void setDayOfMonth(int d);
-
 
             /**
              * @brief return the month of the year January - December
@@ -187,13 +166,11 @@ namespace TF
              */
             MonthOfYear monthOfYear() const;
 
-
             /**
              * @brief set the month of the year for the components object.
              * @param m the month.
              */
             void setMonthOfYear(MonthOfYear m);
-
 
             /**
              * @brief return the year
@@ -201,13 +178,11 @@ namespace TF
              */
             int year() const;
 
-
             /**
              * @brief set the year for the components object.
              * @param y the year.
              */
             void setYear(int y);
-
 
             /**
              * @brief return the day of the week Sunday - Saturday
@@ -215,13 +190,11 @@ namespace TF
              */
             DayOfWeek dayOfWeek() const;
 
-
             /**
              * @brief return the day in the year (0 - 365) where 0 indicates 1 Jan.
              * @return the day in the year.
              */
             int dayOfYear() const;
-
 
             /**
              * @brief check if daylight savings time is active.
@@ -229,13 +202,11 @@ namespace TF
              */
             bool isDaylightSavingsTime() const;
 
-
             /**
              * @brief check if the current year is a leap year.
              * @return true if the date represents a leap year, false otherwise.
              */
             bool isLeapYear() const;
-
 
             /**
              * @brief return a Date object representing the time contained in the Date Components object.
@@ -243,11 +214,10 @@ namespace TF
              */
             date getDate() const;
 
-
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
-            void retrieveComponents(const typename clock::time_point &p);
+            void retrieveComponents(const typename clock::time_point & p);
 
             /**
              * @brief the broken down date into components.
@@ -261,13 +231,12 @@ namespace TF
         };
 
         template<class Clock>
-        std::ostream &operator<<(std::ostream &o, const DateComponents<Clock> &c);
+        std::ostream & operator<<(std::ostream & o, const DateComponents<Clock> & c);
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF
 
 #include "tfdatecomponent.cxx"
 
-#endif    // TFDATECOMPONENT_HPP
+#endif // TFDATECOMPONENT_HPP

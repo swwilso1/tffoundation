@@ -54,12 +54,8 @@ namespace TF
             int events_to_watch;
             int events_set;
 
-            HandleEntry() : handle {}, events_to_watch {0}, events_set {0}
-            {
-            }
-            virtual ~HandleEntry()
-            {
-            }
+            HandleEntry() : handle{}, events_to_watch{0}, events_set{0} {}
+            virtual ~HandleEntry() {}
         };
 
         /**
@@ -85,8 +81,8 @@ namespace TF
              * @return the list of handles updated with the wait results.
              */
             template<typename Rep, typename Period>
-            static handle_list_type &wait_for(const std::chrono::duration<Rep, Period> &duration,
-                                              handle_list_type &handles)
+            static handle_list_type & wait_for(const std::chrono::duration<Rep, Period> & duration,
+                                               handle_list_type & handles)
             {
                 return handles;
             }
@@ -101,15 +97,15 @@ namespace TF
              * @return the list of handles updated with the wait results.
              */
             template<typename Clock, typename Duration>
-            static handle_list_type &wait_until(const std::chrono::time_point<Clock, Duration> &abs_time,
-                                                handle_list_type &handles)
+            static handle_list_type & wait_until(const std::chrono::time_point<Clock, Duration> & abs_time,
+                                                 handle_list_type & handles)
             {
                 return handles;
             }
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFPOLLWORKER_HXX
+#endif // TFPOLLWORKER_HXX

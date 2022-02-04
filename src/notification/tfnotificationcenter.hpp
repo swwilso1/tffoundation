@@ -84,17 +84,14 @@ namespace TF
             /** @brief notification center pointer type */
             using pointer = std::shared_ptr<NotificationCenter>;
 
-
             /** @brief destructor */
             ~NotificationCenter();
-
 
             /**
              * @brief get the singleton notification center.
              * @return a pointer to the singleton center.
              */
             static pointer DefaultCenter();
-
 
             /**
              * @brief Register a callback for a specific notification from a specific object.
@@ -107,9 +104,8 @@ namespace TF
              * The cblabel parameter is used to identify the specific callback handler in case it needs
              * removed at some later point.
              */
-            void registerForNotificationFromSender(const label_type &label, sender_type sender,
-                                                   const label_type &cblabel, callback_type callback);
-
+            void registerForNotificationFromSender(const label_type & label, sender_type sender,
+                                                   const label_type & cblabel, callback_type callback);
 
             /**
              * @brief Register a callback handler for any object that posts a notification
@@ -117,33 +113,28 @@ namespace TF
              * @param cblabel the handler label
              * @param callback the callback handler to call to handle the notification.
              */
-            void registerForNotification(const label_type &label, const label_type &cblabel, callback_type callback);
+            void registerForNotification(const label_type & label, const label_type & cblabel, callback_type callback);
 
-
-            void removeRegistrationForNotification(const label_type &label, const label_type &cblabel);
-
+            void removeRegistrationForNotification(const label_type & label, const label_type & cblabel);
 
             /**
              * @brief post a notification to the center
              * @param n
              */
-            void postNotification(const notification_type &n);
-
+            void postNotification(const notification_type & n);
 
             /**
              * @brief method to help write the contents of the notification center to a stream.
              * @param o the stream object
              * @return the stream object @e o
              */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
-            friend void *processNotifications(void *arg);
-
+            friend void * processNotifications(void * arg);
 
             /** @brief list type for list of senders */
             using sender_list_type = std::list<sender_type>;
-
 
             /**
              * @brief simple object to hold a callback handler
@@ -154,14 +145,12 @@ namespace TF
                 callback_type handler;
                 sender_list_type senders;
 
-                HandlerEntry()
-                {
-                }
+                HandlerEntry() {}
 
                 HandlerEntry(callback_type h, sender_type s)
                 {
                     handler = h;
-                    if(s != nullptr)
+                    if (s != nullptr)
                         senders.push_back(s);
                 }
             };
@@ -179,7 +168,6 @@ namespace TF
              * from multiple threads.
              */
             using mutex_type = std::mutex;
-
 
             /** @brief lock type for locking the mutex */
             using lock_type = std::unique_lock<mutex_type>;
@@ -199,13 +187,11 @@ namespace TF
             /** @brief queue for passing notifications to the processing thread. */
             queue_type notificationQueue;
 
-
             /** @brief thread handle for the callback handler thread */
             thread_type threadHandle;
 
             /** @brief thread controller object for the callback handler thread */
             thread_controller_type threadController;
-
 
             /** @brief shared pointer to the singleton instance of the notification center */
             static pointer singleCenter;
@@ -227,13 +213,11 @@ namespace TF
              */
             void sendNotifications();
 
-
             /**
              * @brief method to send an individual notification
              * @param n the notification
              */
-            void sendNotification(const notification_type &n);
-
+            void sendNotification(const notification_type & n);
 
             /**
              * @brief helper function to see if a sender exists in a sender list
@@ -241,9 +225,8 @@ namespace TF
              * @param sender the sender to find
              * @return true if the list has the sender and false otherwise.
              */
-            bool listHasSender(const sender_list_type &l, sender_type sender);
+            bool listHasSender(const sender_list_type & l, sender_type sender);
         };
-
 
         /**
          * @brief overloaded << operator for NotificationCenter objects
@@ -251,10 +234,10 @@ namespace TF
          * @param c the NotificationCenter object
          * @return the stream object @e o
          */
-        std::ostream &operator<<(std::ostream &o, const NotificationCenter &c);
+        std::ostream & operator<<(std::ostream & o, const NotificationCenter & c);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFNOTIFICATIONCENTER_HPP
+#endif // TFNOTIFICATIONCENTER_HPP

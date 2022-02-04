@@ -695,7 +695,6 @@ namespace TF
            @endverbatim
          */
 
-
         /**
          * @brief A command-line argument parser.
          *
@@ -735,7 +734,7 @@ namespace TF
              * By default the parser will write to the stdout stream.
              * @param o the stream output object
              */
-            explicit ArgumentParser(std::ostream &o = std::cout);
+            explicit ArgumentParser(std::ostream & o = std::cout);
 
             /**
              * @brief basic destructor
@@ -760,7 +759,7 @@ namespace TF
              *
              * @param name the name of the program.
              */
-            void setName(const string_type &name);
+            void setName(const string_type & name);
 
             /**
              * @brief method to set the parser's description text.
@@ -782,7 +781,7 @@ namespace TF
                @endverbatim
              * @param description the text of the description message.
              */
-            void setDescription(const string_type &description);
+            void setDescription(const string_type & description);
 
             /**
              * @brief method to set the parser's usage message epilog text.
@@ -807,7 +806,7 @@ namespace TF
                @endverbatim
              * @param epilog the text of the epilog message.
              */
-            void setEpilog(const string_type &epilog);
+            void setEpilog(const string_type & epilog);
 
             /**
              * @brief method to set the parser prefix character.
@@ -819,7 +818,7 @@ namespace TF
              *
              * @param character the character to use for prefix.
              */
-            void setPrefixCharacter(const string_type &character);
+            void setPrefixCharacter(const string_type & character);
 
             /**
              * @brief method to set the the behavior of the parser
@@ -833,7 +832,7 @@ namespace TF
              * @brief method to add an argument object to the parser.
              * @param a the argument object.
              */
-            void addArgument(const argument_type &a);
+            void addArgument(const argument_type & a);
 
             /**
              * @brief method to add an argument to the parser by argument details
@@ -854,10 +853,10 @@ namespace TF
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              * @param help the help text for the argument's usage message.
              */
-            void addArgument(const string_list_type &names, argument_type::action_type action, size_type nArgs,
-                             const string_type &dfault, const string_type &constant, argument_type::argument_type type,
-                             const string_type &destination, const string_list_type &choices, bool required,
-                             const string_type &help);
+            void addArgument(const string_list_type & names, argument_type::action_type action, size_type nArgs,
+                             const string_type & dfault, const string_type & constant,
+                             argument_type::argument_type type, const string_type & destination,
+                             const string_list_type & choices, bool required, const string_type & help);
 
             /**
              * @brief add a command-line argument with the Store action and only provide arguments
@@ -877,9 +876,9 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addStoreArgument(const string_list_type &names, size_type nArgs, const string_type &dfault,
-                                  argument_type::argument_type type, const string_type &destination,
-                                  const string_list_type &choices, const string_type &help, bool required = false);
+            void addStoreArgument(const string_list_type & names, size_type nArgs, const string_type & dfault,
+                                  argument_type::argument_type type, const string_type & destination,
+                                  const string_list_type & choices, const string_type & help, bool required = false);
 
             /**
              * @brief add a command-line argument with the StoreConst action and only provide arguments
@@ -894,9 +893,9 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addStoreConstArgument(const string_list_type &names, const string_type &constant,
-                                       argument_type::argument_type type, const string_type &destination,
-                                       const string_type &help, bool required = false);
+            void addStoreConstArgument(const string_list_type & names, const string_type & constant,
+                                       argument_type::argument_type type, const string_type & destination,
+                                       const string_type & help, bool required = false);
 
             /**
              * @brief add a command-line argument with the StoreTrue action and only provide arguments relevant
@@ -909,8 +908,8 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addStoreTrueArgument(const string_list_type &names, const string_type &destination,
-                                      const string_type &help, bool required = false);
+            void addStoreTrueArgument(const string_list_type & names, const string_type & destination,
+                                      const string_type & help, bool required = false);
 
             /**
              * @brief add a command-line argument with the StoreFalse action and only provide arguments relevant
@@ -923,8 +922,8 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addStoreFalseArgument(const string_list_type &names, const string_type &destination,
-                                       const string_type &help, bool required = false);
+            void addStoreFalseArgument(const string_list_type & names, const string_type & destination,
+                                       const string_type & help, bool required = false);
 
             /**
              * @brief add a command-line argument with the Append action and only provide arguments relevant
@@ -943,9 +942,9 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addAppendArgument(const string_list_type &names, size_type nArgs, argument_type::argument_type type,
-                                   const string_type &destination, const string_list_type &choices,
-                                   const string_type &help, bool required = false);
+            void addAppendArgument(const string_list_type & names, size_type nArgs, argument_type::argument_type type,
+                                   const string_type & destination, const string_list_type & choices,
+                                   const string_type & help, bool required = false);
 
             /**
              * @brief add a command-line argument with the AppendConst action and only provide arguments
@@ -960,9 +959,9 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addAppendConstArgument(const string_list_type &names, const string_type &constant,
-                                        argument_type::argument_type type, const string_type &destination,
-                                        const string_type &help, bool required = false);
+            void addAppendConstArgument(const string_list_type & names, const string_type & constant,
+                                        argument_type::argument_type type, const string_type & destination,
+                                        const string_type & help, bool required = false);
 
             /**
              * @brief add a command-line argument with the Count action and only provide arguments relevant
@@ -975,8 +974,8 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addCountArgument(const string_list_type &names, const string_type &destination,
-                                  const string_type &help, bool required = false);
+            void addCountArgument(const string_list_type & names, const string_type & destination,
+                                  const string_type & help, bool required = false);
 
             /**
              * @brief add a positional command-line argument to the parser.
@@ -987,8 +986,8 @@ namespace TF
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
              */
-            void addPositionalArgument(const string_type &name, argument_type::argument_type type,
-                                       const string_type &help, bool required = false);
+            void addPositionalArgument(const string_type & name, argument_type::argument_type type,
+                                       const string_type & help, bool required = false);
 
             /**
              * @brief method to parse the command line arguments.  This version of parseArgs operates
@@ -998,7 +997,7 @@ namespace TF
              * @return true if the parser successfully parses the command-line arguments and false
              * otherwise.
              */
-            bool parseArgs(int argc, const char **argv);
+            bool parseArgs(int argc, const char ** argv);
 
             /**
              * @brief method to parse the command line arguments.  This version of parseArgs operates
@@ -1007,21 +1006,21 @@ namespace TF
              * @return true if the parser successfully parses the command-line arguments and false
              * otherwise.
              */
-            bool parseArgs(const string_type &args);
+            bool parseArgs(const string_type & args);
 
             /**
              * @brief method to see if the command line parser parsed values for the subcommand named in @e command.
              * @param command the command to check
              * @return true if the parser parsed arguments for the subcommand and false otherwise.
              */
-            bool hasValueForSubcommand(const string_type &command);
+            bool hasValueForSubcommand(const string_type & command);
 
             /**
              * @brief method to see if the parser parsed a value for the given argument name.
              * @param arg the argument name.
              * @return true if the parser parsed a value for the subcommand and false otherwise.
              */
-            bool hasValueForArgument(const string_type &arg);
+            bool hasValueForArgument(const string_type & arg);
 
             /**
              * @brief method to get a command-line argument value from the parser after the parser
@@ -1033,9 +1032,9 @@ namespace TF
              * name @e argName.
              */
             template<typename T>
-            bool getValueForArgument(const string_type &argName, T &value)
+            bool getValueForArgument(const string_type & argName, T & value)
             {
-                if(!m_symbolTable.hasValueForKey(argName))
+                if (! m_symbolTable.hasValueForKey(argName))
                     return false;
 
                 m_symbolTable.getValueForKey<T>(argName, value);
@@ -1057,7 +1056,7 @@ namespace TF
             {
                 T value;
 
-                if(!m_symbolTable.hasValueForKey(arg))
+                if (! m_symbolTable.hasValueForKey(arg))
                 {
                     string_type message("No value for key ");
                     message += arg;
@@ -1099,7 +1098,7 @@ namespace TF
              * @return a reference to an ArgumentParser object to use for specifying command specific
              * command-line arguments.
              */
-            ArgumentParser &addSubparser(const string_type &command, const string_type &help);
+            ArgumentParser & addSubparser(const string_type & command, const string_type & help);
 
             /**
              * @brief method for writing an argument parser object to an ostream.
@@ -1107,7 +1106,7 @@ namespace TF
              * @return the ostream object @e o after writing the parser contents
              * to the stream.
              */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             /** @brief list of argument objects */
@@ -1121,7 +1120,7 @@ namespace TF
              */
             struct SubParser
             {
-                ArgumentParser *parser;
+                ArgumentParser * parser;
                 string_type help;
                 bool foundCommand;
 
@@ -1142,7 +1141,7 @@ namespace TF
                  * the SubParser object owns the memory for the ArgumentParser and
                  * will free it.
                  */
-                SubParser(ArgumentParser *p, string_type h) : parser(p), help(std::move(h))
+                SubParser(ArgumentParser * p, string_type h) : parser(p), help(std::move(h))
                 {
                     foundCommand = false;
                 }
@@ -1174,7 +1173,7 @@ namespace TF
              * @return true if the parser correctly parsers the values and false
              * otherwise
              */
-            bool parseArgs(const string_list_type &l);
+            bool parseArgs(const string_list_type & l);
 
             /**
              * @brief method to write the usage message to the output stream.
@@ -1188,14 +1187,14 @@ namespace TF
              * @return true if the value @e s matches one of the arguments and false
              * otherwise.
              */
-            bool valueMatchesArgument(const string_type &s) const;
+            bool valueMatchesArgument(const string_type & s) const;
 
             /**
              * @brief method to get the argument object that matches the value @e v.
              * @param v the value.
              * @return the argument that matches the value @e v.
              */
-            argument_type getArgumentForValue(const string_type &v) const;
+            argument_type getArgumentForValue(const string_type & v) const;
 
             /**
              * @brief method to write a message to the output stream that the parser
@@ -1203,7 +1202,7 @@ namespace TF
              * @param arg the argument object representing the argument that did not
              * have enough values.
              */
-            void notEnoughValuesForArgumentMessage(const argument_type &arg) const;
+            void notEnoughValuesForArgumentMessage(const argument_type & arg) const;
 
             /**
              * @brief method to test whether the value looks like an optional argument.
@@ -1212,7 +1211,7 @@ namespace TF
              * @param v the value object.
              * @return true if the value resembles an optional argument and false otherwise.
              */
-            bool valueLooksLikeOptionalArgument(const string_type &v) const;
+            bool valueLooksLikeOptionalArgument(const string_type & v) const;
 
             /**
              * @brief method to write a message to the output stream that the parser
@@ -1221,28 +1220,28 @@ namespace TF
              * @param arg the argument object of the argument that does not have
              * a constant value.
              */
-            void noConstantValueProvidedMessage(const argument_type &arg) const;
+            void noConstantValueProvidedMessage(const argument_type & arg) const;
 
             /**
              * @brief method to write a message about a conversion error converting
              * a string to an int.
              * @param v the string that the parser could not convert to an int.
              */
-            void errorConvertingStringToIntMessage(const string_type &v) const;
+            void errorConvertingStringToIntMessage(const string_type & v) const;
 
             /**
              * @brief method to write a message about a conversion error converting
              * a string to a double.
              * @param v the string that the parser could not convert to a double.
              */
-            void errorConvertingStringToDoubleMessage(const string_type &v) const;
+            void errorConvertingStringToDoubleMessage(const string_type & v) const;
 
             /**
              * @brief method to write a message about a conversion error converting
              * a string to a bool.
              * @param v the string that the parser could not convert to a bool.
              */
-            void errorConvertingStringToBoolMessage(const string_type &v) const;
+            void errorConvertingStringToBoolMessage(const string_type & v) const;
 
             /**
              * @brief method to add a list value to the symbol table for the given
@@ -1250,7 +1249,7 @@ namespace TF
              * @param destinationName the name associated with the new list.
              * @param type the type of the list to create.
              */
-            void addListValueForType(const string_type &destinationName, ArgumentType type);
+            void addListValueForType(const string_type & destinationName, ArgumentType type);
 
             /**
              * @brief method to add a value of the named type @e type to the list associated
@@ -1260,7 +1259,8 @@ namespace TF
              * @param value the value, in string form, to add to the list.
              * @return true if the method adds the value to the list and false otherwise.
              */
-            bool addValueToListForType(const string_type &destinationName, ArgumentType type, const string_type &value);
+            bool addValueToListForType(const string_type & destinationName, ArgumentType type,
+                                       const string_type & value);
 
             /**
              * @brief method to generate the keys for the subparser map.
@@ -1273,7 +1273,7 @@ namespace TF
              * @param value the value to match agains the sub-commands.
              * @return true if the value matches and false otherwise.
              */
-            bool valueMatchesSubCommand(const string_type &value) const;
+            bool valueMatchesSubCommand(const string_type & value) const;
 
             /**
              * @brief method to add/re-add the help argument to the parser.
@@ -1298,7 +1298,7 @@ namespace TF
 
             bool m_exitAfterHelp;
 
-            std::ostream &m_outStream;
+            std::ostream & m_outStream;
         };
 
         /**
@@ -1308,10 +1308,10 @@ namespace TF
          * @return the ostream object @e o after writing the parser internals
          * to the stream.
          */
-        std::ostream &operator<<(std::ostream &o, const ArgumentParser &p);
+        std::ostream & operator<<(std::ostream & o, const ArgumentParser & p);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFARGUMENTPARSER_HPP
+#endif // TFARGUMENTPARSER_HPP

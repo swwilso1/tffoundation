@@ -35,38 +35,38 @@ namespace TF
 
     namespace Foundation
     {
-        FileManager::string_type FileManager::homeDirectoryForUser(const string_type &user) const
+        FileManager::string_type FileManager::homeDirectoryForUser(const string_type & user) const
         {
             String passwdFileContents;
 
             std::ifstream passwdFile("/etc/passwd");
-            if(!passwdFile)
+            if (! passwdFile)
             {
                 throw std::runtime_error("Unable to open /etc/passwd");
             }
 
             char c;
-            while(passwdFile.get(c))
+            while (passwdFile.get(c))
             {
                 passwdFileContents = passwdFileContents.stringByAppendingFormat("%c", c);
             }
 
             auto linesFromFile = passwdFileContents.split("\n");
 
-            for(auto &line : linesFromFile)
+            for (auto & line : linesFromFile)
             {
                 auto elementsFromLine = line.split(":");
 
-                if(elementsFromLine.size() == 0)
+                if (elementsFromLine.size() == 0)
                     continue;
 
-                if(elementsFromLine[0] == user)
+                if (elementsFromLine[0] == user)
                     return elementsFromLine[5].stlString();
             }
 
             throw std::runtime_error("User not found on system");
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

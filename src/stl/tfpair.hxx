@@ -40,12 +40,12 @@ namespace TF
     {
 
         template<class A, class B>
-        std::ostream &operator<<(std::ostream &o, const std::pair<A, B> &p);
+        std::ostream & operator<<(std::ostream & o, const std::pair<A, B> & p);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
 #include "tfpair.cxx"
 
-#endif    // TFPAIR_HXX
+#endif // TFPAIR_HXX

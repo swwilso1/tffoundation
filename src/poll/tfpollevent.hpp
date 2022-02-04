@@ -50,15 +50,15 @@ namespace TF
         template<typename T>
         bool event_set_for(T event, PollEvent pevent)
         {
-            if((static_cast<int>(event) & static_cast<int>(pevent)) == static_cast<int>(pevent))
+            if ((static_cast<int>(event) & static_cast<int>(pevent)) == static_cast<int>(pevent))
             {
                 return true;
             }
             return false;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFPOLLEVENT_HPP
+#endif // TFPOLLEVENT_HPP

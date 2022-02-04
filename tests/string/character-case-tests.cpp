@@ -39,13 +39,11 @@ TEST(StringTest, CapitalizedStringTest)
     EXPECT_EQ(s.capitalizedString(), "Hello How Are You?");
 }
 
-
 TEST(StringTest, LowercaseStringTest)
 {
     String s("HELLO HOW ARE YOU?");
     EXPECT_EQ(s.lowercaseString(), "hello how are you?");
 }
-
 
 TEST(StringTest, UppercaseStringTest)
 {

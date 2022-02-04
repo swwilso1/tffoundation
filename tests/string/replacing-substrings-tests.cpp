@@ -40,14 +40,12 @@ TEST(StringTest, ReplacingOccurencesOfSubstringTest)
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
-
 TEST(StringTest, ReplacingOccurencesOfSubstringTest2)
 {
     String s("Mostly cloudy, 46F");
     auto t = s.stringByReplacingOccurencesOfStringWithString("cloudy", "sunny");
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
-
 
 TEST(StringTest, ReplacingOccurencesOfSubstringTest3)
 {
@@ -56,14 +54,12 @@ TEST(StringTest, ReplacingOccurencesOfSubstringTest3)
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
-
 TEST(StringTest, ReplacingOccurencesOfSubstringTest4)
 {
     String s("Mostly cloudy, 46F.  Should stay cloudy all day");
     auto t = s.stringByReplacingOccurencesOfStringWithString(String("cloudy"), String("sunny"));
     EXPECT_EQ(t, "Mostly sunny, 46F.  Should stay sunny all day");
 }
-
 
 TEST(StringTest, ReplacingOccurencesOfSubstringTest5)
 {
@@ -73,14 +69,12 @@ TEST(StringTest, ReplacingOccurencesOfSubstringTest5)
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
-
 TEST(StringTest, ReplaceCharactersInRangeTest)
 {
     String s("Mostly cloudy with a chance for meatballs.");
     auto t = s.stringByReplacingCharactersInRangeWithString(Range(7, 6), String("sunny"));
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }
-
 
 TEST(StringTest, ReplaceCharactersInRangeTest2)
 {
@@ -89,14 +83,12 @@ TEST(StringTest, ReplaceCharactersInRangeTest2)
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }
 
-
 TEST(StringTest, ReplaceCharactersInRangeTest3)
 {
     String s("Mostly cloudy with a chance for meatballs.");
     auto t = s.stringByReplacingCharactersInRangeWithString(Range(7, 6), std::string("sunny"));
     EXPECT_EQ(t, "Mostly sunny with a chance for meatballs.");
 }
-
 
 TEST(StringTest, ReplaceCharactersInRangeTest4)
 {

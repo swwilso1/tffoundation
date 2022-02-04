@@ -40,7 +40,6 @@ SOFTWARE.
 #include "tfdate.hxx"
 #include "tfstring.hpp"
 
-
 namespace TF
 {
 
@@ -59,17 +58,17 @@ namespace TF
 
             DateFormatter();
 
-            DateFormatter(const DateFormatter &f);
+            DateFormatter(const DateFormatter & f);
 
-            DateFormatter(const string_type &f);
+            DateFormatter(const string_type & f);
 
             ~DateFormatter();
 
-            date dateFromString(const string_type &s);
+            date dateFromString(const string_type & s);
 
-            string_type stringFromDate(const date &d);
+            string_type stringFromDate(const date & d);
 
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             using queue_type = std::deque<DateSymbol<Clock> *>;
@@ -78,21 +77,20 @@ namespace TF
 
             using symbol_factory_type = DateSymbolFactory<Clock>;
 
-            void processDateFormat(const string_type &f);
+            void processDateFormat(const string_type & f);
 
-            void addValueToComponentsForSymbol(const string_type &value, DateComponents<Clock> &components,
-                                               DateSymbol<Clock> *symbol);
+            void addValueToComponentsForSymbol(const string_type & value, DateComponents<Clock> & components,
+                                               DateSymbol<Clock> * symbol);
 
             queue_type queue;
 
             string_type formatString;
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
-
+} // namespace TF
 
 #include "tfdateformatter.cxx"
 
-#endif    // TFDATEFORMATTER_HXX
+#endif // TFDATEFORMATTER_HXX

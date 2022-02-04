@@ -46,13 +46,13 @@ namespace TF
             using handle_list_type = std::vector<entry_type *>;
 
             template<typename Rep, typename Period>
-            static handle_list_type &wait_for(const std::chrono::duration<Rep, Period> &duration,
-                                              handle_list_type &handles)
+            static handle_list_type & wait_for(const std::chrono::duration<Rep, Period> & duration,
+                                               handle_list_type & handles)
             {
-                struct pollfd *poll_array {nullptr};
+                struct pollfd * poll_array{nullptr};
 
                 // Do not do anything for an empty list.
-                if(handles.size() == 0)
+                if (handles.size() == 0)
                 {
                     return handles;
                 }
@@ -63,17 +63,17 @@ namespace TF
                 memset(poll_array, 0, handles.size() * sizeof(struct pollfd));
 
                 handle_list_type::size_type i = 0;
-                for(auto &entry : handles)
+                for (auto & entry : handles)
                 {
                     poll_array[i].fd = entry->handle;
-                    if((entry->events_to_watch & static_cast<int>(PollEvent::Read)) ==
-                       static_cast<int>(PollEvent::Read))
+                    if ((entry->events_to_watch & static_cast<int>(PollEvent::Read)) ==
+                        static_cast<int>(PollEvent::Read))
                     {
                         poll_array[i].events = POLLIN;
                     }
 
-                    if((entry->events_to_watch & static_cast<int>(PollEvent::Write)) ==
-                       static_cast<int>(PollEvent::Write))
+                    if ((entry->events_to_watch & static_cast<int>(PollEvent::Write)) ==
+                        static_cast<int>(PollEvent::Write))
                     {
                         poll_array[i].events |= POLLOUT;
                     }
@@ -82,9 +82,9 @@ namespace TF
 
                 auto milliseconds = std::chrono::duration_cast<std::chrono::milliseconds>(duration);
 
-                bool keep_going {true};
+                bool keep_going{true};
 
-                while(keep_going)
+                while (keep_going)
                 {
                     auto poll_start = std::chrono::steady_clock::now();
 
@@ -92,24 +92,24 @@ namespace TF
 
                     auto poll_end = std::chrono::steady_clock::now();
 
-                    if(poll_api_result > 0)
+                    if (poll_api_result > 0)
                     {
                         i = 0;
-                        for(auto &entry : handles)
+                        for (auto & entry : handles)
                         {
                             entry->events_set = 0;
-                            if((poll_array[i].revents & POLLIN) == POLLIN)
+                            if ((poll_array[i].revents & POLLIN) == POLLIN)
                             {
                                 entry->events_set |= static_cast<int>(PollEvent::Read);
                             }
 
-                            if((poll_array[i].revents & POLLOUT) == POLLOUT)
+                            if ((poll_array[i].revents & POLLOUT) == POLLOUT)
                             {
                                 entry->events_set |= static_cast<int>(PollEvent::Write);
                             }
 
-                            if(((poll_array[i].revents & POLLERR) == POLLERR) ||
-                               ((poll_array[i].revents & POLLHUP) == POLLHUP))
+                            if (((poll_array[i].revents & POLLERR) == POLLERR) ||
+                                ((poll_array[i].revents & POLLHUP) == POLLHUP))
                             {
                                 entry->events_set |= static_cast<int>(PollEvent::Except);
                             }
@@ -118,13 +118,13 @@ namespace TF
 
                         keep_going = false;
                     }
-                    else if(poll_api_result < 0)
+                    else if (poll_api_result < 0)
                     {
-                        if(errno == EINTR)
+                        if (errno == EINTR)
                         {
                             milliseconds -=
                                 std::chrono::duration_cast<std::chrono::milliseconds>(poll_end - poll_start);
-                            if(milliseconds.count() > 0)
+                            if (milliseconds.count() > 0)
                             {
                                 continue;
                             }
@@ -141,10 +141,9 @@ namespace TF
                 return handles;
             }
 
-
             template<typename Clock, typename Duration>
-            static handle_list_type &wait_until(const std::chrono::time_point<Clock, Duration> &abs_time,
-                                                handle_list_type &handles)
+            static handle_list_type & wait_until(const std::chrono::time_point<Clock, Duration> & abs_time,
+                                                 handle_list_type & handles)
             {
                 auto now = std::chrono::steady_clock::now();
                 auto later = std::chrono::time_point_cast<decltype(now)>(abs_time);
@@ -153,8 +152,8 @@ namespace TF
             }
         };
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-#endif    // TFUNIXPOLLWORKER_HXX
+#endif // TFUNIXPOLLWORKER_HXX

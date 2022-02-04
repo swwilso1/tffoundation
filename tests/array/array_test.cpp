@@ -25,7 +25,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
 
@@ -38,19 +37,17 @@ TEST(ArrayTest, DefaultConstructorTest)
     EXPECT_EQ(nullptr, a.data());
 }
 
-
 TEST(ArrayTest, RawArrayConstructorTest)
 {
     int a[10];
-    for(int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
         a[i] = i;
 
     Array<int> b(a, 10);
 
-    for(int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
         EXPECT_EQ(i, b[i]);
 }
-
 
 TEST(ArrayTest, SizeConstructorTest)
 {
@@ -58,7 +55,6 @@ TEST(ArrayTest, SizeConstructorTest)
     EXPECT_EQ(10, a.size());
     EXPECT_NE(nullptr, a.data());
 }
-
 
 TEST(ArrayTest, LargeSizeConstructorTest)
 {
@@ -68,21 +64,19 @@ TEST(ArrayTest, LargeSizeConstructorTest)
     EXPECT_NE(nullptr, a.data());
 }
 
-
 TEST(ArrayTest, CopyConstructorTest)
 {
     Array<int> a(10);
-    for(int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
         a[i] = i;
 
     Array<int> b(a);
 
     EXPECT_EQ(10, b.size());
 
-    for(int i = 0; i < 10; i++)
+    for (int i = 0; i < 10; i++)
         EXPECT_EQ(i, b[i]);
 }
-
 
 TEST(ArrayTest, RValueConstructorTest)
 {
@@ -91,17 +85,16 @@ TEST(ArrayTest, RValueConstructorTest)
     EXPECT_EQ(10, a.size());
 }
 
-
 TEST(ArrayTest, AssignmentOperatorTest)
 {
     Array<int> a(256);
 
-    for(int i = 0; i < 256; i++)
+    for (int i = 0; i < 256; i++)
         a[i] = i;
 
     Array<int> b(100);
 
-    for(int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++)
         b[i] = i * 2;
 
     b = a;
@@ -109,114 +102,105 @@ TEST(ArrayTest, AssignmentOperatorTest)
     EXPECT_NE(100, b.size());
     EXPECT_EQ(256, b.size());
 
-    for(int i = 0; i < 256; i++)
+    for (int i = 0; i < 256; i++)
         EXPECT_EQ(i, b[i]);
 }
-
 
 Array<int> rvalueAssignmentOperatorTestHelper()
 {
     Array<int> a(100);
 
-    for(int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++)
         a[i] = i * 2;
 
     return a;
 }
 
-
 TEST(ArrayTest, RValueAssignmentOperatorTest)
 {
     Array<int> a(200);
 
-    for(int i = 0; i < 200; i++)
+    for (int i = 0; i < 200; i++)
         a[i] = i * 8;
 
     a = rvalueAssignmentOperatorTestHelper();
 
     EXPECT_EQ(100, a.size());
 
-    for(int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++)
         EXPECT_EQ(i * 2, a[i]);
 }
-
 
 TEST(ArrayTest, NonConstIteratorTest)
 {
     Array<int> a(200);
 
-    for(int i = 0; i < 200; i++)
+    for (int i = 0; i < 200; i++)
         a[i] = i;
 
     int i = 0;
-    for(auto iter = a.begin(); iter != a.end(); iter++, i++)
+    for (auto iter = a.begin(); iter != a.end(); iter++, i++)
         EXPECT_EQ(i, *iter);
 }
-
 
 TEST(ArrayTest, NonConstIteratorAutoTest)
 {
     Array<double> a(300);
 
-    for(int i = 0; i < 300; i++)
+    for (int i = 0; i < 300; i++)
         a[i] = static_cast<double>(i);
 
     int i = 0;
-    for(auto e : a)
+    for (auto e : a)
     {
         EXPECT_EQ(static_cast<double>(i), e);
         i++;
     }
 }
 
-
 TEST(ArrayTest, AtTest)
 {
     Array<char> a(20);
 
-    for(int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++)
         a[i] = static_cast<char>(i);
 
-    for(int i = 0; i < 20; i++)
+    for (int i = 0; i < 20; i++)
         EXPECT_EQ(i, a.at(i));
 }
-
 
 TEST(ArrayTest, FrontTest)
 {
     Array<char> a(25);
 
-    for(int i = 0; i < 25; i++)
+    for (int i = 0; i < 25; i++)
         a[i] = static_cast<char>(i);
 
     EXPECT_EQ(0, a.front());
 }
 
-
 TEST(ArrayTest, BackTest)
 {
     Array<char> a(25);
 
-    for(int i = 0; i < 25; i++)
+    for (int i = 0; i < 25; i++)
         a[i] = static_cast<char>(i);
 
     EXPECT_EQ(24, a.back());
 }
 
-
 TEST(ArrayTest, DataTest)
 {
     Array<char> a(25);
 
-    for(int i = 0; i < 25; i++)
+    for (int i = 0; i < 25; i++)
         a[i] = static_cast<char>(i);
 
-    char *theData = a.data();
+    char * theData = a.data();
 
-    for(int i = 0; i < 25; i++)
+    for (int i = 0; i < 25; i++)
         EXPECT_EQ(i, *(theData + i));
 }
-
 
 TEST(ArrayTest, EmptyTest)
 {
@@ -227,7 +211,6 @@ TEST(ArrayTest, EmptyTest)
     EXPECT_FALSE(b.empty());
 }
 
-
 TEST(ArrayTest, SizeTest)
 {
     Array<int> a;
@@ -237,27 +220,25 @@ TEST(ArrayTest, SizeTest)
     EXPECT_EQ(5000, b.size());
 }
 
-
 TEST(ArrayTest, FillTest)
 {
     Array<double> d(5000);
 
     d.fill(3.14);
 
-    for(int i = 0; i < 5000; i++)
+    for (int i = 0; i < 5000; i++)
         EXPECT_EQ(3.14, d[i]);
 }
-
 
 TEST(ArrayTest, SwapTest)
 {
     Array<int> a(40);
     Array<int> b(100);
 
-    for(int i = 0; i < 40; i++)
+    for (int i = 0; i < 40; i++)
         a[i] = i;
 
-    for(int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++)
         b[i] = i;
 
     a.swap(b);
@@ -265,13 +246,12 @@ TEST(ArrayTest, SwapTest)
     EXPECT_EQ(100, a.size());
     EXPECT_EQ(40, b.size());
 
-    for(int i = 0; i < 100; i++)
+    for (int i = 0; i < 100; i++)
         EXPECT_EQ(i, a[i]);
 
-    for(int i = 0; i < 40; i++)
+    for (int i = 0; i < 40; i++)
         EXPECT_EQ(i, b[i]);
 }
-
 
 TEST(ArrayTest, OperatorDataTest)
 {

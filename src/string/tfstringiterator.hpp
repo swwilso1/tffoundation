@@ -67,25 +67,25 @@ namespace TF
             StringIterator();
 
             /** @brief copy constructor */
-            StringIterator(const StringIterator &i);
+            StringIterator(const StringIterator & i);
 
             /** @brief rvalue constructor */
-            StringIterator(StringIterator &&i) noexcept;
+            StringIterator(StringIterator && i) noexcept;
 
             /** @brief string blob constructor */
-            StringIterator(encoder_pointer_type e, const core_pointer_type &c, size_type index = 0);
+            StringIterator(encoder_pointer_type e, const core_pointer_type & c, size_type index = 0);
 
             /** @brief default destructor */
             ~StringIterator() override = default;
 
             /** @brief assignment operator */
-            StringIterator &operator=(const StringIterator &i);
+            StringIterator & operator=(const StringIterator & i);
 
             /** @brief rvalue assignment operator */
-            StringIterator &operator=(StringIterator &&i) noexcept;
+            StringIterator & operator=(StringIterator && i) noexcept;
 
             /** @brief pre-increment operator */
-            StringIterator &operator++();
+            StringIterator & operator++();
 
             /** @brief post-increment opewrator */
             StringIterator operator++(int);
@@ -94,13 +94,13 @@ namespace TF
             unicode_point_type operator*();
 
             /** @brief equality operator */
-            bool operator==(const StringIterator &i) const;
+            bool operator==(const StringIterator & i) const;
 
             /** @brief in-equality operator */
-            bool operator!=(const StringIterator &i) const;
+            bool operator!=(const StringIterator & i) const;
 
             /** @brief std::ostream method */
-            std::ostream &description(std::ostream &o) const;
+            std::ostream & description(std::ostream & o) const;
 
         private:
             std::pair<unicode_point_type, size_type> getNextCodePoint();
@@ -112,12 +112,10 @@ namespace TF
             size_type currentIndex;
         };
 
+        std::ostream & operator<<(std::ostream & o, const StringIterator & i);
 
-        std::ostream &operator<<(std::ostream &o, const StringIterator &i);
+    } // namespace Foundation
 
-    }    // namespace Foundation
+} // namespace TF
 
-}    // namespace TF
-
-
-#endif    // TFSTRINGITERATOR_HPP
+#endif // TFSTRINGITERATOR_HPP

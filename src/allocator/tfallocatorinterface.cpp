@@ -51,9 +51,8 @@ namespace TF
         struct MemoryBlock
         {
             DeallocatorType deallocator;
-            char *theBuffer;
+            char * theBuffer;
         };
-
 
         extern "C"
         {
@@ -61,18 +60,17 @@ namespace TF
              *  @brief Memory allocator function that allocates a MemoryBlock and caches
              *  the deallocator function
              */
-            void *MemoryBlockAllocator(Size_t n);
-            void MemoryBlockDeallocator(void *p);
+            void * MemoryBlockAllocator(Size_t n);
+            void MemoryBlockDeallocator(void * p);
         }
 
-
-        void *MemoryBlockAllocator(Size_t n)
+        void * MemoryBlockAllocator(Size_t n)
         {
             auto allocator = AllocatorInterface::getAllocator();
-            if(allocator != nullptr)
+            if (allocator != nullptr)
             {
-                MemoryBlock *newBlock = reinterpret_cast<MemoryBlock *>(allocator(n + sizeof(MemoryBlock)));
-                if(newBlock != nullptr)
+                MemoryBlock * newBlock = reinterpret_cast<MemoryBlock *>(allocator(n + sizeof(MemoryBlock)));
+                if (newBlock != nullptr)
                 {
                     newBlock->deallocator = AllocatorInterface::getDeallocator();
                     return reinterpret_cast<void *>(&newBlock->theBuffer);
@@ -82,22 +80,20 @@ namespace TF
             return nullptr;
         }
 
-
-        void MemoryBlockDeallocator(void *p)
+        void MemoryBlockDeallocator(void * p)
         {
-            if(p != nullptr)
+            if (p != nullptr)
             {
                 // Recover the MemoryBlock.
-                MemoryBlock *theBlock =
+                MemoryBlock * theBlock =
                     reinterpret_cast<MemoryBlock *>(reinterpret_cast<char *>(p) - offsetof(MemoryBlock, theBuffer));
-                if(theBlock != nullptr)
+                if (theBlock != nullptr)
                 {
-                    if(theBlock->deallocator != nullptr)
+                    if (theBlock->deallocator != nullptr)
                         theBlock->deallocator(theBlock);
                 }
             }
         }
-
 
         AllocatorInterface::allocator_type AllocatorInterface::theAllocator = malloc;
 
@@ -111,13 +107,11 @@ namespace TF
             theAllocator = a;
         }
 
-
         void AllocatorInterface::setDeallocator(deallocator_type d)
         {
             lock_type theLock(theMutex);
             theDeallocator = d;
         }
-
 
         void AllocatorInterface::setAllocatorAndDeallocator(allocator_type a, deallocator_type d)
         {
@@ -126,13 +120,11 @@ namespace TF
             theDeallocator = d;
         }
 
-
         AllocatorInterface::allocator_type AllocatorInterface::getAllocator(void)
         {
             lock_type theLock(theMutex);
             return theAllocator;
         }
-
 
         AllocatorInterface::deallocator_type AllocatorInterface::getDeallocator(void)
         {
@@ -140,72 +132,56 @@ namespace TF
             return theDeallocator;
         }
 
-
         AllocatorInterface::pair_type AllocatorInterface::getAllocatorAndDeallocator(void)
         {
             lock_type theLock(theMutex);
             return std::make_pair(theAllocator, theDeallocator);
         }
 
-
-        void *AllocatorInterface::operator new(size_type s)
+        void * AllocatorInterface::operator new(size_type s)
         {
             return MemoryBlockAllocator(s);
         }
 
-
-        void *AllocatorInterface::operator new[](size_type s)
+        void * AllocatorInterface::operator new[](size_type s)
         {
             return MemoryBlockAllocator(s);
         }
 
-
-        void *AllocatorInterface::operator new(size_type s, void *p)
+        void * AllocatorInterface::operator new(size_type s, void * p)
         {
             return p;
         }
 
-
-        void *AllocatorInterface::operator new[](size_type s, void *p)
+        void * AllocatorInterface::operator new[](size_type s, void * p)
         {
             return p;
         }
 
-
-        void AllocatorInterface::operator delete(void *p)
+        void AllocatorInterface::operator delete(void * p)
         {
             MemoryBlockDeallocator(p);
         }
 
-
-        void AllocatorInterface::operator delete[](void *p)
+        void AllocatorInterface::operator delete[](void * p)
         {
             MemoryBlockDeallocator(p);
         }
 
+        void AllocatorInterface::operator delete(void * p, void * q) {}
 
-        void AllocatorInterface::operator delete(void *p, void *q)
-        {
-        }
-
-
-        void AllocatorInterface::operator delete[](void *p, void *q)
-        {
-        }
-
+        void AllocatorInterface::operator delete[](void * p, void * q) {}
 
         AllocatorInterface::allocator_type AllocatorInterface::getBlockAllocator(void)
         {
             return MemoryBlockAllocator;
         }
 
-
         AllocatorInterface::deallocator_type AllocatorInterface::getBlockDeallocator(void)
         {
             return MemoryBlockDeallocator;
         }
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF

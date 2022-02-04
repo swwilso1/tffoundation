@@ -50,11 +50,10 @@ namespace TF
         std::ostream &operator<<(std::ostream &o, const ConditionVariable &v);
 #endif
 
-        std::ostream &operator<<(std::ostream &o, const std::condition_variable &c);
+        std::ostream & operator<<(std::ostream & o, const std::condition_variable & c);
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF
 
-
-#endif    // TFCONDITIONVARIABLE_HPP
+#endif // TFCONDITIONVARIABLE_HPP

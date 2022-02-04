@@ -35,16 +35,16 @@ namespace TF
     {
 
         template<class T, class Container>
-        std::ostream &operator<<(std::ostream &o, const std::queue<T, Container> &q)
+        std::ostream & operator<<(std::ostream & o, const std::queue<T, Container> & q)
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
-                std::queue<T, Container> &modSelf = const_cast<std::queue<T, Container> &>(q);
+                std::queue<T, Container> & modSelf = const_cast<std::queue<T, Container> &>(q);
 
                 formatter->setClassName("Queue");
                 Size_t theSize = q.size();
-                for(Size_t i = 0; i < theSize; i++)
+                for (Size_t i = 0; i < theSize; i++)
                 {
                     auto theValue = modSelf.front();
                     formatter->addClassMember<T>(i, theValue);
@@ -57,6 +57,6 @@ namespace TF
             return o;
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

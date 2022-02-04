@@ -34,7 +34,6 @@ using namespace TF::Foundation;
 
 #include "gtest/gtest.h"
 
-
 TEST(StringTest, LengthTest1)
 {
     String s("The happy red fox jumped over the brown log.");
@@ -48,13 +47,11 @@ TEST(StringTest, LengthTest2)
     EXPECT_EQ(s.length(), 48);
 }
 
-
 TEST(StringTest, ByteLengthTest1)
 {
     String s("The happy red fox jumped over the brown log.");
     EXPECT_EQ(s.numberOfBytes(), 44);
 }
-
 
 TEST(StringTest, ByteLengthTest2)
 {

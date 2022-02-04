@@ -36,10 +36,10 @@ namespace TF
     namespace Foundation
     {
 
-        std::optional<int> Conversion::convertStringToInt(const string_type &s)
+        std::optional<int> Conversion::convertStringToInt(const string_type & s)
         {
             auto theCStr = s.cStr();
-            char *endptr = nullptr;
+            char * endptr = nullptr;
             auto conversion_result = (int)strtol(theCStr.get(), &endptr, 10);
 
             auto length = endptr - theCStr.get();
@@ -47,50 +47,48 @@ namespace TF
             /* strtol can return 0 in the case of an error and 0 in the case of
              * a successful conversion from a string with 0 as contents.  To
              * detect the failure case, we check the string for 0 as well. */
-            if(conversion_result == 0 && s != "0")
+            if (conversion_result == 0 && s != "0")
             {
-                return std::optional<int> {};
+                return std::optional<int>{};
             }
-            else if(length < strlen(theCStr.get()))
+            else if (length < strlen(theCStr.get()))
             {
-                return std::optional<int> {};
+                return std::optional<int>{};
             }
 
-            return std::optional<int> {conversion_result};
+            return std::optional<int>{conversion_result};
         }
 
-
-        std::optional<double> Conversion::convertStringToDouble(const string_type &s)
+        std::optional<double> Conversion::convertStringToDouble(const string_type & s)
         {
             auto theCStr = s.cStr();
-            const char *theStr = theCStr.get();
+            const char * theStr = theCStr.get();
             size_t theLength = strlen(theStr);
-            char *theEnd = nullptr;
+            char * theEnd = nullptr;
             auto conversion_result = strtod(theStr, &theEnd);
-            if((conversion_result == 0.0 && theStr == theEnd) || ((theEnd - theStr) < theLength))
+            if ((conversion_result == 0.0 && theStr == theEnd) || ((theEnd - theStr) < theLength))
             {
-                return std::optional<double> {};
+                return std::optional<double>{};
             }
 
-            return std::optional<double> {conversion_result};
+            return std::optional<double>{conversion_result};
         }
 
-
-        std::optional<bool> Conversion::convertStringToBool(const string_type &s)
+        std::optional<bool> Conversion::convertStringToBool(const string_type & s)
         {
             auto lowerValue = s.lowercaseString();
-            if(lowerValue == "true" || lowerValue == "1")
+            if (lowerValue == "true" || lowerValue == "1")
             {
-                return std::optional<bool> {true};
+                return std::optional<bool>{true};
             }
-            if(lowerValue == "false" || lowerValue == "0")
+            if (lowerValue == "false" || lowerValue == "0")
             {
-                return std::optional<bool> {false};
+                return std::optional<bool>{false};
             }
 
-            return std::optional<bool> {};
+            return std::optional<bool>{};
         }
 
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

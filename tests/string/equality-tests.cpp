@@ -32,14 +32,12 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-
 TEST(StringTest, EqualityTest1)
 {
     String s("foo");
     String t("foo");
     EXPECT_TRUE(s == t);
 }
-
 
 TEST(StringTest, EqualityTest2)
 {
@@ -48,14 +46,12 @@ TEST(StringTest, EqualityTest2)
     EXPECT_TRUE(s == t);
 }
 
-
 TEST(StringTest, InequalityTest1)
 {
     String s("foo");
     String t("bar");
     EXPECT_TRUE(s != t);
 }
-
 
 TEST(StringTest, InequalityTest2)
 {
@@ -64,24 +60,20 @@ TEST(StringTest, InequalityTest2)
     EXPECT_TRUE(s != t);
 }
 
-
 TEST(StringTest, CStringEqualityTest)
 {
     EXPECT_TRUE(String("Hello World") == "Hello World");
 }
-
 
 TEST(StringTest, CStringEqualityTest2)
 {
     EXPECT_TRUE("Hello World" == String("Hello World"));
 }
 
-
 TEST(StringTest, StdStringEqualityTest)
 {
     EXPECT_TRUE(String("Hello World") == std::string("Hello World"));
 }
-
 
 TEST(StringTest, StdStringEqualityTest2)
 {

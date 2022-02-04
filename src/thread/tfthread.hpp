@@ -47,7 +47,7 @@ namespace TF
 
         extern "C"
         {
-            typedef void *(*thread_function)(void *);
+            typedef void * (*thread_function)(void *);
         }
 
         class Thread : public AllocatorInterface
@@ -61,15 +61,15 @@ namespace TF
 
             Thread();
 
-            Thread(Thread &&t);
+            Thread(Thread && t);
 
-            Thread(thread_function_type f, void *arg);
+            Thread(thread_function_type f, void * arg);
 
-            Thread(const Thread &t) = delete;
+            Thread(const Thread & t) = delete;
 
             ~Thread();
 
-            Thread &operator=(Thread &&t);
+            Thread & operator=(Thread && t);
 
             bool joinable() const;
 
@@ -83,23 +83,19 @@ namespace TF
 
             void detach();
 
-            void swap(Thread &t);
+            void swap(Thread & t);
 
-            std::ostream &description(std::ostream &o) const;
-
+            std::ostream & description(std::ostream & o) const;
 
         private:
             native_handle_type nativeHandle;
             bool handleValid;
         };
 
+        std::ostream & operator<<(std::ostream & o, const Thread & t);
 
-        std::ostream &operator<<(std::ostream &o, const Thread &t);
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-
-}    // namespace TF
-
+} // namespace TF
 
 #endif /* TFTHREAD_HPP */

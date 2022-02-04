@@ -37,14 +37,11 @@ namespace TF
     namespace Foundation
     {
 
-        StringCore::StringCore() : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
-        {
-        }
+        StringCore::StringCore() : theBytes{nullptr}, numberOfBytes{0}, m_number_of_characters{0} {}
 
-
-        StringCore::StringCore(const StringCore &c) : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
+        StringCore::StringCore(const StringCore & c) : theBytes{nullptr}, numberOfBytes{0}, m_number_of_characters{0}
         {
-            if(c.numberOfBytes > 0)
+            if (c.numberOfBytes > 0)
             {
                 theBytes = new char_type[c.numberOfBytes];
                 std::memcpy(reinterpret_cast<void *>(theBytes), reinterpret_cast<void *>(c.theBytes),
@@ -54,9 +51,8 @@ namespace TF
             }
         }
 
-
-        StringCore::StringCore(StringCore &&c) noexcept
-            : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
+        StringCore::StringCore(StringCore && c) noexcept :
+            theBytes{nullptr}, numberOfBytes{0}, m_number_of_characters{0}
         {
             theBytes = c.theBytes;
             numberOfBytes = c.numberOfBytes;
@@ -67,21 +63,19 @@ namespace TF
             c.m_number_of_characters = 0;
         }
 
-
-        StringCore::StringCore(size_type i) : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
+        StringCore::StringCore(size_type i) : theBytes{nullptr}, numberOfBytes{0}, m_number_of_characters{0}
         {
-            if(i > 0)
+            if (i > 0)
             {
                 theBytes = new char_type[i];
                 numberOfBytes = i;
             }
         }
 
-
-        StringCore::StringCore(const char_type *t, size_type i)
-            : theBytes {nullptr}, numberOfBytes {0}, m_number_of_characters {0}
+        StringCore::StringCore(const char_type * t, size_type i) :
+            theBytes{nullptr}, numberOfBytes{0}, m_number_of_characters{0}
         {
-            if(t != nullptr && i > 0)
+            if (t != nullptr && i > 0)
             {
                 theBytes = new char_type[i];
                 std::memcpy(reinterpret_cast<void *>(theBytes), reinterpret_cast<void *>(const_cast<char_type *>(t)),
@@ -90,21 +84,19 @@ namespace TF
             }
         }
 
-
         StringCore::~StringCore()
         {
-            if(theBytes != nullptr && numberOfBytes > 0)
+            if (theBytes != nullptr && numberOfBytes > 0)
                 delete[] theBytes;
             theBytes = nullptr;
             numberOfBytes = 0;
         }
 
-
-        StringCore &StringCore::operator=(const StringCore &c)
+        StringCore & StringCore::operator=(const StringCore & c)
         {
-            if(this != &c)
+            if (this != &c)
             {
-                if(theBytes != nullptr && numberOfBytes > 0)
+                if (theBytes != nullptr && numberOfBytes > 0)
                 {
                     delete[] theBytes;
                     theBytes = nullptr;
@@ -112,7 +104,7 @@ namespace TF
                     m_number_of_characters = 0;
                 }
 
-                if(c.numberOfBytes > 0)
+                if (c.numberOfBytes > 0)
                 {
                     theBytes = new char_type[c.numberOfBytes];
                     std::memcpy(reinterpret_cast<void *>(theBytes), reinterpret_cast<void *>(c.theBytes),
@@ -125,12 +117,11 @@ namespace TF
             return *this;
         }
 
-
-        StringCore &StringCore::operator=(StringCore &&c) noexcept
+        StringCore & StringCore::operator=(StringCore && c) noexcept
         {
-            if(this != &c)
+            if (this != &c)
             {
-                if(theBytes != nullptr && numberOfBytes > 0)
+                if (theBytes != nullptr && numberOfBytes > 0)
                 {
                     delete[] theBytes;
                     theBytes = nullptr;
@@ -150,17 +141,16 @@ namespace TF
             return *this;
         }
 
-
-        bool StringCore::operator==(const StringCore &c) const
+        bool StringCore::operator==(const StringCore & c) const
         {
-            if(this != &c)
+            if (this != &c)
             {
-                if(numberOfBytes != c.numberOfBytes)
+                if (numberOfBytes != c.numberOfBytes)
                     return false;
 
-                for(size_type i = 0; i < numberOfBytes; i++)
+                for (size_type i = 0; i < numberOfBytes; i++)
                 {
-                    if(*(theBytes + i) != *(c.theBytes + i))
+                    if (*(theBytes + i) != *(c.theBytes + i))
                         return false;
                 }
             }
@@ -168,43 +158,37 @@ namespace TF
             return true;
         }
 
-
-        bool StringCore::operator!=(const StringCore &c) const
+        bool StringCore::operator!=(const StringCore & c) const
         {
-            if(*this == c)
+            if (*this == c)
                 return false;
             return true;
         }
-
 
         StringCore::size_type StringCore::length() const
         {
             return numberOfBytes;
         }
 
-
-        StringCore::char_type *StringCore::data()
+        StringCore::char_type * StringCore::data()
         {
             return theBytes;
         }
-
 
         void StringCore::set_number_of_characters(size_type characters)
         {
             m_number_of_characters = characters;
         }
 
-
         StringCore::size_type StringCore::get_number_of_characters() const
         {
             return m_number_of_characters;
         }
 
-
-        std::ostream &StringCore::description(std::ostream &o) const
+        std::ostream & StringCore::description(std::ostream & o) const
         {
-            ClassFormatter *formatter = FormatterFactory::getFormatter();
-            if(formatter != nullptr)
+            ClassFormatter * formatter = FormatterFactory::getFormatter();
+            if (formatter != nullptr)
             {
                 formatter->setClassName("StringCore");
                 formatter->addClassMember<char_type>("theBytes", theBytes, numberOfBytes);
@@ -216,11 +200,10 @@ namespace TF
             return o;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const StringCore &c)
+        std::ostream & operator<<(std::ostream & o, const StringCore & c)
         {
             return c.description(o);
         }
-    }    // namespace Foundation
+    } // namespace Foundation
 
-}    // namespace TF
+} // namespace TF

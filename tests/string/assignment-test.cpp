@@ -43,7 +43,6 @@ TEST(StringTest, AssignmentTest)
     EXPECT_EQ(s, t);
 }
 
-
 TEST(StringTest, AssignmentTest2)
 {
     String s("The hill next to the side of the house");

@@ -33,14 +33,12 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-
 TEST(StringTest, GetCStringTest)
 {
     String s("abcd\\:000080ef\\:004432");
     auto value = s.cStr();
     EXPECT_EQ(strncmp(value.get(), "abcd\\:000080ef\\:004432", 22), 0);
 }
-
 
 TEST(StringTest, GetCStringTest2)
 {
@@ -58,14 +56,12 @@ TEST(StringTest, GetCStringTest2)
     EXPECT_EQ(memcmp(value.get(), expected_value, sizeof(expected_value)), 0);
 }
 
-
 TEST(StringTest, GetSTLStringTest)
 {
     String s("abcd\\:000080ef\\:004432");
     auto value = s.stlString();
     EXPECT_EQ(value, "abcd\\:000080ef\\:004432");
 }
-
 
 TEST(StringTest, GetSTLStringTest2)
 {

@@ -32,13 +32,11 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-
 TEST(StringTest, DefaultConstructorTest)
 {
     String s1;
     EXPECT_TRUE(s1.length() == 0);
 }
-
 
 #define TEST_STRING "test string"
 
@@ -58,7 +56,6 @@ TEST(StringTest, UTF8CStyleStringConstructorBasic2Test)
     EXPECT_TRUE(strncmp(TEST2_STRING, ptr.get(), s.length()) == 0);
 }
 
-
 TEST(StringTest, UTF8CStyleStringConstructorWithUnicodeTest)
 {
     String s("ЀЁЂЃЄЅфЉШ");
@@ -75,14 +72,12 @@ TEST(StringTest, UTF8CStyleStringConstructorWithUnicodeTest)
     EXPECT_TRUE(s == "ЀЁЂЃЄЅфЉШ");
 }
 
-
 TEST(StringTest, ASCIIEncodedUnicodeInitializerTest)
 {
     String s = String::initWithASCIIEncodedUnicode("abc\\:002387def\\:002231");
     EXPECT_EQ(s.length(), 8);
     EXPECT_TRUE(s == "abc⎇def∱");
 }
-
 
 #define HELLO_WORLD "hello world"
 
@@ -96,20 +91,17 @@ TEST(StringTest, CStringConstructorWithLengthTest)
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
 }
 
-
 TEST(StringTest, CStringConstuctorWithLength2Test)
 {
     String s("㆚㆛ぁあぃいぅうぇ", 27);
     EXPECT_EQ(s, "㆚㆛ぁあぃいぅうぇ");
 }
 
-
 TEST(StringTest, CStringConstructorAssignmentTest)
 {
     String s = "Hello World";
     EXPECT_EQ(s, "Hello World");
 }
-
 
 TEST(StringTest, CXXStyleStringConstructorTest)
 {
@@ -118,7 +110,6 @@ TEST(StringTest, CXXStyleStringConstructorTest)
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
 }
-
 
 TEST(StringTest, UTF8StringConstructorTest)
 {
@@ -141,16 +132,14 @@ TEST(StringTest, UTF8StringConstructorTest)
     EXPECT_EQ(s.getCharactersInRange(Range(0, 2)), "☃☄");
 }
 
-
 TEST(StringTest, UTF8StringConstructorTest2)
 {
-    const unsigned char *tmp = reinterpret_cast<const unsigned char *>("㆚㆛ぁあぃいぅうぇ");
+    const unsigned char * tmp = reinterpret_cast<const unsigned char *>("㆚㆛ぁあぃいぅうぇ");
 
     String s(tmp, 27);
 
     EXPECT_TRUE(s.length() == 9);
 }
-
 
 TEST(StringTest, UTF16StringConstructorTest)
 {
@@ -169,7 +158,6 @@ TEST(StringTest, UTF16StringConstructorTest)
     EXPECT_TRUE(s.length() == 5);
 }
 
-
 TEST(StringTest, UTF32StringConstructorTest)
 {
     unsigned int tmp[7];
@@ -187,7 +175,6 @@ TEST(StringTest, UTF32StringConstructorTest)
     EXPECT_TRUE(s.length() == 6);
 }
 
-
 TEST(StringTest, CopyConstructorTest)
 {
     String s("foo bar bat");
@@ -195,7 +182,6 @@ TEST(StringTest, CopyConstructorTest)
 
     EXPECT_TRUE(s == t);
 }
-
 
 String RValueHelper(String a)
 {
@@ -208,7 +194,6 @@ TEST(StringTest, RValueConstructorTest)
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp("foo bar", ptr.get(), s.length()) == 0);
 }
-
 
 TEST(StringTest, UnicodePointConstructorTest)
 {
@@ -236,18 +221,16 @@ TEST(StringTest, JSONStringConstructorTest)
     {
         s = String::initWithJSONEncodedUnicode("abc\\u238zdef\\u2231");
     }
-    catch(std::runtime_error)
-    {
-    }
+    catch (std::runtime_error)
+    {}
 
     // init with an unfinished unicode char
     try
     {
         s = String::initWithJSONEncodedUnicode("abc\\u238");
     }
-    catch(std::runtime_error)
-    {
-    }
+    catch (std::runtime_error)
+    {}
 
     // init with a unicode surrogate pair
     s = String::initWithJSONEncodedUnicode("abc\\ud83d\\ude00");
@@ -267,18 +250,16 @@ TEST(StringTest, JSONStringConstructorTest)
     {
         s = String::initWithJSONEncodedUnicode("abc\\ud83d\\u2231def");
     }
-    catch(std::runtime_error)
-    {
-    }
+    catch (std::runtime_error)
+    {}
 
     // init with a missing high surrogate
     try
     {
         s = String::initWithJSONEncodedUnicode("abc\\u2331\\ude00def");
     }
-    catch(std::runtime_error)
-    {
-    }
+    catch (std::runtime_error)
+    {}
 
     // init with a \b
     s = String::initWithJSONEncodedUnicode("abc\\bdef");

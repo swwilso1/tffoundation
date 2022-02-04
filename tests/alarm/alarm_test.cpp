@@ -25,12 +25,10 @@ SOFTWARE.
 
 ******************************************************************************/
 
-
 #include <thread>
 #include <chrono>
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
-
 
 using namespace TF::Foundation;
 
@@ -40,12 +38,14 @@ TEST(AlarmTest, SimpleAlarmTest)
     auto theCenter = AlarmCenter::defaultCenter();
     SystemDate now;
     theCenter->setAlarm(
-        "SimpleAlarm", [&alarmTriggered](const AlarmCenter::string_type &s) { alarmTriggered = true; },
+        "SimpleAlarm",
+        [&alarmTriggered](const AlarmCenter::string_type & s) {
+            alarmTriggered = true;
+        },
         now + duration_cast<SystemDate::duration>(100ms));
     std::this_thread::sleep_for(2s);
     EXPECT_TRUE(alarmTriggered);
 }
-
 
 TEST(AlarmTest, CancelTest)
 {
@@ -53,7 +53,10 @@ TEST(AlarmTest, CancelTest)
     auto theCenter = AlarmCenter::defaultCenter();
     SystemDate now;
     theCenter->setAlarm(
-        "ExtendedAlarm", [&alarmTriggered](const AlarmCenter::string_type &s) { alarmTriggered = true; },
+        "ExtendedAlarm",
+        [&alarmTriggered](const AlarmCenter::string_type & s) {
+            alarmTriggered = true;
+        },
         now + duration_cast<SystemDate::duration>(2s));
     theCenter->cancelAlarm("ExtendedAlarm");
     EXPECT_FALSE(alarmTriggered);

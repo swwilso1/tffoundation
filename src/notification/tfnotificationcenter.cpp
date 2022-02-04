@@ -31,7 +31,7 @@ namespace TF
 
     namespace Foundation
     {
-        void *processNotifications(void *arg);
+        void * processNotifications(void * arg);
 
         NotificationCenter::pointer NotificationCenter::singleCenter = nullptr;
 
@@ -44,7 +44,6 @@ namespace TF
             threadHandle = thread_type(processNotifications, reinterpret_cast<void *>(this));
         }
 
-
         NotificationCenter::~NotificationCenter()
         {
             threadController.signalStop();
@@ -52,42 +51,40 @@ namespace TF
             threadHandle.join();
         }
 
-
         NotificationCenter::pointer NotificationCenter::DefaultCenter()
         {
             lock_type theLock(singletonMutex);
-            if(singleCenter == nullptr)
+            if (singleCenter == nullptr)
             {
                 singleCenter = pointer(new NotificationCenter());
             }
             return singleCenter;
         }
 
-
-        void NotificationCenter::registerForNotificationFromSender(const label_type &label, sender_type sender,
-                                                                   const label_type &cblabel, callback_type callback)
+        void NotificationCenter::registerForNotificationFromSender(const label_type & label, sender_type sender,
+                                                                   const label_type & cblabel, callback_type callback)
         {
             // We lock the mutex here so that the notification sending thread can't access the table at the same
             // time we are updating it.
             lock_type theLock(singleMutex);
 
-            if(handlerMap.count(label) > 0)
+            if (handlerMap.count(label) > 0)
             {
                 // We have callback map for this message, now we need to check to see if we already have an
                 // entry for this callback label.
-                auto &callbackMap = handlerMap[label];
+                auto & callbackMap = handlerMap[label];
 
-                if(callbackMap.count(cblabel) > 0)
+                if (callbackMap.count(cblabel) > 0)
                 {
                     // We have an entry so now we probably need to add the sender object to the list of senders
                     // that we pay attention to for this callback.  Of course the sender might be nullptr so in
                     // that case we do nothing.
-                    auto &handlerEntry = callbackMap[cblabel];
+                    auto & handlerEntry = callbackMap[cblabel];
 
-                    if(sender != nullptr)
+                    if (sender != nullptr)
                     {
                         // Check to make sure the sender is not already in the list.
-                        if(listHasSender(handlerEntry.senders, sender))
+                        if (listHasSender(handlerEntry.senders, sender))
                             handlerEntry.senders.push_back(sender);
                     }
                 }
@@ -109,103 +106,95 @@ namespace TF
             }
         }
 
-
-        void NotificationCenter::registerForNotification(const label_type &label, const label_type &cblabel,
+        void NotificationCenter::registerForNotification(const label_type & label, const label_type & cblabel,
                                                          callback_type callback)
         {
             registerForNotificationFromSender(label, nullptr, cblabel, callback);
         }
 
-
-        void NotificationCenter::removeRegistrationForNotification(const label_type &label, const label_type &cblabel)
+        void NotificationCenter::removeRegistrationForNotification(const label_type & label, const label_type & cblabel)
         {
             // Lock access to the data structures so that this operation doesn't conflict with the notification sending
             // thread.
             lock_type theLock(singleMutex);
 
             // Check to see if we event have an entry for this notification label.
-            if(handlerMap.count(label) > 0)
+            if (handlerMap.count(label) > 0)
             {
                 // Now check to see if we have an entry in the callback map for this notfication label.
-                auto &callbackMap = handlerMap[label];
+                auto & callbackMap = handlerMap[label];
 
-                if(callbackMap.count(cblabel) > 0)
+                if (callbackMap.count(cblabel) > 0)
                     callbackMap.erase(cblabel);
             }
         }
 
-
-        void NotificationCenter::postNotification(const notification_type &n)
+        void NotificationCenter::postNotification(const notification_type & n)
         {
             notificationQueue.push(n);
             threadController.signal();
         }
 
-        std::ostream &NotificationCenter::description(std::ostream &o) const
+        std::ostream & NotificationCenter::description(std::ostream & o) const
         {
             return o;
         }
 
-
         void NotificationCenter::sendNotifications()
         {
-            while(!notificationQueue.empty())
+            while (! notificationQueue.empty())
             {
-                auto &notification = notificationQueue.front();
+                auto & notification = notificationQueue.front();
                 sendNotification(notification);
                 notificationQueue.pop();
             }
         }
 
-
-        void NotificationCenter::sendNotification(const notification_type &n)
+        void NotificationCenter::sendNotification(const notification_type & n)
         {
             // Lock access to the handler data structures so that it doesn't
             // change while we pass through it here.
             lock_type theLock(singleMutex);
 
-            if(handlerMap.count(n.label()) > 0)
+            if (handlerMap.count(n.label()) > 0)
             {
                 // We have a handler callback map for this notification label.
-                auto &callbackMap = handlerMap[n.label()];
+                auto & callbackMap = handlerMap[n.label()];
 
                 // Now iterate through the map and try to send the actual notifications.
-                for(auto &entry : callbackMap)
+                for (auto & entry : callbackMap)
                 {
-                    if((n.sender() != nullptr && listHasSender(entry.second.senders, n.sender())) ||
-                       entry.second.senders.size() == 0)
+                    if ((n.sender() != nullptr && listHasSender(entry.second.senders, n.sender())) ||
+                        entry.second.senders.size() == 0)
                         entry.second.handler(n);
                 }
             }
         }
 
-
-        bool NotificationCenter::listHasSender(const sender_list_type &l, sender_type sender)
+        bool NotificationCenter::listHasSender(const sender_list_type & l, sender_type sender)
         {
-            for(auto s : l)
+            for (auto s : l)
             {
-                if(s == sender)
+                if (s == sender)
                     return true;
             }
 
             return false;
         }
 
-
-        std::ostream &operator<<(std::ostream &o, const NotificationCenter &c)
+        std::ostream & operator<<(std::ostream & o, const NotificationCenter & c)
         {
             return c.description(o);
         }
 
-
-        void *processNotifications(void *arg)
+        void * processNotifications(void * arg)
         {
-            NotificationCenter *theCenter = reinterpret_cast<NotificationCenter *>(arg);
+            NotificationCenter * theCenter = reinterpret_cast<NotificationCenter *>(arg);
 
-            if(theCenter == nullptr)
+            if (theCenter == nullptr)
                 return nullptr;
 
-            while(!theCenter->threadController.shouldStop())
+            while (! theCenter->threadController.shouldStop())
             {
                 theCenter->sendNotifications();
                 theCenter->threadController.wait();
@@ -214,7 +203,6 @@ namespace TF
             return nullptr;
         }
 
+    } // namespace Foundation
 
-    }    // namespace Foundation
-
-}    // namespace TF
+} // namespace TF
