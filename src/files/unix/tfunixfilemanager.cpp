@@ -248,7 +248,8 @@ namespace TF
 
         bool FileManager::itemExistsAtPath(const string_type &path) const
         {
-            auto access_api_result = access(path.stlString().c_str(), F_OK);
+            auto path_cstr = path.cStr();
+            auto access_api_result = access(path_cstr.get(), F_OK);
             return access_api_result == 0;
         }
 
