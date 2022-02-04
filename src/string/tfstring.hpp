@@ -650,6 +650,8 @@ namespace TF
             using core_pointer_type = std::shared_ptr<core_type>;
 
             core_pointer_type core;
+
+            friend std::hash<String>;
         };
 
         std::ostream & operator<<(std::ostream & o, const String & s);
@@ -725,12 +727,15 @@ namespace std
         typedef std::size_t result_type;
         result_type operator()(argument_type const & s) const noexcept
         {
+            auto bytes = s.core->data();
+            auto length = s.core->length();
+
             // Simple hash function from stack overflow.
             // TODO: Use a better hash function.
             result_type hash = 7;
-            for (argument_type::size_type i = 0; i < s.length(); i++)
+            for (decltype(length) i = 0; i < length; i++)
             {
-                hash = hash * 31 + s.characterAtIndex(i);
+                hash = hash * 31 + static_cast<result_type>(*(bytes + i));
             }
             return hash;
         }
