@@ -30,7 +30,7 @@ mark_as_advanced(
 )
 
 list(APPEND OSX_COMPILE_FLAGS -stdlib=libc++)
-list(APPEND OSX_COMPILE_FLAGS -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion)
+list(APPEND OSX_COMPILE_FLAGS -Werror -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion)
 # list(APPEND OSX_COMPILE_FLAGS -Werror -pedantic-errors)
 
 if (BUILD_PROFILE)
