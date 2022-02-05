@@ -971,11 +971,9 @@ namespace TF
              */
 
             // constants
-            const auto SURROGATE_OFFSET = static_cast<parent_type::unicode_point_type>(0x10000 - (0xD800 << 10) - 0xDC00);
-
-            auto codePoint = static_cast<parent_type::unicode_point_type>(
-                static_cast<unsigned int>((highSurrogate << 10) + lowSurrogate) + SURROGATE_OFFSET);
-            return codePoint;
+            static constexpr int32_t SURROGATE_OFFSET = 0x10000 - (0xD800 << 10) - 0xDC00;
+            int32_t codePoint = (highSurrogate << 10) + lowSurrogate + SURROGATE_OFFSET;
+            return static_cast<parent_type::unicode_point_type>(codePoint);
         }
 
         UTF16StringEncoder::data_type UTF16StringEncoder::correctUTF16CodeForPlatform(data_type theCode, Endian endian)

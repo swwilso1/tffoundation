@@ -305,8 +305,9 @@ namespace TF
                     {
                         // use the UTF-16 encoder to convert the surrogate pair to a code value.
                         static UTF16StringEncoder utf16_encoder;
-                        return utf16_encoder.convertSurrogatePairToCodePoint(static_cast<data_type>(code),
-                                                                             static_cast<data_type>(low_surrogate_rval.second.m_code));
+                        return utf16_encoder.convertSurrogatePairToCodePoint(
+                            static_cast<UTF16StringEncoder::data_type>(code),
+                            static_cast<UTF16StringEncoder::data_type>(low_surrogate_rval.second.m_code));
                     }
 
                     throw std::runtime_error("bytesToExpectInJSONSequence encountered a mal-formed surrogate pair");
