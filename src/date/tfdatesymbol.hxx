@@ -105,6 +105,7 @@ namespace TF
             }
             virtual bool validValueForSymbol(const string_type & v)
             {
+                (void)v;
                 return false;
             }
             virtual semantic_type semanticValue() const

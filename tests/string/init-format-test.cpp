@@ -186,7 +186,7 @@ TEST(StringTest, STLStyleStringTest)
 
 TEST(StringTest, FRealNumberTest)
 {
-    float f{3.141561};
+    float f{3.141561f};
     String s = String::initWithFormat("%f", f);
     String t("3.141561");
     EXPECT_EQ(s, t);
@@ -194,7 +194,7 @@ TEST(StringTest, FRealNumberTest)
 
 TEST(StringTest, GRealNumberTest)
 {
-    float f{3.141561};
+    float f{3.141561f};
     String s = String::initWithFormat("%g", f);
     String t("3.14156");
     EXPECT_EQ(s, t);
@@ -274,9 +274,9 @@ TEST(StringTest, LongTest)
 
 TEST(StringTest, LongLongTest)
 {
-    long long v = 18446744073709551615UL;
+    long long v = 184467440737095516LL;
     String s = String::initWithFormat("%llu", v);
-    String t("18446744073709551615");
+    String t("184467440737095516");
     EXPECT_EQ(s, t);
 }
 

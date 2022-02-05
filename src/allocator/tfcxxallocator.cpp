@@ -66,8 +66,37 @@ void operator delete(void * p) noexcept
     }
 }
 
+void operator delete(void * p, TF::Foundation::Size_t s)
+{
+    (void)s;
+
+    if (p == nullptr)
+    {
+        return;
+    }
+
+    auto deallocator = TF::Foundation::AllocatorInterface::getBlockDeallocator();
+    if (deallocator)
+    {
+        deallocator(p);
+    }
+}
+
 void operator delete[](void * p) noexcept
 {
+    if (p == nullptr)
+        return;
+
+    auto deallocator = TF::Foundation::AllocatorInterface::getBlockDeallocator();
+    if (deallocator != nullptr)
+    {
+        deallocator(p);
+    }
+}
+
+void operator delete[](void * p, TF::Foundation::Size_t s)
+{
+    (void)s;
     if (p == nullptr)
         return;
 

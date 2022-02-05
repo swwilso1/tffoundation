@@ -200,6 +200,7 @@ namespace TF
         UTF32StringEncoder::size_type UTF32StringEncoder::bytesNeededForRepresentationOfCode(
             parent_type::unicode_point_type code)
         {
+            (void)code;
             return largestCodeLength;
         }
 
@@ -237,7 +238,7 @@ namespace TF
 
             const data_type * character = characterStart + index;
 
-            return reinterpret_cast<const char_type *>(character) - start;
+            return static_cast<size_type>(reinterpret_cast<const char_type *>(character) - start);
         }
 
         UTF32StringEncoder::size_type UTF32StringEncoder::numberOfBytesToCaptureCharactersInRange(

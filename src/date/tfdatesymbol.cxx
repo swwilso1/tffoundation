@@ -57,12 +57,15 @@ namespace TF
         template<class Clock>
         typename DateSymbol<Clock>::string_type DateSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
+            (void)c;
             return string_type("");
         }
 
         template<class Clock>
         int DateSymbol<Clock>::convert(const string_type & s)
         {
+            (void)s;
+
             return 0;
         }
 
@@ -344,7 +347,7 @@ namespace TF
                     return false;
             }
 
-            if (DateSymbol<Clock>::count != v.length())
+            if (static_cast<string_type::size_type>(DateSymbol<Clock>::count) != v.length())
                 return false;
 
             return true;
@@ -1999,16 +2002,16 @@ namespace TF
 
             auto length = converter.str().length();
 
-            if (DateSymbol<Clock>::count > length)
+            if (static_cast<decltype(length)>(DateSymbol<Clock>::count) > length)
                 accumulator << fSecs;
             else
             {
                 long divisor = 1;
 
-                for (int i = 0; i < (length - DateSymbol<Clock>::count); i++)
+                for (decltype(length) i = 0; i < (length - static_cast<decltype(length)>(DateSymbol<Clock>::count)); i++)
                     divisor *= 10;
 
-                double dividedVal = static_cast<double>(fSecs) / divisor;
+                double dividedVal = static_cast<double>(fSecs) / static_cast<double>(divisor);
 
                 auto rounded = std::lround(dividedVal);
 
@@ -2041,7 +2044,7 @@ namespace TF
         {
             auto theValue = std::atoi(v.cStr().get());
 
-            if (v.length() != DateSymbol<Clock>::count)
+            if (v.length() != static_cast<string_type::size_type>(DateSymbol<Clock>::count))
                 return false;
 
             if (theValue > 0)
@@ -2081,6 +2084,8 @@ namespace TF
         template<class Clock>
         typename NormalSymbol<Clock>::string_type NormalSymbol<Clock>::convert(const DateComponents<Clock> & c)
         {
+            (void)c;
+
             std::stringstream accumulator;
             accumulator << DateSymbol<Clock>::theCharacter;
             return accumulator.str();

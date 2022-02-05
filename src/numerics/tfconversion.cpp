@@ -51,7 +51,7 @@ namespace TF
             {
                 return std::optional<int>{};
             }
-            else if (length < strlen(theCStr.get()))
+            else if (static_cast<size_t>(length) < strlen(theCStr.get()))
             {
                 return std::optional<int>{};
             }
@@ -66,7 +66,7 @@ namespace TF
             size_t theLength = strlen(theStr);
             char * theEnd = nullptr;
             auto conversion_result = strtod(theStr, &theEnd);
-            if ((conversion_result == 0.0 && theStr == theEnd) || ((theEnd - theStr) < theLength))
+            if ((conversion_result == 0.0 && theStr == theEnd) || (static_cast<size_t>(theEnd - theStr) < theLength))
             {
                 return std::optional<double>{};
             }

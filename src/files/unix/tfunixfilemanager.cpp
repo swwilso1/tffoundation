@@ -255,7 +255,7 @@ namespace TF
                 throw std::system_error{errno, std::system_category(), "Unable to query file system object"};
             }
 
-            theProperties.size = pathData.st_size;
+            theProperties.size = static_cast<size_type>(pathData.st_size);
 
             if (S_ISREG(pathData.st_mode))
                 theProperties.type = FileType::Regular;
@@ -515,7 +515,7 @@ namespace TF
                 throw std::system_error{errno, std::system_category(), "Unable to get file size"};
             }
 
-            return info.st_size;
+            return static_cast<size_type>(info.st_size);
         }
 
         FileManager::string_type FileManager::baseNameOfItemAtPath(const string_type & path) const

@@ -414,7 +414,7 @@ namespace TF
                             else if (hasHHModifier)
                             {
                                 char arg;
-                                arg = va_arg(*argList, int);
+                                arg = static_cast<char>(va_arg(*argList, int));
                                 if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
@@ -429,7 +429,7 @@ namespace TF
                             {
                                 short arg;
 
-                                arg = va_arg(*argList, int);
+                                arg = static_cast<short>(va_arg(*argList, int));
                                 if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
@@ -497,7 +497,7 @@ namespace TF
                             else if (hasHHModifier)
                             {
                                 unsigned char arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned char>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
                                 else
@@ -506,7 +506,7 @@ namespace TF
                             else if (hasHModifier)
                             {
                                 unsigned short arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned short>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << std::oct << arg;
                                 else
@@ -564,7 +564,7 @@ namespace TF
                             else if (hasHHModifier)
                             {
                                 unsigned char arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned char>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
                                 else
@@ -573,7 +573,7 @@ namespace TF
                             else if (hasHModifier)
                             {
                                 unsigned short arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned short>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << std::nouppercase << std::hex << arg;
                                 else
@@ -631,7 +631,7 @@ namespace TF
                             else if (hasHHModifier)
                             {
                                 unsigned char arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned char>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
                                 else
@@ -640,7 +640,7 @@ namespace TF
                             else if (hasHModifier)
                             {
                                 unsigned short arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned short>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << std::uppercase << std::hex << arg;
                                 else
@@ -698,7 +698,7 @@ namespace TF
                             else if (hasHHModifier)
                             {
                                 unsigned char arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned char>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
@@ -707,7 +707,7 @@ namespace TF
                             else if (hasHModifier)
                             {
                                 unsigned short arg;
-                                arg = va_arg(*argList, unsigned int);
+                                arg = static_cast<unsigned short>(va_arg(*argList, unsigned int));
                                 if (needsLeftAdjustment)
                                     value << std::left << arg;
                                 else
@@ -1115,7 +1115,7 @@ namespace TF
 
                             if (hasFieldWidth)
                             {
-                                if (fieldWidth > value.str().size())
+                                if (fieldWidth > static_cast<decltype(fieldWidth)>(value.str().size()))
                                 {
                                     accumulator.width(fieldWidth);
                                     if (needsZeroPadding)
@@ -2054,6 +2054,7 @@ namespace TF
 
         ComparisonResult compareStrings(const String & stringOne, const String & stringTwo, void * context)
         {
+            (void)context;
             return stringOne.compare(stringTwo);
         }
 

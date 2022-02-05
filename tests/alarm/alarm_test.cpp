@@ -40,6 +40,7 @@ TEST(AlarmTest, SimpleAlarmTest)
     theCenter->setAlarm(
         "SimpleAlarm",
         [&alarmTriggered](const AlarmCenter::string_type & s) {
+            (void) s;
             alarmTriggered = true;
         },
         now + duration_cast<SystemDate::duration>(100ms));
@@ -55,6 +56,7 @@ TEST(AlarmTest, CancelTest)
     theCenter->setAlarm(
         "ExtendedAlarm",
         [&alarmTriggered](const AlarmCenter::string_type & s) {
+            (void)s;
             alarmTriggered = true;
         },
         now + duration_cast<SystemDate::duration>(2s));

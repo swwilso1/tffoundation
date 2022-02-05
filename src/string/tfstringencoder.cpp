@@ -35,6 +35,8 @@ namespace TF
         bool StringEncoder::doesRangeOfBytesLieInString(const char_type * start, size_type length,
                                                         const range_type & range)
         {
+            (void)start;
+
             if (range.position > length)
                 return false;
 

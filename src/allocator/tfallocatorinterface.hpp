@@ -60,7 +60,9 @@ namespace TF
             friend void * ::operator new(TF::Foundation::Size_t s) noexcept(false);
             friend void * ::operator new[](TF::Foundation::Size_t s) noexcept(false);
             friend void ::operator delete(void *) noexcept;
+            friend void ::operator delete(void *, TF::Foundation::Size_t s);
             friend void ::operator delete[](void *) noexcept;
+            friend void ::operator delete[](void *, TF::Foundation::Size_t s);
 
         public:
             /** @brief type used to calculate and store memory buffer lengths */

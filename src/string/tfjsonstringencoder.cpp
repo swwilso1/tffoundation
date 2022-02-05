@@ -108,7 +108,7 @@ namespace TF
                     break;
                 }
 
-                the_code += base * modifier;
+                the_code += static_cast<decltype(the_code)>(base * static_cast<decltype(base)>(modifier));
                 if (the_code > 0xFFFF)
                 {
                     throw std::range_error("calculateTheUPoint calculated a Unicode point value that "
@@ -220,7 +220,7 @@ namespace TF
                 // could also be a high surrogate from a surrogate pair. Check now to figure
                 // out which it is.
                 auto code = rval.second.m_code;
-                if ((code >= 0 && code <= 0xD7FF) || (code >= 0xE000 && code <= 0xFFFF))
+                if ((code <= 0xD7FF) || (code >= 0xE000 && code <= 0xFFFF))
                 {
                     return 6;
                 }
@@ -284,7 +284,7 @@ namespace TF
                 // could also be a high surrogate from a surrogate pair. Check now to figure
                 // out which it is.
                 auto code = rval.second.m_code;
-                if ((code >= 0 && code <= 0xD7FF) || (code >= 0xE000 && code <= 0xFFFF))
+                if ((code <= 0xD7FF) || (code >= 0xE000 && code <= 0xFFFF))
                 {
                     return code;
                 }
@@ -305,7 +305,8 @@ namespace TF
                     {
                         // use the UTF-16 encoder to convert the surrogate pair to a code value.
                         static UTF16StringEncoder utf16_encoder;
-                        return utf16_encoder.convertSurrogatePairToCodePoint(code, low_surrogate_rval.second.m_code);
+                        return utf16_encoder.convertSurrogatePairToCodePoint(static_cast<data_type>(code),
+                                                                             static_cast<data_type>(low_surrogate_rval.second.m_code));
                     }
 
                     throw std::runtime_error("bytesToExpectInJSONSequence encountered a mal-formed surrogate pair");

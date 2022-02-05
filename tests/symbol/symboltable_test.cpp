@@ -130,7 +130,7 @@ TEST(SymbolTableTest, AddAndGetTest)
     theTable.getValueForKey<SimpleType>("type", b);
     EXPECT_EQ(a.a, b.a);
 
-    ComplicatedType<float> c(3.2), e;
+    ComplicatedType<float> c(3.2f), e;
     theTable.setValueForKey<ComplicatedType<float>>("ctype", c);
     theTable.getValueForKey("ctype", e);
     EXPECT_TRUE(c == e);
@@ -231,7 +231,7 @@ TEST(SymbolTableTest, VectorTest)
     theTable.getValueForKey<std::vector<int>>("foo", bar);
 
     EXPECT_EQ(foo.size(), bar.size());
-    for (int i = 0; i < foo.size(); i++)
+    for (decltype(foo)::size_type i = 0; i < foo.size(); i++)
         EXPECT_EQ(foo[i], bar[i]);
 
     bar.emplace_back(4);
@@ -240,7 +240,7 @@ TEST(SymbolTableTest, VectorTest)
     theTable.setValueForKey<std::vector<int>>("foo", bar);
     theTable.getValueForKey<std::vector<int>>("foo", foo);
     EXPECT_EQ(foo.size(), bar.size());
-    for (int i = 0; i < foo.size(); i++)
+    for (decltype(foo)::size_type i = 0; i < foo.size(); i++)
         EXPECT_EQ(foo[i], bar[i]);
 }
 

@@ -76,12 +76,16 @@ namespace TF
 
         void ASCIIStringEncoder::writeByteOrderMark(char_type * string, size_type length)
         {
+            (void)string;
+            (void)length;
             return;
         }
 
         ASCIIStringEncoder::byte_order_query_type ASCIIStringEncoder::hasByteOrderMark(const char_type * string,
                                                                                        size_type length)
         {
+            (void)string;
+            (void)length;
             return std::make_pair(false, this->thisSystemEndianness());
         }
 
@@ -166,7 +170,7 @@ namespace TF
                                     break;
                                 }
 
-                                theCode += base * modifier;
+                                theCode += static_cast<decltype(theCode)>(base * static_cast<decltype(base)>(modifier));
                                 if (theCode >= 0x10FFFF)
                                     return false;
                             }
@@ -185,6 +189,8 @@ namespace TF
         std::pair<ASCIIStringEncoder::parent_type::unicode_point_type, ASCIIStringEncoder::size_type>
         ASCIIStringEncoder::nextCodePoint(const char_type * string, size_type length, Endian endian)
         {
+            (void)endian;
+
             parent_type::unicode_point_type theCode = 0;
 
             if (*string == '\\')
@@ -214,7 +220,7 @@ namespace TF
                                 return std::make_pair(theCode, 1);
                             }
 
-                            theCode += base * modifier;
+                            theCode += static_cast<decltype(theCode)>(base * static_cast<decltype(base)>(modifier));
                         }
 
                         return std::make_pair(theCode, 8);
@@ -229,6 +235,8 @@ namespace TF
         std::pair<ASCIIStringEncoder::parent_type::unicode_point_type, ASCIIStringEncoder::size_type>
         ASCIIStringEncoder::nextCode(const char_type * string, size_type length, Endian endian)
         {
+            (void)endian;
+
             if (length == 0)
                 throw std::runtime_error("nextCode unable to calculate next code point from zero length array");
             return std::make_pair(static_cast<parent_type::unicode_point_type>(*string), 1);
@@ -266,6 +274,8 @@ namespace TF
                                                                           parent_type::unicode_point_type code,
                                                                           Endian endian)
         {
+            (void)endian;
+
             if (this->bytesNeededForRepresentationOfCode(code) > length)
                 throw std::runtime_error("encodeCodePoint not given enough space to encode character");
 
@@ -339,7 +349,7 @@ namespace TF
                     theNext = this->nextCodePoint(tmp, tmpLength, thisEndian);
             }
 
-            return tmp - string;
+            return static_cast<size_type>(tmp - string);
         }
 
         ASCIIStringEncoder::size_type ASCIIStringEncoder::numberOfBytesToCaptureCharactersInRange(
@@ -744,6 +754,8 @@ namespace TF
             size_type substringLength, const char_type * replaceStringStart, size_type replaceStringLength,
             range_array_type & ranges)
         {
+            (void)replaceStringStart;
+
             size_type newsize = 0;
 
             if (substringLength > stringLength)
@@ -799,6 +811,8 @@ namespace TF
             size_type newStringLength, const char_type * replacementStringStart, size_type replacementStringLength,
             range_array_type & substringRanges)
         {
+            (void)newStringLength;
+
             bool endOfRanges = false;
 
             char_type * newStringTmp = newStringStart;
@@ -832,6 +846,8 @@ namespace TF
         ASCIIStringEncoder::parent_type::unicode_point_type ASCIIStringEncoder::correctValueForPlatform(
             const char_type * string, size_type length, Endian endian)
         {
+            (void)endian;
+            
             Endian thisEndian = this->thisSystemEndianness();
             std::pair<parent_type::unicode_point_type, size_type> theNext;
 

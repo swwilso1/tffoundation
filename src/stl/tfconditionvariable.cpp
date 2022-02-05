@@ -57,6 +57,7 @@ namespace TF
 
         std::ostream & operator<<(std::ostream & o, const std::condition_variable & c)
         {
+            (void)c;
             ClassFormatter * formatter = FormatterFactory::getFormatter();
             if (formatter != nullptr)
             {

@@ -88,7 +88,7 @@ namespace TF
                 {
                     auto poll_start = std::chrono::steady_clock::now();
 
-                    auto poll_api_result = poll(poll_array, handles.size(), milliseconds.count());
+                    auto poll_api_result = poll(poll_array, handles.size(), static_cast<int>(milliseconds.count()));
 
                     auto poll_end = std::chrono::steady_clock::now();
 

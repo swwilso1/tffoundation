@@ -40,7 +40,7 @@ namespace TF
             nanoseconds nanos = duration_cast<nanoseconds>(p.time_since_epoch());
             seconds secs = duration_cast<seconds>(nanos);
             std::time_t theTime = secs.count();
-            fractionOfSecond = nanos.count() % 1000000000;
+            fractionOfSecond = static_cast<decltype(fractionOfSecond)>(nanos.count() % 1000000000);
             struct tm * brokenDownTime = std::localtime(&theTime);
             if (brokenDownTime != nullptr)
             {

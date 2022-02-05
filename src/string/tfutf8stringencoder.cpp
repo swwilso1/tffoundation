@@ -177,6 +177,8 @@ namespace TF
         std::pair<UTF8StringEncoder::parent_type::unicode_point_type, UTF8StringEncoder::size_type>
         UTF8StringEncoder::nextCodePoint(const char_type * string, size_type length, Endian endian)
         {
+            (void)endian;
+
             size_type incrementValue = bytesToExpectInUTF8Sequence(string, length);
             parent_type::unicode_point_type theCode =
                 convertUTF8SequenceToUnicodePoint(reinterpret_cast<const data_type *>(string), incrementValue);
@@ -186,6 +188,8 @@ namespace TF
         std::pair<UTF8StringEncoder::parent_type::unicode_point_type, UTF8StringEncoder::size_type>
         UTF8StringEncoder::nextCode(const char_type * string, size_type length, Endian endian)
         {
+            (void)endian;
+
             if (length == 0)
                 throw std::runtime_error("nextCode cannot calculate next code point, length of data array is zero.");
             return std::make_pair(static_cast<parent_type::unicode_point_type>(*string), 1);
@@ -209,6 +213,8 @@ namespace TF
         UTF8StringEncoder::size_type UTF8StringEncoder::encodeCodePoint(char_type * string, size_type length,
                                                                         unicode_point_type code, Endian endian)
         {
+            (void)endian;
+
             // number values larger than 0x10FFFF have no mapping to UTF-8 characters (21-bit Unicode character space)
             if (code > 0x10FFFF)
                 throw std::range_error("encodeCodePoint given a value that lies outside "
@@ -228,17 +234,17 @@ namespace TF
             else if (code >= 0x80 && code <= 0x7FF)
             {
                 // 2-byte sequence
-                data_type byte1 = 0xC0 | (code >> 6);
-                data_type byte2 = 0x80 | (code & 0x3F);
+                auto byte1 = static_cast<data_type>(0xC0 | (code >> 6));
+                auto byte2 = static_cast<data_type>(0x80 | (code & 0x3F));
                 bytes.push_back(byte1);
                 bytes.push_back(byte2);
             }
             else if (code >= 0x800 && code <= 0xFFFF)
             {
                 // 3-byte sequence
-                data_type byte1 = 0xE0 | (code >> 12);
-                data_type byte2 = 0x80 | ((code & 0xFC0) >> 6);
-                data_type byte3 = 0x80 | (code & 0x3F);
+                auto byte1 = static_cast<data_type>(0xE0 | (code >> 12));
+                auto byte2 = static_cast<data_type>(0x80 | ((code & 0xFC0) >> 6));
+                auto byte3 = static_cast<data_type>(0x80 | (code & 0x3F));
                 bytes.push_back(byte1);
                 bytes.push_back(byte2);
                 bytes.push_back(byte3);
@@ -246,10 +252,10 @@ namespace TF
             else
             {
                 // 4-byte sequence
-                data_type byte1 = 0xF0 | (code >> 18);
-                data_type byte2 = 0x80 | ((code & 0x3F000) >> 12);
-                data_type byte3 = 0x80 | ((code & 0xFC0) >> 6);
-                data_type byte4 = 0x80 | (code & 0x3F);
+                auto byte1 = static_cast<data_type>(0xF0 | (code >> 18));
+                auto byte2 = static_cast<data_type>(0x80 | ((code & 0x3F000) >> 12));
+                auto byte3 = static_cast<data_type>(0x80 | ((code & 0xFC0) >> 6));
+                auto byte4 = static_cast<data_type>(0x80 | (code & 0x3F));
                 bytes.push_back(byte1);
                 bytes.push_back(byte2);
                 bytes.push_back(byte3);
@@ -258,7 +264,7 @@ namespace TF
 
             std::vector<data_type>::iterator iter;
             size_type i = 0;
-            data_type * tmp = reinterpret_cast<data_type *>(string);
+            auto * tmp = reinterpret_cast<data_type *>(string);
 
             for (iter = bytes.begin(); iter != bytes.end(); iter++, i++)
             {
@@ -797,14 +803,14 @@ namespace TF
                     // ASCII codes 97 - 122 are a - z.
                     if (code >= 97 && code <= 122)
                     {
-                        *(string + index) = code - 32;
+                        *(string + index) = static_cast<char_type>(code - 32);
                     }
                 }
                 if (convertToCase == StringCase::LowerCase)
                 {
                     // ASCII codes 65 - 90 are A - Z
                     if (code >= 65 && code <= 90)
-                        *(string + index) = code + 32;
+                        *(string + index) = static_cast<char_type>(code + 32);
                 }
             }
         }
@@ -814,6 +820,8 @@ namespace TF
             size_type substringLength, const char_type * replaceStringStart, size_type replaceStringLength,
             range_array_type & ranges)
         {
+            (void)replaceStringStart;
+
             size_type newsize = 0;
 
             if (substringLength > stringLength)
@@ -898,6 +906,8 @@ namespace TF
             size_type newStringLength, const char_type * replacementStringStart, size_type replacementStringLength,
             range_array_type & substringRanges)
         {
+            (void)newStringLength;
+
             bool endOfRanges = false;
 
             if (substringRanges.size() == 0)
@@ -931,6 +941,8 @@ namespace TF
         UTF8StringEncoder::parent_type::unicode_point_type UTF8StringEncoder::correctValueForPlatform(
             const char_type * string, size_type length, Endian endian)
         {
+            (void)endian;
+
             Endian thisEndian = this->thisSystemEndianness();
             std::pair<parent_type::unicode_point_type, size_type> theNext;
 
@@ -966,7 +978,7 @@ namespace TF
 
             auto value = *s;
 
-            if (value >= 0 && value <= 0x7F)
+            if (value <= 0x7F)
                 return 1;
             if (value >= 0xC2 && value <= 0xDF)
                 return 2;

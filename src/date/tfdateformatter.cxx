@@ -294,7 +294,7 @@ namespace TF
                 case SymbolSemantic::FractionalSecond:
                     {
                         auto theValue = symbol->convert(value);
-                        components.setFractionalSecond(theValue);
+                        components.setFractionalSecond(static_cast<size_type>(theValue));
                     }
                 default:
                     break;

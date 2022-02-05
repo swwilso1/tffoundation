@@ -221,7 +221,7 @@ TEST(StringTest, JSONStringConstructorTest)
     {
         s = String::initWithJSONEncodedUnicode("abc\\u238zdef\\u2231");
     }
-    catch (std::runtime_error)
+    catch (std::runtime_error & e)
     {}
 
     // init with an unfinished unicode char
@@ -229,7 +229,7 @@ TEST(StringTest, JSONStringConstructorTest)
     {
         s = String::initWithJSONEncodedUnicode("abc\\u238");
     }
-    catch (std::runtime_error)
+    catch (std::runtime_error & e)
     {}
 
     // init with a unicode surrogate pair
@@ -250,7 +250,7 @@ TEST(StringTest, JSONStringConstructorTest)
     {
         s = String::initWithJSONEncodedUnicode("abc\\ud83d\\u2231def");
     }
-    catch (std::runtime_error)
+    catch (std::runtime_error & e)
     {}
 
     // init with a missing high surrogate
@@ -258,7 +258,7 @@ TEST(StringTest, JSONStringConstructorTest)
     {
         s = String::initWithJSONEncodedUnicode("abc\\u2331\\ude00def");
     }
-    catch (std::runtime_error)
+    catch (std::runtime_error & e)
     {}
 
     // init with a \b

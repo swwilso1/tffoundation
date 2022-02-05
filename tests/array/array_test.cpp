@@ -45,7 +45,7 @@ TEST(ArrayTest, RawArrayConstructorTest)
 
     Array<int> b(a, 10);
 
-    for (int i = 0; i < 10; i++)
+    for (Array<int>::size_type i = 0; i < 10; i++)
         EXPECT_EQ(i, b[i]);
 }
 
@@ -67,14 +67,14 @@ TEST(ArrayTest, LargeSizeConstructorTest)
 TEST(ArrayTest, CopyConstructorTest)
 {
     Array<int> a(10);
-    for (int i = 0; i < 10; i++)
-        a[i] = i;
+    for (Array<int>::size_type i = 0; i < 10; i++)
+        a[i] = static_cast<int>(i);
 
     Array<int> b(a);
 
     EXPECT_EQ(10, b.size());
 
-    for (int i = 0; i < 10; i++)
+    for (Array<int>::size_type i = 0; i < 10; i++)
         EXPECT_EQ(i, b[i]);
 }
 
@@ -90,19 +90,19 @@ TEST(ArrayTest, AssignmentOperatorTest)
     Array<int> a(256);
 
     for (int i = 0; i < 256; i++)
-        a[i] = i;
+        a[static_cast<Array<int>::size_type>(i)] = i;
 
     Array<int> b(100);
 
     for (int i = 0; i < 100; i++)
-        b[i] = i * 2;
+        b[static_cast<Array<int>::size_type>(i)] = i * 2;
 
     b = a;
 
     EXPECT_NE(100, b.size());
     EXPECT_EQ(256, b.size());
 
-    for (int i = 0; i < 256; i++)
+    for (Array<int>::size_type i = 0; i < 256; i++)
         EXPECT_EQ(i, b[i]);
 }
 
@@ -111,7 +111,7 @@ Array<int> rvalueAssignmentOperatorTestHelper()
     Array<int> a(100);
 
     for (int i = 0; i < 100; i++)
-        a[i] = i * 2;
+        a[static_cast<Array<int>::size_type>(i)] = i * 2;
 
     return a;
 }
@@ -121,13 +121,13 @@ TEST(ArrayTest, RValueAssignmentOperatorTest)
     Array<int> a(200);
 
     for (int i = 0; i < 200; i++)
-        a[i] = i * 8;
+        a[static_cast<Array<int>::size_type>(i)] = i * 8;
 
     a = rvalueAssignmentOperatorTestHelper();
 
     EXPECT_EQ(100, a.size());
 
-    for (int i = 0; i < 100; i++)
+    for (Array<int>::size_type i = 0; i < 100; i++)
         EXPECT_EQ(i * 2, a[i]);
 }
 
@@ -136,7 +136,7 @@ TEST(ArrayTest, NonConstIteratorTest)
     Array<int> a(200);
 
     for (int i = 0; i < 200; i++)
-        a[i] = i;
+        a[static_cast<Array<int>::size_type>(i)] = i;
 
     int i = 0;
     for (auto iter = a.begin(); iter != a.end(); iter++, i++)
@@ -148,7 +148,7 @@ TEST(ArrayTest, NonConstIteratorAutoTest)
     Array<double> a(300);
 
     for (int i = 0; i < 300; i++)
-        a[i] = static_cast<double>(i);
+        a[static_cast<Array<int>::size_type>(i)] = static_cast<double>(i);
 
     int i = 0;
     for (auto e : a)
@@ -163,9 +163,9 @@ TEST(ArrayTest, AtTest)
     Array<char> a(20);
 
     for (int i = 0; i < 20; i++)
-        a[i] = static_cast<char>(i);
+        a[static_cast<Array<char>::size_type>(i)] = static_cast<char>(i);
 
-    for (int i = 0; i < 20; i++)
+    for (Array<char>::size_type i = 0; i < 20; i++)
         EXPECT_EQ(i, a.at(i));
 }
 
@@ -174,7 +174,7 @@ TEST(ArrayTest, FrontTest)
     Array<char> a(25);
 
     for (int i = 0; i < 25; i++)
-        a[i] = static_cast<char>(i);
+        a[static_cast<Array<char>::size_type>(i)] = static_cast<char>(i);
 
     EXPECT_EQ(0, a.front());
 }
@@ -184,7 +184,7 @@ TEST(ArrayTest, BackTest)
     Array<char> a(25);
 
     for (int i = 0; i < 25; i++)
-        a[i] = static_cast<char>(i);
+        a[static_cast<Array<char>::size_type>(i)] = static_cast<char>(i);
 
     EXPECT_EQ(24, a.back());
 }
@@ -194,7 +194,7 @@ TEST(ArrayTest, DataTest)
     Array<char> a(25);
 
     for (int i = 0; i < 25; i++)
-        a[i] = static_cast<char>(i);
+        a[static_cast<Array<char>::size_type>(i)] = static_cast<char>(i);
 
     char * theData = a.data();
 
@@ -226,7 +226,7 @@ TEST(ArrayTest, FillTest)
 
     d.fill(3.14);
 
-    for (int i = 0; i < 5000; i++)
+    for (Array<double>::size_type i = 0; i < 5000; i++)
         EXPECT_EQ(3.14, d[i]);
 }
 
@@ -236,20 +236,20 @@ TEST(ArrayTest, SwapTest)
     Array<int> b(100);
 
     for (int i = 0; i < 40; i++)
-        a[i] = i;
+        a[static_cast<Array<int>::size_type>(i)] = i;
 
     for (int i = 0; i < 100; i++)
-        b[i] = i;
+        b[static_cast<Array<int>::size_type>(i)] = i;
 
     a.swap(b);
 
     EXPECT_EQ(100, a.size());
     EXPECT_EQ(40, b.size());
 
-    for (int i = 0; i < 100; i++)
+    for (Array<int>::size_type i = 0; i < 100; i++)
         EXPECT_EQ(i, a[i]);
 
-    for (int i = 0; i < 40; i++)
+    for (Array<int>::size_type i = 0; i < 40; i++)
         EXPECT_EQ(i, b[i]);
 }
 

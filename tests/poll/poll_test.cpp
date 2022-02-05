@@ -42,6 +42,7 @@ TEST(PollTest, BasicTest)
     auto handle = FileHandle::fileHandleForWritingAtPath(file_name, true);
     auto descriptor = handle.fileDescriptor();
     poller.add_handle(descriptor, PollEvent::Write, [&triggered](int h) {
+        (void)h;
         triggered = true;
     });
     poller.wait_for(secs);
@@ -59,6 +60,7 @@ TEST(PollTest, BasicTest)
     auto descriptor2 = handle2.fileDescriptor();
     triggered = false;
     poller.add_handle(descriptor2, PollEvent::Read, [&triggered](int h) {
+        (void)h;
         triggered = true;
     });
     poller.wait_for(secs);
@@ -84,9 +86,11 @@ TEST(PollTest, MultiHandleTest)
     auto descriptor1 = handle1.fileDescriptor();
     auto descriptor2 = handle2.fileDescriptor();
     poller.add_handle(descriptor1, PollEvent::Write, [&triggered1](int h) {
+        (void)h;
         triggered1 = true;
     });
     poller.add_handle(descriptor2, PollEvent::Write, [&triggered2](int h) {
+        (void)h;
         triggered2 = true;
     });
     poller.wait_for(secs);
@@ -110,9 +114,11 @@ TEST(PollTest, MultiHandleTest)
     triggered1 = false;
     triggered2 = false;
     poller.add_handle(descriptor1, PollEvent::Read, [&triggered1](int h) {
+        (void)h;
         triggered1 = true;
     });
     poller.add_handle(descriptor2, PollEvent::Read, [&triggered2](int h) {
+        (void)h;
         triggered2 = true;
     });
     poller.wait_for(secs);

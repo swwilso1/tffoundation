@@ -150,11 +150,13 @@ namespace TF
 
         void * AllocatorInterface::operator new(size_type s, void * p)
         {
+            (void)s;
             return p;
         }
 
         void * AllocatorInterface::operator new[](size_type s, void * p)
         {
+            (void)s;
             return p;
         }
 
@@ -168,9 +170,17 @@ namespace TF
             MemoryBlockDeallocator(p);
         }
 
-        void AllocatorInterface::operator delete(void * p, void * q) {}
+        void AllocatorInterface::operator delete(void * p, void * q)
+        {
+            (void)p;
+            (void)q;
+        }
 
-        void AllocatorInterface::operator delete[](void * p, void * q) {}
+        void AllocatorInterface::operator delete[](void * p, void * q)
+        {
+                (void)p;
+                (void)q;
+        }
 
         AllocatorInterface::allocator_type AllocatorInterface::getBlockAllocator(void)
         {

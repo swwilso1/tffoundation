@@ -272,7 +272,7 @@ namespace TF
                 const unsigned int LEAD_OFFSET = 0xD800 - (0x10000 >> 10);
 
                 // computations
-                data_type lead = LEAD_OFFSET + (code >> 10);
+                data_type lead = static_cast<data_type>(LEAD_OFFSET + (code >> 10));
                 data_type trail = 0xDC00 + (code & 0x3FF);
 
                 if (stringLength < 2)
@@ -288,7 +288,7 @@ namespace TF
                 if (stringLength < 1)
                     throw std::runtime_error("encodeCodePoint not given enough space to encode character");
 
-                *tmp = this->correctUTF16CodeForPlatform(code, endian);
+                *tmp = this->correctUTF16CodeForPlatform(static_cast<data_type>(code), endian);
                 theBytesUsed = sizeof(data_type);
             }
 
@@ -321,7 +321,7 @@ namespace TF
                     theNext = this->nextCodePoint(tmp, stringLength, stringQueryResult.second);
             }
 
-            return tmp - string;
+            return static_cast<size_type>(tmp - string);
         }
 
         UTF16StringEncoder::size_type UTF16StringEncoder::numberOfBytesToCaptureCharactersInRange(
@@ -851,6 +851,8 @@ namespace TF
             size_type newStringLength, const char_type * replacementStringStart, size_type replacementStringLength,
             range_array_type & substringRanges)
         {
+            (void)newStringLength;
+
             bool endOfRanges = false;
 
             if (substringRanges.size() == 0)
@@ -969,9 +971,10 @@ namespace TF
              */
 
             // constants
-            const parent_type::unicode_point_type SURROGATE_OFFSET = 0x10000 - (0xD800 << 10) - 0xDC00;
+            const auto SURROGATE_OFFSET = static_cast<parent_type::unicode_point_type>(0x10000 - (0xD800 << 10) - 0xDC00);
 
-            parent_type::unicode_point_type codePoint = (highSurrogate << 10) + lowSurrogate + SURROGATE_OFFSET;
+            auto codePoint = static_cast<parent_type::unicode_point_type>(
+                static_cast<unsigned int>((highSurrogate << 10) + lowSurrogate) + SURROGATE_OFFSET);
             return codePoint;
         }
 

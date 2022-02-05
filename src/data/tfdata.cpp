@@ -293,7 +293,7 @@ namespace TF
         Data::byte_type Data::operator[](size_type i) const
         {
             const char * theBytes = this->bytes();
-            return theBytes[i];
+            return static_cast<byte_type>(theBytes[i]);
         }
 
         Data::size_type Data::length() const

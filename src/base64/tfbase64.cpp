@@ -110,31 +110,31 @@ namespace TF
 
             for (data_type::size_type i = 0; i < dataCopy.length(); i++)
             {
-                holder = bytes[i++];
+                holder = static_cast<decltype(holder)>(bytes[i++]);
                 holder <<= 8;
 
-                holder |= bytes[i++];
+                holder |= static_cast<decltype(holder)>(bytes[i++]);
                 holder <<= 8;
 
-                holder |= bytes[i];
+                holder |= static_cast<decltype(holder)>(bytes[i]);
 
                 auto value = (holder >> 18) & sBitMask;
-                auto encodedValue = sEncodingMap[value];
+                auto encodedValue = sEncodingMap[static_cast<int>(value)];
 
                 s += encodedValue;
 
                 value = (holder >> 12) & sBitMask;
-                encodedValue = sEncodingMap[value];
+                encodedValue = sEncodingMap[static_cast<int>(value)];
 
                 s += encodedValue;
 
                 value = (holder >> 6) & sBitMask;
-                encodedValue = sEncodingMap[value];
+                encodedValue = sEncodingMap[static_cast<int>(value)];
 
                 s += encodedValue;
 
                 value = holder & sBitMask;
-                encodedValue = sEncodingMap[value];
+                encodedValue = sEncodingMap[static_cast<int>(value)];
 
                 s += encodedValue;
             }
@@ -164,31 +164,31 @@ namespace TF
             {
                 auto code = s[i++];
                 padCharsFound += code == sPadChar ? 1 : 0;
-                auto value = code == sPadChar ? 0 : sDecodingMap[code];
-                decodeHelper = value;
+                auto value = code == sPadChar ? 0 : sDecodingMap[static_cast<char>(code)];
+                decodeHelper = static_cast<decltype(decodeHelper)>(value);
 
                 code = s[i++];
                 padCharsFound += code == sPadChar ? 1 : 0;
-                value = code == sPadChar ? 0 : sDecodingMap[code];
-                decodeHelper = (decodeHelper << 6) | value;
+                value = code == sPadChar ? 0 : sDecodingMap[static_cast<char>(code)];
+                decodeHelper = (decodeHelper << 6) | static_cast<decltype(decodeHelper)>(value);
 
                 code = s[i++];
                 padCharsFound += code == sPadChar ? 1 : 0;
-                value = code == sPadChar ? 0 : sDecodingMap[code];
-                decodeHelper = (decodeHelper << 6) | value;
+                value = code == sPadChar ? 0 : sDecodingMap[static_cast<char>(code)];
+                decodeHelper = (decodeHelper << 6) | static_cast<decltype(decodeHelper)>(value);
 
                 code = s[i];
                 padCharsFound += code == sPadChar ? 1 : 0;
-                value = code == sPadChar ? 0 : sDecodingMap[code];
-                decodeHelper = (decodeHelper << 6) | value;
+                value = code == sPadChar ? 0 : sDecodingMap[static_cast<char>(code)];
+                decodeHelper = (decodeHelper << 6) | static_cast<decltype(decodeHelper)>(value);
 
-                char byte = (decodeHelper >> 16) & sByteMask;
+                char byte = static_cast<char>((decodeHelper >> 16) & sByteMask);
                 d.append(&byte, 1);
 
-                byte = (decodeHelper >> 8) & sByteMask;
+                byte = static_cast<char>((decodeHelper >> 8) & sByteMask);
                 d.append(&byte, 1);
 
-                byte = decodeHelper & sByteMask;
+                byte = static_cast<char>(decodeHelper & sByteMask);
                 d.append(&byte, 1);
             }
 
