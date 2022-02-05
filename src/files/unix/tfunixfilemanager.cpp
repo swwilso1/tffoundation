@@ -309,18 +309,19 @@ namespace TF
             if (theProperties.type == FileType::Link && theProperties.size > 0)
             {
                 // We want to read the target of the link.
-                char buffer[theProperties.size + 1];
+                std::unique_ptr<char> buffer = std::make_unique<char>(theProperties.size + 1);
 
-                auto result = readlink(pathStr.get(), buffer, theProperties.size);
+                auto readlink_result = readlink(pathStr.get(), buffer.get(), theProperties.size);
 
-                if (result < 0)
+                if (readlink_result < 0)
                 {
                     throw std::system_error{errno, std::system_category(), "Unable to read link target"};
                 }
 
-                buffer[theProperties.size] = '\0';
+                auto the_buffer = buffer.get();
+                *(the_buffer + theProperties.size) = '\0';
 
-                theProperties.linkTarget = buffer;
+                theProperties.linkTarget = buffer.get();
             }
 
             return theProperties;
