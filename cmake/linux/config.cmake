@@ -21,7 +21,7 @@ mark_as_advanced(
     FOUNDATION_STATIC_LIBRARY_NAME
 )
 
-list(APPEND LINUX_COMPILE_FLAGS -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion)
+list(APPEND LINUX_COMPILE_FLAGS -Werror -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion)
 #list(APPEND LINUX_COMPILE_FLAGS -Werror -pedantic-errors)
 
 if (BUILD_PROFILE)
