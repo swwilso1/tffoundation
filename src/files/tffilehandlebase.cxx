@@ -110,11 +110,15 @@ namespace TF
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>::FileHandleBase(const FileHandleBase & fh)
-        {}
+        {
+            (void)fh;
+        }
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>::FileHandleBase(FileHandleBase && fh)
-        {}
+        {
+            (void)fh;
+        }
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>::~FileHandleBase()
@@ -123,12 +127,14 @@ namespace TF
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor> & FileHandleBase<Handle, Descriptor>::operator=(const FileHandleBase & fh)
         {
+            (void)fh;
             return *this;
         }
 
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor> & FileHandleBase<Handle, Descriptor>::operator=(FileHandleBase && fh)
         {
+            (void)fh;
             return *this;
         }
 
@@ -158,13 +164,16 @@ namespace TF
         typename FileHandleBase<Handle, Descriptor>::data_type FileHandleBase<Handle, Descriptor>::readDataOfLength(
             size_type length)
         {
+            (void)length;
             data_type d;
             return d;
         }
 
         template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::writeData(const data_type & d)
-        {}
+        {
+            (void)d;
+        }
 
         template<class Handle, class Descriptor>
         typename FileHandleBase<Handle, Descriptor>::size_type FileHandleBase<Handle, Descriptor>::offsetInFile()
@@ -178,7 +187,9 @@ namespace TF
 
         template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::seekToFileOffset(size_type offset)
-        {}
+        {
+            (void)offset;
+        }
 
         template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::closeFile()
@@ -186,7 +197,9 @@ namespace TF
 
         template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::truncateFileAtOffset(size_type offset)
-        {}
+        {
+            (void)offset;
+        }
 
         template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::setAutoClose(bool autoClose)

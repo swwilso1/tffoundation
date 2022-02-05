@@ -66,7 +66,7 @@ void operator delete(void * p) noexcept
     }
 }
 
-void operator delete(void * p, TF::Foundation::Size_t s)
+void operator delete(void * p, TF::Foundation::Size_t s) noexcept
 {
     (void)s;
 
@@ -94,7 +94,7 @@ void operator delete[](void * p) noexcept
     }
 }
 
-void operator delete[](void * p, TF::Foundation::Size_t s)
+void operator delete[](void * p, TF::Foundation::Size_t s) noexcept
 {
     (void)s;
     if (p == nullptr)

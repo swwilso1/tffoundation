@@ -84,6 +84,7 @@ namespace TF
             static handle_list_type & wait_for(const std::chrono::duration<Rep, Period> & duration,
                                                handle_list_type & handles)
             {
+                (void)duration;
                 return handles;
             }
 
@@ -100,6 +101,7 @@ namespace TF
             static handle_list_type & wait_until(const std::chrono::time_point<Clock, Duration> & abs_time,
                                                  handle_list_type & handles)
             {
+                (void)abs_time;
                 return handles;
             }
         };
