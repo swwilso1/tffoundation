@@ -10,3 +10,9 @@ build_and_run_test(
         LogTest
         tests/log/log_test.cpp
 )
+
+build_and_run_test(
+    logrecord_test
+    LogRecordTest
+    tests/log/logrecord_test.cpp
+)

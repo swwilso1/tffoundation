@@ -46,6 +46,7 @@ SOFTWARE.
 #include "tfthreadsafeunorderedmap.hxx"
 #include "tfthreadcontroller.hpp"
 #include "tflog.hpp"
+#include "tflogrecord.hpp"
 #include "tfmultivalue.hpp"
 #include "tfnotification.hpp"
 #include "tfnotificationcenter.hpp"
