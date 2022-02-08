@@ -41,50 +41,53 @@ namespace TF
     namespace Foundation
     {
 
-        class IVal
+        namespace values
         {
-        public:
-            virtual ~IVal() {}
-            virtual IVal * copy() const
+            class IVal
             {
-                return nullptr;
-            }
-            virtual bool operator==(const IVal & v) const
-            {
-                (void)v;
-                return false;
-            }
-        };
-
-        template<typename T>
-        class AVal : public IVal
-        {
-            static_assert(Traits::has_operator_equal<T>::value, "Type T must support comparison");
-
-        public:
-            using value_type = T;
-
-            AVal() : value{} {}
-
-            IVal * copy() const override
-            {
-                AVal * new_val = new AVal;
-                new_val->value = value;
-                return new_val;
-            }
-
-            bool operator==(const IVal & v) const override
-            {
-                const AVal * other_val = dynamic_cast<const AVal *>(&v);
-                if (other_val)
+            public:
+                virtual ~IVal() {}
+                virtual IVal * copy() const
                 {
-                    return value == other_val->value;
+                    return nullptr;
                 }
-                return false;
-            }
+                virtual bool operator==(const IVal & v) const
+                {
+                    (void)v;
+                    return false;
+                }
+            };
 
-            value_type value;
-        };
+            template<typename T>
+            class AVal : public IVal
+            {
+                static_assert(Traits::has_operator_equal<T>::value, "Type T must support comparison");
+
+            public:
+                using value_type = T;
+
+                AVal() : value{} {}
+
+                IVal * copy() const override
+                {
+                    AVal * new_val = new AVal;
+                    new_val->value = value;
+                    return new_val;
+                }
+
+                bool operator==(const IVal & v) const override
+                {
+                    const AVal * other_val = dynamic_cast<const AVal *>(&v);
+                    if (other_val)
+                    {
+                        return value == other_val->value;
+                    }
+                    return false;
+                }
+
+                value_type value;
+            };
+        } // namespace values
 
         class MultiValue
         {
@@ -94,7 +97,7 @@ namespace TF
             template<typename T>
             MultiValue(const T & t) : m_ival{}
             {
-                auto thing = std::make_unique<AVal<T>>();
+                auto thing = std::make_unique<values::AVal<T>>();
                 thing->value = t;
                 m_ival = std::move(thing);
             }
@@ -102,7 +105,7 @@ namespace TF
             template<typename T>
             MultiValue(T t[]) : m_ival{}
             {
-                auto thing = std::make_unique<AVal<T *>>();
+                auto thing = std::make_unique<values::AVal<T *>>();
                 thing->value = t;
                 m_ival = std::move(thing);
             }
@@ -139,6 +142,15 @@ namespace TF
                 return *this;
             }
 
+            template<typename T>
+            MultiValue & operator=(const T & t)
+            {
+                auto thing = std::make_unique<values::AVal<T>>();
+                thing->value = t;
+                m_ival = std::move(thing);
+                return *this;
+            }
+
             bool operator==(const MultiValue & v) const
             {
                 if (this == &v)
@@ -162,7 +174,7 @@ namespace TF
             template<typename T>
             bool is_type() const
             {
-                AVal<T> * thing = dynamic_cast<AVal<T> *>(m_ival.get());
+                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
                 return thing != nullptr;
             }
 
@@ -195,7 +207,7 @@ namespace TF
             template<typename T>
             std::optional<T> get() const
             {
-                AVal<T> * thing = dynamic_cast<AVal<T> *>(m_ival.get());
+                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
                 if (thing)
                 {
                     return std::optional<T>{thing->value};
@@ -204,7 +216,7 @@ namespace TF
             }
 
         public:
-            using ival_ptr = std::unique_ptr<IVal>;
+            using ival_ptr = std::unique_ptr<values::IVal>;
 
             ival_ptr m_ival;
         };

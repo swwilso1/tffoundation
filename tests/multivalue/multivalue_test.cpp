@@ -179,3 +179,19 @@ TEST(MultiValue, CustomTypes)
     MultiValue v{s};
     EXPECT_EQ(v, s);
 }
+
+TEST(MultiValue, AssignmentOperatorTests)
+{
+    MultiValue v{1};
+    EXPECT_TRUE(v.is_integer());
+    v = 10.023;
+    EXPECT_TRUE(v.is_real());
+    v = String{"Hello World"};
+    EXPECT_TRUE(v.is_string());
+    v = std::unordered_map<int, float>{};
+    auto result = v.is_type<std::unordered_map<int, float>>();
+    EXPECT_TRUE(result);
+    v = std::vector<MultiValue>{};
+    result = v.is_type<std::vector<MultiValue>>();
+    EXPECT_TRUE(result);
+}
