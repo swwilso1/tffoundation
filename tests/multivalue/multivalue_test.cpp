@@ -167,6 +167,10 @@ struct Simple
     int a;
     double d;
 
+    Simple() : a{}, d{} {}
+
+    Simple(int ival, double dval) : a{ival}, d{dval} {}
+
     bool operator==(const Simple & s) const
     {
         return a == s.a && d == s.d;
@@ -194,4 +198,18 @@ TEST(MultiValue, AssignmentOperatorTests)
     v = std::vector<MultiValue>{};
     result = v.is_type<std::vector<MultiValue>>();
     EXPECT_TRUE(result);
+}
+
+TEST(MultiValue, DereferenceTests)
+{
+    MultiValue v{};
+    v = Simple{1, 2.3};
+    EXPECT_EQ(v.pointer<Simple>()->a, 1);
+
+    MultiValue q{10};
+    int i = q;
+    EXPECT_EQ(i, 10);
+    double d{10.1};
+    EXPECT_ANY_THROW(d = q);
+    EXPECT_NE(d, 10.1);
 }

@@ -172,6 +172,62 @@ namespace TF
             }
 
             template<typename T>
+            T * pointer()
+            {
+                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+                if (thing)
+                {
+                    return &thing->value;
+                }
+                throw std::runtime_error{"type not convertible to T"};
+            }
+
+            template<typename T>
+            const T * pointer() const
+            {
+                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+                if (thing)
+                {
+                    return &thing->value;
+                }
+                throw std::runtime_error{"type not convertible to T"};
+            }
+
+            template<typename T>
+            T & reference()
+            {
+                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+                if (thing)
+                {
+                    return thing->value;
+                }
+                throw std::runtime_error{"type not convertible to T"};
+            }
+
+            template<typename T>
+            const T & reference() const
+            {
+                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+                if (thing)
+                {
+                    return thing->value;
+                }
+                throw std::runtime_error{"type not convertible to T"};
+            }
+
+            template<typename T>
+            operator T()
+            {
+                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+                if (thing)
+                {
+                    return thing->value;
+                }
+                throw std::runtime_error{"type not convertible to T"};
+                return thing->value;
+            }
+
+            template<typename T>
             bool is_type() const
             {
                 values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
