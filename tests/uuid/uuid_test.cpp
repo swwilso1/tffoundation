@@ -24,8 +24,9 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include "TFFoundation.hpp"
+#include <unordered_map>
 #include "gtest/gtest.h"
+#include "TFFoundation.hpp"
 
 using namespace TF::Foundation;
 
@@ -125,4 +126,19 @@ TEST(UUIDTest, FromStringTest)
     auto good_uuid = UUID::fromString("943CD73D-6A1D-4752-8901-0E34A38C824A");
     EXPECT_TRUE(good_uuid);
     EXPECT_EQ(good_uuid, "943CD73D-6A1D-4752-8901-0E34A38C824A");
+}
+
+TEST(UUIDTest, MapKeyTest)
+{
+    std::unordered_map<UUID, int> the_map{};
+    auto uuid_worked = UUID::fromString("943CD73D-6A1D-4752-8901-0E34A38C824A");
+    EXPECT_TRUE(uuid_worked);
+    the_map.insert(std::make_pair(uuid_worked.value(), 10));
+
+    auto other_uuid_worked = UUID::fromString("9A0D4B3A-4740-4CB6-ADCC-290EEA4A5197");
+    EXPECT_TRUE(other_uuid_worked);
+    the_map.insert(std::make_pair(other_uuid_worked.value(), 2));
+
+    EXPECT_EQ(the_map.at(uuid_worked.value()), 10);
+    EXPECT_EQ(the_map.at(other_uuid_worked.value()), 2);
 }

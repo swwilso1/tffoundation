@@ -81,6 +81,8 @@ namespace TF
             UUID(tfuuid_t uid);
 
             tfuuid_t m_theUUID;
+
+            friend std::hash<UUID>;
         };
 
         std::ostream & operator<<(std::ostream & o, const UUID & id);
@@ -88,5 +90,25 @@ namespace TF
     } // namespace Foundation
 
 } // namespace TF
+
+namespace std
+{
+    template<>
+    struct hash<TF::Foundation::UUID>
+    {
+        typedef TF::Foundation::UUID argument_type;
+        typedef std::size_t result_type;
+        result_type operator()(argument_type const & s) const noexcept
+        {
+            auto bytes = reinterpret_cast<const unsigned char *>(s.m_theUUID);
+            result_type hash = 7;
+            for (std::size_t i = 0; i < sizeof(s.m_theUUID); i++)
+            {
+                hash = hash * 31 + static_cast<result_type>(*(bytes + i));
+            }
+            return hash;
+        }
+    };
+} // namespace std
 
 #endif // TFUUID_HPP
