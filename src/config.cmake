@@ -24,6 +24,7 @@ include(src/poll/config.cmake)
 include(src/stl/config.cmake)
 include(src/string/config.cmake)
 include(src/symbol/config.cmake)
+include(src/template/config.cmake)
 include(src/thread/config.cmake)
 include(src/uuid/config.cmake)
 
@@ -47,6 +48,7 @@ include_directories(
     src/stl
     src/string
     src/symbol
+    src/template
     src/thread
     src/uuid
     "${GENERATED_SOURCES_DIR}"
