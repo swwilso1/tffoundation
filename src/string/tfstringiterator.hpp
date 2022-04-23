@@ -87,7 +87,7 @@ namespace TF
             /** @brief pre-increment operator */
             StringIterator & operator++();
 
-            /** @brief post-increment opewrator */
+            /** @brief post-increment operator */
             StringIterator operator++(int);
 
             /** @brief dereference operator */
