@@ -13,6 +13,7 @@ include(src/commandline/config.cmake)
 include(src/numerics/config.cmake)
 include(src/data/config.cmake)
 include(src/date/config.cmake)
+include(src/defer/config.cmake)
 include(src/environment/config.cmake)
 include(src/files/config.cmake)
 include(src/format/config.cmake)
@@ -36,6 +37,7 @@ include_directories(
     src/commandline
     src/data
     src/date
+    src/defer
     src/environment
     src/files
     src/format
