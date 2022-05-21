@@ -107,7 +107,7 @@ namespace TF
             std::unique_ptr<char> m_meter{};
 
             /**
-             * @brief helper method to intialize the ProgressBar object.
+             * @brief helper method to initialize the ProgressBar object.
              * @param width the width of the bar in characters.
              *
              * Used in the class constructors.
