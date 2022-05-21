@@ -25,13 +25,15 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFPROGRESSBAR_HPP
-#define TFPROGRESSBAR_HPP
+#ifndef TFPROGRESSBAR_HXX
+#define TFPROGRESSBAR_HXX
 
 #define NEEDS_CSTDINT
+#define NEEDS_IOMANIP
 #define NEEDS_OSTREAM
 #define NEEDS_MEMORY
 #define NEEDS_MUTEX
+#define NEEDS_TYPE_TRAITS
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -49,23 +51,30 @@ namespace TF
          *
          * The ProgressBar methods are safe to invoke from multiple threads.
          */
+        template<typename INTEGER, typename = std::enable_if_t<std::is_integral<INTEGER>::value>>
         class ProgressBar : public AllocatorInterface
         {
         public:
-            using size_type = uint32_t;
+            using size_type = INTEGER;
 
             /**
              * @brief constructor that takes the bar width parameter
              * @param width the length of the progress bar in characters
              */
-            explicit ProgressBar(size_type width);
+            explicit ProgressBar(size_type width) : m_width(width)
+            {
+                init(width);
+            }
 
             /**
              * @brief constructor that takes the bar width parameter and the total value.
              * @param width the width of the progress bar in characters
              * @param total the total number of items to track with the progress bar.
              */
-            ProgressBar(size_type width, size_type total);
+            ProgressBar(size_type width, size_type total) : m_width{width}, m_total{total}
+            {
+                init(width);
+            }
 
             /**
              * @brief method to increment the tracked progress value by 1.
@@ -94,7 +103,34 @@ namespace TF
              * When @e force_draw is false, the method will only actually draw the progress if the
              * bar progress has increased by a percentage point.
              */
-            void draw(std::ostream & o, bool force_draw = false);
+            void draw(std::ostream & o, bool force_draw = false)
+            {
+                lock_type lock(m_mutex);
+
+                if (m_current > m_total)
+                {
+                    m_current = m_total;
+                }
+
+                size_type percent =
+                    static_cast<size_type>(static_cast<float>(m_current) / static_cast<float>(m_total) * 100.0);
+
+                if (percent > m_past_percent || force_draw)
+                {
+                    size_type previous_length = calculate_length(m_past_percent);
+                    size_type new_length = calculate_length(percent);
+
+                    for (size_type i = previous_length; i < new_length; i++)
+                    {
+                        *(m_meter.get() + i) = '=';
+                    }
+
+                    o << "\r"
+                      << "[" << m_meter.get() << "] " << std::setw(3) << std::right << percent << "%" << std::flush;
+                }
+
+                m_past_percent = percent;
+            }
 
         private:
             using lock_type = std::lock_guard<std::mutex>;
@@ -112,7 +148,12 @@ namespace TF
              *
              * Used in the class constructors.
              */
-            void init(size_type width);
+            void init(size_type width)
+            {
+                m_meter = std::make_unique<char>(width + 1);
+                std::memset(m_meter.get(), '.', sizeof(char) * static_cast<size_t>(width));
+                *(m_meter.get() + width) = '\0';
+            }
 
             /**
              * @brief helper method to calculate the length of the bar given
@@ -121,11 +162,14 @@ namespace TF
              * @return return the number of characters of progress bar that
              * represent the percentage based on the width of the progress bar.
              */
-            size_type calculate_length(size_type percent);
+            size_type calculate_length(size_type percent)
+            {
+                return static_cast<size_type>(percent * m_width / 100.0);
+            }
         };
 
     } // namespace Foundation
 
 } // namespace TF
 
-#endif // TFPROGRESSBAR_HPP
+#endif // TFPROGRESSBAR_HXX

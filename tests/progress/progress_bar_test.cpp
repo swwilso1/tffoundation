@@ -32,12 +32,14 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
+using progress_bar_type = ProgressBar<uint32_t>;
+
 TEST(ProgressBar, compile_test)
 {
-    const ProgressBar::size_type total = 32768;
-    ProgressBar bar(40, total);
+    const progress_bar_type::size_type total = 32768;
+    progress_bar_type bar(40, total);
 
-    for (ProgressBar::size_type i = 0; i < total; i++)
+    for (progress_bar_type::size_type i = 0; i < total; i++)
     {
         bar.increment();
         bar.draw(std::cout);

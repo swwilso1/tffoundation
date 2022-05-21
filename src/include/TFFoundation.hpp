@@ -79,5 +79,5 @@ SOFTWARE.
 #    endif
 #endif
 #include "tfpoll.hpp"
-#include "tfprogressbar.hpp"
+#include "tfprogressbar.hxx"
 #include "tfcrtp.hxx"
