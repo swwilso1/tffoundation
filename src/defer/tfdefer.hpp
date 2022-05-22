@@ -39,13 +39,24 @@ namespace TF
     namespace Foundation
     {
 
+        /**
+         * Defer provides a mechanism to execute arbitrary code when the
+         * defer object goes out of scope.
+         */
         class Defer : public AllocatorInterface
         {
         public:
             using deferred_function = std::function<void(void)>;
 
+            /**
+             * @brief constructor that takes a defer function.
+             * @param f the defer function
+             */
             explicit Defer(deferred_function f) : m_deferred_function(f) {}
 
+            /**
+             * @brief destructor that executes the defer function.
+             */
             ~Defer()
             {
                 m_deferred_function();
