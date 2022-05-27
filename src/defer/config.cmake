@@ -11,5 +11,6 @@ list(APPEND FOUNDATION_HEADER_FILES
 
 
 list(APPEND FOUNDATION_SOURCE_FILES
+        src/defer/tfdefer.cpp
         src/defer/tfdefer.hpp
         )

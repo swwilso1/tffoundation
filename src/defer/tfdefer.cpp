@@ -25,13 +25,7 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFDEFER_HPP
-#define TFDEFER_HPP
-
-#define NEEDS_FUNCTIONAL
-#include "tfheaders.hpp"
-#include "tftypes.hpp"
-#include "tfallocator.hpp"
+#include "tfdefer.hpp"
 
 namespace TF
 {
@@ -39,32 +33,13 @@ namespace TF
     namespace Foundation
     {
 
-        /**
-         * Defer provides a mechanism to execute arbitrary code when the
-         * defer object goes out of scope.
-         */
-        class Defer : public AllocatorInterface
+        Defer::Defer(deferred_function f) : m_deferred_function(f) {}
+
+        Defer::~Defer()
         {
-        public:
-            using deferred_function = std::function<void(void)>;
-
-            /**
-             * @brief constructor that takes a defer function.
-             * @param f the defer function
-             */
-            explicit Defer(deferred_function f);
-
-            /**
-             * @brief destructor that executes the defer function.
-             */
-            ~Defer();
-
-        private:
-            deferred_function m_deferred_function{};
-        };
+            m_deferred_function();
+        }
 
     } // namespace Foundation
 
 } // namespace TF
-
-#endif // TFDEFER_HPP
