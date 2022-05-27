@@ -78,6 +78,7 @@ SOFTWARE.
 #        define USE_POLL_STRATEGY
 #    endif
 #endif
+#include "tfmultiqueue.hxx"
 #include "tfpoll.hpp"
 #include "tfprogressbar.hxx"
 #include "tfcrtp.hxx"

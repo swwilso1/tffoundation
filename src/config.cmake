@@ -23,6 +23,7 @@ include(src/multivalue/config.cmake)
 include(src/notification/config.cmake)
 include(src/poll/config.cmake)
 include(src/progress/config.cmake)
+include(src/queue/config.cmake)
 include(src/stl/config.cmake)
 include(src/string/config.cmake)
 include(src/symbol/config.cmake)
@@ -46,9 +47,10 @@ include_directories(
     src/log
     src/multivalue
     src/notification
+    src/numerics
     src/poll
     src/progress
-    src/numerics
+    src/queue
     src/stl
     src/string
     src/symbol
