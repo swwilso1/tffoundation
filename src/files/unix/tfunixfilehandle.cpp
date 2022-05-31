@@ -339,6 +339,7 @@ namespace TF
             auto bytesToWrite = d.length();
             const char * tmp = bytes;
             size_t bytesWrote = 0;
+            int errorCounter = 0;
 
             if (m_handle == nullptr)
                 return;
@@ -348,10 +349,14 @@ namespace TF
                 bytesWrote = fwrite(tmp, sizeof(char), bytesToWrite, m_handle);
                 if (ferror(m_handle))
                 {
-                    string_type msg("Error writing to stream for file ");
-                    msg += m_fileName;
-                    auto msgCStr = msg.cStr();
-                    throw std::runtime_error(msgCStr.get());
+                    if (++errorCounter > 10)
+                    {
+                        string_type msg("Error writing to stream for file ");
+                        msg += m_fileName;
+                        auto msgCStr = msg.cStr();
+                        throw std::runtime_error(msgCStr.get());
+                    }
+                    clearerr(m_handle);
                 }
 
                 tmp += bytesWrote;
