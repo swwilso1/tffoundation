@@ -77,6 +77,15 @@ namespace TF
             }
 
             /**
+             * @brief method to set the total number.
+             * @param total the total number value.
+             */
+            void set_total(size_type total)
+            {
+                m_total = total;
+            }
+
+            /**
              * @brief method to increment the tracked progress value by 1.
              */
             void increment()
