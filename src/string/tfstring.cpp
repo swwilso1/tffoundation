@@ -1519,17 +1519,24 @@ namespace TF
             return s;
         }
 
-        std::unique_ptr<const char> String::cStr() const
+        std::unique_ptr<char[]> String::cStr() const
         {
             if (core->length() == 0)
             {
                 throw std::runtime_error{"cStr unable to convert an empty string"};
             }
 
+            auto the_ptr = std::unique_ptr<char[]>(new char[core->length() + 1]);
+            auto start_of_bytes = the_ptr.get();
+            std::memcpy(start_of_bytes, core->data(), core->length());
+            *(start_of_bytes + core->length()) = '\0';
+            return the_ptr;
+#if 0
             auto the_bytes = new char[core->length() + 1];
             std::memcpy(the_bytes, core->data(), core->length());
             the_bytes[core->length()] = '\0';
             return std::unique_ptr<const char>(the_bytes);
+#endif
         }
 
         std::string String::stlString() const

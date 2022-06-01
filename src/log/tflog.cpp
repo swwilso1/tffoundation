@@ -42,6 +42,26 @@ namespace TF
     namespace Foundation
     {
 
+        class DeleterFunctor
+        {
+        public:
+            explicit DeleterFunctor(bool del = true) : m_delete_pointer{del} {}
+
+            virtual ~DeleterFunctor() {}
+
+            virtual void operator()(std::unique_ptr<Logger::stream_type>::pointer p)
+            {
+                if (m_delete_pointer)
+                {
+                    std::default_delete<Logger::stream_type> deleter;
+                    deleter(p);
+                }
+            }
+
+        private:
+            bool m_delete_pointer{false};
+        };
+
         std::ostream & operator<<(std::ostream & o, const LogPriority & p)
         {
             switch (p)
@@ -105,10 +125,10 @@ namespace TF
         void Logger::logToFileAtPath(const string_type & path)
         {
             auto pathStr = path.cStr();
-            std::fstream * theStream = new std::fstream(pathStr.get(), std::ios::out | std::ios::app);
-            if (theStream != nullptr && theStream->is_open())
+            auto theStream = unique_ptr_type(new std::fstream(pathStr.get(), std::ios::out | std::ios::app));
+            if (dynamic_cast<std::fstream *>(theStream.get())->is_open())
             {
-                logFiles.insert(std::make_pair(path, static_cast<stream_type *>(theStream)));
+                logFiles.insert(std::make_pair(path, std::move(theStream)));
             }
         }
 
@@ -124,9 +144,7 @@ namespace TF
             {
                 if (member.first != "stdout" && member.first != "stderr")
                 {
-                    std::fstream * theStream = static_cast<std::fstream *>(member.second);
-                    theStream->close();
-                    delete theStream;
+                    dynamic_cast<std::fstream *>(member.second.get())->close();
                 }
             }
 
@@ -137,7 +155,8 @@ namespace TF
         {
             if (logFiles.count("stdout") == 0)
             {
-                logFiles.insert(std::make_pair(string_type("stdout"), &std::cout));
+                auto cout_wrapper = unique_ptr_type(&std::cout, DeleterFunctor(false));
+                logFiles.insert(std::make_pair(string_type("stdout"), std::move(cout_wrapper)));
             }
         }
 
@@ -145,7 +164,8 @@ namespace TF
         {
             if (logFiles.count("stderr") == 0)
             {
-                logFiles.insert(std::make_pair(string_type("stderr"), &std::cerr));
+                auto cerr_wrapper = unique_ptr_type(&std::cerr, DeleterFunctor(false));
+                logFiles.insert(std::make_pair(string_type("stderr"), std::move(cerr_wrapper)));
             }
         }
 

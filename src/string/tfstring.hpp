@@ -334,7 +334,7 @@ namespace TF
                 @brief return a C string version (if possible) of the string object.
                 @return a smart pointer to a C-style string.
             */
-            std::unique_ptr<const char> cStr() const;
+            std::unique_ptr<char[]> cStr() const;
 
             /**
                 @brief return a STL string version (if possible) of the string object.

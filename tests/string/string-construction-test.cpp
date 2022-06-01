@@ -83,10 +83,10 @@ TEST(StringTest, ASCIIEncodedUnicodeInitializerTest)
 
 TEST(StringTest, CStringConstructorWithLengthTest)
 {
-    auto tmp = new char[40];
-    std::memcpy(reinterpret_cast<void *>(tmp), reinterpret_cast<void *>(const_cast<char *>(HELLO_WORLD)),
+    auto tmp = std::unique_ptr<char[]>(new char[40]);
+    std::memcpy(reinterpret_cast<void *>(tmp.get()), reinterpret_cast<void *>(const_cast<char *>(HELLO_WORLD)),
                 strlen(HELLO_WORLD));
-    String s(tmp, strlen(HELLO_WORLD));
+    String s(tmp.get(), strlen(HELLO_WORLD));
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
 }

@@ -302,8 +302,8 @@ namespace TF
         FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readDataOfLength(size_type length)
         {
             data_type d;
-            char * buffer = new char[length];
-            char * tmp = buffer;
+            auto buffer = std::unique_ptr<char, std::default_delete<char[]>>(new char[length]);
+            char * tmp = buffer.get();
             size_t bytesToRead = length;
             size_t bytesRead = 0;
 

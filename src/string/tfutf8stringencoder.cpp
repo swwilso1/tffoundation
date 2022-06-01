@@ -25,6 +25,7 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#define NEEDS_CASSERT
 #define NEEDS_CSTRING
 #define NEEDS_CMATH
 #define NEEDS_VECTOR
@@ -148,6 +149,13 @@ namespace TF
             size_type i;
             size_type incrementValue;
             bool loopFinished = false;
+
+            // We allow 0 length strings.
+            if (string == nullptr || length == 0)
+            {
+                return true;
+            }
+
             byte_order_query_type byteOrderMarkQuery = hasByteOrderMark(string, length);
 
             if (byteOrderMarkQuery.first)
@@ -1019,6 +1027,11 @@ namespace TF
             }
             else
             {
+                if (length != 4)
+                {
+                    assert(length == 4);
+                }
+
                 // Mask off the low 3 bytes of the first byte
                 data_type byte1 = *(string)&0x7;
                 // Mask off the low 6 bytes of the second byte

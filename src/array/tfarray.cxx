@@ -399,7 +399,7 @@ namespace TF
         template<class T>
         Array<T>::Array(const value_type * a, size_type l)
         {
-            theArray = std::shared_ptr<value_type>(new value_type[l]);
+            theArray = std::shared_ptr<value_type>(new value_type[l], std::default_delete<value_type[]>());
             theLength = l;
             value_type * tmp = theArray.get();
 
@@ -415,7 +415,7 @@ namespace TF
 
             if (l > 0)
             {
-                theArray = std::shared_ptr<value_type>(new value_type[l]);
+                theArray = std::shared_ptr<value_type>(new value_type[l], std::default_delete<value_type[]>());
                 theLength = l;
             }
         }
@@ -428,7 +428,8 @@ namespace TF
 
             if (a.theLength > 0)
             {
-                theArray = std::shared_ptr<value_type>(new value_type[a.theLength]);
+                theArray =
+                    std::shared_ptr<value_type>(new value_type[a.theLength], std::default_delete<value_type[]>());
 
                 for (size_type i = 0; i < a.theLength; i++)
                     *(theArray.get() + i) = *(a.theArray.get() + i);
@@ -464,7 +465,8 @@ namespace TF
 
                 if (a.theLength > 0)
                 {
-                    theArray = std::shared_ptr<value_type>(new value_type[a.theLength]);
+                    theArray =
+                        std::shared_ptr<value_type>(new value_type[a.theLength], std::default_delete<value_type[]>());
                     for (size_type i = 0; i < a.theLength; i++)
                         *(theArray.get() + i) = *(a.theArray.get() + i);
                     theLength = a.theLength;
@@ -647,7 +649,7 @@ namespace TF
         template<class T>
         void Array<T>::swap(Array & other)
         {
-            std::shared_ptr<value_type> theTmpArray = other.theArray;
+            auto theTmpArray = other.theArray;
             size_type theTmpLength = other.theLength;
             other.theArray = theArray;
             other.theLength = theLength;

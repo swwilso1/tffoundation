@@ -55,6 +55,8 @@ namespace TF
 
         std::ostream & operator<<(std::ostream & o, const LogPriority & p);
 
+        class DeleterFunctor;
+
         class Logger : public AllocatorInterface
         {
         public:
@@ -114,9 +116,13 @@ namespace TF
             static void logToStdError();
 
         private:
+            friend class DeleterFunctor;
+
             using stream_type = std::ostream;
 
-            using file_map_type = std::map<string_type, stream_type *>;
+            using unique_ptr_type = std::unique_ptr<stream_type, DeleterFunctor>;
+
+            using file_map_type = std::map<string_type, unique_ptr_type>;
 
             static priority_type defaultPriority;
 

@@ -143,13 +143,14 @@ namespace TF
 
         private:
             using lock_type = std::lock_guard<std::mutex>;
+            using unique_pointer_type = std::unique_ptr<char, std::default_delete<char[]>>;
 
             size_type m_width{10};
             size_type m_total{1};
             size_type m_current{0};
             size_type m_past_percent{0};
             std::mutex m_mutex{};
-            std::unique_ptr<char> m_meter{};
+            unique_pointer_type m_meter{};
 
             /**
              * @brief helper method to initialize the ProgressBar object.
@@ -159,9 +160,11 @@ namespace TF
              */
             void init(size_type width)
             {
-                m_meter = std::make_unique<char>(width + 1);
+                m_meter = unique_pointer_type(new char[width + 1], std::default_delete<char[]>());
                 std::memset(m_meter.get(), '.', sizeof(char) * static_cast<size_t>(width));
                 *(m_meter.get() + width) = '\0';
+                //                auto pointer = m_meter.get();
+                //                *(pointer + width) = '\0';
             }
 
             /**
