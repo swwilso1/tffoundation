@@ -30,6 +30,7 @@ SOFTWARE.
 
 #define NEEDS_OSTREAM
 #define NEEDS_LIST
+#define NEEDS_MEMORY
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -60,7 +61,7 @@ namespace TF
                 using size_type = Size_t;
 
                 /** @brief default constructor, initializes chunk to the empty state */
-                Chunk() : theBuffer(nullptr), theLength(0) {}
+                Chunk() {}
 
                 /**
                  *  @brief byte constructor.   Used to copy bytes into the buffer.
@@ -83,11 +84,7 @@ namespace TF
                 Chunk(Chunk && c);
 
                 /** @brief destructor */
-                ~Chunk()
-                {
-                    if (theBuffer != nullptr && theLength != 0)
-                        delete[] theBuffer;
-                }
+                ~Chunk() {}
 
                 /**
                  *  @brief standard assignment operattor
@@ -125,13 +122,13 @@ namespace TF
                 /** @brief return the number of bytes in the chunk */
                 size_type length() const
                 {
-                    return theLength;
+                    return m_length;
                 }
 
                 /** @brief return a pointer to the first byte in the byte array */
                 const char * bytes() const
                 {
-                    return theBuffer;
+                    return m_buffer.get();
                 }
 
                 /**
@@ -143,11 +140,10 @@ namespace TF
                 std::ostream & description(std::ostream & o) const;
 
             private:
-                /** @brief the pointer to the first byte in the byte array */
-                char * theBuffer;
+                using pointer_type = std::unique_ptr<char[], std::default_delete<char[]>>;
 
-                /** @brief the number of bytes in the byte array */
-                size_type theLength;
+                pointer_type m_buffer{nullptr};
+                size_type m_length{0};
             };
 
             /** @brief Friend with the operator<< overload so that we can write chunks
@@ -166,10 +162,7 @@ namespace TF
             using byte_type = unsigned char;
 
             /** @brief default constructor */
-            Data() : theLength(0)
-            {
-                chunkList = nullptr;
-            }
+            Data() = default;
 
             /**
              *  @brief byte array constructor
@@ -191,9 +184,6 @@ namespace TF
              *  @param d the other object.
              **/
             Data(Data && d);
-
-            /** @brief destructor */
-            ~Data();
 
             /**
              *  @brief copies the contents of another Data object
@@ -333,17 +323,17 @@ namespace TF
             using chunk_type = Chunk;
 
             /** @brief the type for the list of buffers */
-            using chunk_list_type = std::list<chunk_type *>;
+            using chunk_list_type = std::list<chunk_type>;
 
             /** @brief the list of buffers */
-            chunk_list_type * chunkList;
+            std::unique_ptr<chunk_list_type> m_chunk_list{nullptr};
 
             /**
-                    @brief the counter that holds the overall number of bytes tracked
-                    by the data object.  Each time data is added the amount added gets
-                    added to theLength.
-            */
-            size_type theLength;
+             * @brief the counter that holds the overall number of bytes tracked
+             * by the data object.  Each time data is added the amount added gets
+             * added to m_length.
+             */
+            size_type m_length{0};
         };
 
         /**

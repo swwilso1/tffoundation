@@ -37,57 +37,41 @@ namespace TF
     namespace Foundation
     {
 
-        Data::Chunk::Chunk(const char * c, size_type length)
+        Data::Chunk::Chunk(const char * c, size_type length) : m_length{length}
         {
-            theBuffer = nullptr;
-            theLength = 0;
-            if (c != nullptr && length > 0)
-            {
-                theBuffer = new char[length];
-                std::memcpy(reinterpret_cast<void *>(theBuffer), reinterpret_cast<void *>(const_cast<char *>(c)),
-                            length * sizeof(char));
-                theLength = length;
-            }
+            m_buffer = pointer_type(new char[length], std::default_delete<char[]>());
+            std::memcpy(m_buffer.get(), c, length * sizeof(char));
         }
 
-        Data::Chunk::Chunk(const Chunk & c)
+        Data::Chunk::Chunk(const Chunk & c) : m_length{c.m_length}
         {
-            theBuffer = nullptr;
-            theLength = 0;
-            if (c.theBuffer != nullptr && c.theLength > 0)
+            if (m_length > 0)
             {
-                theBuffer = new char[c.theLength];
-                std::memcpy(reinterpret_cast<void *>(theBuffer),
-                            reinterpret_cast<void *>(const_cast<char *>(c.theBuffer)), c.theLength * sizeof(char));
-                theLength = c.theLength;
+                m_buffer = pointer_type(new char[m_length], std::default_delete<char[]>());
+                std::memcpy(m_buffer.get(), c.m_buffer.get(), m_length * sizeof(char));
             }
         }
 
         Data::Chunk::Chunk(Chunk && c)
         {
-            theBuffer = c.theBuffer;
-            theLength = c.theLength;
-            c.theBuffer = nullptr;
-            c.theLength = 0;
+            m_length = c.m_length;
+            m_buffer = std::move(c.m_buffer);
+            c.m_length = 0;
         }
 
         Data::Chunk & Data::Chunk::operator=(const Chunk & c)
         {
             if (this != &c)
             {
-                if (theBuffer != nullptr && theLength != 0)
+                m_length = c.m_length;
+                if (m_length > 0)
                 {
-                    delete[] theBuffer;
-                    theBuffer = nullptr;
-                    theLength = 0;
+                    m_buffer = pointer_type(new char[m_length], std::default_delete<char[]>());
+                    std::memcpy(m_buffer.get(), c.m_buffer.get(), m_length * sizeof(char));
                 }
-
-                if (c.theBuffer != nullptr && c.theLength != 0)
+                else
                 {
-                    theBuffer = new char[c.theLength];
-                    std::memcpy(reinterpret_cast<void *>(theBuffer),
-                                reinterpret_cast<void *>(const_cast<char *>(c.theBuffer)), c.theLength * sizeof(char));
-                    theLength = c.theLength;
+                    m_buffer = nullptr;
                 }
             }
 
@@ -98,20 +82,9 @@ namespace TF
         {
             if (this != &c)
             {
-                if (theBuffer != nullptr && theLength != 0)
-                {
-                    delete[] theBuffer;
-                    theBuffer = nullptr;
-                    theLength = 0;
-                }
-
-                if (c.theBuffer != nullptr && c.theLength != 0)
-                {
-                    theBuffer = c.theBuffer;
-                    theLength = c.theLength;
-                    c.theBuffer = nullptr;
-                    c.theLength = 0;
-                }
+                m_length = c.m_length;
+                m_buffer = std::move(c.m_buffer);
+                c.m_length = 0;
             }
 
             return *this;
@@ -121,12 +94,17 @@ namespace TF
         {
             if (this != &c)
             {
-                if (theLength != c.theLength)
-                    return false;
-
-                for (size_type i = 0; i < theLength; i++)
+                if (m_length != c.m_length)
                 {
-                    if (*(theBuffer + i) != *(c.theBuffer + i))
+                    return false;
+                }
+
+                auto my_pointer = m_buffer.get();
+                auto that_pointer = c.m_buffer.get();
+
+                for (size_type i = 0; i < m_length; i++)
+                {
+                    if (*(my_pointer + i) != *(that_pointer + i))
                         return false;
                 }
             }
@@ -147,86 +125,53 @@ namespace TF
             if (formatter != nullptr)
             {
                 formatter->setClassName("Chunk");
-                formatter->addClassMember("char *", "theBuffer", theBuffer, theLength);
-                formatter->addClassMember("Size_t", "theLength", theLength);
+                formatter->addClassMember("char *", "m_buffer", m_buffer.get(), m_length);
+                formatter->addClassMember("Size_t", "m_length", m_length);
                 o << *formatter;
                 delete formatter;
             }
             return o;
         }
 
-        Data::Data(const char * bytes, size_type length)
+        Data::Data(const char * bytes, size_type length) : m_length{length}
         {
-            chunk_type * newChunk = new chunk_type(bytes, length);
-            chunkList = new chunk_list_type();
-            chunkList->emplace_back(newChunk);
-            theLength = length;
+            m_chunk_list = std::make_unique<chunk_list_type>();
+            m_chunk_list->emplace_back(chunk_type(bytes, length));
         }
 
         Data::Data(const Data & d)
         {
-            theLength = 0;
-            chunkList = nullptr;
-            if (d.length() != 0)
+            auto d_length = d.length();
+            if (d_length != 0)
             {
-                chunk_type * newChunk = new chunk_type(d.bytes(), d.length());
-                chunkList = new chunk_list_type();
-                chunkList->emplace_back(newChunk);
-                theLength = d.length();
+                m_chunk_list = std::make_unique<chunk_list_type>();
+                m_chunk_list->emplace_back(chunk_type(d.bytes(), d_length));
+                m_length = d_length;
             }
         }
 
         Data::Data(Data && d)
         {
-            theLength = 0;
-            chunkList = nullptr;
-            if (d.theLength > 0)
-            {
-                chunkList = d.chunkList;
-                theLength = d.theLength;
-                d.chunkList = nullptr;
-                d.theLength = 0;
-            }
-        }
-
-        Data::~Data()
-        {
-            if (theLength > 0 && chunkList != nullptr)
-            {
-                for (auto chunk : *chunkList)
-                {
-                    delete chunk;
-                }
-
-                chunkList->clear();
-                delete chunkList;
-                chunkList = nullptr;
-            }
+            m_length = d.m_length;
+            m_chunk_list = std::move(d.m_chunk_list);
+            d.m_length = 0;
         }
 
         Data & Data::operator=(const Data & d)
         {
             if (this != &d)
             {
-                if (theLength > 0 && chunkList != nullptr)
+                auto d_length = d.length();
+                if (d_length != 0)
                 {
-                    for (auto chunk : *chunkList)
-                    {
-                        delete chunk;
-                    }
-                    chunkList->clear();
-
-                    theLength = 0;
+                    m_chunk_list = std::make_unique<chunk_list_type>();
+                    m_chunk_list->emplace_back(d.bytes(), d_length);
                 }
-
-                if (d.length() > 0)
+                else
                 {
-                    chunk_type * newChunk = new chunk_type(d.bytes(), d.length());
-                    if (chunkList == nullptr)
-                        chunkList = new chunk_list_type();
-                    chunkList->emplace_back(newChunk);
-                    theLength = d.length();
+                    m_chunk_list = nullptr;
                 }
+                m_length = d_length;
             }
 
             return *this;
@@ -236,26 +181,9 @@ namespace TF
         {
             if (this != &d)
             {
-                if (theLength > 0 && chunkList != nullptr)
-                {
-                    for (auto chunk : *chunkList)
-                        delete chunk;
-
-                    chunkList->clear();
-                    delete chunkList;
-                    chunkList = nullptr;
-
-                    theLength = 0;
-                }
-
-                if (d.theLength > 0)
-                {
-                    chunkList = d.chunkList;
-                    theLength = d.theLength;
-
-                    d.chunkList = nullptr;
-                    d.theLength = 0;
-                }
+                m_length = d.m_length;
+                m_chunk_list = std::move(d.m_chunk_list);
+                d.m_length = 0;
             }
 
             return *this;
@@ -265,14 +193,14 @@ namespace TF
         {
             if (this != &d)
             {
-                if (theLength != d.length())
+                if (m_length != d.length())
                     return false;
 
                 {
                     auto myBytes = this->bytes();
                     auto hisBytes = d.bytes();
 
-                    for (size_type i = 0; i < theLength; i++)
+                    for (size_type i = 0; i < m_length; i++)
                     {
                         if (*(myBytes + i) != *(hisBytes + i))
                             return false;
@@ -292,62 +220,67 @@ namespace TF
 
         Data::byte_type Data::operator[](size_type i) const
         {
+            if (i > m_length)
+            {
+                throw std::invalid_argument("request exceeds number of elements.");
+            }
             const char * theBytes = this->bytes();
             return static_cast<byte_type>(theBytes[i]);
         }
 
         Data::size_type Data::length() const
         {
-            return theLength;
+            return m_length;
         }
 
         const char * Data::bytes() const
         {
-            if (theLength == 0 || chunkList == nullptr || chunkList->size() == 0)
-                return nullptr;
-
-            if (chunkList->size() == 1)
+            if (m_length == 0 || m_chunk_list->size() == 0)
             {
-                auto chunk = chunkList->front();
-                return chunk->bytes();
+                return nullptr;
+            }
+
+            if (m_chunk_list->size() == 1)
+            {
+                auto & chunk = m_chunk_list->front();
+                return chunk.bytes();
             }
 
             // We have more than one chunk in the list, so coalesce the list
             // into one big chunk.
 
-            char * buffer = new char[theLength];
-            char * tmp = buffer;
+            // TODO: Make the function non-const
+            auto buffer = std::unique_ptr<char[]>(new char[m_length]);
+            auto tmp = buffer.get();
 
             Data & other = const_cast<Data &>(*this);
 
-            for (auto chunk : *chunkList)
+            for (auto & chunk : *m_chunk_list)
             {
-                std::memcpy(reinterpret_cast<void *>(tmp), reinterpret_cast<void *>(const_cast<char *>(chunk->bytes())),
-                            chunk->length() * sizeof(char));
-                tmp += chunk->length() * sizeof(char);
-                delete chunk;
+                std::memcpy(reinterpret_cast<void *>(tmp), reinterpret_cast<void *>(const_cast<char *>(chunk.bytes())),
+                            chunk.length() * sizeof(char));
+                tmp += chunk.length() * sizeof(char);
             }
 
-            other.chunkList->clear();
+            other.m_chunk_list->clear();
 
-            chunk_type * newChunk = new chunk_type(buffer, theLength);
-            other.chunkList->emplace_back(newChunk);
+            other.m_chunk_list->emplace_back(chunk_type(buffer.get(), m_length));
 
-            delete[] buffer;
+            auto & b = other.m_chunk_list->back();
 
-            return newChunk->bytes();
+            return b.bytes();
         }
 
         void Data::append(const char * bytes, size_type length)
         {
             if (bytes != nullptr && length != 0)
             {
-                if (chunkList == nullptr)
-                    chunkList = new chunk_list_type();
-
-                chunk_type * newChunk = new chunk_type(bytes, length);
-                chunkList->emplace_back(newChunk);
-                theLength += length;
+                if (m_chunk_list == nullptr)
+                {
+                    m_chunk_list = std::make_unique<chunk_list_type>();
+                }
+                m_chunk_list->emplace_back(chunk_type(bytes, length));
+                m_length += length;
             }
         }
 
@@ -355,11 +288,12 @@ namespace TF
         {
             if (d.length() > 0)
             {
-                if (chunkList == nullptr)
-                    chunkList = new chunk_list_type();
-                chunk_type * newChunk = new chunk_type(d.bytes(), d.length());
-                chunkList->emplace_back(newChunk);
-                theLength += d.length();
+                if (m_chunk_list == nullptr)
+                {
+                    m_chunk_list = std::make_unique<chunk_list_type>();
+                }
+                m_chunk_list->emplace_back(chunk_type(d.bytes(), d.length()));
+                m_length += d.length();
             }
         }
 
@@ -367,20 +301,17 @@ namespace TF
         {
             if (d.length() > 0)
             {
-                if (chunkList == nullptr)
-                    chunkList = new chunk_list_type();
-
-                for (auto chunk : *d.chunkList)
+                if (m_chunk_list == nullptr)
                 {
-                    chunkList->emplace_back(chunk);
+                    m_chunk_list = std::make_unique<chunk_list_type>();
                 }
 
-                theLength += d.length();
-
-                d.chunkList->clear();
-                delete d.chunkList;
-                d.chunkList = nullptr;
-                d.theLength = 0;
+                for (auto & chunk : *d.m_chunk_list)
+                {
+                    m_chunk_list->emplace_back(chunk);
+                }
+                m_length += d.length();
+                d.m_length = 0;
             }
         }
 
@@ -388,11 +319,12 @@ namespace TF
         {
             if (bytes != nullptr && length > 0)
             {
-                if (chunkList == nullptr)
-                    chunkList = new chunk_list_type();
-                chunk_type * newChunk = new chunk_type(bytes, length);
-                chunkList->emplace_front(newChunk);
-                theLength += length;
+                if (m_chunk_list == nullptr)
+                {
+                    m_chunk_list = std::make_unique<chunk_list_type>();
+                }
+                m_chunk_list->emplace_front(chunk_type(bytes, length));
+                m_length += length;
             }
         }
 
@@ -400,11 +332,12 @@ namespace TF
         {
             if (d.length() > 0)
             {
-                if (chunkList == nullptr)
-                    chunkList = new chunk_list_type();
-                chunk_type * newChunk = new chunk_type(d.bytes(), d.length());
-                chunkList->emplace_front(newChunk);
-                theLength += d.length();
+                if (m_chunk_list == nullptr)
+                {
+                    m_chunk_list = std::make_unique<chunk_list_type>();
+                }
+                m_chunk_list->emplace_front(d.bytes(), d.length());
+                m_length += d.length();
             }
         }
 
@@ -412,20 +345,20 @@ namespace TF
         {
             if (d.length() > 0)
             {
-                if (chunkList == nullptr)
-                    chunkList = new chunk_list_type();
-
-                chunk_list_type::reverse_iterator riter;
-                for (auto riter = d.chunkList->rbegin(); riter != d.chunkList->rend(); riter++)
+                if (m_chunk_list == nullptr)
                 {
-                    chunkList->emplace_front(*riter);
-                    theLength += (*riter)->length();
+                    m_chunk_list = std::make_unique<chunk_list_type>();
                 }
 
-                d.chunkList->clear();
-                delete d.chunkList;
-                d.chunkList = nullptr;
-                d.theLength = 0;
+                for (auto riter = d.m_chunk_list->rbegin(); riter != d.m_chunk_list->rend(); riter++)
+                {
+                    m_chunk_list->emplace_front(*riter);
+                    m_length += riter->length();
+                }
+
+                d.m_chunk_list->clear();
+                d.m_chunk_list = nullptr;
+                d.m_length = 0;
             }
         }
 
@@ -438,7 +371,7 @@ namespace TF
             Data subData;
             Data copyOfData;
 
-            if (r.position >= theLength || (r.position + (r.length - 1)) >= theLength)
+            if (r.position >= m_length || (r.position + (r.length - 1)) >= m_length)
                 throw std::range_error("subdataWithRange given range of data that lies outside of the data");
 
             copyOfData = *this;
@@ -454,8 +387,8 @@ namespace TF
             if (formatter != nullptr)
             {
                 formatter->setClassName("Data");
-                formatter->addClassMember("chunk_list_type", "chunkList", chunkList);
-                formatter->addClassMember<Size_t>("theLength", theLength);
+                formatter->addClassMember("chunk_list_type", "m_chunk_list", m_chunk_list.get());
+                formatter->addClassMember<Size_t>("m_length", m_length);
                 o << *formatter;
                 delete formatter;
             }
