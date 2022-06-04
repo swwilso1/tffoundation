@@ -25,3 +25,8 @@ build_and_run_test(
         tests/date/date_formatter_test.cpp
 )
 
+build_and_run_test(
+        duration_format_tests
+        DurationFormat
+        tests/date/duration_format_tests.cpp
+)

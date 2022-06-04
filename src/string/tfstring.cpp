@@ -2067,12 +2067,12 @@ namespace TF
 
         bool operator==(const char * s, const String & t)
         {
-            return t == s;
+            return t.operator==(s);
         }
 
         bool operator==(const std::string & s, const String & t)
         {
-            return t == s;
+            return t.operator==(s);
         }
 
         bool operator<(const String & a, const String & b)
