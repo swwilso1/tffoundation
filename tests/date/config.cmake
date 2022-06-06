@@ -26,7 +26,7 @@ build_and_run_test(
 )
 
 build_and_run_test(
-        duration_format_tests
-        DurationFormat
-        tests/date/duration_format_tests.cpp
+        duration_component_test
+        DurationComponent
+        tests/date/duration_component_test.cpp
 )

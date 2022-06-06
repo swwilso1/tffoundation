@@ -19,6 +19,8 @@ list(APPEND FOUNDATION_HEADER_FILES
         ${CMAKE_CURRENT_SOURCE_DIR}/src/date/tfdatesymbol.cxx
         ${CMAKE_CURRENT_SOURCE_DIR}/src/date/tfdatesymbol.hxx
         ${CMAKE_CURRENT_SOURCE_DIR}/src/date/tfdatetypes.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/date/tfdurationcomponent.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/src/date/tfdurationtypes.hpp
         )
 
 list(APPEND FOUNDATION_SOURCE_FILES
@@ -35,6 +37,9 @@ list(APPEND FOUNDATION_SOURCE_FILES
         src/date/tfdatesymbol.hxx
         src/date/tfdatetypes.cpp
         src/date/tfdatetypes.hpp
+        src/date/tfdurationcomponent.cpp
+        src/date/tfdurationcomponent.hpp
+        src/date/tfdurationtypes.hpp
         )
 
 
