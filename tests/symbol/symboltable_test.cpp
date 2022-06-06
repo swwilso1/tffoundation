@@ -55,7 +55,7 @@ public:
         return *this;
     }
 
-    bool operator==(const ComplicatedType & t)
+    bool operator==(const ComplicatedType & t) const
     {
         return value == t.value;
     }
@@ -133,7 +133,7 @@ TEST(SymbolTableTest, AddAndGetTest)
     ComplicatedType<float> c(3.2f), e;
     theTable.setValueForKey<ComplicatedType<float>>("ctype", c);
     theTable.getValueForKey("ctype", e);
-    EXPECT_TRUE(c == e);
+    EXPECT_EQ(c, e);
 }
 
 TEST(SymbolTableTest, BadRetrievalTest)
