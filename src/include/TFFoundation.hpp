@@ -58,6 +58,7 @@ SOFTWARE.
 #include "tfdatecomponent.hxx"
 #include "tfdateformatter.hxx"
 #include "tfdurationcomponent.hpp"
+#include "tfdurationformatter.hpp"
 #include "tfdateclocks.hpp"
 #include "tfdefer.hpp"
 #include "tfenvironmentsettings.hpp"

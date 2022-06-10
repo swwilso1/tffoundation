@@ -45,12 +45,13 @@ namespace TF::Foundation
 
         DurationComponents() = default;
 
-        DurationComponents(size_type millenia, uint8_t centuries, uint8_t decades, uint8_t years, uint8_t months,
-                           uint8_t weeks, uint8_t days, uint8_t hours, uint8_t minutes, uint8_t seconds,
-                           size_t fractions) :
+        DurationComponents(int32_t millenia, int32_t centuries, int32_t decades, int32_t years, int32_t months,
+                           int32_t weeks, int32_t days, int32_t hours, int32_t minutes, int32_t seconds,
+                           int32_t milliseconds, int32_t microseconds) :
             m_millenia{millenia},
             m_centuries{centuries}, m_decades{decades}, m_years{years}, m_months{months}, m_weeks{weeks}, m_days{days},
-            m_hours{hours}, m_minutes{minutes}, m_seconds{seconds}, m_microseconds{fractions}
+            m_hours{hours}, m_minutes{minutes}, m_seconds{seconds}, m_milliseconds{milliseconds}, m_microseconds{
+                                                                                                      microseconds}
         {}
 
         template<typename Rep, typename Period>
@@ -67,53 +68,53 @@ namespace TF::Foundation
 
         bool operator!=(const DurationComponents & c) const;
 
-        [[nodiscard]] size_type get_microseconds() const;
+        [[nodiscard]] int32_t get_microseconds() const;
 
-        void set_microseconds(size_type f);
+        void set_microseconds(int32_t f);
 
-        [[nodiscard]] size_type get_milliseconds() const;
+        [[nodiscard]] int32_t get_milliseconds() const;
 
-        void set_milliseconds(size_type f);
+        void set_milliseconds(int32_t f);
 
-        [[nodiscard]] uint8_t get_seconds() const;
+        [[nodiscard]] int32_t get_seconds() const;
 
-        void set_seconds(uint8_t s);
+        void set_seconds(int32_t s);
 
-        [[nodiscard]] uint8_t get_minutes() const;
+        [[nodiscard]] int32_t get_minutes() const;
 
-        void set_minutes(uint8_t m);
+        void set_minutes(int32_t m);
 
-        [[nodiscard]] uint8_t get_hours() const;
+        [[nodiscard]] int32_t get_hours() const;
 
-        void set_hours(uint8_t h);
+        void set_hours(int32_t h);
 
-        [[nodiscard]] uint8_t get_days() const;
+        [[nodiscard]] int32_t get_days() const;
 
-        void set_days(uint8_t d);
+        void set_days(int32_t d);
 
-        [[nodiscard]] uint8_t get_weeks() const;
+        [[nodiscard]] int32_t get_weeks() const;
 
-        void set_weeks(uint8_t w);
+        void set_weeks(int32_t w);
 
-        [[nodiscard]] uint8_t get_months() const;
+        [[nodiscard]] int32_t get_months() const;
 
-        void set_months(uint8_t m);
+        void set_months(int32_t m);
 
-        [[nodiscard]] uint8_t get_years() const;
+        [[nodiscard]] int32_t get_years() const;
 
-        void set_years(uint8_t y);
+        void set_years(int32_t y);
 
-        [[nodiscard]] uint8_t get_decades() const;
+        [[nodiscard]] int32_t get_decades() const;
 
-        void set_decades(uint8_t d);
+        void set_decades(int32_t d);
 
-        [[nodiscard]] uint8_t get_centuries() const;
+        [[nodiscard]] int32_t get_centuries() const;
 
-        void set_centuries(uint8_t c);
+        void set_centuries(int32_t c);
 
-        [[nodiscard]] size_type get_millenia() const;
+        [[nodiscard]] int32_t get_millenia() const;
 
-        void set_millenia(size_type m);
+        void set_millenia(int32_t m);
 
         template<typename Rep, typename Period>
         std::chrono::duration<Rep, Period> get_as_duration() const
@@ -122,17 +123,18 @@ namespace TF::Foundation
         }
 
     private:
-        size_type m_millenia{};
-        uint8_t m_centuries{};
-        uint8_t m_decades{};
-        uint8_t m_years{};
-        uint8_t m_months{};
-        uint8_t m_weeks{};
-        uint8_t m_days{};
-        uint8_t m_hours{};
-        uint8_t m_minutes{};
-        uint8_t m_seconds{};
-        size_type m_microseconds{};
+        int32_t m_millenia{};
+        int32_t m_centuries{};
+        int32_t m_decades{};
+        int32_t m_years{};
+        int32_t m_months{};
+        int32_t m_weeks{};
+        int32_t m_days{};
+        int32_t m_hours{};
+        int32_t m_minutes{};
+        int32_t m_seconds{};
+        int32_t m_milliseconds{};
+        int32_t m_microseconds{};
 
         template<typename Duration, typename T>
         struct DeconstructorHelper
@@ -202,9 +204,14 @@ namespace TF::Foundation
                     min_helper.time_left);
             m_seconds = sec_helper.result;
 
+            auto mi_helper =
+                deconstruct<std::chrono::duration<Rep, Period>, std::chrono::milliseconds, decltype(m_milliseconds)>(
+                    sec_helper.time_left);
+            m_milliseconds = mi_helper.result;
+
             auto frac_helper =
                 deconstruct<std::chrono::duration<Rep, Period>, std::chrono::microseconds, decltype(m_microseconds)>(
-                    sec_helper.time_left);
+                    mi_helper.time_left);
             m_microseconds = frac_helper.result;
         }
 
@@ -242,6 +249,9 @@ namespace TF::Foundation
 
             auto seconds_dur = std::chrono::seconds(m_seconds);
             new_duration += std::chrono::duration_cast<decltype(new_duration)>(seconds_dur);
+
+            auto milliseconds_dur = std::chrono::milliseconds(m_milliseconds);
+            new_duration += std::chrono::duration_cast<decltype(new_duration)>(milliseconds_dur);
 
             auto fractions_dur = std::chrono::microseconds(m_microseconds);
             new_duration += std::chrono::duration_cast<decltype(new_duration)>(fractions_dur);

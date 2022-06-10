@@ -30,3 +30,9 @@ build_and_run_test(
         DurationComponent
         tests/date/duration_component_test.cpp
 )
+
+build_and_run_test(
+        duration_formatter_test
+        DurationFormatter
+        tests/date/duration_formatter_test.cpp
+)
