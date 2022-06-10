@@ -269,48 +269,48 @@ TEST(DurationFormatter, duration_from_string)
         DurationFormatter formatter("hh:mm:ss.SSS");
         auto d = formatter.duration_from_string<int, std::milli>("00:00:00.001");
         decltype(d) one{1};
-        EXPECT_EQ(d, one);
+        EXPECT_EQ(d.count(), one.count());
     }
 
     {
         DurationFormatter formatter("hh:mm:ss.SSS");
         auto d = formatter.duration_from_string<int, std::milli>("00:00:01.111");
         decltype(d) one{1111};
-        EXPECT_EQ(d, one);
+        EXPECT_EQ(d.count(), one.count());
     }
 
     {
         DurationFormatter formatter("hh:mm:ss.SSS");
         auto d = formatter.duration_from_string<int, std::milli>("00:00:11.111");
         decltype(d) one{11111};
-        EXPECT_EQ(d, one);
+        EXPECT_EQ(d.count(), one.count());
     }
 
     {
         DurationFormatter formatter("hh:mm:ss.SSS");
         auto d = formatter.duration_from_string<int, std::milli>("00:01:11.111");
         decltype(d) one{71111};
-        EXPECT_EQ(d, one);
+        EXPECT_EQ(d.count(), one.count());
     }
 
     {
         DurationFormatter formatter("hh:mm:ss.SSS");
         auto d = formatter.duration_from_string<int, std::milli>("00:11:11.111");
         decltype(d) one{671111};
-        EXPECT_EQ(d, one);
+        EXPECT_EQ(d.count(), one.count());
     }
 
     {
         DurationFormatter formatter("hh:mm:ss.SSS");
         auto d = formatter.duration_from_string<int, std::milli>("01:11:11.111");
         decltype(d) one{4271111};
-        EXPECT_EQ(d, one);
+        EXPECT_EQ(d.count(), one.count());
     }
 
     {
         DurationFormatter formatter("hh:mm:ss.SSS");
         auto d = formatter.duration_from_string<int, std::milli>("11:11:11.111");
         decltype(d) one{40271111};
-        EXPECT_EQ(d, one);
+        EXPECT_EQ(d.count(), one.count());
     }
 }
