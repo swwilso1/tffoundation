@@ -365,6 +365,12 @@ namespace TF
         }
 
         template<>
+        void FileHandleBase<FILE *, int>::flush()
+        {
+            fflush(m_handle);
+        }
+
+        template<>
         FileHandleBase<FILE *, int>::size_type FileHandleBase<FILE *, int>::offsetInFile()
         {
             if (m_handle == nullptr)

@@ -176,6 +176,12 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        void FileHandleBase<Handle, Descriptor>::flush()
+        {
+            return;
+        }
+
+        template<class Handle, class Descriptor>
         typename FileHandleBase<Handle, Descriptor>::size_type FileHandleBase<Handle, Descriptor>::offsetInFile()
         {
             return 0;

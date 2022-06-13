@@ -282,6 +282,12 @@ namespace TF
              */
             void writeData(const data_type & d);
 
+            /**
+             * @brief method to immediately flush the last contents written to the
+             * file.
+             */
+            void flush();
+
 #pragma mark - Methods for controlling file offsets
 
             /**

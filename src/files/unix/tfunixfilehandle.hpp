@@ -105,6 +105,9 @@ namespace TF
         void FileHandleBase<FILE *, int>::writeData(const data_type & d);
 
         template<>
+        void FileHandleBase<FILE *, int>::flush();
+
+        template<>
         FileHandleBase<FILE *, int>::size_type FileHandleBase<FILE *, int>::offsetInFile();
 
         template<>
