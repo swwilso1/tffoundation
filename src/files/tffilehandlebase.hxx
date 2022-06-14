@@ -96,6 +96,14 @@ namespace TF
             explicit FileHandleBase(bool auto_close = false);
 
             /**
+             * @brief constructor from raw file handle.
+             * @param h the file handle.
+             * @param auto_close true if the destructor should automatically close the
+             * file handle and false otherwise.
+             */
+            FileHandleBase(handle_type h, bool auto_close = false);
+
+            /**
              * @brief copy constructor
              * @param fh the file handle to copy.
              *
@@ -212,6 +220,17 @@ namespace TF
             static FileHandleBase fileHandleForAppendingAtPath(const string_type & path, bool auto_close = false);
 
             /**
+             * @brief static method that returns an object that represents the lower level handle value @e h.
+             * @param h the handle
+             * @param auto_close true if the handle should automatically close the handle and false otherwise.
+             * @return a FileHandleBase object initialized with the handle.
+             *
+             * This method makes no guarantees about readability, writability, or appendability.  The caller
+             * must establish those characteristics of the file handle outside the scope of this class.
+             */
+            static FileHandleBase fileHandleFromHandle(handle_type h, bool auto_close = false);
+
+            /**
              * @brief static method that returns a file handle opened for reading from the process' standard input
              * stream.
              * @param auto_close true if the handle should automatically close the handle and false otherwise.
@@ -242,6 +261,14 @@ namespace TF
              * @return the descriptor object that represents the file.
              */
             descriptor_type fileDescriptor();
+
+#pragma mark - Method to get the handle object
+
+            /**
+             * @brief method to return the handle representation of the file.
+             * @return the handle object that represents the file.
+             */
+            handle_type fileHandle();
 
 #pragma mark - Methods for reading data
             /**
@@ -362,15 +389,15 @@ namespace TF
 #pragma mark - Class members
 
             /** @brief the handle to the underlying file system object */
-            handle_type m_handle;
+            handle_type m_handle{};
 
             /** @brief the boolean that holds true when the file handle should automatically close the file handle and
              * false otherwise.
              */
-            bool m_autoClose;
+            bool m_autoClose{};
 
             /** @brief the name of the underlying file system object */
-            string_type m_fileName;
+            string_type m_fileName{};
         };
 
         /**

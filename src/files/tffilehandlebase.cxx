@@ -74,6 +74,14 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleFromHandle(handle_type h,
+                                                                                                    bool auto_close)
+        {
+            FileHandleBase fh{h, auto_close};
+            return fh;
+        }
+
+        template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleWithStandardInput(
             bool auto_close)
         {
@@ -106,6 +114,11 @@ namespace TF
         template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor>::FileHandleBase(bool auto_close) :
             m_handle{}, m_autoClose{auto_close}, m_fileName{}
+        {}
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor>::FileHandleBase(handle_type h, bool auto_close) :
+            m_handle{h}, m_autoClose{auto_close}, m_fileName{}
         {}
 
         template<class Handle, class Descriptor>
@@ -144,6 +157,13 @@ namespace TF
         {
             descriptor_type d;
             return d;
+        }
+
+        template<class Handle, class Descriptor>
+        typename FileHandleBase<Handle, Descriptor>::handle_type FileHandleBase<Handle, Descriptor>::fileHandle()
+        {
+            handle_type h{};
+            return h;
         }
 
         template<class Handle, class Descriptor>

@@ -42,6 +42,11 @@ namespace TF
         {}
 
         template<>
+        FileHandleBase<FILE *, int>::FileHandleBase(handle_type h, bool auto_close) :
+            m_handle{h}, m_autoClose{auto_close}, m_fileName{}
+        {}
+
+        template<>
         FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase & fh) :
             m_handle{fh.m_handle}, m_autoClose{fh.m_autoClose}, m_fileName{fh.m_fileName}
         {}
@@ -208,6 +213,13 @@ namespace TF
         }
 
         template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleFromHandle(handle_type h, bool auto_close)
+        {
+            FileHandleBase fh{h, auto_close};
+            return fh;
+        }
+
+        template<>
         FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput(bool auto_close)
         {
             FileHandleBase fh;
@@ -243,6 +255,12 @@ namespace TF
             if (m_handle != nullptr)
                 return fileno(m_handle);
             return -1;
+        }
+
+        template<>
+        FileHandleBase<FILE *, int>::handle_type FileHandleBase<FILE *, int>::fileHandle()
+        {
+            return m_handle;
         }
 
 #define kReadBufferSize 1024

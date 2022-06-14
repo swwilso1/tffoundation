@@ -50,6 +50,9 @@ namespace TF
         FileHandleBase<FILE *, int>::FileHandleBase(bool auto_close);
 
         template<>
+        FileHandleBase<FILE *, int>::FileHandleBase(handle_type h, bool auto_close);
+
+        template<>
         FileHandleBase<FILE *, int>::FileHandleBase(const FileHandleBase & fh);
 
         template<>
@@ -81,6 +84,9 @@ namespace TF
                                                                                               bool auto_close);
 
         template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleFromHandle(handle_type h, bool auto_close);
+
+        template<>
         FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput(bool auto_close);
 
         template<>
@@ -91,6 +97,9 @@ namespace TF
 
         template<>
         FileHandleBase<FILE *, int>::descriptor_type FileHandleBase<FILE *, int>::fileDescriptor();
+
+        template<>
+        FileHandleBase<FILE *, int>::handle_type FileHandleBase<FILE *, int>::fileHandle();
 
         template<>
         FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readAvailableData();
