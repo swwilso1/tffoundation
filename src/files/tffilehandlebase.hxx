@@ -231,6 +231,43 @@ namespace TF
             static FileHandleBase fileHandleFromHandle(handle_type h, bool auto_close = false);
 
             /**
+             * @brief static method that returns an object suitable for reading from the raw descriptor.
+             * @param d the raw descriptor
+             * @param auto_close true if the object should close the handle when the object is destroyed and
+             * false otherwise.
+             * @return the file handle initialized for reading.
+             */
+            static FileHandleBase fileHandleForReadingFromDescriptor(descriptor_type d, bool auto_close = false);
+
+            /**
+             * @brief static method that returns an object suitable for writing from the raw descriptor
+             * @param d the raw descriptor
+             * @param auto_close true if the object should close the handle when the object is destroyed and
+             * false otherwise.
+             * @return the file handle initialized for writing.
+             */
+            static FileHandleBase fileHandleForWritingFromDescriptor(descriptor_type d, bool auto_close = false);
+
+            /**
+             * @brief static method that returns an object suitable for reading and writing from the raw descriptor
+             * @param d the raw descriptor
+             * @param auto_close true if the object should close the handle when the object is destroyed and
+             * false otherwise.
+             * @return the file handle initialized for reading and writing.
+             */
+            static FileHandleBase fileHandleForReadingAndWritingFromDescriptor(descriptor_type d,
+                                                                               bool auto_close = false);
+
+            /**
+             * @brief static method that returns an object suitable for appending from the raw descriptor
+             * @param d the raw descriptor
+             * @param auto_close true if the object should close the handle when the object is destroyed and
+             * false otherwise.
+             * @return the file handle initialized for appending.
+             */
+            static FileHandleBase fileHandleForAppendingFromDescriptor(descriptor_type d, bool auto_close = false);
+
+            /**
              * @brief static method that returns a file handle opened for reading from the process' standard input
              * stream.
              * @param auto_close true if the handle should automatically close the handle and false otherwise.

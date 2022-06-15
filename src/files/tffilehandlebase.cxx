@@ -82,6 +82,47 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleForReadingFromDescriptor(
+            descriptor_type d, bool auto_close)
+        {
+            FileHandleBase h{};
+            (void)d;
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleForWritingFromDescriptor(
+            descriptor_type d, bool auto_close)
+        {
+            FileHandleBase h{};
+            (void)d;
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor>
+        FileHandleBase<Handle, Descriptor>::fileHandleForReadingAndWritingFromDescriptor(descriptor_type d,
+                                                                                         bool auto_close)
+        {
+            FileHandleBase h{};
+            (void)d;
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<class Handle, class Descriptor>
+        FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleForAppendingFromDescriptor(
+            descriptor_type d, bool auto_close)
+        {
+            FileHandleBase h{};
+            (void)d;
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<class Handle, class Descriptor>
         FileHandleBase<Handle, Descriptor> FileHandleBase<Handle, Descriptor>::fileHandleWithStandardInput(
             bool auto_close)
         {

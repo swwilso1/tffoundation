@@ -87,6 +87,22 @@ namespace TF
         FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleFromHandle(handle_type h, bool auto_close);
 
         template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingFromDescriptor(descriptor_type d,
+                                                                                                    bool auto_close);
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingFromDescriptor(descriptor_type d,
+                                                                                                    bool auto_close);
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingFromDescriptor(
+            descriptor_type d, bool auto_close);
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingFromDescriptor(descriptor_type d,
+                                                                                                      bool auto_close);
+
+        template<>
         FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput(bool auto_close);
 
         template<>

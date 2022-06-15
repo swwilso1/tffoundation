@@ -220,6 +220,82 @@ namespace TF
         }
 
         template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingFromDescriptor(descriptor_type d,
+                                                                                                    bool auto_close)
+        {
+            if (d < 0)
+            {
+                throw std::invalid_argument("descriptor cannot be negative");
+            }
+
+            FileHandleBase h{};
+            h.m_handle = fdopen(d, "r");
+            if (h.m_handle == nullptr)
+            {
+                throw std::invalid_argument("descriptor not suitable for reading");
+            }
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForWritingFromDescriptor(descriptor_type d,
+                                                                                                    bool auto_close)
+        {
+            if (d < 0)
+            {
+                throw std::invalid_argument("descriptor cannot be negative");
+            }
+
+            FileHandleBase h{};
+            h.m_handle = fdopen(d, "w");
+            if (h.m_handle == nullptr)
+            {
+                throw std::invalid_argument("descriptor not suitable for writing");
+            }
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForReadingAndWritingFromDescriptor(
+            descriptor_type d, bool auto_close)
+        {
+            if (d < 0)
+            {
+                throw std::invalid_argument("descriptor cannot be negative");
+            }
+
+            FileHandleBase h{};
+            h.m_handle = fdopen(d, "r+");
+            if (h.m_handle == nullptr)
+            {
+                throw std::invalid_argument("descriptor not suitable for reading and writing");
+            }
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<>
+        FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleForAppendingFromDescriptor(descriptor_type d,
+                                                                                                      bool auto_close)
+        {
+            if (d < 0)
+            {
+                throw std::invalid_argument("descriptor cannot be negative");
+            }
+
+            FileHandleBase h{};
+            h.m_handle = fdopen(d, "a");
+            if (h.m_handle == nullptr)
+            {
+                throw std::invalid_argument("descriptor not suitable for appending");
+            }
+            h.m_autoClose = auto_close;
+            return h;
+        }
+
+        template<>
         FileHandleBase<FILE *, int> FileHandleBase<FILE *, int>::fileHandleWithStandardInput(bool auto_close)
         {
             FileHandleBase fh;
