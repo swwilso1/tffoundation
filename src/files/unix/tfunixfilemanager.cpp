@@ -25,8 +25,10 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include <system_error>
-#include <cerrno>
+#define NEEDS_SYSTEM_ERROR
+#define NEEDS_CERRNO
+#define NEEDS_MEMORY
+#include "tfheaders.hpp"
 #include "tffilemanager.hpp"
 
 #include <sys/types.h>
@@ -485,17 +487,15 @@ namespace TF
 
             for (int j = 0; j < 10; j++)
             {
-                auto tmp = new char[i];
-                auto buffer = getcwd(tmp, i);
+                auto tmp = std::make_unique<char[]>(i);
+                auto buffer = getcwd(tmp.get(), i);
                 if (buffer == nullptr)
                 {
-                    delete[] tmp;
                     i *= 2;
                 }
                 else
                 {
                     string_type directory(buffer);
-                    delete[] tmp;
                     return directory;
                 }
             }

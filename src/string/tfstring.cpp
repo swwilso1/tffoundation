@@ -32,6 +32,7 @@ SOFTWARE.
 #define NEEDS_STRING
 #define NEEDS_STACK
 #define NEEDS_STDEXCEPT
+#define NEEDS_MEMORY
 #include "tfheaders.hpp"
 #include "tfstring.hpp"
 #include "tfasciistringencoder.hpp"
@@ -96,7 +97,7 @@ namespace TF
             auto charactersInString =
                 asciiEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), stringLength);
 
-            auto characters = new unicode_point_type[charactersInString];
+            auto characters = std::make_unique<unicode_point_type[]>(charactersInString);
             auto endian = asciiEncoder.thisSystemEndianness();
 
             char_type * tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
@@ -121,8 +122,8 @@ namespace TF
                 bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
             }
 
-            auto theArray = new char_type[bytesRequiredForUTF8];
-            tmp = theArray;
+            auto theArray = std::make_unique<char_type[]>(bytesRequiredForUTF8);
+            tmp = theArray.get();
             auto tmpLength = bytesRequiredForUTF8;
 
             for (size_type i = 0; i < charactersInString; ++i)
@@ -132,11 +133,7 @@ namespace TF
                 tmpLength -= result;
             }
 
-            delete[] characters;
-
-            core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
-
-            delete[] theArray;
+            core = std::make_shared<core_type>(theArray.get(), bytesRequiredForUTF8);
         }
 
         // The argument should be encoded UTF-8.
@@ -163,7 +160,7 @@ namespace TF
 
             size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
 
-            auto theArray = new unicode_point_type[theNumberOfCodes];
+            auto theArray = std::make_unique<unicode_point_type[]>(theNumberOfCodes);
 
             auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
             auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
@@ -184,9 +181,9 @@ namespace TF
                 byteLength -= operationResult.second;
             }
 
-            auto charArray = new char_type[bytesNeededForUTF8];
+            auto charArray = std::make_unique<char_type[]>(bytesNeededForUTF8);
 
-            auto tmp2 = charArray;
+            auto tmp2 = charArray.get();
             auto bytesLeft = bytesNeededForUTF8;
 
             for (size_type i = 0; i < theNumberOfCodes; i++)
@@ -197,11 +194,7 @@ namespace TF
                 bytesLeft -= operationResult;
             }
 
-            delete[] theArray;
-
-            core = std::make_shared<core_type>(charArray, bytesNeededForUTF8);
-
-            delete[] charArray;
+            core = std::make_shared<core_type>(charArray.get(), bytesNeededForUTF8);
         }
 
         String::String(const unsigned int * str, size_type length)
@@ -216,7 +209,7 @@ namespace TF
 
             size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
 
-            auto theArray = new unicode_point_type[theNumberOfCodes];
+            auto theArray = std::make_unique<unicode_point_type[]>(theNumberOfCodes);
 
             auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
             auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
@@ -237,9 +230,9 @@ namespace TF
                 byteLength -= operationResult.second;
             }
 
-            auto charArray = new char_type[bytesNeededForUTF8];
+            auto charArray = std::make_unique<char_type[]>(bytesNeededForUTF8);
 
-            auto tmp2 = charArray;
+            auto tmp2 = charArray.get();
             auto bytesLeft = bytesNeededForUTF8;
 
             for (size_type i = 0; i < theNumberOfCodes; i++)
@@ -250,11 +243,7 @@ namespace TF
                 bytesLeft -= operationResult;
             }
 
-            delete[] theArray;
-
-            core = std::make_shared<core_type>(charArray, bytesNeededForUTF8);
-
-            delete[] charArray;
+            core = std::make_shared<core_type>(charArray.get(), bytesNeededForUTF8);
         }
 
         String::String(unsigned int c)
@@ -1314,7 +1303,7 @@ namespace TF
             auto charactersInString =
                 asciiEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), stringLength);
 
-            auto characters = new unicode_point_type[charactersInString];
+            auto characters = std::make_unique<unicode_point_type[]>(charactersInString);
             auto endian = asciiEncoder.thisSystemEndianness();
 
             char_type * tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
@@ -1339,8 +1328,8 @@ namespace TF
                 bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
             }
 
-            auto theArray = new char_type[bytesRequiredForUTF8];
-            tmp = theArray;
+            auto theArray = std::make_unique<char_type[]>(bytesRequiredForUTF8);
+            tmp = theArray.get();
             auto tmpLength = bytesRequiredForUTF8;
 
             for (size_type i = 0; i < charactersInString; ++i)
@@ -1350,11 +1339,7 @@ namespace TF
                 tmpLength -= result;
             }
 
-            delete[] characters;
-
-            theString.core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
-
-            delete[] theArray;
+            theString.core = std::make_shared<core_type>(theArray.get(), bytesRequiredForUTF8);
 
             return theString;
         }
@@ -1371,7 +1356,7 @@ namespace TF
             static JSONStringEncoder jsonEncoder;
             auto charactersInString = jsonEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), length);
 
-            auto characters = new unicode_point_type[charactersInString];
+            auto characters = std::make_unique<unicode_point_type[]>(charactersInString);
             auto endian = jsonEncoder.thisSystemEndianness();
 
             char_type * tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
@@ -1396,8 +1381,8 @@ namespace TF
                 bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[i]);
             }
 
-            auto theArray = new char_type[bytesRequiredForUTF8];
-            tmp = theArray;
+            auto theArray = std::make_unique<char_type[]>(bytesRequiredForUTF8);
+            tmp = theArray.get();
             auto tmpLength = bytesRequiredForUTF8;
 
             for (size_type i = 0; i < charactersInString; ++i)
@@ -1407,11 +1392,7 @@ namespace TF
                 tmpLength -= result;
             }
 
-            delete[] characters;
-
-            theString.core = std::make_shared<core_type>(theArray, bytesRequiredForUTF8);
-
-            delete[] theArray;
+            theString.core = std::make_shared<core_type>(theArray.get(), bytesRequiredForUTF8);
 
             return theString;
         }
