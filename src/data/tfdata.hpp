@@ -71,6 +71,20 @@ namespace TF
                 Chunk(const char * c, size_type length);
 
                 /**
+                 * @brief constructor to place an arbitrary type value into a chunk.
+                 * The constructor copies the bytes from the object into the chunk buffer.
+                 * @tparam T the type of the value
+                 * @param t the value
+                 */
+                template<typename T>
+                Chunk(const T & t)
+                {
+                    m_buffer = pointer_type(new char[sizeof(t)], std::default_delete<char[]>());
+                    std::memcpy(m_buffer.get(), &t, sizeof(T));
+                    m_length = sizeof(T);
+                }
+
+                /**
                  *  @brief copy constructor.
                  *  @param c the chunk to copy
                  **/
@@ -268,6 +282,22 @@ namespace TF
             void append(Data && d);
 
             /**
+             * @brief append the contents of an arbitrary value to the data object.
+             * @tparam T the type of the value
+             * @param t the value
+             */
+            template<typename T>
+            void append(const T & t)
+            {
+                if (m_chunk_list == nullptr)
+                {
+                    m_chunk_list = std::make_unique<chunk_list_type>();
+                }
+                m_chunk_list->emplace_back(chunk_type(t));
+                m_length += sizeof(T);
+            }
+
+            /**
              *  @brief method to prepend a raw byte array to the byte array already
              *  contained in the object.
              *  @param bytes a pointer to the new byte array.
@@ -288,6 +318,22 @@ namespace TF
              *  @param d the other Data object.
              **/
             void prepend(Data && d);
+
+            /**
+             * @brief method to prepend an object of an arbitrary type to the data object.
+             * @tparam T the type
+             * @param t the object
+             */
+            template<typename T>
+            void prepend(const T & t)
+            {
+                if (m_chunk_list == nullptr)
+                {
+                    m_chunk_list = std::make_unique<chunk_list_type>();
+                }
+                m_chunk_list->emplace_front(chunk_type(t));
+                m_length += sizeof(T);
+            }
 
             /**
              * @brief method to return a subset of the data described by a range.
