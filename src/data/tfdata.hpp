@@ -80,7 +80,7 @@ namespace TF
                 Chunk(const T & t)
                 {
                     m_buffer = pointer_type(new char[sizeof(t)], std::default_delete<char[]>());
-                    std::memcpy(m_buffer.get(), &t, sizeof(T));
+                    std::memcpy(m_buffer.get(), reinterpret_cast<void *>(const_cast<T *>(&t)), sizeof(T));
                     m_length = sizeof(T);
                 }
 
