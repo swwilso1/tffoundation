@@ -81,3 +81,4 @@ SOFTWARE.
 #include "tfpoll.hpp"
 #include "tfprogressbar.hxx"
 #include "tfcrtp.hxx"
+#include "tfpipe.hpp"
