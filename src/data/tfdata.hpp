@@ -31,6 +31,7 @@ SOFTWARE.
 #define NEEDS_OSTREAM
 #define NEEDS_LIST
 #define NEEDS_MEMORY
+#define NEEDS_CSTRING
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -76,7 +77,8 @@ namespace TF
                  * @tparam T the type of the value
                  * @param t the value
                  */
-                template<typename T>
+                template<typename T, typename = std::enable_if_t<std::is_standard_layout_v<T> && std::is_trivial_v<T> &&
+                                                                 ! std::is_pointer_v<T>>>
                 Chunk(const T & t)
                 {
                     m_buffer = pointer_type(new char[sizeof(t)], std::default_delete<char[]>());
@@ -286,7 +288,8 @@ namespace TF
              * @tparam T the type of the value
              * @param t the value
              */
-            template<typename T>
+            template<typename T, typename = std::enable_if_t<std::is_standard_layout_v<T> && std::is_trivial_v<T> &&
+                                                             ! std::is_pointer_v<T>>>
             void append(const T & t)
             {
                 if (m_chunk_list == nullptr)
@@ -324,7 +327,8 @@ namespace TF
              * @tparam T the type
              * @param t the object
              */
-            template<typename T>
+            template<typename T, typename = std::enable_if_t<std::is_standard_layout_v<T> && std::is_trivial_v<T> &&
+                                                             ! std::is_pointer_v<T>>>
             void prepend(const T & t)
             {
                 if (m_chunk_list == nullptr)
