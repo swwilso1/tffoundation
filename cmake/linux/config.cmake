@@ -25,7 +25,7 @@ list(APPEND LINUX_COMPILE_FLAGS -Werror -Wall -Wno-unknown-pragmas -Wextra -Wcon
 #list(APPEND LINUX_COMPILE_FLAGS -Werror -pedantic-errors)
 
 if (BUILD_PROFILE)
-    list(APPEND LINUX_COMPILE_FLAGS -pg)
+    list(APPEND LINUX_COMPILE_FLAGS -pg -fno-omit-frame-pointer)
 endif()
 
 if (BUILD_SANITIZER)
