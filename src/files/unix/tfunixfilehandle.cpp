@@ -27,6 +27,7 @@ SOFTWARE.
 
 #include <unistd.h>
 #define NEEDS_STRING_H
+#define NEEDS_SYSTEM_ERROR
 #include "tfheaders.hpp"
 #include "tfunixfilehandle.hpp"
 #include "tffilemanager.hpp"
@@ -348,20 +349,26 @@ namespace TF
             char buffer[kReadBufferSize];
 
             if (m_handle == nullptr)
-                return d;
-
-            size_t amountRead = fread(buffer, sizeof(char), kReadBufferSize, m_handle);
-            if (amountRead != kReadBufferSize)
             {
-                if (ferror(m_handle))
-                {
-                    string_type msg("Error reading stream from ");
-                    msg += m_fileName;
-                    auto msgCStr = msg.cStr();
-                    throw std::runtime_error(msgCStr.get());
-                }
+                return d;
             }
-            d.append(buffer, amountRead);
+
+            // We absolutely have to make use of read() here because the C stream library
+            // will wait to fill a buffer with fread/fgets/fgetc if no data is present.
+
+            auto descriptor = fileDescriptor();
+
+            auto amountRead = read(descriptor, buffer, sizeof(buffer));
+            if (amountRead < 0)
+            {
+                throw std::system_error{errno, std::system_category(), "Error reading from stream"};
+            }
+            else if (amountRead == 0)
+            {
+                return d;
+            }
+
+            d.append(buffer, static_cast<Data::size_type>(amountRead));
 
             return d;
         }

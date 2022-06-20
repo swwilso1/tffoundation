@@ -66,10 +66,7 @@ SOFTWARE.
 #include "tfalarmcenter.hpp"
 #include "tffilepermissions.hpp"
 #include "tffileproperties.hpp"
-#include "tffilehandlebase.hxx"
-#if defined(TFUNIX)
-#    include "tfunixfilehandle.hpp"
-#endif
+#include "tffilehandle.hpp"
 #include "tfuuid.hpp"
 #include "tfsymboltable.hxx"
 #include "tfargument.hpp"
@@ -84,3 +81,4 @@ SOFTWARE.
 #include "tfpoll.hpp"
 #include "tfprogressbar.hxx"
 #include "tfcrtp.hxx"
+#include "tfpipe.hpp"
