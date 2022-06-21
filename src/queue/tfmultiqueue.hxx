@@ -45,95 +45,18 @@ namespace TF
 
         namespace multiqueue_internal
         {
-            /**
-             * MultiQueueBlock is the basic entry in the queue linked list.  It
-             * contains the object stored in the queue.
-             * @tparam T type of the object stored in the block.
-             */
             template<typename T>
-            class MultiQueueBlock
+            struct MultiQueueBlock
             {
-            public:
+                MultiQueueBlock * next{nullptr};
+                size_t reference_count{0};
+                T object{};
+
                 /**
                  * @brief constructor to initialize the block with the new object
                  * @param t the new object
                  */
-                explicit MultiQueueBlock(const T & t) : m_object{t} {}
-
-                /**
-                 * @brief getter method to get a reference to the object.
-                 * @return a referernce to the object.
-                 */
-                T & get_object()
-                {
-                    return m_object;
-                }
-
-                /**
-                 * @brief setter method to update the object in the block
-                 * @param t the new object.
-                 */
-                void set_object(const T & t)
-                {
-                    m_object = t;
-                }
-
-                /**
-                 * @brief get the number of references to the block
-                 * @return the number of references
-                 */
-                size_t get_reference_count() const
-                {
-                    return m_reference_count;
-                }
-
-                /**
-                 * @brief method to explicitly set the block reference count.
-                 * @param s the new reference count
-                 */
-                void set_reference_count(size_t s)
-                {
-                    m_reference_count = s;
-                }
-
-                /**
-                 * @brief method to increment the reference count by 1.
-                 */
-                void increment_reference()
-                {
-                    ++m_reference_count;
-                }
-
-                /**
-                 * @brief method to decrement the reference count by 1.
-                 */
-                void decrement_reference()
-                {
-                    --m_reference_count;
-                }
-
-                /**
-                 * @brief method to get the pointer to the next block in the list
-                 * @return the pointer to the next block, may be nullptr.
-                 */
-                MultiQueueBlock * get_next() const
-                {
-                    return m_next;
-                }
-
-                /**
-                 * @brief setter method to set the pointer to a new block.
-                 * @param b the new block.
-                 */
-                void set_next(MultiQueueBlock * b)
-                {
-                    m_next = b;
-                }
-
-            private:
-                MultiQueueBlock * m_next{nullptr};
-                size_t m_reference_count{0};
-                T m_object{};
+                explicit MultiQueueBlock(const T & t) : object{t} {}
             };
 
             /**
@@ -169,7 +92,7 @@ namespace TF
                     MultiQueueBlock<T> * tmp = m_head;
                     while (tmp != nullptr)
                     {
-                        MultiQueueBlock<T> * next = tmp->get_next();
+                        MultiQueueBlock<T> * next = tmp->next;
                         delete tmp;
                         tmp = next;
                     }
@@ -226,10 +149,10 @@ namespace TF
                     {
                         assert(m_back_of_queue);
                         MultiQueueBlock<T> * new_block = new MultiQueueBlock<T>(t);
-                        m_back_of_queue->set_next(new_block);
+                        m_back_of_queue->next = new_block;
                         m_back_of_queue = new_block;
                     }
-                    m_back_of_queue->set_reference_count(m_core_users);
+                    m_back_of_queue->reference_count = m_core_users;
                     return true;
                 }
 
@@ -247,17 +170,17 @@ namespace TF
 
                     while (tmp != nullptr)
                     {
-                        if (tmp->get_reference_count() == 0)
+                        if (tmp->reference_count == 0)
                         {
                             if (prev != nullptr)
                             {
-                                prev->set_next(tmp->get_next());
+                                prev->next = tmp->next;
                                 delete tmp;
-                                tmp = prev->get_next();
+                                tmp = prev->next;
                             }
                             else
                             {
-                                m_head = tmp->get_next();
+                                m_head = tmp->next;
                                 delete tmp;
                                 tmp = m_head;
                             }
@@ -265,7 +188,7 @@ namespace TF
                         else
                         {
                             prev = tmp;
-                            tmp = tmp->get_next();
+                            tmp = tmp->next;
                         }
                     }
                     return true;
@@ -345,7 +268,7 @@ namespace TF
                     while (tmp)
                     {
                         ++count;
-                        tmp = tmp->get_next();
+                        tmp = tmp->next;
                     }
                     return count;
                 }
@@ -432,7 +355,7 @@ namespace TF
 
                 if (m_at_end_of_queue)
                 {
-                    return m_front_of_queue->get_next() == nullptr;
+                    return m_front_of_queue->next == nullptr;
                 }
 
                 return false;
@@ -460,19 +383,19 @@ namespace TF
 
                 if (m_at_end_of_queue)
                 {
-                    auto next = m_front_of_queue->get_next();
+                    auto next = m_front_of_queue->next;
                     if (next == nullptr)
                     {
                         throw std::runtime_error("Queue is empty");
                     }
 
-                    m_front_of_queue->decrement_reference();
+                    --m_front_of_queue->reference_count;
                     m_core->update();
                     m_front_of_queue = next;
                     m_at_end_of_queue = false;
                 }
 
-                return m_front_of_queue->get_object();
+                return m_front_of_queue->object;
             }
 
             /**
@@ -493,7 +416,7 @@ namespace TF
                     m_front_of_queue = m_core->get_head();
                 }
 
-                multiqueue_internal::MultiQueueBlock<T> * next = m_front_of_queue->get_next();
+                auto * next = m_front_of_queue->next;
 
                 if (next)
                 {
@@ -502,7 +425,7 @@ namespace TF
                         m_at_end_of_queue = false;
                     }
 
-                    m_front_of_queue->decrement_reference();
+                    --m_front_of_queue->reference_count;
                     m_front_of_queue = next;
                     m_core->update();
                 }
@@ -564,7 +487,7 @@ namespace TF
                     {
                         return m_core->size();
                     }
-                    return count_size_from(m_front_of_queue->get_next());
+                    return count_size_from(m_front_of_queue->next);
                 }
 
                 auto tmp = m_front_of_queue == nullptr ? m_core->get_head() : m_front_of_queue;
@@ -615,8 +538,8 @@ namespace TF
                 auto tmp = m_front_of_queue;
                 while (tmp)
                 {
-                    tmp->increment_reference();
-                    tmp = tmp->get_next();
+                    ++tmp->reference_count;
+                    tmp = tmp->next;
                 }
             }
 
@@ -633,7 +556,7 @@ namespace TF
                 while (tmp)
                 {
                     ++count;
-                    tmp = tmp->get_next();
+                    tmp = tmp->next;
                 }
                 return count;
             }
