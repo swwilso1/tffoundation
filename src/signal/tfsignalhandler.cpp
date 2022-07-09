@@ -25,6 +25,9 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#include "tfplatform.hpp"
+#define NEEDS_CSTRING
+#include "tfheaders.hpp"
 #include "tfsignalhandler.hpp"
 #include "tfformatterfactory.hpp"
 
@@ -49,7 +52,7 @@ namespace TF::Foundation
                 system_flag = SA_NODEFER;
                 break;
             case SignalHandlerFlag::RESET_HANDLER_TO_DEFAULT:
-                system_flag = SA_RESETHAND;
+                system_flag = static_cast<int>(SA_RESETHAND);
                 break;
             case SignalHandlerFlag::RESTART_SYSTEM_CALLS:
                 system_flag = SA_RESTART;
@@ -235,7 +238,10 @@ std::ostream & operator<<(std::ostream & o, const TF::Foundation::SignalHandler:
     if (formatter != nullptr)
     {
         formatter->setClassName("struct sigaction");
+#if defined(TFMACOS)
+        // Linux needs a << overload for a sigset_t.  Constraining to macOS for now.
         formatter->addClassMember("sa_mask", s.sa_mask);
+#endif
         formatter->addClassMember("sa_flags", s.sa_flags);
         if ((s.sa_flags & SA_SIGINFO) == SA_SIGINFO)
         {

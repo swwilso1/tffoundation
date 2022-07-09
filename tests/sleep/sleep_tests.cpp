@@ -46,8 +46,8 @@ void test_sleep(std::chrono::duration<Rep, Period> sleep_duration, std::chrono::
 TEST(Sleep, simple_sleeps)
 {
 
-    test_sleep(std::chrono::microseconds(300), std::chrono::microseconds(500));
-    test_sleep(std::chrono::milliseconds(200), std::chrono::milliseconds(300));
-    test_sleep(std::chrono::milliseconds(1500), std::chrono::milliseconds(1550));
+    test_sleep(std::chrono::microseconds(300), std::chrono::microseconds(1000));
+    test_sleep(std::chrono::milliseconds(200), std::chrono::milliseconds(1000));
+    test_sleep(std::chrono::milliseconds(1500), std::chrono::milliseconds(2000));
     test_sleep(std::chrono::seconds(1), std::chrono::seconds(2));
 }

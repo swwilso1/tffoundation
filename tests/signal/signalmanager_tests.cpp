@@ -132,7 +132,7 @@ TEST(SignalManager, signal_masks)
     SignalManager::signal_set_type simple_set{};
     auto signal = SIGUSR2;
     simple_set.add_signal(signal);
-    auto previous_signal_set = SignalManager::set_process_signal_mask(simple_set);
+    auto previous_signal_set = SignalManager::set_thread_signal_mask(simple_set);
 
     signal_parent(signal);
 
@@ -150,7 +150,7 @@ TEST(SignalManager, signal_masks)
     auto signal_manager = SignalManager::get_manager();
     signal_manager->install_handler_from_signal_and_function(signal, sigaction_signal_handler_function);
 
-    SignalManager::set_process_signal_mask(previous_signal_set);
+    SignalManager::set_thread_signal_mask(previous_signal_set);
 
     signal_parent(signal);
 

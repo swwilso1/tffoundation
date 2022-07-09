@@ -25,8 +25,13 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#include "tfplatform.hpp"
 #include <unistd.h>
 #include <sys/resource.h>
+#if defined(TFLINUX)
+#    include <sys/types.h>
+#    include <sys/wait.h>
+#endif
 #define NEEDS_SYSTEM_ERROR
 #include "tfheaders.hpp"
 #include "tfprocess.hpp"

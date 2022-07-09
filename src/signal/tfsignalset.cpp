@@ -25,6 +25,7 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#include "tfplatform.hpp"
 #include "tfsignalset.hpp"
 
 namespace TF::Foundation
@@ -38,7 +39,9 @@ namespace TF::Foundation
         sig_list.emplace_back(SIGILL);
         sig_list.emplace_back(SIGTRAP);
         sig_list.emplace_back(SIGABRT);
+#if defined(TFMACOS)
         sig_list.emplace_back(SIGEMT);
+#endif
         sig_list.emplace_back(SIGFPE);
         sig_list.emplace_back(SIGKILL);
         sig_list.emplace_back(SIGBUS);
@@ -60,7 +63,9 @@ namespace TF::Foundation
         sig_list.emplace_back(SIGVTALRM);
         sig_list.emplace_back(SIGPROF);
         sig_list.emplace_back(SIGWINCH);
+#if defined(TFMACOS)
         sig_list.emplace_back(SIGINFO);
+#endif
         sig_list.emplace_back(SIGUSR1);
         sig_list.emplace_back(SIGUSR2);
         return sig_list;

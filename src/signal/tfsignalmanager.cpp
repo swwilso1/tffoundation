@@ -195,6 +195,9 @@ namespace TF::Foundation
             // Set up the signal handling thread.
             auto handler_function = [this]() -> void {
                 Poller poller{};
+                SignalSet all_signal_set{};
+                all_signal_set.fill_with_all_signals();
+                set_thread_signal_mask(all_signal_set);
                 auto & read_handle = m_pipe.file_handle_for_reading();
                 poller.add_handle(read_handle.fileDescriptor(), PollEvent::Read,
                                   [this, &read_handle](int handle) -> void {
