@@ -130,6 +130,9 @@ namespace TF
         void FileHandleBase<FILE *, int>::writeData(const data_type & d);
 
         template<>
+        void FileHandleBase<FILE *, int>::write(const void * vp, size_type length);
+
+        template<>
         void FileHandleBase<FILE *, int>::flush();
 
         template<>

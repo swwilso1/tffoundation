@@ -436,8 +436,14 @@ namespace TF
         template<>
         void FileHandleBase<FILE *, int>::writeData(const data_type & d)
         {
-            const char * bytes = d.bytes();
-            auto bytesToWrite = d.length();
+            write(d.bytes(), d.length());
+        }
+
+        template<>
+        void FileHandleBase<FILE *, int>::write(const void * vp, size_type length)
+        {
+            const char * bytes = reinterpret_cast<const char *>(vp);
+            auto bytesToWrite = length;
             const char * tmp = bytes;
             size_t bytesWrote = 0;
             int errorCounter = 0;

@@ -41,15 +41,27 @@ namespace TF::Foundation
     }
 
     template<>
-    PipeBase<int>::file_handle_type PipeBase<int>::file_handle_for_reading() const
+    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_reading()
     {
-        return file_handle_type::fileHandleForReadingFromDescriptor(m_handles[0], true);
+        if (m_read_handle.fileDescriptor() != m_handles[0])
+        {
+            // Do not auto-close the file handle.  The descriptors will get closed in the
+            // destructor.
+            m_read_handle = file_handle_type::fileHandleForReadingFromDescriptor(m_handles[0]);
+        }
+        return m_read_handle;
     }
 
     template<>
-    PipeBase<int>::file_handle_type PipeBase<int>::file_handle_for_writing() const
+    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_writing()
     {
-        return file_handle_type::fileHandleForWritingFromDescriptor(m_handles[1], true);
+        if (m_write_handle.fileDescriptor() != m_handles[1])
+        {
+            // Do not auto-close the file handle.  The descriptors will get closed in the
+            // destructor.
+            m_write_handle = file_handle_type::fileHandleForWritingFromDescriptor(m_handles[1]);
+        }
+        return m_write_handle;
     }
 
     template<>

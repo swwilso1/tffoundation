@@ -22,40 +22,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
 ******************************************************************************/
 
-#ifndef TFUNIXPIPE_HPP
-#define TFUNIXPIPE_HPP
+#include "TFFoundation.hpp"
+#include "gtest/gtest.h"
 
-#include <unistd.h>
-#include "tfpipebase.hxx"
+using namespace TF::Foundation;
 
-namespace TF::Foundation
+TEST(Process, simple_test)
 {
-    using Pipe = PipeBase<int>;
+    Process this_process{};
+    EXPECT_TRUE(this_process.is_alive());
+}
 
-    template<>
-    PipeBase<int>::PipeBase();
-
-    template<>
-    inline PipeBase<int>::~PipeBase()
+TEST(Process, launch_test)
+{
+    Process ls_process{"/bin/ls"};
+    ls_process.launch();
+    while (ls_process.is_alive())
     {
-        close(m_handles[0]);
-        close(m_handles[1]);
+        Sleep(std::chrono::milliseconds(100));
+        ls_process.update_exit_status();
     }
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_reading();
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_writing();
-
-    template<>
-    void PipeBase<int>::close_for_reading();
-
-    template<>
-    void PipeBase<int>::close_for_writing();
-
-} // namespace TF::Foundation
-
-#endif // TFUNIXPIPE_HPP
+    auto & stdout_handle = ls_process.handle_for_standard_out();
+    auto data = stdout_handle.readToEndOfFile();
+    EXPECT_GT(data.length(), 0);
+    EXPECT_FALSE(ls_process.is_alive());
+    EXPECT_EQ(ls_process.stop_code(), 0);
+}

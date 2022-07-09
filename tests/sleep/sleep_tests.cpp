@@ -22,40 +22,32 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
 ******************************************************************************/
 
-#ifndef TFUNIXPIPE_HPP
-#define TFUNIXPIPE_HPP
+#include "TFFoundation.hpp"
+#include "gtest/gtest.h"
 
-#include <unistd.h>
-#include "tfpipebase.hxx"
+using namespace TF::Foundation;
 
-namespace TF::Foundation
+template<typename Rep, typename Period>
+void test_sleep(std::chrono::duration<Rep, Period> sleep_duration, std::chrono::duration<Rep, Period> upper_duration)
 {
-    using Pipe = PipeBase<int>;
+    SystemDate before_sleep{};
+    Sleep(sleep_duration);
+    SystemDate after_sleep{};
+    auto time_slept = after_sleep - before_sleep;
+    std::chrono::duration<Rep, Period> time_slept_dur =
+        std::chrono::duration_cast<std::chrono::duration<Rep, Period>>(time_slept);
+    EXPECT_GE(time_slept_dur.count(), sleep_duration.count());
+    EXPECT_LT(time_slept_dur.count(), upper_duration.count());
+}
 
-    template<>
-    PipeBase<int>::PipeBase();
+TEST(Sleep, simple_sleeps)
+{
 
-    template<>
-    inline PipeBase<int>::~PipeBase()
-    {
-        close(m_handles[0]);
-        close(m_handles[1]);
-    }
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_reading();
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_writing();
-
-    template<>
-    void PipeBase<int>::close_for_reading();
-
-    template<>
-    void PipeBase<int>::close_for_writing();
-
-} // namespace TF::Foundation
-
-#endif // TFUNIXPIPE_HPP
+    test_sleep(std::chrono::microseconds(300), std::chrono::microseconds(500));
+    test_sleep(std::chrono::milliseconds(200), std::chrono::milliseconds(300));
+    test_sleep(std::chrono::milliseconds(1500), std::chrono::milliseconds(1550));
+    test_sleep(std::chrono::seconds(1), std::chrono::seconds(2));
+}

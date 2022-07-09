@@ -386,6 +386,13 @@ namespace TF
             String operator+(const char c) const;
 
             /**
+             * @brief method to create a new string by appending a unicode character.
+             * @param c the other character
+             * @return a new string with the origin string's contents with @e c appended.
+             */
+            String operator+(const unicode_point_type c) const;
+
+            /**
              * @brief method to append a string to the current string.
              * @param s the other string
              * @return this string with the contents of s appended.
@@ -398,6 +405,13 @@ namespace TF
              * @return this string with the character @e c appended.
              */
             String & operator+=(const char c);
+
+            /**
+             * @brief method to append a unicode character value to the current string
+             * @param c the character
+             * @return this wtring with the character &e c appended.
+             */
+            String & operator+=(const unicode_point_type c);
 
 #pragma mark - Methods for dividing strings
 

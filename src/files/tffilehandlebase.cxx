@@ -237,6 +237,13 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        void FileHandleBase<Handle, Descriptor>::write(const void * vp, size_type length)
+        {
+            (void)vp;
+            (void)length;
+        }
+
+        template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::flush()
         {
             return;

@@ -82,3 +82,11 @@ SOFTWARE.
 #include "tfprogressbar.hxx"
 #include "tfcrtp.hxx"
 #include "tfpipe.hpp"
+#include "tfcommandline.hpp"
+#include "tfprocess.hpp"
+#include "tfsleep.hpp"
+#if defined(TFUNIX)
+#    include "tfsignalhandler.hpp"
+#    include "tfsignalset.hpp"
+#    include "tfsignalmanager.hpp"
+#endif

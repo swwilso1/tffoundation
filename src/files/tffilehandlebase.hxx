@@ -338,13 +338,32 @@ namespace TF
 #pragma mark - Methods for writing data
 
             /**
-             * @brief method to write a the contents of a data object to a file.
+             * @brief method to write the contents of a data object to a file.
              *
              * The file handle must be opened for writing.
              *
              * @param d the data object containing the bytes to write to the file.
              */
             void writeData(const data_type & d);
+
+            /**
+             * @brief method to write a byte array @e p of length @e length to a file
+             * @param p the pointer to the bytes
+             * @param length the number of bytes to write
+             */
+            void write(const void * p, size_type length);
+
+            /**
+             * @brief method to write an arbitrary simple data type to a file.
+             * @tparam T the type of the object to write
+             * @param thing an object of type T
+             */
+            template<typename T, typename = std::enable_if_t<std::is_standard_layout_v<T> && std::is_trivial_v<T> &&
+                                                             ! std::is_pointer_v<T>>>
+            void write(const T & thing)
+            {
+                write(&thing, sizeof(T));
+            }
 
             /**
              * @brief method to immediately flush the last contents written to the

@@ -22,40 +22,25 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
 ******************************************************************************/
 
-#ifndef TFUNIXPIPE_HPP
-#define TFUNIXPIPE_HPP
+#ifndef TFCOMMANDLINE_HPP
+#define TFCOMMANDLINE_HPP
 
-#include <unistd.h>
-#include "tfpipebase.hxx"
+#define NEEDS_VECTOR
+#include "tfheaders.hpp"
+#include "tftypes.hpp"
+#include "tfallocator.hpp"
+#include "tfstring.hpp"
 
 namespace TF::Foundation
 {
-    using Pipe = PipeBase<int>;
 
-    template<>
-    PipeBase<int>::PipeBase();
+    String convert_args_to_command_line(int argc, const char ** argv);
 
-    template<>
-    inline PipeBase<int>::~PipeBase()
-    {
-        close(m_handles[0]);
-        close(m_handles[1]);
-    }
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_reading();
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_writing();
-
-    template<>
-    void PipeBase<int>::close_for_reading();
-
-    template<>
-    void PipeBase<int>::close_for_writing();
+    bool convert_command_line_to_vector(const String & command_line, std::vector<String> & list);
 
 } // namespace TF::Foundation
 
-#endif // TFUNIXPIPE_HPP
+#endif // TFCOMMANDLINE_HPP

@@ -23,8 +23,13 @@ include(src/multivalue/config.cmake)
 include(src/notification/config.cmake)
 include(src/pipe/config.cmake)
 include(src/poll/config.cmake)
+include(src/process/config.cmake)
 include(src/progress/config.cmake)
 include(src/queue/config.cmake)
+if (UNIX)
+    include(src/signal/config.cmake)
+endif()
+include(src/sleep/config.cmake)
 include(src/stl/config.cmake)
 include(src/string/config.cmake)
 include(src/symbol/config.cmake)
@@ -51,8 +56,10 @@ include_directories(
     src/numerics
     src/pipe
     src/poll
+    src/process
     src/progress
     src/queue
+    src/sleep
     src/stl
     src/string
     src/symbol
@@ -65,6 +72,8 @@ include_directories(
 if(UNIX)
     include_directories(
         src/files/unix
+        src/process/unix
+        src/signal
         src/uuid/unix
     )
 endif()

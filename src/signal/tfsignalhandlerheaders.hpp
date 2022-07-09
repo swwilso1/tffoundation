@@ -22,40 +22,19 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
+
 ******************************************************************************/
 
-#ifndef TFUNIXPIPE_HPP
-#define TFUNIXPIPE_HPP
+#ifndef TFSIGNALHANDLERHEADERS_HPP
+#define TFSIGNALHANDLERHEADERS_HPP
 
-#include <unistd.h>
-#include "tfpipebase.hxx"
+#include <signal.h>
+#include <sys/signal.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <errno.h>
+#include <limits.h>
+#include <time.h>
 
-namespace TF::Foundation
-{
-    using Pipe = PipeBase<int>;
-
-    template<>
-    PipeBase<int>::PipeBase();
-
-    template<>
-    inline PipeBase<int>::~PipeBase()
-    {
-        close(m_handles[0]);
-        close(m_handles[1]);
-    }
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_reading();
-
-    template<>
-    PipeBase<int>::file_handle_type & PipeBase<int>::file_handle_for_writing();
-
-    template<>
-    void PipeBase<int>::close_for_reading();
-
-    template<>
-    void PipeBase<int>::close_for_writing();
-
-} // namespace TF::Foundation
-
-#endif // TFUNIXPIPE_HPP
+#endif // TFSIGNALHANDLERHEADERS_HPP

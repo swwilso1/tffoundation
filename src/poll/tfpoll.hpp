@@ -31,7 +31,7 @@ SOFTWARE.
 
 #if defined(USE_POLL_STRATEGY) && defined(HAS_POLL_H)
 #    include "tfunixpollworker.hxx"
-#elif deined(USE_SELECT_STRATEGY) && defined(HAS_SYS_SELECT_H)
+#elif defined(USE_SELECT_STRATEGY) && defined(HAS_SYS_SELECT_H)
 #    include "tfunixselectworker.hxx"
 #else
 #    error "Poll mechanism not supported"

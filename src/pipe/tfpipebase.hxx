@@ -49,16 +49,18 @@ namespace TF::Foundation
 
         PipeBase() {}
 
-        ~PipeBase(){};
+        ~PipeBase() {}
 
-        file_handle_type file_handle_for_reading() const
+        file_handle_type & file_handle_for_reading()
         {
-            return file_handle_type{};
+            static file_handle_type h{};
+            return h;
         }
 
-        file_handle_type file_handle_for_writing() const
+        file_handle_type & file_handle_for_writing()
         {
-            return file_handle_type{};
+            static file_handle_type h{};
+            return h;
         }
 
         void close_for_reading() {}
@@ -90,6 +92,8 @@ namespace TF::Foundation
 
     private:
         handle_type m_handles[2]{};
+        file_handle_type m_read_handle{};
+        file_handle_type m_write_handle{};
     };
 
     template<class Handle>

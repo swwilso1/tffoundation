@@ -1581,6 +1581,12 @@ namespace TF
             return String::initWithFormat("%@%c", this, c);
         }
 
+        String String::operator+(const unicode_point_type c) const
+        {
+            String s{c};
+            return *this + s;
+        }
+
         String & String::operator+=(const String & s)
         {
             *this = concatenateStrings(*this, s);
@@ -1588,6 +1594,12 @@ namespace TF
         }
 
         String & String::operator+=(const char c)
+        {
+            *this = *this + c;
+            return *this;
+        }
+
+        String & String::operator+=(const unicode_point_type c)
         {
             *this = *this + c;
             return *this;

@@ -133,8 +133,8 @@ namespace TF
         /** @brief range object */
         struct Range
         {
-            Size_t position;
-            Size_t length;
+            Size_t position{};
+            Size_t length{};
 
             /** @brief default constructor */
             Range() : position(0), length(0) {}
