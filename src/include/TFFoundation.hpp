@@ -40,6 +40,7 @@ SOFTWARE.
 #include "tfmap.hxx"
 #include "tfunordered_map.hxx"
 #include "tfthread.hpp"
+#include "tfthreadpool.hpp"
 #include "tfconditionvariable.hpp"
 #include "tfdata.hpp"
 #include "tfthreadsafequeue.hxx"
