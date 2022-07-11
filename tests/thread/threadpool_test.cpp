@@ -24,7 +24,6 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#include <iostream>
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
 
@@ -44,19 +43,19 @@ TEST(ThreadPool, single_job_pool)
     ThreadPool pool{pool_limit};
     pool.start();
 
-    for (int i = 0; i < pool_limit; i++)
+    for (bool & i : jobs_ran)
     {
-        jobs_ran[i] = false;
+        i = false;
         ThreadPool::pool_job job;
-        job.job_functions.emplace_back([&jobs_ran, i]() {
-            jobs_ran[i] = true;
+        job.job_functions.emplace_back([&i]() {
+            i = true;
         });
         pool.add_job(job);
     }
     Sleep(std::chrono::seconds(1));
-    for (int i = 0; i < pool_limit; i++)
+    for (bool & i : jobs_ran)
     {
-        EXPECT_TRUE(jobs_ran[i]);
+        EXPECT_TRUE(i);
     }
     pool.stop();
 }
@@ -82,9 +81,9 @@ TEST(ThreadPool, multi_job_pool)
         pool.add_job(job);
     }
     Sleep(std::chrono::seconds(1));
-    for (int i = 0; i < pool_limit; i++)
+    for (bool & i : jobs_ran)
     {
-        EXPECT_TRUE(jobs_ran[i]);
+        EXPECT_TRUE(i);
     }
     pool.stop();
 }
