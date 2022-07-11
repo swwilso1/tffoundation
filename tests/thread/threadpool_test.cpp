@@ -39,7 +39,7 @@ TEST(ThreadPool, start_stop_pool)
 
 TEST(ThreadPool, single_job_pool)
 {
-    int pool_limit{4};
+    static const int pool_limit{4};
     bool jobs_ran[pool_limit];
     ThreadPool pool{pool_limit};
     pool.start();
@@ -63,7 +63,7 @@ TEST(ThreadPool, single_job_pool)
 
 TEST(ThreadPool, multi_job_pool)
 {
-    int pool_limit{8};
+    static const int pool_limit{8};
     bool jobs_ran[pool_limit];
     ThreadPool pool{pool_limit};
     pool.start();
