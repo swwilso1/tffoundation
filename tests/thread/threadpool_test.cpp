@@ -39,7 +39,7 @@ TEST(ThreadPool, start_stop_pool)
 TEST(ThreadPool, single_job_pool)
 {
     static const int pool_limit{4};
-    bool jobs_ran[pool_limit];
+    bool jobs_ran[25];
     ThreadPool pool{pool_limit};
     pool.start();
 
@@ -52,7 +52,12 @@ TEST(ThreadPool, single_job_pool)
         });
         pool.add_job(job);
     }
+    // Give the pool a chance to start processing:
     Sleep(std::chrono::seconds(1));
+    while (! pool.is_idle())
+    {
+        Sleep(std::chrono::milliseconds(100));
+    }
     for (bool & i : jobs_ran)
     {
         EXPECT_TRUE(i);
@@ -63,11 +68,12 @@ TEST(ThreadPool, single_job_pool)
 TEST(ThreadPool, multi_job_pool)
 {
     static const int pool_limit{8};
-    bool jobs_ran[pool_limit];
+    static const int job_number{64};
+    bool jobs_ran[job_number];
     ThreadPool pool{pool_limit};
     pool.start();
 
-    for (int i = 0; i < pool_limit; i += 2)
+    for (int i = 0; i < job_number; i += 2)
     {
         jobs_ran[i] = false;
         jobs_ran[i + 1] = false;
@@ -80,10 +86,41 @@ TEST(ThreadPool, multi_job_pool)
         });
         pool.add_job(job);
     }
+    // Give the pool a chance to start processing:
     Sleep(std::chrono::seconds(1));
+    while (! pool.is_idle())
+    {
+        Sleep(std::chrono::milliseconds(100));
+    }
     for (bool & i : jobs_ran)
     {
         EXPECT_TRUE(i);
     }
+    pool.stop();
+}
+
+TEST(ThreadPool, add_remove_threads)
+{
+    ThreadPool pool{1};
+    pool.start();
+
+    EXPECT_EQ(pool.threads_in_use(), 1);
+
+    pool.add_pool_threads(1);
+
+    EXPECT_EQ(pool.threads_in_use(), 2);
+
+    pool.add_pool_threads(5);
+
+    EXPECT_EQ(pool.threads_in_use(), 7);
+
+    pool.remove_pool_threads(2);
+
+    EXPECT_EQ(pool.threads_in_use(), 5);
+
+    pool.remove_pool_threads(3);
+
+    EXPECT_EQ(pool.threads_in_use(), 2);
+
     pool.stop();
 }
