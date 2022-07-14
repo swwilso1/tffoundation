@@ -27,6 +27,7 @@ SOFTWARE.
 
 #include "tfthreadpool.hpp"
 #include "tfsleep.hpp"
+#include "tflog.hpp"
 
 namespace TF::Foundation
 {
@@ -47,7 +48,15 @@ namespace TF::Foundation
                 {
                     auto job = manager->jobs.front();
                     manager->set_working(true);
-                    job();
+                    try
+                    {
+                        job();
+                    }
+                    catch (...)
+                    {
+                        LOG(LogPriority::Error, "Pool thread %d job generated an exception, dropping job.",
+                            manager->id);
+                    }
                     manager->set_working(false);
                     manager->jobs.pop();
 
