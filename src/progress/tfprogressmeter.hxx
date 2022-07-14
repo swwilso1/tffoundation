@@ -54,11 +54,37 @@ namespace TF::Foundation
         using meter_callback = std::function<void(size_type percentage)>;
 
         /**
+         * @brief default constructor
+         * @param total
+         */
+        explicit ProgressMeter(size_type total = 1) : m_total{total} {}
+
+        /**
          * @brief constructor to initialize the meter with the total expected ticks and the callback function.
          * @param total the max ticks.
          * @param callback the callback function
          */
         ProgressMeter(size_type total, meter_callback callback) : m_total{total}, m_callback{callback} {}
+
+        /**
+         * @brief method to set the total ticks.
+         * @param total the total number of ticks.
+         */
+        void set_total(size_type total)
+        {
+            lock_type lock(m_mutex);
+            m_total = total;
+        }
+
+        /**
+         * @brief method to set the callback function.
+         * @param callback the callback function.
+         */
+        void set_callback(meter_callback callback)
+        {
+            lock_type lock(m_mutex);
+            m_callback = callback;
+        }
 
         /**
          * @brief method to increment the tracked progress value by 1.
@@ -100,7 +126,10 @@ namespace TF::Foundation
 
             if (percent > m_past_percent || force_notify)
             {
-                m_callback(percent);
+                if (m_callback)
+                {
+                    m_callback(percent);
+                }
             }
 
             m_past_percent = percent;
@@ -112,7 +141,7 @@ namespace TF::Foundation
         size_type m_total{1};
         size_type m_current{0};
         size_type m_past_percent{0};
-        meter_callback m_callback{};
+        meter_callback m_callback{nullptr};
         std::mutex m_mutex{};
     };
 
