@@ -32,22 +32,25 @@ SOFTWARE.
 
 using namespace TF::Foundation;
 
-using progress_meter_type = ProgressBar<uint32_t>;
+using progress_meter_type = ProgressMeter<uint32_t>;
 
-TEST(ProgressBar, compile_test)
+TEST(ProgressMeter, compile_test)
 {
     const progress_meter_type::size_type total = 32768;
-    progress_meter_type bar(40, total);
+    uint32_t previous_progress{0};
+
+    progress_meter_type meter(total, [&previous_progress](uint32_t progress) -> void {
+        EXPECT_GT(progress, previous_progress);
+    });
 
     for (progress_meter_type::size_type i = 0; i < total; i++)
     {
-        bar.increment();
-        bar.draw(std::cout);
+        meter.increment();
+        meter.notify();
 
         if ((i % 1024) == 0)
         {
-            usleep(50000);
+            Sleep(std::chrono::milliseconds(50));
         }
     }
-    std::cout << std::endl;
 }

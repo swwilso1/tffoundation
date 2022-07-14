@@ -81,6 +81,7 @@ SOFTWARE.
 #include "tfmultiqueue.hxx"
 #include "tfpoll.hpp"
 #include "tfprogressbar.hxx"
+#include "tfprogressmeter.hxx"
 #include "tfcrtp.hxx"
 #include "tfpipe.hpp"
 #include "tfcommandline.hpp"

@@ -10,3 +10,9 @@ build_and_run_test(
         ProgressTest
         tests/progress/progress_bar_test.cpp
 )
+
+build_and_run_test(
+        progress_meter
+        ProgressMeter
+        tests/progress/progress_meter_test.cpp
+)
