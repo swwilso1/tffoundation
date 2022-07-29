@@ -208,7 +208,8 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
-        typename FileHandleBase<Handle, Descriptor>::data_type FileHandleBase<Handle, Descriptor>::readAvailableData()
+        typename FileHandleBase<Handle, Descriptor>::data_type FileHandleBase<Handle, Descriptor>::readAvailableData(
+            size_type length)
         {
             data_type d;
             return d;

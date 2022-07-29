@@ -343,10 +343,10 @@ namespace TF
 #define kReadBufferSize 1024
 
         template<>
-        FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readAvailableData()
+        FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readAvailableData(size_type length)
         {
             data_type d;
-            char buffer[kReadBufferSize];
+            char buffer[length];
 
             if (m_handle == nullptr)
             {

@@ -314,9 +314,10 @@ namespace TF
              * The method reads a buffer of data available in the stream and returns that buffer.  The buffer length
              * is unspecified specifically to allow the file handle to read any data present in the stream.
              *
+             * @param length the number of bytes to try and read. Defaults to 1024.
              * @return a data object that contains the buffer of bytes read from the stream.
              */
-            data_type readAvailableData();
+            data_type readAvailableData(size_type length = 1024);
 
             /**
              * @brief method to read all the data in the file up to the end of the file.

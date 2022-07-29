@@ -118,7 +118,7 @@ namespace TF
         FileHandleBase<FILE *, int>::handle_type FileHandleBase<FILE *, int>::fileHandle();
 
         template<>
-        FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readAvailableData();
+        FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readAvailableData(size_type length);
 
         template<>
         FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readToEndOfFile();
