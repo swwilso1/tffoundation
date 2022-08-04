@@ -50,6 +50,7 @@ namespace TF
         class FileManager
         {
         public:
+#pragma mark - FileManager types
             /** @brief basic string type */
             using string_type = String;
 
@@ -65,10 +66,14 @@ namespace TF
             /** @brief file permissions type */
             using file_permissions_type = FilePermissions;
 
+#pragma mark - Constructors
+
             /**
              * @brief default constructor.
              */
             FileManager() = default;
+
+#pragma mark - Methods for finding directories
 
             /**
              * @brief method to return the name of a usable temporary directory.
@@ -95,6 +100,8 @@ namespace TF
              */
             string_type homeDirectoryForUser(const string_type & user) const;
 
+#pragma mark - Methods for collecting directory contents
+
             /**
              * @brief method to return a string array of the contents of a directory.
              * @param path the directory location
@@ -118,6 +125,8 @@ namespace TF
              * absolute path form.
              */
             string_array_type subpathsAtPath(const string_type & path) const;
+
+#pragma mark - Methods for creating and deleting file system entries
 
             /**
              * @brief method to create a directory at the named path
@@ -154,6 +163,8 @@ namespace TF
              */
             void forcefullyRemoveItemAtPath(const string_type & path) const;
 
+#pragma mark - Methods for copying and moving directory items
+
             /**
              * @brief method for copying a file.
              * @param sourcePath the source file
@@ -167,6 +178,8 @@ namespace TF
              * @param destPath the new location for the item.
              */
             void moveItemAtPathToPath(const string_type & sourcePath, const string_type & destPath) const;
+
+#pragma mark - Methods for linking directory items
 
             /**
              * @brief method to create a symbolic link to a file
@@ -191,6 +204,8 @@ namespace TF
              */
             bool itemAtPathIsLink(const string_type & path) const;
 
+#pragma mark - Methods to check for file system item existence
+
             /**
              * @brief method to check if a file exists at a path location
              * @param path the location
@@ -211,6 +226,8 @@ namespace TF
              * @return true if the item exists and false otherwise.
              */
             bool itemExistsAtPath(const string_type & path) const;
+
+#pragma mark - Methods for getting/setting meta data for file system items
 
             /**
              * @brief method to return the properties of the file system object located at @e path.
@@ -262,26 +279,6 @@ namespace TF
             bool isDeletableAtPath(const string_type & path) const;
 
             /**
-             * @brief method to compare the contents of two file system items.
-             * @param pathA the path to the first item
-             * @param pathB the path to the second item
-             * @return true if the two items contain the same contents and false otherwise.
-             */
-            bool contentsEqualAtPathAndPath(const string_type & pathA, const string_type & pathB) const;
-
-            /**
-             * @brief method to change the process' current working directory
-             * @param path the new working directory
-             */
-            void changeCurrentWorkingDirectoryToPath(const string_type & path);
-
-            /**
-             * @brief method to get the process' current working directory.
-             * @return the working directory
-             */
-            string_type currentWorkingDirectoryPath() const;
-
-            /**
              * Method to get the size (in bytes) of the file item
              * @param path the location of the file
              * @return the size in bytes of the file
@@ -302,6 +299,32 @@ namespace TF
              */
             string_type dirNameOfItemAtPath(const string_type & path) const;
 
+#pragma mark - Methods for comparing contents of file system items
+
+            /**
+             * @brief method to compare the contents of two file system items.
+             * @param pathA the path to the first item
+             * @param pathB the path to the second item
+             * @return true if the two items contain the same contents and false otherwise.
+             */
+            bool contentsEqualAtPathAndPath(const string_type & pathA, const string_type & pathB) const;
+
+#pragma mark - Methods for inspecting/manipulating the process working directory
+
+            /**
+             * @brief method to change the process' current working directory
+             * @param path the new working directory
+             */
+            void changeCurrentWorkingDirectoryToPath(const string_type & path);
+
+            /**
+             * @brief method to get the process' current working directory.
+             * @return the working directory
+             */
+            string_type currentWorkingDirectoryPath() const;
+
+#pragma mark - method for recursively examining all items in a directory
+
             /**
              * @brief method to walk the directory at @e path and call the callback function
              * for each item in the path. The method walks all directories recursively.
@@ -312,7 +335,11 @@ namespace TF
                                             const std::function<bool(const string_type & path)> & callback,
                                             bool * keep_running = nullptr) const;
 
+#pragma mark - ostream integration method
+
             std::ostream & description(std::ostream & o) const;
+
+#pragma mark - System specific path separator character
 
             static string_type pathSeparator;
         };
