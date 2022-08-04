@@ -80,6 +80,7 @@ SOFTWARE.
 #endif
 #include "tfmultiqueue.hxx"
 #include "tfpoll.hpp"
+#include "tfbasicprogressnotifier.hxx"
 #include "tfprogressbar.hxx"
 #include "tfprogressmeter.hxx"
 #include "tfcrtp.hxx"

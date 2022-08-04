@@ -6,6 +6,12 @@
 ################################################################################
 
 build_and_run_test(
+        basic_progress_notifier_test
+        BasicProgressNotifierTest
+        tests/progress/basic_progress_notifier_test.cpp
+)
+
+build_and_run_test(
         progress_test
         ProgressTest
         tests/progress/progress_bar_test.cpp
