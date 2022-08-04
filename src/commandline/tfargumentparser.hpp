@@ -979,9 +979,7 @@ namespace TF
 
             /**
              * @brief add a positional command-line argument to the parser.
-             * @param name a string list of short and long names for the argument.  The first
-             * element of the list is the short name and the second element of list is the long
-             * name.
+             * @param name a name for the argument.
              * @param type the argument type (Int,Real,%String,Bool)
              * @param help the help text for the argument's usage message.
              * @param required true if the command-line must provide a value for the argument and false otherwise.
