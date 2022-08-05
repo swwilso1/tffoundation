@@ -218,13 +218,33 @@ namespace TF
             arg.setArgumentType(type);
             arg.setHelp(help);
             arg.setRequired(required);
+            arg.setPositional(true);
             m_arguments.emplace_back(arg);
         }
 
         bool ArgumentParser::parseArgs(int argc, const char ** argv)
         {
             string_list_type argList;
-            for (int i = 0; i < argc; i++)
+            int start{0};
+
+            // Check to see if we have positional arguments.
+            bool has_positional_args{false};
+
+            for (auto & arg : m_arguments)
+            {
+                if (arg.getPositional())
+                {
+                    has_positional_args = true;
+                    break;
+                }
+            }
+
+            if (has_positional_args)
+            {
+                start = 1;
+            }
+
+            for (int i = start; i < argc; i++)
             {
                 argList.emplace_back(argv[i]);
             }

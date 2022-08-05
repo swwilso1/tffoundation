@@ -389,6 +389,16 @@ namespace TF
              */
             void setMatched(bool m);
 
+            void setPositional(bool p)
+            {
+                m_positional = p;
+            }
+
+            bool getPositional() const
+            {
+                return m_positional;
+            }
+
             std::ostream & description(std::ostream & o) const;
 
         private:
@@ -421,6 +431,8 @@ namespace TF
             bool m_required;
 
             bool m_matched;
+
+            bool m_positional{false};
 
             string_type m_help;
         };
