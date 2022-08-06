@@ -311,6 +311,17 @@ namespace TF
             /**
              * @brief method to read a buffer of data from the stream.
              *
+             * The method reads up to @e length bytes into @e buffer.
+             *
+             * @param buffer the pointer to the byte buffer.
+             * @param length the number of bytes in the buffer.
+             * @return the number of bytes read.
+             */
+            size_type readAvailableDataToBuffer(char * buffer, size_type length);
+
+            /**
+             * @brief method to read a buffer of data from the stream.
+             *
              * The method reads a buffer of data available in the stream and returns that buffer.  The buffer length
              * is unspecified specifically to allow the file handle to read any data present in the stream.
              *

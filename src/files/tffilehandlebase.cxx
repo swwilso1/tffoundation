@@ -208,9 +208,19 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        typename FileHandleBase<Handle, Descriptor>::size_type
+        FileHandleBase<Handle, Descriptor>::readAvailableDataToBuffer(char * buffer, size_type length)
+        {
+            (void)buffer;
+            (void)length;
+            return 0;
+        }
+
+        template<class Handle, class Descriptor>
         typename FileHandleBase<Handle, Descriptor>::data_type FileHandleBase<Handle, Descriptor>::readAvailableData(
             size_type length)
         {
+            (void)length;
             data_type d;
             return d;
         }

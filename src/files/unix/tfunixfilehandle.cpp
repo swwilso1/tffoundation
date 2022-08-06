@@ -343,14 +343,12 @@ namespace TF
 #define kReadBufferSize 1024
 
         template<>
-        FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readAvailableData(size_type length)
+        FileHandleBase<FILE *, int>::size_type FileHandleBase<FILE *, int>::readAvailableDataToBuffer(char * buffer,
+                                                                                                      size_type length)
         {
-            data_type d;
-            char buffer[length];
-
             if (m_handle == nullptr)
             {
-                return d;
+                return 0;
             }
 
             // We absolutely have to make use of read() here because the C stream library
@@ -358,17 +356,34 @@ namespace TF
 
             auto descriptor = fileDescriptor();
 
-            auto amountRead = read(descriptor, buffer, sizeof(buffer));
+            auto amountRead = read(descriptor, buffer, length);
             if (amountRead < 0)
             {
                 throw std::system_error{errno, std::system_category(), "Error reading from stream"};
             }
             else if (amountRead == 0)
             {
+                return 0;
+            }
+
+            return static_cast<size_type>(amountRead);
+        }
+
+        template<>
+        FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readAvailableData(size_type length)
+        {
+            data_type d;
+            auto buffer = std::unique_ptr<char, std::default_delete<char[]>>(new char[length]);
+            char * tmp = buffer.get();
+
+            auto amountRead = readAvailableDataToBuffer(tmp, length);
+
+            if (amountRead == 0)
+            {
                 return d;
             }
 
-            d.append(buffer, static_cast<Data::size_type>(amountRead));
+            d.append(tmp, static_cast<Data::size_type>(amountRead));
 
             return d;
         }
