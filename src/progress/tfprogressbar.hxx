@@ -55,7 +55,12 @@ namespace TF
         class ProgressBar : public AllocatorInterface
         {
         public:
+
+#pragma mark - Public types
+
             using size_type = INTEGER;
+
+#pragma mark - Constructors
 
             /**
              * @brief constructor that takes the bar width parameter
@@ -76,6 +81,8 @@ namespace TF
                 init(width);
             }
 
+#pragma mark - Setters
+
             /**
              * @brief method to set the total number.
              * @param total the total number value.
@@ -84,6 +91,8 @@ namespace TF
             {
                 m_total = total;
             }
+
+#pragma mark - Increment methods
 
             /**
              * @brief method to increment the tracked progress value by 1.
@@ -103,6 +112,8 @@ namespace TF
                 lock_type lock(m_mutex);
                 m_current += offset;
             }
+
+#pragma mark - Draw method
 
             /**
              * @brief method to draw the progress bar to a stream
@@ -142,8 +153,11 @@ namespace TF
             }
 
         private:
+#pragma mark - Internal types
             using lock_type = std::lock_guard<std::mutex>;
             using unique_pointer_type = std::unique_ptr<char, std::default_delete<char[]>>;
+
+#pragma mark - Instance members
 
             size_type m_width{10};
             size_type m_total{1};
@@ -151,6 +165,8 @@ namespace TF
             size_type m_past_percent{0};
             std::mutex m_mutex{};
             unique_pointer_type m_meter{};
+
+#pragma mark - Helper methods
 
             /**
              * @brief helper method to initialize the ProgressBar object.
