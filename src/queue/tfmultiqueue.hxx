@@ -147,7 +147,7 @@ namespace TF
                     }
                     else
                     {
-                        assert(m_back_of_queue);
+                        assert(m_back_of_queue != nullptr);
                         MultiQueueBlock<T> * new_block = new MultiQueueBlock<T>(t);
                         m_back_of_queue->next = new_block;
                         m_back_of_queue = new_block;
@@ -172,6 +172,11 @@ namespace TF
                     {
                         if (tmp->reference_count == 0)
                         {
+                            if (m_back_of_queue == tmp)
+                            {
+                                m_back_of_queue = tmp->next;
+                            }
+
                             if (prev != nullptr)
                             {
                                 prev->next = tmp->next;
@@ -189,6 +194,23 @@ namespace TF
                         {
                             prev = tmp;
                             tmp = tmp->next;
+                        }
+                    }
+
+                    if (m_back_of_queue == nullptr)
+                    {
+                        if (size() == 1)
+                        {
+                            m_back_of_queue = m_head;
+                        }
+                        else
+                        {
+                            tmp = m_head;
+                            while (tmp != nullptr)
+                            {
+                                m_back_of_queue = tmp;
+                                tmp = tmp->next;
+                            }
                         }
                     }
                     return true;
