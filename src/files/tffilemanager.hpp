@@ -328,12 +328,27 @@ namespace TF
             /**
              * @brief method to walk the directory at @e path and call the callback function
              * for each item in the path. The method walks all directories recursively.
-             * @param path the path to walk
-             * @param callback the callback function to call for each item in the path.
+             * @param path the path to walk.
+             * @param callback the callback function to call for each item in the path. Return false
+             * to stop the walk.
              */
             void walkItemsAtPathRecursively(const string_type & path,
                                             const std::function<bool(const string_type & path)> & callback,
                                             bool * keep_running = nullptr) const;
+
+            /**
+             * @brief method to walk the contents of the directory at @e path and call the callback function
+             * for each item in the path.
+             * @param top_down if true, then walk the directories in a top down approach, if false, walk the
+             * directories in a bottom up approach.
+             * @param path the path to walk
+             * @param callback the callback function to call. Return false to stop the walk.
+             * @param keep_running a pointer to a boolean that method will check to see if it needs to keep
+             * processing the path.
+             */
+            void walkItemsAtPath(bool top_down, const string_type & path,
+                                 const std::function<bool(const string_type & path)> & callback,
+                                 bool * keep_running = nullptr) const;
 
 #pragma mark - ostream integration method
 

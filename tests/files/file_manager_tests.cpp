@@ -226,26 +226,35 @@ TEST(FileManagerTest, DirnameOfItemTest)
     EXPECT_EQ(dirname, "/tmp/path/to/something");
 }
 
+void create_test_directories(FileManager & fm, String & dir1, String & dir2, String file_name1, String file_name2)
+{
+    if (! fm.directoryExistsAtPath(dir1))
+    {
+        fm.createDirectoryAtPath(dir1);
+    }
+    if (! fm.directoryExistsAtPath(dir2))
+    {
+        fm.createDirectoryAtPath(dir2);
+    }
+
+    auto handle = FileHandle::fileHandleForWritingAtPath(dir1 + fm.pathSeparator + file_name1);
+    const char some_data[100]{};
+    Data file_contents{some_data, 100};
+    handle.writeData(file_contents);
+    handle.closeFile();
+
+    handle = FileHandle::fileHandleForWritingAtPath(dir2 + fm.pathSeparator + file_name2);
+    handle.writeData(file_contents);
+    handle.closeFile();
+}
+
 TEST(FileManagerTest, WalkDirectoriesTest)
 {
     FileManager fm;
     auto tmp_path = fm.temporaryDirectory();
     auto dir1 = tmp_path + fm.pathSeparator + "Directory1";
     auto dir2 = dir1 + fm.pathSeparator + "Directory2";
-    if (! fm.directoryExistsAtPath(dir1))
-    {
-        fm.createDirectoriesAtPath(dir2);
-    }
-
-    auto handle = FileHandle::fileHandleForWritingAtPath(dir1 + fm.pathSeparator + "File1.txt");
-    const char some_data[100]{};
-    Data file_contents{some_data, 100};
-    handle.writeData(file_contents);
-    handle.closeFile();
-
-    handle = FileHandle::fileHandleForWritingAtPath(dir2 + fm.pathSeparator + "File2.txt");
-    handle.writeData(file_contents);
-    handle.closeFile();
+    create_test_directories(fm, dir1, dir2, "File1.txt", "File2.txt");
 
     std::vector<String> walk_list;
 
@@ -255,6 +264,43 @@ TEST(FileManagerTest, WalkDirectoriesTest)
     });
 
     // walkItemsAtPathRecursively recurses depth first.
+    EXPECT_EQ(walk_list[0], dir2 + fm.pathSeparator + "File2.txt");
+    EXPECT_EQ(walk_list[1], dir2);
+    EXPECT_EQ(walk_list[2], dir1 + fm.pathSeparator + "File1.txt");
+
+    fm.forcefullyRemoveItemAtPath(dir1);
+}
+
+TEST(FileManagerTest, WalkItemsAtPathTest)
+{
+    FileManager fm;
+    auto tmp_path = fm.temporaryDirectory();
+    auto dir1 = tmp_path + fm.pathSeparator + "Directory1";
+    auto dir2 = dir1 + fm.pathSeparator + "Directory2";
+    create_test_directories(fm, dir1, dir2, "File1.txt", "File2.txt");
+
+    std::vector<String> walk_list;
+
+    fm.walkItemsAtPath(true, dir1, [&walk_list](const String & path) -> bool {
+        walk_list.emplace_back(path);
+        return true;
+    });
+
+    // Check top-down first
+    EXPECT_EQ(walk_list[0], dir2);
+    EXPECT_EQ(walk_list[1], dir1 + fm.pathSeparator + "File1.txt");
+    EXPECT_EQ(walk_list[2], dir2 + fm.pathSeparator + "File2.txt");
+
+    fm.forcefullyRemoveItemAtPath(dir1);
+    walk_list.clear();
+
+    create_test_directories(fm, dir1, dir2, "File1.txt", "File2.txt");
+
+    fm.walkItemsAtPath(false, dir1, [&walk_list](const String & path) -> bool {
+        walk_list.emplace_back(path);
+        return true;
+    });
+
     EXPECT_EQ(walk_list[0], dir2 + fm.pathSeparator + "File2.txt");
     EXPECT_EQ(walk_list[1], dir2);
     EXPECT_EQ(walk_list[2], dir1 + fm.pathSeparator + "File1.txt");

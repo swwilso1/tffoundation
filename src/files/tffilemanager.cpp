@@ -192,6 +192,13 @@ namespace TF
                                                      const std::function<bool(const string_type & path)> & callback,
                                                      bool * keep_running) const
         {
+            walkItemsAtPath(false, path, callback, keep_running);
+        }
+
+        void FileManager::walkItemsAtPath(bool top_down, const string_type & path,
+                                          const std::function<bool(const string_type & path)> & callback,
+                                          bool * keep_running) const
+        {
             bool my_keep_running = true;
             if (keep_running == nullptr)
             {
@@ -209,49 +216,66 @@ namespace TF
                 return;
             }
 
-            string_array_type directories{};
-            string_array_type files{};
-
             auto contents = contentsOfDirectoryAtPath(path);
 
-            // Separate into files and directories.
-            for (auto & item : contents)
+            if (top_down)
             {
-                auto fullpath = path + pathSeparator + item;
-
-                if (directoryExistsAtPath(fullpath))
+                string_array_type directories{};
+                for (auto & item : contents)
                 {
-                    directories.emplace_back(fullpath);
+                    auto full_path = path + pathSeparator + item;
+                    *keep_running = callback(full_path);
+                    if (! *keep_running)
+                    {
+                        return;
+                    }
+                    if (directoryExistsAtPath(full_path))
+                    {
+                        directories.emplace_back(full_path);
+                    }
                 }
-                else
+
+                for (auto & item : directories)
                 {
-                    files.emplace_back(fullpath);
+                    walkItemsAtPath(top_down, item, callback, keep_running);
+                    if (! *keep_running)
+                    {
+                        return;
+                    }
                 }
             }
-
-            // Walk the directories first.
-            for (auto & directory : directories)
+            else
             {
-                walkItemsAtPathRecursively(directory, callback, keep_running);
-                if (! *keep_running)
+                string_array_type files{};
+                for (auto & item : contents)
                 {
-                    return;
-                }
-                *keep_running = callback(directory);
-                if (! *keep_running)
-                {
-                    return;
-                }
-            }
+                    auto full_path = path + pathSeparator + item;
+                    if (! directoryExistsAtPath(full_path))
+                    {
+                        files.emplace_back(full_path);
+                        continue;
+                    }
 
-            // Now the files.
-            for (auto & file : files)
-            {
-                *keep_running = callback(file);
-                if (! *keep_running)
+                    walkItemsAtPath(top_down, full_path, callback, keep_running);
+                    if (! *keep_running)
+                    {
+                        return;
+                    }
+                    *keep_running = callback(full_path);
+                    if (! *keep_running)
+                    {
+                        return;
+                    }
+                };
+
+                for (auto & item : files)
                 {
-                    return;
-                }
+                    *keep_running = callback(item);
+                    if (! *keep_running)
+                    {
+                        return;
+                    }
+                };
             }
         }
 
