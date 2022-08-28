@@ -28,6 +28,7 @@ SOFTWARE.
 #define NEEDS_SYSTEM_ERROR
 #define NEEDS_CERRNO
 #define NEEDS_MEMORY
+#define NEEDS_ALGORITHM
 #include "tfheaders.hpp"
 #include "tffilemanager.hpp"
 
@@ -91,6 +92,10 @@ namespace TF
             }
 
             closedir(opaqueDirHandle);
+
+            // Sort the contents array to give deterministic ordering when platforms
+            // read directory contents in different orders.
+            std::sort(contentsArray.begin(), contentsArray.end());
 
             return contentsArray;
         }
