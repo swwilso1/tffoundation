@@ -20,6 +20,7 @@ include(src/format/config.cmake)
 include(src/include/config.cmake)
 include(src/log/config.cmake)
 include(src/multivalue/config.cmake)
+include(src/network/config.cmake)
 include(src/notification/config.cmake)
 include(src/pipe/config.cmake)
 include(src/poll/config.cmake)
@@ -52,6 +53,7 @@ include_directories(
     src/include
     src/log
     src/multivalue
+    src/network
     src/notification
     src/numerics
     src/pipe

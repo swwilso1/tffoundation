@@ -1013,6 +1013,80 @@ SOFTWARE.
 #    undef NEEDS_VECTOR
 #endif
 
+// Platform specific headers
+
+#if defined(NEEDS_ARPA_INET_H)
+#    if defined(HAS_POLL_H)
+#        include <arpa/inet.h>
+#    else
+#        error "Platform specific header <arpa/inet.h> required, but not available"
+#    endif
+#    undef NEEDS_ARPA_INET_H
+#endif
+
+#if defined(NEEDS_IPHLPAPI_H)
+#    if defined(HAS_IPHLPAPI_H)
+#        include <iphlpapi.h>
+#    else
+#        error "Platform specific header <iphlpapi.h> required, but not available"
+#    endif
+#    undef NEEDS_IHLPAPI_H
+#endif
+
+#if defined(NEEDS_NET_IF_H)
+#    if defined(HAS_NET_IF_H)
+#        include <net/if.h>
+#    else
+#        error "Platform specific header <net/if.h> required, but not available"
+#    endif
+#    undef NEEDS_NET_IF_H
+#endif
+
+#if defined(NEEDS_NET_IF_DL_H)
+#    if defined(HAS_NET_IF_DL_H)
+#        include <net/if_dl.h>
+#    else
+#        error "Platform specific header <net/if_dl.h> required, but not available"
+#    endif
+#    undef NEEDS_NET_IF_DL_H
+#endif
+
+#if defined(NEEDS_NET_IF_TYPES_H)
+#    if defined(HAS_NET_IF_TYPES_H)
+#        include <net/if_types.h>
+#    else
+#        error "Platform specific header <net/if_types.h> required, but not available"
+#    endif
+#    undef NEEDS_NET_IF_TYPES_H
+#endif
+
+#if defined(NEEDS_NET_ROUTE_H)
+#    if defined(HAS_NET_ROUTE_H)
+#        include <net/route.h>
+#    else
+#        error "Platform specific header <net/route.h> required, but not available"
+#    endif
+#    undef NEEDS_NET_ROUTE_H
+#endif
+
+#if defined(NEEDS_NETDB_H)
+#    if defined(HAS_NETDB_H)
+#        include <netdb.h>
+#    else
+#        error "Platform specific header <netdb.h> required, but not available"
+#    endif
+#    undef NEEDS_NETDB_H
+#endif
+
+#if defined(NEEDS_NETINET_IN_H)
+#    if defined(HAS_NETINET_IN_H)
+#        include <netinet/in.h>
+#    else
+#        error "Platform specific header <netinet/in.h> required, but not available"
+#    endif
+#    undef NEEDS_NETINET_IN_H
+#endif
+
 #if defined(NEEDS_POLL_H)
 #    if defined(HAS_POLL_H)
 #        include <poll.h>
@@ -1022,6 +1096,24 @@ SOFTWARE.
 #    undef NEEDS_POLL_H
 #endif
 
+#if defined(NEEDS_SYS_FILE_H)
+#    if defined(HAS_SYS_FILE_H)
+#        include <sys/file.h>
+#    else
+#        error "Platform specific header <sys/file.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_FILE_H
+#endif
+
+#if defined(NEEDS_SYS_IOCTL_H)
+#    if defined(HAS_SYS_IOCTL_H)
+#        include <sys/ioctl.h>
+#    else
+#        error "Platform specific header <sys/ioctl.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_IOCTL_H
+#endif
+
 #if defined(NEEDS_SYS_SELECT_H)
 #    if defined(HAS_SYS_SELECT_H)
 #        include <sys/select.h>
@@ -1029,4 +1121,58 @@ SOFTWARE.
 #        error "Platform specific header <sys/select.h> required, but not available"
 #    endif
 #    undef NEEDS_SYS_SELECT_H
+#endif
+
+#if defined(NEEDS_SYS_SOCKET_H)
+#    if defined(HAS_SYS_SOCKET_H)
+#        include <sys/socket.h>
+#    else
+#        error "Platform specific header <sys/socket.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_SOCKET_H
+#endif
+
+#if defined(NEEDS_SYS_SYSCTL_H)
+#    if defined(HAS_SYS_SYSCTL_H)
+#        include <sys/sysctl.h>
+#    else
+#        error "Platform specific header <sys/sysctl.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_SYSCTL_H
+#endif
+
+#if defined(NEEDS_SYS_TIME_H)
+#    if defined(HAS_SYS_TIME_H)
+#        include <sys/time.h>
+#    else
+#        error "Platform specific header <sys/time.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_TIME_H
+#endif
+
+#if defined(NEEDS_SYS_TYPES_H)
+#    if defined(HAS_SYS_TYPES_H)
+#        include <sys/types.h>
+#    else
+#        error "Platform specific header <sys/types.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_TYPES_H
+#endif
+
+#if defined(NEEDS_WINSOCK2_H)
+#    if defined(HAS_WINSOCK2_H)
+#        include <winsock2.h>
+#    else
+#        error "Platform specific header <winsock2.h> required, but not available"
+#    endif
+#    undef NEEDS_WINSOCK2_H
+#endif
+
+#if defined(NEEDS_WS2TCPIP_H)
+#    if defined(HAS_WS2TCPIP_H)
+#        include <ws2tcpip.h>
+#    else
+#        error "Platform specific header <ws2tcpip.h> required, but not available"
+#    endif
+#    undef NEEDS_WS2TCPIP_H
 #endif

@@ -93,3 +93,4 @@ SOFTWARE.
 #    include "tfsignalset.hpp"
 #    include "tfsignalmanager.hpp"
 #endif
+#include "tfipaddress.hpp"

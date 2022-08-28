@@ -147,8 +147,26 @@ namespace TF
 #cmakedefine HAS_VALARRAY
 #cmakedefine HAS_VARIANT
 #cmakedefine HAS_VECTOR
+
+// Platform specific headers
+#cmakedefine HAS_ARPA_INET_H
+#cmakedefine HAS_IPHLPAPI_H
+#cmakedefine HAS_NET_IF_H
+#cmakedefine HAS_NET_IF_DL_H
+#cmakedefine HAS_NET_IF_TYPES_H
+#cmakedefine HAS_NET_ROUTE_H
+#cmakedefine HAS_NETDB_H
+#cmakedefine HAS_NETINET_IN_H
 #cmakedefine HAS_POLL_H
+#cmakedefine HAS_SYS_FILE_H
+#cmakedefine HAS_SYS_IOCTL_H
 #cmakedefine HAS_SYS_SELECT_H
+#cmakedefine HAS_SYS_SOCKET_H
+#cmakedefine HAS_SYS_SYSCTL_H
+#cmakedefine HAS_SYS_TIME_H
+#cmakedefine HAS_SYS_TYPES_H
+#cmakedefine HAS_WINSOCK2_H
+#cmakedefine HAS_WS2TCPIP_H
 
     } // namespace Foundation
 
