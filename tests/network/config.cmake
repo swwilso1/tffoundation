@@ -10,3 +10,9 @@ build_and_run_test(
     IPAddressTest
     tests/network/ipaddress_test.cpp
 )
+
+build_and_run_test(
+    network_interface_test
+    NetworkInterfaceTest
+    tests/network/network_interface_test.cpp
+)

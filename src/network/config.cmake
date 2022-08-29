@@ -10,6 +10,7 @@ list(APPEND FOUNDATION_HEADER_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkaddress.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkerror.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkinitialization.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkinterface.hpp
     )
 
 list(APPEND FOUNDATION_SOURCE_FILES
@@ -19,6 +20,8 @@ list(APPEND FOUNDATION_SOURCE_FILES
     src/network/tfnetworkerror.cpp
     src/network/tfnetworkerror.hpp
     src/network/tfnetworkinitialization.hpp
+    src/network/tfnetworkinterface.cpp
+    src/network/tfnetworkinterface.hpp
     )
 
 if (UNIX)

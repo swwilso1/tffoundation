@@ -94,3 +94,4 @@ SOFTWARE.
 #    include "tfsignalmanager.hpp"
 #endif
 #include "tfipaddress.hpp"
+#include "tfnetworkinterface.hpp"
