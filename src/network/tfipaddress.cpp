@@ -28,6 +28,7 @@ SOFTWARE.
 #define NEEDS_SYS_SOCKET_H
 #define NEEDS_NETDB_H
 #define NEEDS_ARRAY
+#define NEEDS_CASSERT
 #include "tfheaders.hpp"
 #include "tfipaddress.hpp"
 #include "tfnetworkerror.hpp"

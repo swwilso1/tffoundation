@@ -24,6 +24,8 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#define NEEDS_CSTRING
+#include "tfheaders.hpp"
 #include "tfnetworkaddress.hpp"
 
 namespace TF::Foundation
@@ -37,7 +39,7 @@ namespace TF::Foundation
     NetworkAddress::NetworkAddress(const NetworkAddress & a)
     {
         clear();
-        memcpy(&m_address, &a.m_address, a.address_length());
+        std::memcpy(&m_address, &a.m_address, a.address_length());
     }
 
     NetworkAddress::NetworkAddress(const struct sockaddr * sa, size_type length)
@@ -45,7 +47,7 @@ namespace TF::Foundation
         clear();
         if (sa != nullptr && length > 0 && length <= sizeof(struct sockaddr_storage))
         {
-            memcpy(&m_address, sa, length * sizeof(char));
+            std::memcpy(&m_address, sa, length * sizeof(char));
         }
         else
         {
