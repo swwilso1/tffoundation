@@ -192,6 +192,24 @@ namespace TF::Foundation
             (void)receive;
         }
 
+        template<typename T, typename = std::enable_if_t<std::is_standard_layout_v<T> && std::is_trivial_v<T> &&
+                                                         ! std::is_pointer_v<T>>>
+        [[nodiscard]] auto get_option(int option, int option_level) -> T
+        {
+            (void)option;
+            (void)option_level;
+            return {};
+        }
+
+        template<typename T, typename = std::enable_if_t<std::is_standard_layout_v<T> && std::is_trivial_v<T> &&
+                                                         ! std::is_pointer_v<T>>>
+        void set_option(int option, int option_level, const T & thing)
+        {
+            (void)option;
+            (void)option_level;
+            (void)thing;
+        }
+
 #pragma mark - duplication methods
 
         [[nodiscard]] auto duplicate() -> SocketBase

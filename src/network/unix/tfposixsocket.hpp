@@ -98,6 +98,14 @@ namespace TF::Foundation
     void SocketBase<int>::set_receive_signals(bool receive);
 
     template<>
+    template<typename T, typename B>
+    auto SocketBase<int>::get_option(int option, int option_level) -> T;
+
+    template<>
+    template<typename T, typename B>
+    void SocketBase<int>::set_option(int option, int option_level, const T & thing);
+
+    template<>
     auto SocketBase<int>::duplicate() -> SocketBase;
 
     template<>

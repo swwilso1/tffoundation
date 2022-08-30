@@ -340,6 +340,32 @@ namespace TF::Foundation
     }
 
     template<>
+    template<typename T, typename B>
+    auto SocketBase<int>::get_option(int option, int option_level) -> T
+    {
+        T thing{};
+        socklen_t length_of_thing{sizeof(T)};
+        auto api_result = getsockopt(m_socket, option_level, option, &thing, &length_of_thing);
+        if (api_result < 0)
+        {
+            throw std::system_error{errno, std::system_category(), "Getsockopt failed"};
+        }
+        return thing;
+    }
+
+    template<>
+    template<typename T, typename B>
+    void SocketBase<int>::set_option(int option, int option_level, const T & thing)
+    {
+        socklen_t thing_length{sizeof(T)};
+        auto api_result = setsockopt(m_socket, option_level, option, &thing, &thing_length);
+        if (api_result < 0)
+        {
+            throw std::system_error{errno, std::system_category(), "Setsockopt failed"};
+        }
+    }
+
+    template<>
     auto SocketBase<int>::duplicate() -> SocketBase
     {
         auto new_socket_fd = dup(m_socket);
