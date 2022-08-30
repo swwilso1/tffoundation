@@ -1024,6 +1024,15 @@ SOFTWARE.
 #    undef NEEDS_ARPA_INET_H
 #endif
 
+#if defined(NEEDS_FCNTL_H)
+#    if defined(HAS_FCNTL_H)
+#        include <fcntl.h>
+#    else
+#        error "Platform specific header <fcnt.h> required, but not available"
+#    endif
+#    undef NEEDS_FCNTL_H
+#endif
+
 #if defined(NEEDS_IPHLPAPI_H)
 #    if defined(HAS_IPHLPAPI_H)
 #        include <iphlpapi.h>
@@ -1157,6 +1166,15 @@ SOFTWARE.
 #        error "Platform specific header <sys/types.h> required, but not available"
 #    endif
 #    undef NEEDS_SYS_TYPES_H
+#endif
+
+#if defined(NEEDS_UNISTD_H)
+#    if defined(HAS_UNISTD_H)
+#        include <unistd.h>
+#    else
+#        error "Platform specific header <unistd.h> required, but not available"
+#    endif
+#    undef NEEDS_UNISTD_H
 #endif
 
 #if defined(NEEDS_WINSOCK2_H)

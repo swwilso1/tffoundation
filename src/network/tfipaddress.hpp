@@ -34,11 +34,12 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfstring.hpp"
+#include "tfnetworkinitialization.hpp"
 
 namespace TF::Foundation
 {
 
-    class IPAddress : public AllocatorInterface
+    class IPAddress : public AllocatorInterface, NetworkInitializer
     {
     public:
 #pragma mark - class types
@@ -141,6 +142,12 @@ namespace TF::Foundation
          * @return a unique_ptr to the struct sockaddr.
          */
         [[nodiscard]] auto get_as_sockaddr() const -> std::unique_ptr<struct sockaddr>;
+
+        /**
+         * @brief method to get the length of the struct sockaddr structure.
+         * @return the number of bytes in the struct sockaddr structure.
+         */
+        [[nodiscard]] auto get_sockaddr_length() const -> size_type;
 
 #pragma mark - string name getters
 

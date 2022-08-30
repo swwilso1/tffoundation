@@ -57,7 +57,7 @@ namespace TF::Foundation
 
     NetworkAddress::~NetworkAddress() {}
 
-    NetworkAddress & NetworkAddress::operator=(const NetworkAddress & a)
+    auto NetworkAddress::operator=(const NetworkAddress & a) -> NetworkAddress &
     {
         if (this == &a)
         {
@@ -70,7 +70,7 @@ namespace TF::Foundation
         return *this;
     }
 
-    bool NetworkAddress::operator==(const NetworkAddress & a) const
+    auto NetworkAddress::operator==(const NetworkAddress & a) const -> bool
     {
         if (this == &a)
         {
@@ -80,12 +80,12 @@ namespace TF::Foundation
         return std::memcmp(&m_address, &a.m_address, a.address_length()) == 0;
     }
 
-    bool NetworkAddress::operator!=(const NetworkAddress & a) const
+    auto NetworkAddress::operator!=(const NetworkAddress & a) const -> bool
     {
         return ! (*this == a);
     }
 
-    bool NetworkAddress::operator<(const NetworkAddress & a) const
+    auto NetworkAddress::operator<(const NetworkAddress & a) const -> bool
     {
         if (this == &a)
         {
@@ -98,12 +98,12 @@ namespace TF::Foundation
         return *me < *thee;
     }
 
-    const struct sockaddr * NetworkAddress::get_as_sockaddr() const
+    auto NetworkAddress::get_as_sockaddr() const -> const struct sockaddr *
     {
         return reinterpret_cast<const struct sockaddr *>(&m_address);
     }
 
-    NetworkAddress::size_type NetworkAddress::address_length() const
+    auto NetworkAddress::address_length() const -> NetworkAddress::size_type
     {
         return sizeof(struct sockaddr_storage);
     }

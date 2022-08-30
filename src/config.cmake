@@ -74,6 +74,7 @@ include_directories(
 if(UNIX)
     include_directories(
         src/files/unix
+        src/network/unix
         src/process/unix
         src/signal
         src/uuid/unix

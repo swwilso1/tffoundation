@@ -24,30 +24,15 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFNETWORKINITIALIZATION_HPP
-#define TFNETWORKINITIALIZATION_HPP
+#include "gtest/gtest.h"
+#include "TFFoundation.hpp"
 
-#define NEEDS_MUTEX
-#include "tfheaders.hpp"
-#include "tftypes.hpp"
-#include "tfallocator.hpp"
+using namespace TF::Foundation;
 
-namespace TF::Foundation
+TEST(SocketTest, compile_test)
 {
-
-    class NetworkInitializer
-    {
-    public:
-        NetworkInitializer();
-
-        virtual ~NetworkInitializer() {}
-
-    private:
-        static std::mutex s_initializer_mutex;
-        static bool s_did_initialize_network;
-        static bool initialize_network();
-    };
-
-} // namespace TF::Foundation
-
-#endif // TFNETWORKINITIALIZATION_HPP
+    InternetAddress address{IPAddress::address_from_string("127.0.0.1"), 5902};
+    Socket s{PF_INET, SOCK_STREAM};
+    EXPECT_NO_THROW(s.bind(address));
+    EXPECT_NO_THROW(s.listen());
+}

@@ -42,19 +42,33 @@ namespace TF
 
         /**
          * Method to check whether a bitmask event type contains an event.
-         * @tparam T type bitmask type
+         * @tparam INTEGER type bitmask type
          * @param event the event mask
          * @param pevent the event
          * @return true if the @e event mask contains @e pevent and false otherwise.
          */
-        template<typename T>
-        bool event_set_for(T event, PollEvent pevent)
+        template<typename INTEGER, typename = std::enable_if_t<std::is_integral<INTEGER>::value>>
+        bool event_set_for(INTEGER event, PollEvent pevent)
         {
-            if ((static_cast<int>(event) & static_cast<int>(pevent)) == static_cast<int>(pevent))
+            if ((event & static_cast<INTEGER>(pevent)) == static_cast<INTEGER>(pevent))
             {
                 return true;
             }
             return false;
+        }
+
+        /**
+         * @brief method to set poll events in a bitmask of another type.
+         * @tparam INTEGER the type
+         * @param event the event var
+         * @param pevent the poll event value
+         * @return event with the bitmask value of @e pevent added.
+         */
+        template<typename INTEGER, typename = std::enable_if_t<std::is_integral<INTEGER>::value>>
+        auto set_event_for(INTEGER event, PollEvent pevent) -> INTEGER
+        {
+            event |= static_cast<INTEGER>(pevent);
+            return event;
         }
 
     } // namespace Foundation

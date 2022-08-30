@@ -24,30 +24,38 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFNETWORKINITIALIZATION_HPP
-#define TFNETWORKINITIALIZATION_HPP
+#ifndef TFINTERNETADDRESS_HPP
+#define TFINTERNETADDRESS_HPP
 
-#define NEEDS_MUTEX
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
+#include "tfnetworkaddress.hpp"
+#include "tfipaddress.hpp"
+#include "tfstring.hpp"
 
 namespace TF::Foundation
 {
 
-    class NetworkInitializer
+    class InternetAddress : public NetworkAddress
     {
     public:
-        NetworkInitializer();
+        using string_type = String;
 
-        virtual ~NetworkInitializer() {}
+        InternetAddress();
+        InternetAddress(const IPAddress & addr, in_port_t port);
+        InternetAddress(const string_type & addr, in_port_t port);
+
+        [[nodiscard]] auto address_length() const -> size_type override;
+
+        auto get_ip_address() const -> IPAddress;
+        auto get_port() const -> int;
 
     private:
-        static std::mutex s_initializer_mutex;
-        static bool s_did_initialize_network;
-        static bool initialize_network();
+        bool m_ipv4_address{false};
+        void init(const IPAddress & addr, in_port_t port);
     };
 
 } // namespace TF::Foundation
 
-#endif // TFNETWORKINITIALIZATION_HPP
+#endif // TFINTERNETADDRESS_HPP

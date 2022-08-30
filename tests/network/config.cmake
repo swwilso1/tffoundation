@@ -16,3 +16,9 @@ build_and_run_test(
     NetworkInterfaceTest
     tests/network/network_interface_test.cpp
 )
+
+build_and_run_test(
+    socket_test
+    SocketTest
+    tests/network/socket_test.cpp
+)

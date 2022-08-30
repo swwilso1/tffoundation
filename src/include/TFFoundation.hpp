@@ -95,3 +95,6 @@ SOFTWARE.
 #endif
 #include "tfipaddress.hpp"
 #include "tfnetworkinterface.hpp"
+#include "tfnetworkaddress.hpp"
+#include "tfinternetaddress.hpp"
+#include "tfsocket.hpp"

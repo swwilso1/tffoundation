@@ -31,6 +31,7 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
+#include "tfnetworkinitialization.hpp"
 
 namespace TF::Foundation
 {
@@ -39,7 +40,7 @@ namespace TF::Foundation
      * NetworkAddress provides a base class for a hierarchy of address types centered around
      * struct sockaddr (struct sockaddr_in, struct sockaddr_in6, struct sockadder_netlink, ...).
      */
-    class NetworkAddress : public AllocatorInterface
+    class NetworkAddress : public AllocatorInterface, NetworkInitializer
     {
     public:
         using size_type = Size_t;
@@ -72,34 +73,34 @@ namespace TF::Foundation
          * @param a the address to copy
          * @return the updated contents of the object.
          */
-        NetworkAddress & operator=(const NetworkAddress & a);
+        auto operator=(const NetworkAddress & a) -> NetworkAddress &;
 
         /**
          * @brief equality operator
          * @param a the other address
          * @return true if the two addresses have the same underlying contents
          */
-        bool operator==(const NetworkAddress & a) const;
+        auto operator==(const NetworkAddress & a) const -> bool;
 
         /**
          * @brief in-equality operator
          * @param a the other address
          * @return true if the two addresses do not have the same underlying contents.
          */
-        bool operator!=(const NetworkAddress & a) const;
+        auto operator!=(const NetworkAddress & a) const -> bool;
 
         /**
          * @brief less-than operator
          * @param a the other address
          * @return true if the this address is numerically less than @e a.
          */
-        bool operator<(const NetworkAddress & a) const;
+        auto operator<(const NetworkAddress & a) const -> bool;
 
         /**
          * @brief method to get the underlying structure as a sockaddr pointer.
          * @return the pointer to the sockaddr.
          */
-        const struct sockaddr * get_as_sockaddr() const;
+        [[nodiscard]] virtual auto get_as_sockaddr() const -> const struct sockaddr *;
 
         /**
          * @brief method to return the length of the underlying structure.
@@ -108,7 +109,7 @@ namespace TF::Foundation
          * Override this method when inheriting from this class to specialie
          * interaction with one of the sub-versions of struct sockaddr.
          */
-        virtual size_type address_length() const;
+        [[nodiscard]] virtual auto address_length() const -> size_type;
 
         /**
          * @brief method to initialize the contents of the address to zero.

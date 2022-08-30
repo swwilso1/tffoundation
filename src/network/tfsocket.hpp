@@ -24,30 +24,14 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFNETWORKINITIALIZATION_HPP
-#define TFNETWORKINITIALIZATION_HPP
+#ifndef TFSOCKET_HPP
+#define TFSOCKET_HPP
 
-#define NEEDS_MUTEX
-#include "tfheaders.hpp"
-#include "tftypes.hpp"
-#include "tfallocator.hpp"
+#include "tfplatform.hpp"
+#include "tfsocketbase.hxx"
 
-namespace TF::Foundation
-{
+#if defined(TFUNIX)
+#    include "tfposixsocket.hpp"
+#endif
 
-    class NetworkInitializer
-    {
-    public:
-        NetworkInitializer();
-
-        virtual ~NetworkInitializer() {}
-
-    private:
-        static std::mutex s_initializer_mutex;
-        static bool s_did_initialize_network;
-        static bool initialize_network();
-    };
-
-} // namespace TF::Foundation
-
-#endif // TFNETWORKINITIALIZATION_HPP
+#endif // TFSOCKET_HPP

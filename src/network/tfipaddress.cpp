@@ -218,7 +218,7 @@ namespace TF::Foundation
 
     auto IPAddress::get_as_sockaddr() const -> std::unique_ptr<struct sockaddr>
     {
-        std::unique_ptr<struct sockaddr> return_value{};
+        std::unique_ptr<struct sockaddr> return_value{nullptr};
         if (m_address_family == PF_INET)
         {
             auto address_in_pointer = new sockaddr_in{};
@@ -234,6 +234,19 @@ namespace TF::Foundation
             return_value = std::unique_ptr<struct sockaddr>(reinterpret_cast<struct sockaddr *>(address_in_pointer));
         }
         return return_value;
+    }
+
+    auto IPAddress::get_sockaddr_length() const -> size_type
+    {
+        if (m_address_family == PF_INET)
+        {
+            return sizeof(struct sockaddr_in);
+        }
+        else if (m_address_family == PF_INET6)
+        {
+            return sizeof(struct sockaddr_in6);
+        }
+        return 0;
     }
 
     auto IPAddress::is_ipv4_address() const -> bool
