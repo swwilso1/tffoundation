@@ -59,6 +59,11 @@ namespace TF::Foundation
             (void)protocol;
         }
 
+        ~SocketBase()
+        {
+            close();
+        }
+
 #pragma mark - write methods
 
         [[nodiscard]] auto write(const void * p, size_type length) -> size_type
