@@ -25,7 +25,6 @@ SOFTWARE.
 ******************************************************************************/
 
 #include "tfnetworkinterfaces.hpp"
-#include "tfnetlink.hpp"
 #include "tflog.hpp"
 
 namespace TF::Foundation

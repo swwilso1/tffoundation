@@ -46,8 +46,10 @@ namespace TF::Foundation
     template<>
     void SocketBase<int>::write_data(const data_type & data);
 
+#if defined(TFLINUX)
     template<>
     void SocketBase<int>::write_message(const struct msghdr & message, int flags);
+#endif
 
     template<>
     auto SocketBase<int>::write_to(const address_type & address, const void * p, size_type length) -> size_type;
@@ -67,8 +69,10 @@ namespace TF::Foundation
     template<>
     auto SocketBase<int>::read_as_data(size_type length) -> data_type;
 
+#if defined(TFLINUX)
     template<>
     auto SocketBase<int>::read_message(struct msghdr & message, int flags) -> size_type;
+#endif
 
     template<>
     auto SocketBase<int>::read_from(void * p, size_type length) -> std::tuple<address_type, size_type>;

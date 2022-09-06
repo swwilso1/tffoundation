@@ -81,6 +81,7 @@ namespace TF::Foundation
         write_all(tmp, bytes_left_to_write);
     }
 
+#if defined(TFLINUX)
     template<>
     void SocketBase<int>::write_message(const struct msghdr & message, int flags)
     {
@@ -90,6 +91,7 @@ namespace TF::Foundation
             throw std::system_error{errno, std::system_category(), "Sendmsg error"};
         }
     }
+#endif
 
     template<>
     auto SocketBase<int>::write_to(const address_type & address, const void * p, size_type length) -> size_type
@@ -184,6 +186,7 @@ namespace TF::Foundation
         }
     }
 
+#if defined(TFLINUX)
     template<>
     auto SocketBase<int>::read_message(struct msghdr & message, int flags) -> size_type
     {
@@ -194,6 +197,7 @@ namespace TF::Foundation
         }
         return static_cast<size_type>(api_result);
     }
+#endif
 
     template<>
     auto SocketBase<int>::read_from(void * p, size_type length) -> std::tuple<address_type, size_type>
