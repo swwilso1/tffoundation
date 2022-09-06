@@ -31,6 +31,8 @@ namespace TF::Foundation
 
     InternetAddress::InternetAddress() : NetworkAddress() {}
 
+    InternetAddress::InternetAddress(const void * p, size_type length) : NetworkAddress(p, length) {}
+
     InternetAddress::InternetAddress(const IPAddress & addr, in_port_t port) : NetworkAddress()
     {
         init(addr, port);
@@ -44,35 +46,50 @@ namespace TF::Foundation
 
     auto InternetAddress::address_length() const -> size_type
     {
-        if (m_ipv4_address)
+        auto address = reinterpret_cast<const struct sockaddr *>(&m_address);
+        if (address->sa_family == PF_INET)
         {
             return sizeof(struct sockaddr_in);
         }
-        return sizeof(struct sockaddr_in6);
+        else if (address->sa_family == PF_INET6)
+        {
+            return sizeof(struct sockaddr_in6);
+        }
+        return sizeof(struct sockaddr_storage);
     }
 
     auto InternetAddress::get_ip_address() const -> IPAddress
     {
-        if (m_ipv4_address)
+        auto address = reinterpret_cast<const struct sockaddr *>(&m_address);
+        if (address->sa_family == PF_INET)
         {
             auto sockaddr_ptr = reinterpret_cast<const struct sockaddr_in *>(&m_address);
-            IPAddress address{sockaddr_ptr->sin_addr};
-            return address;
+            IPAddress ip_address{sockaddr_ptr->sin_addr};
+            return ip_address;
         }
-        auto sockaddr_ptr = reinterpret_cast<const struct sockaddr_in6 *>(&m_address);
-        IPAddress address{sockaddr_ptr->sin6_addr};
-        return address;
+        else if (address->sa_family == PF_INET6)
+        {
+            auto sockaddr_ptr = reinterpret_cast<const struct sockaddr_in6 *>(&m_address);
+            IPAddress ip_address{sockaddr_ptr->sin6_addr};
+            return ip_address;
+        }
+        throw std::runtime_error{"InternetAddress does not contain an IPv4 or IPv6 address"};
     }
 
     auto InternetAddress::get_port() const -> int
     {
-        if (m_ipv4_address)
+        auto address = reinterpret_cast<const struct sockaddr *>(&m_address);
+        if (address->sa_family == PF_INET)
         {
             auto sockaddr_ptr = reinterpret_cast<const struct sockaddr_in *>(&m_address);
             return ntohs(sockaddr_ptr->sin_port);
         }
-        auto sockaddr_ptr = reinterpret_cast<const struct sockaddr_in6 *>(&m_address);
-        return ntohs(sockaddr_ptr->sin6_port);
+        else if (address->sa_family == PF_INET6)
+        {
+            auto sockaddr_ptr = reinterpret_cast<const struct sockaddr_in6 *>(&m_address);
+            return ntohs(sockaddr_ptr->sin6_port);
+        }
+        throw std::runtime_error{"Internet does not contain an IPv4 or IPv6 address"};
     }
 
     void InternetAddress::init(const IPAddress & addr, in_port_t port)
@@ -90,7 +107,6 @@ namespace TF::Foundation
             auto sockaddr_in_ptr = reinterpret_cast<struct sockaddr_in *>(sockaddr_ptr.get());
             sockaddr_in_ptr->sin_port = htons(port);
             sockaddr_in_ptr->sin_family = PF_INET;
-            m_ipv4_address = true;
         }
         else if (addr.is_ipv6_address())
         {

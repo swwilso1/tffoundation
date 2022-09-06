@@ -69,6 +69,15 @@ namespace TF::Foundation
         explicit IPAddress(const struct in6_addr & ipv6_address);
 
         /**
+         * @rief constructor from void p and length.
+         * @param p the pointer to the address buffer
+         * @param length the length of the address buffer.
+         *
+         * @e p must point to either a struct in_addr or struct in6_addr object.
+         */
+        IPAddress(const void * p, size_type length);
+
+        /**
          * @brief copy constructor
          * @param a the other address.
          */

@@ -98,3 +98,4 @@ SOFTWARE.
 #include "tfnetworkaddress.hpp"
 #include "tfinternetaddress.hpp"
 #include "tfsocket.hpp"
+#include "tfnetworkinterfaces.hpp"

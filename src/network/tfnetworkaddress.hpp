@@ -57,11 +57,19 @@ namespace TF::Foundation
         NetworkAddress(const NetworkAddress & a);
 
         /**
-         * @brief contructor to initialize from struct sockaddr and length
+         * @brief constructor to initialize from struct sockaddr and length
          * @param sa the pointer to struct sockaddr
          * @param length the length of struct sockaddr (ie the length of the actual struct).
          */
         NetworkAddress(const struct sockaddr * sa, size_type length);
+
+        /**
+         * @brief constructor to initialize from a byte array with length.
+         * @param p the byte array.
+         * @param length the length of the byte array.  The length must be <=
+         * sizeof(struct sockaddr_storage).
+         */
+        NetworkAddress(const void * p, size_type length);
 
         /**
          * @brief destructor

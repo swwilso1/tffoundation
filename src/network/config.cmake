@@ -12,6 +12,7 @@ list(APPEND FOUNDATION_HEADER_FILES
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkerror.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkinitialization.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkinterface.hpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfnetworkinterfaces.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfsocket.hpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/network/tfsocketbase.hxx
     )
@@ -33,6 +34,8 @@ list(APPEND FOUNDATION_SOURCE_FILES
     src/network/tfnetworkinitialization.hpp
     src/network/tfnetworkinterface.cpp
     src/network/tfnetworkinterface.hpp
+    src/network/tfnetworkinterfaces.cpp
+    src/network/tfnetworkinterfaces.hpp
     src/network/tfsocket.hpp
     src/network/tfsocketbase.hxx
     )

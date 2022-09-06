@@ -24,38 +24,13 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFINTERNETADDRESS_HPP
-#define TFINTERNETADDRESS_HPP
-
-#include "tfheaders.hpp"
-#include "tftypes.hpp"
-#include "tfallocator.hpp"
-#include "tfnetworkaddress.hpp"
-#include "tfipaddress.hpp"
-#include "tfstring.hpp"
+#include "tfnetworkinterfaces.hpp"
+#include "tfnetlink.hpp"
+#include "tflog.hpp"
 
 namespace TF::Foundation
 {
 
-    class InternetAddress : public NetworkAddress
-    {
-    public:
-        using string_type = String;
-
-        InternetAddress();
-        InternetAddress(const void * p, size_type length);
-        InternetAddress(const IPAddress & addr, in_port_t port);
-        InternetAddress(const string_type & addr, in_port_t port);
-
-        [[nodiscard]] auto address_length() const -> size_type override;
-
-        auto get_ip_address() const -> IPAddress;
-        auto get_port() const -> int;
-
-    private:
-        void init(const IPAddress & addr, in_port_t port);
-    };
+    void NetworkInterfaces::load_interfaces() {}
 
 } // namespace TF::Foundation
-
-#endif // TFINTERNETADDRESS_HPP

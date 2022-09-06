@@ -82,6 +82,16 @@ namespace TF::Foundation
     }
 
     template<>
+    void SocketBase<int>::write_message(const struct msghdr & message, int flags)
+    {
+        auto api_result = sendmsg(m_socket, &message, flags);
+        if (api_result < 0)
+        {
+            throw std::system_error{errno, std::system_category(), "Sendmsg error"};
+        }
+    }
+
+    template<>
     auto SocketBase<int>::write_to(const address_type & address, const void * p, size_type length) -> size_type
     {
         auto bytes_wrote =
@@ -172,6 +182,17 @@ namespace TF::Foundation
             }
             return data;
         }
+    }
+
+    template<>
+    auto SocketBase<int>::read_message(struct msghdr & message, int flags) -> size_type
+    {
+        auto api_result = recvmsg(m_socket, &message, flags);
+        if (api_result < 0)
+        {
+            throw std::system_error{errno, std::system_category(), "Recvmsg returned an error"};
+        }
+        return static_cast<size_type>(api_result);
     }
 
     template<>
@@ -340,25 +361,25 @@ namespace TF::Foundation
     }
 
     template<>
-    template<typename T, typename B>
-    auto SocketBase<int>::get_option(int option, int option_level) -> T
+    void SocketBase<int>::get_option(int option, int option_level, void * p, size_type * length)
     {
-        T thing{};
-        socklen_t length_of_thing{sizeof(T)};
-        auto api_result = getsockopt(m_socket, option_level, option, &thing, &length_of_thing);
+        socklen_t option_length;
+        auto api_result = getsockopt(m_socket, option_level, option, p, &option_length);
         if (api_result < 0)
         {
             throw std::system_error{errno, std::system_category(), "Getsockopt failed"};
         }
-        return thing;
+        if (length != nullptr)
+        {
+            *length = static_cast<size_type>(option_length);
+        }
     }
 
     template<>
-    template<typename T, typename B>
-    void SocketBase<int>::set_option(int option, int option_level, const T & thing)
+    void SocketBase<int>::set_option(int option, int option_level, void * p, size_type length)
     {
-        socklen_t thing_length{sizeof(T)};
-        auto api_result = setsockopt(m_socket, option_level, option, &thing, &thing_length);
+        auto option_length = static_cast<socklen_t>(length);
+        auto api_result = setsockopt(m_socket, option_level, option, p, option_length);
         if (api_result < 0)
         {
             throw std::system_error{errno, std::system_category(), "Setsockopt failed"};

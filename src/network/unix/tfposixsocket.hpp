@@ -47,6 +47,9 @@ namespace TF::Foundation
     void SocketBase<int>::write_data(const data_type & data);
 
     template<>
+    void SocketBase<int>::write_message(const struct msghdr & message, int flags);
+
+    template<>
     auto SocketBase<int>::write_to(const address_type & address, const void * p, size_type length) -> size_type;
 
     template<>
@@ -63,6 +66,9 @@ namespace TF::Foundation
 
     template<>
     auto SocketBase<int>::read_as_data(size_type length) -> data_type;
+
+    template<>
+    auto SocketBase<int>::read_message(struct msghdr & message, int flags) -> size_type;
 
     template<>
     auto SocketBase<int>::read_from(void * p, size_type length) -> std::tuple<address_type, size_type>;
@@ -98,12 +104,10 @@ namespace TF::Foundation
     void SocketBase<int>::set_receive_signals(bool receive);
 
     template<>
-    template<typename T, typename B>
-    auto SocketBase<int>::get_option(int option, int option_level) -> T;
+    void SocketBase<int>::get_option(int option, int option_level, void * p, size_type * length);
 
     template<>
-    template<typename T, typename B>
-    void SocketBase<int>::set_option(int option, int option_level, const T & thing);
+    void SocketBase<int>::set_option(int option, int option_level, void * p, size_type length);
 
     template<>
     auto SocketBase<int>::duplicate() -> SocketBase;

@@ -1024,6 +1024,15 @@ SOFTWARE.
 #    undef NEEDS_ARPA_INET_H
 #endif
 
+#if defined(NEEDS_ASM_TYPES_H)
+#    if defined(HAS_ASM_TYPES_H)
+#        include <asm/types.h>
+#    else
+#        error "Platform specific header <asm/types.h> required, but not available"
+#    endif
+#    undef NEEDS_ASM_TYPES_H
+#endif
+
 #if defined(NEEDS_FCNTL_H)
 #    if defined(HAS_FCNTL_H)
 #        include <fcntl.h>
@@ -1040,6 +1049,33 @@ SOFTWARE.
 #        error "Platform specific header <iphlpapi.h> required, but not available"
 #    endif
 #    undef NEEDS_IHLPAPI_H
+#endif
+
+#if defined(NEEDS_LINUX_NETLINK_H)
+#    if defined(HAS_LINUX_NETLINK_H)
+#        include <linux/netlink.h>
+#    else
+#        error "Platform specific header <linux/netlink.h> required, but not available"
+#    endif
+#    undef NEEDS_LINUX_NETLINK_H
+#endif
+
+#if defined(NEEDS_LINUX_RTNETLINK_H)
+#    if defined(HAS_LINUX_RTNETLINK_H)
+#        include <linux/rtnetlink.h>
+#    else
+#        error "Platform specific header <linux/rtnetlink.h> required, but not available"
+#    endif
+#    undef NEEDS_LINUX_RTNETLINK_H
+#endif
+
+#if defined(NEEDS_LINUX_WIRELESS_H)
+#    if defined(HAS_LINUX_WIRELESS_H)
+#        include <linux/wireless.h>
+#    else
+#        error "Platform specific header <linux/wireless.h> required, but not available"
+#    endif
+#    undef NEEDS_LINUX_WIRELESS_H
 #endif
 
 #if defined(NEEDS_NET_IF_H)
@@ -1103,6 +1139,15 @@ SOFTWARE.
 #        error "Platform specific header <poll.h> required, but not available"
 #    endif
 #    undef NEEDS_POLL_H
+#endif
+
+#if defined(NEEDS_PTHREAD_H)
+#    if defined(HAS_PTHREAD_H)
+#        include <pthread.h>
+#    else
+#        error "Platform specific header <pthread.h> required, but not available"
+#    endif
+#    undef NEEDS_PTHREAD_H
 #endif
 
 #if defined(NEEDS_SYS_FILE_H)

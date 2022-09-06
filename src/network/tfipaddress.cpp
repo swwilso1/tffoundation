@@ -50,6 +50,24 @@ namespace TF::Foundation
         std::memcpy(&m_address.ipv6_address, &ipv6_address, sizeof(struct in6_addr));
     }
 
+    IPAddress::IPAddress(const void * p, size_type length)
+    {
+        if (length == sizeof(struct in_addr))
+        {
+            std::memcpy(&m_address.ipv4_address, p, length);
+            m_address_family = PF_INET;
+            return;
+        }
+        else if (length == sizeof(struct in6_addr))
+        {
+            std::memcpy(&m_address.ipv6_address, p, length);
+            m_address_family = PF_INET6;
+            return;
+        }
+
+        throw std::invalid_argument{"Argument not of length of IPv4 or IPv6 address"};
+    }
+
     IPAddress::IPAddress(const IPAddress & a)
     {
         std::memcpy(&m_address, &a.m_address, sizeof(address_type));

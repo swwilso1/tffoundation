@@ -24,38 +24,36 @@ SOFTWARE.
 
 ******************************************************************************/
 
-#ifndef TFINTERNETADDRESS_HPP
-#define TFINTERNETADDRESS_HPP
-
+#define NEEDS_SYS_TYPES_H
+#define NEEDS_SYS_SOCKET_H
+#define NEEDS_SYS_IOCTL_H
+#define NEEDS_LINUX_WIRELESS_H
 #include "tfheaders.hpp"
-#include "tftypes.hpp"
-#include "tfallocator.hpp"
-#include "tfnetworkaddress.hpp"
-#include "tfipaddress.hpp"
-#include "tfstring.hpp"
+#include "tfnetworkinterface.hpp"
 
 namespace TF::Foundation
 {
-
-    class InternetAddress : public NetworkAddress
+    auto NetworkInterface::is_wireless_interface() const -> bool
     {
-    public:
-        using string_type = String;
+        struct iwreq req_struct
+        {};
+        std::memset(&req_struct, 0, sizeof(struct iwreq));
 
-        InternetAddress();
-        InternetAddress(const void * p, size_type length);
-        InternetAddress(const IPAddress & addr, in_port_t port);
-        InternetAddress(const string_type & addr, in_port_t port);
+        auto name_cstring = m_name.cStr();
 
-        [[nodiscard]] auto address_length() const -> size_type override;
+        // We cannot use m_name.length() because it m_name may contain non-ascii characters.
+        auto name_strlen = std::strlen(name_cstring.get());
+        std::memcpy(req_struct.ifr_name, name_cstring.get(), name_strlen > IFNAMSIZ ? IFNAMSIZ : name_strlen);
 
-        auto get_ip_address() const -> IPAddress;
-        auto get_port() const -> int;
+        auto s = socket(PF_INET, SOCK_STREAM, 0);
+        if (s < 0)
+        {
+            throw std::system_error{errno, std::system_category(), "unable to create socket for ioctl use"};
+        }
 
-    private:
-        void init(const IPAddress & addr, in_port_t port);
-    };
+        auto api_result = ioctl(s, SIOCGIWNAME, &req_struct);
+        close(s);
+        return api_result < 0 ? false : true;
+    }
 
 } // namespace TF::Foundation
-
-#endif // TFINTERNETADDRESS_HPP

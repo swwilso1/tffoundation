@@ -45,14 +45,22 @@ namespace TF::Foundation
     NetworkAddress::NetworkAddress(const struct sockaddr * sa, size_type length)
     {
         clear();
-        if (sa != nullptr && length > 0 && length <= sizeof(struct sockaddr_storage))
+        if (sa == nullptr || length == 0 || length > sizeof(struct sockaddr_storage))
         {
-            std::memcpy(&m_address, sa, length * sizeof(char));
+            throw std::runtime_error{
+                "Network address given a null pointer, a zero length address, or an address longer than sockaddr_storage"};
         }
-        else
+        std::memcpy(&m_address, sa, length * sizeof(char));
+    }
+
+    NetworkAddress::NetworkAddress(const void * p, size_type length)
+    {
+        clear();
+        if (p == nullptr || length == 0 || length > sizeof(struct sockaddr_storage))
         {
-            throw std::runtime_error{"Network address given a null pointer or zero length address"};
+            throw std::invalid_argument{"NetworkAddress argument byte array exceeds size of struct sockaddr_storage"};
         }
+        std::memcpy(&m_address, p, length * sizeof(char));
     }
 
     NetworkAddress::~NetworkAddress() {}

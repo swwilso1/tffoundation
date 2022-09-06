@@ -63,6 +63,11 @@ namespace TF::Foundation
         m_addresses.emplace_back(address);
     }
 
+    auto NetworkInterface::get_addresses() const -> const address_list_type &
+    {
+        return m_addresses;
+    }
+
     auto NetworkInterface::get_ipv4_addresses() const -> address_list_type
     {
         return get_addresses_by_criteria([](const address_type & address) -> bool {
@@ -93,6 +98,33 @@ namespace TF::Foundation
                 return address.is_ipv6_address();
             },
             "no ipv6 address assigned to interface");
+    }
+
+    auto NetworkInterface::get_global_address() const -> address_type
+    {
+        return get_address_by_criteria(
+            [](const address_type & address) {
+                return address.is_global_address();
+            },
+            "no global address assigned to interface");
+    }
+
+    auto NetworkInterface::get_global_ipv4_address() const -> address_type
+    {
+        return get_address_by_criteria(
+            [](const address_type & address) {
+                return address.is_global_address() && address.is_ipv4_address();
+            },
+            "no global ipv4 address assigned to interface");
+    }
+
+    auto NetworkInterface::get_global_ipv6_address() const -> address_type
+    {
+        return get_address_by_criteria(
+            [](const address_type & address) {
+                return address.is_global_address() && address.is_ipv6_address();
+            },
+            "no global ipv6 address assigned to interface");
     }
 
     auto NetworkInterface::get_presentation_names() -> string_list_type
@@ -177,6 +209,27 @@ namespace TF::Foundation
     {
         return has_address_by_criteria([](const address_type & address) -> bool {
             return address.is_ipv6_address();
+        });
+    }
+
+    auto NetworkInterface::has_global_address() const -> bool
+    {
+        return has_address_by_criteria([](const address_type & address) -> bool {
+            return address.is_global_address();
+        });
+    }
+
+    auto NetworkInterface::has_global_ipv4_address() const -> bool
+    {
+        return has_address_by_criteria([](const address_type & address) -> bool {
+            return address.is_global_address() && address.is_ipv4_address();
+        });
+    }
+
+    auto NetworkInterface::has_global_ipv6_address() const -> bool
+    {
+        return has_address_by_criteria([](const address_type & address) -> bool {
+            return address.is_global_address() && address.is_ipv6_address();
         });
     }
 

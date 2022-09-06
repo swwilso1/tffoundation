@@ -22,3 +22,9 @@ build_and_run_test(
     SocketTest
     tests/network/socket_test.cpp
 )
+
+build_and_run_test(
+    network_interfaces_test
+    NetworkInterfacesTest
+    tests/network/network_interfaces_test.cpp
+)
