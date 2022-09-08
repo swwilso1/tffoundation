@@ -68,6 +68,31 @@ namespace TF::Foundation
         throw std::invalid_argument{"Argument not of length of IPv4 or IPv6 address"};
     }
 
+    IPAddress::IPAddress(const struct sockaddr * sa)
+    {
+        if (sa == nullptr)
+        {
+            throw std::invalid_argument{"Argument is nullptr"};
+        }
+
+        if (sa->sa_family == PF_INET)
+        {
+            auto ptr = reinterpret_cast<const struct sockaddr_in *>(sa);
+            std::memcpy(&m_address.ipv4_address, &ptr->sin_addr.s_addr, sizeof(struct in_addr));
+            m_address_family = PF_INET;
+        }
+        else if (sa->sa_family == PF_INET6)
+        {
+            auto ptr = reinterpret_cast<const struct sockaddr_in6 *>(sa);
+            std::memcpy(&m_address.ipv6_address, &ptr->sin6_addr, sizeof(struct in6_addr));
+            m_address_family = PF_INET6;
+        }
+        else
+        {
+            throw std::invalid_argument{"Sockaddr struct does not contain an IPv4 or IPv6 address"};
+        }
+    }
+
     IPAddress::IPAddress(const IPAddress & a)
     {
         std::memcpy(&m_address, &a.m_address, sizeof(address_type));
@@ -248,7 +273,7 @@ namespace TF::Foundation
         {
             auto address_in_pointer = new sockaddr_in6{};
             address_in_pointer->sin6_family = PF_INET6;
-            memcpy(&address_in_pointer->sin6_addr, &m_address.ipv4_address, sizeof(struct in6_addr));
+            memcpy(&address_in_pointer->sin6_addr, &m_address.ipv6_address, sizeof(struct in6_addr));
             return_value = std::unique_ptr<struct sockaddr>(reinterpret_cast<struct sockaddr *>(address_in_pointer));
         }
         return return_value;
@@ -418,13 +443,13 @@ namespace TF::Foundation
         return o;
     }
 
-    auto IPAddress::get_presentation_name() -> string_pointer_type
+    auto IPAddress::get_presentation_name(bool remove_ipv6_scope) -> string_pointer_type
     {
         if (m_presentation_name != nullptr)
         {
             return m_presentation_name;
         }
-        m_presentation_name = get_address_name();
+        m_presentation_name = get_address_name(false, remove_ipv6_scope);
         return m_presentation_name;
     }
 
@@ -450,7 +475,7 @@ namespace TF::Foundation
         throw std::runtime_error{error_cstr.get()};
     }
 
-    auto IPAddress::get_address_name(bool get_dns_name) const -> IPAddress::string_pointer_type
+    auto IPAddress::get_address_name(bool get_dns_name, bool remove_ipv6_scope) const -> IPAddress::string_pointer_type
     {
         auto address_pointer = get_as_sockaddr();
         std::array<char, NI_MAXHOST> hostname{};
@@ -482,11 +507,14 @@ namespace TF::Foundation
         }
 
         string_type the_name(hostname.data(), std::strlen(hostname.data()));
-        auto range_of_char = the_name.rangeOfString("%");
-        if (range_of_char.length > 0)
+        if (remove_ipv6_scope)
         {
-            Range range_of_name{0, range_of_char.length};
-            the_name = the_name.substringWithRange(range_of_name);
+            auto range_of_char = the_name.rangeOfString("%");
+            if (range_of_char.length > 0)
+            {
+                Range range_of_name{0, range_of_char.position};
+                the_name = the_name.substringWithRange(range_of_name);
+            }
         }
 
         return std::make_shared<string_type>(the_name);

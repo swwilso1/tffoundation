@@ -78,6 +78,14 @@ namespace TF::Foundation
         IPAddress(const void * p, size_type length);
 
         /**
+         * @brief constructor from a sockaddr pointer.
+         * @param sa the struct sockaddr pointer.
+         *
+         * Will throw an exception if @e sa is nullptr;
+         */
+        IPAddress(const struct sockaddr * sa);
+
+        /**
          * @brief copy constructor
          * @param a the other address.
          */
@@ -162,9 +170,11 @@ namespace TF::Foundation
 
         /**
          * @brief method to get the string presentation name of the address
+         * @param remove_ipv6_scope true if the method should remove any '%dev' scoping
+         * in IPv6 addresses.
          * @return a shared pointer pointing to the presentation name string.
          */
-        auto get_presentation_name() -> string_pointer_type;
+        auto get_presentation_name(bool remove_ipv6_scope = false) -> string_pointer_type;
 
         /**
          * @brief method to get the string dns name of the address
@@ -259,7 +269,8 @@ namespace TF::Foundation
          *
          * When @e get_dns_name is false, only load the presentation name.
          */
-        [[nodiscard]] auto get_address_name(bool get_dns_name = false) const -> string_pointer_type;
+        [[nodiscard]] auto get_address_name(bool get_dns_name = false, bool remove_ipv6_scope = false) const
+            -> string_pointer_type;
     };
 
     auto operator<<(std::ostream & o, const IPAddress & a) -> std::ostream &;
