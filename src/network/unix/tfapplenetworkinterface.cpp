@@ -74,8 +74,8 @@ namespace TF::Foundation
                     if (CFStringCompare(interface_type, kSCNetworkInterfaceTypeIEEE80211, 0) == 0)
                     {
                         method_result = true;
-                        break;
                     }
+                    break;
                 }
             }
         }
