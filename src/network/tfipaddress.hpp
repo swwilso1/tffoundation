@@ -158,7 +158,7 @@ namespace TF::Foundation
          * @brief method to get the address as part of a struct sockaddr.
          * @return a unique_ptr to the struct sockaddr.
          */
-        [[nodiscard]] auto get_as_sockaddr() const -> std::unique_ptr<struct sockaddr>;
+        [[nodiscard]] auto get_as_sockaddr() const -> std::unique_ptr<struct sockaddr_storage>;
 
         /**
          * @brief method to get the length of the struct sockaddr structure.

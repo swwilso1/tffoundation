@@ -259,22 +259,23 @@ namespace TF::Foundation
         return m_address_family;
     }
 
-    auto IPAddress::get_as_sockaddr() const -> std::unique_ptr<struct sockaddr>
+    auto IPAddress::get_as_sockaddr() const -> std::unique_ptr<struct sockaddr_storage>
     {
-        std::unique_ptr<struct sockaddr> return_value{nullptr};
+        auto return_value = std::make_unique<struct sockaddr_storage>();
+
+        std::memset(return_value.get(), 0, sizeof(struct sockaddr_storage));
+
         if (m_address_family == PF_INET)
         {
-            auto address_in_pointer = new sockaddr_in{};
+            auto address_in_pointer = reinterpret_cast<struct sockaddr_in *>(return_value.get());
             address_in_pointer->sin_family = PF_INET;
             memcpy(&address_in_pointer->sin_addr, &m_address.ipv4_address, sizeof(struct in_addr));
-            return_value = std::unique_ptr<struct sockaddr>(reinterpret_cast<struct sockaddr *>(address_in_pointer));
         }
         else if (m_address_family == PF_INET6)
         {
-            auto address_in_pointer = new sockaddr_in6{};
+            auto address_in_pointer = reinterpret_cast<struct sockaddr_in6 *>(return_value.get());
             address_in_pointer->sin6_family = PF_INET6;
             memcpy(&address_in_pointer->sin6_addr, &m_address.ipv6_address, sizeof(struct in6_addr));
-            return_value = std::unique_ptr<struct sockaddr>(reinterpret_cast<struct sockaddr *>(address_in_pointer));
         }
         return return_value;
     }
@@ -499,8 +500,8 @@ namespace TF::Foundation
         socklen_t address_length =
             m_address_family == PF_INET ? sizeof(struct sockaddr_in) : sizeof(struct sockaddr_in6);
 
-        auto api_result = getnameinfo(address_pointer.get(), address_length, hostname.data(), NI_MAXHOST,
-                                      servicename.data(), NI_MAXSERV, flags);
+        auto api_result = getnameinfo(reinterpret_cast<struct sockaddr *>(address_pointer.get()), address_length,
+                                      hostname.data(), NI_MAXHOST, servicename.data(), NI_MAXSERV, flags);
         if (api_result != 0)
         {
             runtime_error_from_api_error(api_result);
