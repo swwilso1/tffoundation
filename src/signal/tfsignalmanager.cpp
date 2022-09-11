@@ -25,6 +25,7 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#include "tfplatformheaders.h"
 #define NEEDS_ALGORITHM
 #define NEEDS_CHRONO
 #include "tfheaders.hpp"
@@ -32,6 +33,12 @@ SOFTWARE.
 
 #define USE_POLL_STRATEGY
 #include "tfpoll.hpp"
+
+#if defined(TFLINUX)
+#	define DO_NOT_USE_RESULT (void)!
+#else
+#	define DO_NOT_USE_RESULT
+#endif
 
 namespace TF::Foundation
 {
@@ -415,9 +422,9 @@ namespace TF::Foundation
 
             // Write the signal number, info, and context object to the pipe that communicates
             // with the signal handler thread.
-            write(write_handle, &s, sizeof(s));
-            write(write_handle, info, sizeof(siginfo_t));
-            write(write_handle, vp, sizeof(ucontext_t));
+            DO_NOT_USE_RESULT write(write_handle, &s, sizeof(s));
+            DO_NOT_USE_RESULT write(write_handle, info, sizeof(siginfo_t));
+            DO_NOT_USE_RESULT write(write_handle, vp, sizeof(ucontext_t));
         }
 
         if (shutdown)

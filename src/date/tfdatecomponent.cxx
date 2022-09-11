@@ -178,7 +178,7 @@ namespace TF
         template<class Clock>
         MonthOfYear DateComponents<Clock>::monthOfYear() const
         {
-            MonthOfYear theMonth;
+            MonthOfYear theMonth{};
 
             switch (components.tm_mon)
             {
@@ -285,7 +285,7 @@ namespace TF
         template<class Clock>
         DayOfWeek DateComponents<Clock>::dayOfWeek() const
         {
-            DayOfWeek theDay;
+            DayOfWeek theDay{};
             switch (components.tm_wday)
             {
                 case 0:

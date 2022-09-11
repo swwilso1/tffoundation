@@ -222,12 +222,12 @@ namespace TF
             /**
              * @brief the broken down date into components.
              */
-            struct tm components;
+            struct tm components{};
 
             /**
              * @brief the fractional part of the seconds.
              */
-            size_type fractionOfSecond;
+            size_type fractionOfSecond{0};
         };
 
         template<class Clock>

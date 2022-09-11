@@ -1052,7 +1052,7 @@ namespace TF
             template<typename T>
             T getValueForArgument(const string_type arg)
             {
-                T value;
+                T value{};
 
                 if (! m_symbolTable.hasValueForKey(arg))
                 {

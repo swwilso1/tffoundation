@@ -224,7 +224,7 @@ namespace TF
                 case SymbolSemantic::Month:
                     {
                         auto theValue = symbol->convert(value);
-                        MonthOfYear theMonth;
+                        MonthOfYear theMonth{};
                         switch (theValue)
                         {
                             case 1:
@@ -346,7 +346,7 @@ namespace TF
             if (! (hasYear && hasMonth && hasDay && hasHour && hasMinute && hasSecond))
                 throw std::runtime_error("date format does not have enough information to reconstruct a date");
 
-            DateComponents<Clock> components;
+            DateComponents<Clock> components{};
             auto cPtr = s.cStr();
             auto tmp = cPtr.get();
 
@@ -383,7 +383,7 @@ namespace TF
         typename DateFormatter<Clock>::string_type DateFormatter<Clock>::stringFromDate(const date & d)
         {
             std::stringstream accumulator;
-            DateComponents<Clock> c(d);
+            DateComponents<Clock> c{d};
 
             for (auto symbol : queue)
             {
