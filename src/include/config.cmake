@@ -25,6 +25,7 @@ list(APPEND FOUNDATION_SOURCE_FILES
     "src/include/tfendian.hpp"
     "src/include/tfheaders.hpp"
 	"src/include/tfplatform.hpp"
+	"src/include/tftypes.cpp"
 	"src/include/tftypes.hpp"
 	"src/include/TFFoundation.hpp"
 	"${GENERATED_SOURCES_DIR}/tfdisabledwarnings.h"

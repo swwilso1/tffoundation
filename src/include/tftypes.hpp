@@ -28,6 +28,7 @@ SOFTWARE.
 #ifndef TFTYPES_HPP
 #define TFTYPES_HPP 1
 
+#define NEEDS_TYPE_TRAITS
 #define NEEDS_CSTDDEF
 #define NEEDS_LIMITS_H
 #include "tfheaders.hpp"
@@ -50,19 +51,14 @@ namespace TF
         using Float = float;
 
         /** @brief 2 dimensional size (width, height) */
+        template<typename T, typename = std::enable_if_t<std::is_integral_v<T> || std::is_floating_point_v<T>>>
         struct Size
         {
-            Float width;
-            Float height;
-
-            /** @brief default constructor */
-            Size() : width(0.0), height(0.0) {}
+            T width{};
+            T height{};
 
             /** @brief lvalue constructor */
-            Size(const Float & w, const Float & h) : width(w), height(h) {}
-
-            /** @brief rvalue constructor */
-            Size(const Float && w, const Float && h) : width(w), height(h) {}
+            Size(const T & w, const T & h) : width(w), height(h) {}
 
             bool operator==(const Size & s) const
             {
@@ -71,26 +67,19 @@ namespace TF
 
             bool operator!=(const Size & s) const
             {
-                if (*this == s)
-                    return false;
-                return true;
+                return ! (*this == s);
             }
         };
 
         /** @brief Cartesian point (x,y) */
+        template<typename T, typename = std::enable_if_t<std::is_integral_v<T> || std::is_floating_point_v<T>>>
         struct Point
         {
-            Float x;
-            Float y;
-
-            /** @brief default constructor */
-            Point() : x(0.0), y(0.0) {}
+            T x{};
+            T y{};
 
             /** @brief lvalue constructor */
-            Point(const Float & a, const Float & b) : x(a), y(b) {}
-
-            /** @brief rvalue constructor */
-            Point(const Float && a, const Float && b) : x(a), y(b) {}
+            Point(const T & a, const T & b) : x(a), y(b) {}
 
             bool operator==(const Point & p) const
             {
@@ -99,23 +88,19 @@ namespace TF
 
             bool operator!=(const Point & p) const
             {
-                if (*this == p)
-                    return false;
-                return true;
+                return ! (*this == p);
             }
         };
 
         /** @brief basic rectangle */
+        template<typename T, typename = std::enable_if_t<std::is_integral_v<T> || std::is_floating_point_v<T>>>
         struct Rectangle
         {
-            Point origin;
-            Size size;
-
-            /** @brief point/size constructor */
-            Rectangle(const Point & p, const Size & s) : origin(p), size(s) {}
+            Point<T> origin{};
+            Size<T> size{};
 
             /** @brief width/height, x/y constructor */
-            Rectangle(const Float & w, const Float & h, const Float & x, const Float & y) : origin(w, h), size(x, y) {}
+            Rectangle(const T & w, const T & h, const T & x, const T & y) : origin{w, h}, size{x, y} {}
 
             bool operator==(const Rectangle & r) const
             {
@@ -124,9 +109,7 @@ namespace TF
 
             bool operator!=(const Rectangle & r) const
             {
-                if (*this == r)
-                    return false;
-                return true;
+                return ! (*this == r);
             }
         };
 
@@ -136,23 +119,14 @@ namespace TF
             Size_t position{};
             Size_t length{};
 
-            /** @brief default constructor */
-            Range() : position(0), length(0) {}
+            Range() = default;
 
             /** @brief lvalue constructor */
-            Range(const Size_t & p, const Size_t & l) : position(p), length(l) {}
+            Range(const Size_t & p, const Size_t & l);
 
-            bool operator==(const Range & r) const
-            {
-                return position == r.position && length == r.length;
-            }
-
-            bool operator!=(const Range & r) const
-            {
-                if (*this == r)
-                    return false;
-                return true;
-            }
+            auto operator==(const Range & r) const -> bool;
+            bool operator!=(const Range & r) const;
+            auto is_empty() const -> bool;
         };
 
         /**
