@@ -1481,6 +1481,21 @@ namespace TF::Foundation
         return encoder.unicodeCodePointForCharacterAtIndex(core->data(), core->length(), i);
     }
 
+    auto String::first() const -> unicode_point_type
+    {
+        return characterAtIndex(0);
+    }
+
+    auto String::last() const -> unicode_point_type
+    {
+        auto my_length = length();
+        if (my_length == 0)
+        {
+            throw std::runtime_error{"String contains no characters"};
+        }
+        return characterAtIndex(my_length - 1);
+    }
+
     String String::getCharactersInRange(const range_type & range) const
     {
         static UTF8StringEncoder encoder;
@@ -2004,6 +2019,12 @@ namespace TF::Foundation
     {
         static UTF32StringEncoder encoder;
         return convertToThisEncoding(*this, &encoder);
+    }
+
+    auto String::getEncoder() -> StringEncoder &
+    {
+        static UTF8StringEncoder encoder;
+        return encoder;
     }
 
 #ifdef TFTESTS

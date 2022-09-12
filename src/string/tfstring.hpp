@@ -322,6 +322,24 @@ namespace TF
             unicode_point_type characterAtIndex(size_type i) const;
 
             /**
+             * @brief method to get the first character in the string.
+             * @return the first character.
+             *
+             * This method will throw an exception if the string contains
+             * no characters.
+             */
+            [[nodiscard]] auto first() const -> unicode_point_type;
+
+            /**
+             * @brief method to get the last character in the string.
+             * @return the last character.
+             *
+             * This method will throw an exception if the string contains
+             * no characters.
+             */
+            [[nodiscard]] auto last() const -> unicode_point_type;
+
+            /**
                 @brief Returns a new string object with the characters that lie in @e range.
                 @param range the range of characters
                 @return a new string object containing the requested range of characters.
@@ -622,6 +640,14 @@ namespace TF
                 of the string in UTF-32 encoding.
             */
             data_type getAsDataInUTF32Encoding() const;
+
+#pragma mark - static method to get string encoder
+
+            /**
+             * @brief static method to get an encoder object used by the string class.
+             * @return the encoder object.
+             */
+            [[nodiscard]] static auto getEncoder() -> StringEncoder &;
 
 #pragma mark - Methods for writing to an ostream
 
