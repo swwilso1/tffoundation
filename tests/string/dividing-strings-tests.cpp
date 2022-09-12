@@ -199,6 +199,45 @@ TEST(StringTest, SubstringsThatDoNotMatchStringTest2)
 
 TEST(StringTest, SubstringsThatDoNotMatchStringTest3)
 {
+    String s("How now brown owow cow");
+    auto substrings = s.substringsThatDoNotMatchString("ow");
+    EXPECT_EQ(substrings.size(), 6);
+    EXPECT_EQ(substrings[0], "H");
+    EXPECT_EQ(substrings[1], " n");
+    EXPECT_EQ(substrings[2], " br");
+    EXPECT_EQ(substrings[3], "n ");
+    EXPECT_EQ(substrings[4], String{});
+    EXPECT_EQ(substrings[5], " c");
+}
+
+TEST(StringTest, SubstringsThatDoNotMatchStringTest4)
+{
+    String s("How now brown cowow");
+    auto substrings = s.substringsThatDoNotMatchString("ow");
+    EXPECT_EQ(substrings.size(), 5);
+    EXPECT_EQ(substrings[0], "H");
+    EXPECT_EQ(substrings[1], " n");
+    EXPECT_EQ(substrings[2], " br");
+    EXPECT_EQ(substrings[3], "n c");
+    EXPECT_EQ(substrings[4], String{});
+}
+
+TEST(StringTest, SubstringsThatDoNotMatchStringTest5)
+{
+    String s("How now brown owow cowow");
+    auto substrings = s.substringsThatDoNotMatchString("ow");
+    EXPECT_EQ(substrings.size(), 7);
+    EXPECT_EQ(substrings[0], "H");
+    EXPECT_EQ(substrings[1], " n");
+    EXPECT_EQ(substrings[2], " br");
+    EXPECT_EQ(substrings[3], "n ");
+    EXPECT_EQ(substrings[4], String{});
+    EXPECT_EQ(substrings[5], " c");
+    EXPECT_EQ(substrings[6], String{});
+}
+
+TEST(StringTest, SubstringsThatDoNotMatchStringTest6)
+{
     String s = String::initWithASCIIEncodedUnicode(
         "H\\:004455\\:003421 n\\:004455\\:003421 br\\:004455\\:003421n c\\:004455\\:003421");
     auto substrings = s.substringsThatDoNotMatchString("䑕㐡");
@@ -240,4 +279,54 @@ TEST(StringTest, SplitTest3)
     EXPECT_EQ(substrings[1], " n");
     EXPECT_EQ(substrings[2], " br");
     EXPECT_EQ(substrings[3], "n c");
+}
+
+TEST(StringTest, SplitTest4)
+{
+    String lorumIpsum = String::initWithASCIIEncodedUnicode(
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut "
+        "labore et dolore magna aliqua. Eu mi bibendum neque egestas. Nisi vitae suscipit tellus mauris "
+        "a diam maecenas sed enim. Sit amet cursus sit amet. Vehicula ipsum a arcu cursus vitae congue. "
+        "Consectetur adipiscing elit duis tristique sollicitudin nibh sit. At tempor commodo ullamcorper"
+        " a lacus vestibulum sed. Sapien eget mi proin sed libero enim sed. Lacinia quis vel eros donec "
+        "ac odio. Tempor orci dapibus ultrices in iaculis nunc. Felis eget velit aliquet sagittis id.\n"
+        "\n"
+        "Et magnis dis parturient montes nascetur. Euismod elementum nisi quis eleifend quam adipiscing "
+        "vitae proin sagittis. Amet nisl suscipit adipiscing bibendum est. Tristique senectus et netus "
+        "et malesuada fames. Cras sed felis eget velit aliquet sagittis. Justo donec enim diam vulputate"
+        " ut pharetra sit amet aliquam. Laoreet suspendisse interdum consectetur libero. Nunc mattis "
+        "enim ut tellus elementum sagittis vitae et leo. Accumsan in nisl nisi scelerisque eu ultrices "
+        "vitae. Montes nascetur ridiculus mus mauris vitae ultricies. Fermentum odio eu feugiat pretium "
+        "nibh. Sit amet commodo nulla facilisi nullam vehicula ipsum a. Urna id volutpat lacus laoreet "
+        "non. Donec ultrices tincidunt arcu non sodales neque. Viverra mauris in aliquam sem fringilla "
+        "ut morbi tincidunt. Mus mauris vitae ultricies leo integer malesuada nunc vel risus. Tellus in "
+        "metus vulputate eu scelerisque felis imperdiet.\n"
+        "\n"
+        "Viverra ipsum nunc aliquet bibendum enim facilisis. Sem viverra aliquet eget sit amet tellus "
+        "cras adipiscing enim. Lacus luctus accumsan tortor posuere. Proin sagittis nisl rhoncus mattis "
+        "rhoncus urna neque viverra justo. Gravida in fermentum et sollicitudin ac orci. Tortor vitae "
+        "purus faucibus ornare suspendisse sed nisi. Augue interdum velit euismod in pellentesque massa."
+        " Placerat in egestas erat imperdiet sed. Neque vitae tempus quam pellentesque nec nam aliquam "
+        "sem. Commodo sed egestas egestas fringilla phasellus faucibus. Ut ornare lectus sit amet est "
+        "placerat in. Ac turpis egestas integer eget aliquet nibh praesent tristique magna. Id volutpat "
+        "lacus laoreet non curabitur gravida. Adipiscing enim eu turpis egestas.\n"
+        "\n"
+        "Etiam erat velit scelerisque in dictum non. Rutrum quisque non tellus orci ac auctor. Dui "
+        "accumsan sit amet nulla facilisi morbi tempus iaculis. Morbi tincidunt augue interdum velit "
+        "euismod in pellentesque massa. Risus nullam eget felis eget nunc lobortis mattis aliquam "
+        "faucibus. Urna duis convallis convallis tellus id interdum velit. Imperdiet sed euismod nisi "
+        "porta lorem mollis aliquam ut porttitor. Nullam ac tortor vitae purus faucibus ornare "
+        "suspendisse. Leo integer malesuada nunc vel risus. Ac tincidunt vitae semper quis lectus "
+        "nulla at volutpat. Accumsan sit amet nulla facilisi.\n"
+        "\n"
+        "Amet mattis vulputate enim nulla. Aliquam nulla facilisi cras fermentum odio eu. Sed id semper "
+        "risus in hendrerit gravida rutrum. Viverra orci sagittis eu volutpat odio. Sit amet mattis "
+        "vulputate enim. Enim eu turpis egestas pretium aenean pharetra magna ac placerat. Ac tortor "
+        "dignissim convallis aenean et tortor at. Imperdiet sed euismod nisi porta lorem mollis. "
+        "Aliquet lectus proin nibh nisl. Varius vel pharetra vel turpis nunc. Nunc sed id semper risus "
+        "in hendrerit gravida rutrum. Gravida neque convallis a cras semper auctor neque vitae tempus. "
+        "Scelerisque in dictum non consectetur.\n\n");
+
+    auto lorem_ipsum_split_by_newline = lorumIpsum.split("\n");
+    EXPECT_EQ(lorem_ipsum_split_by_newline.size(), 10);
 }

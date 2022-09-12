@@ -1641,6 +1641,12 @@ namespace TF::Foundation
             throw std::range_error("substringWithRange given range of characters that lies outside of the string");
 
         auto bytesNeededForRange = encoder.numberOfBytesToCaptureCharactersInRange(core->data(), core->length(), range);
+        if (bytesNeededForRange == 0)
+        {
+            // We are handling a case where range.length might be 0.  Ie we have a valid location, but only want
+            // 0 parts of the original string.
+            return {};
+        }
 
         auto theArray = new char_type[bytesNeededForRange];
         auto startIndex = encoder.arrayIndexOfCharacterAtCharacterIndex(core->data(), core->length(), range.position);

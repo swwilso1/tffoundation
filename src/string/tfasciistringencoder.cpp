@@ -689,12 +689,13 @@ namespace TF
                     }
                     else
                     {
-                        if (length > 0)
-                        {
-                            range_type theRange(location, length);
-                            rangeArray.push_back(theRange);
-                            length = 0;
-                        }
+                        // We explicitly allow length to be zero, this case will create a range object for a case like
+                        // the following:
+                        // 'alasdfkalsdf\n\nasldkflaksdf' when the character to match on is a newline character.
+                        // We assert here that we have a zero length string between the \n and \n characters.
+                        range_type theRange(location, length);
+                        rangeArray.push_back(theRange);
+                        length = 0;
                         location = i + substringNumberOfCharacters;
                         i = j - 1;
                         continue;
