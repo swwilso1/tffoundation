@@ -419,6 +419,10 @@ namespace TF
              */
             void seekToFileOffset(size_type offset);
 
+#pragma mark - Methods for testing file properties
+
+            [[nodiscard]] auto atEndOfFile() const -> bool;
+
 #pragma mark - Method to close file
 
             /**

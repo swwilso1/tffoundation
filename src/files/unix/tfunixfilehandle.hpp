@@ -152,6 +152,9 @@ namespace TF
         void FileHandleBase<FILE *, int>::seekToFileOffset(size_type offset);
 
         template<>
+        auto FileHandleBase<FILE *, int>::atEndOfFile() const -> bool;
+
+        template<>
         void FileHandleBase<FILE *, int>::closeFile();
 
         template<>

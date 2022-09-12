@@ -458,7 +458,6 @@ namespace TF
             // into a string.
 
             auto & encoder = string_type::getEncoder();
-            auto descriptor = fileDescriptor();
 
             StringEncoder::char_type byte{};
             bool has_read_a_line{false};
@@ -470,12 +469,7 @@ namespace TF
 
             while (! has_read_a_line)
             {
-                auto bytes_read = read(descriptor, &byte, sizeof(byte));
-                if (bytes_read < 0)
-                {
-                    throw std::system_error{errno, std::system_category(), "Unable to read bytes from stream"};
-                }
-
+                auto bytes_read = fread(&byte, sizeof(byte), 1, m_handle);
                 if (bytes_read == 0)
                 {
                     // 0 indicates end-of-file, so break out of the loop.
@@ -506,14 +500,7 @@ namespace TF
                     auto tmp = buffer.get() + 1;
                     while (bytes_still_to_read)
                     {
-                        auto next_bytes_read = read(descriptor, tmp, bytes_still_to_read);
-                        if (next_bytes_read < 0)
-                        {
-                            throw std::system_error{errno, std::system_category(),
-                                                    "Unable to read rest of bytes"
-                                                    " for character"};
-                        }
-
+                        auto next_bytes_read = fread(tmp, sizeof(byte), bytes_still_to_read, m_handle);
                         if (next_bytes_read == 0)
                         {
                             // End-of-file.
@@ -617,6 +604,16 @@ namespace TF
             if (m_handle == nullptr)
                 return;
             fseeko(m_handle, static_cast<off_t>(offset), SEEK_CUR);
+        }
+
+        template<>
+        auto FileHandleBase<FILE *, int>::atEndOfFile() const -> bool
+        {
+            if (m_handle == nullptr)
+            {
+                return true;
+            }
+            return feof(m_handle) != 0;
         }
 
         template<>

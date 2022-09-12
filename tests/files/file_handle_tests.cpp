@@ -168,6 +168,31 @@ TEST_F(FileHandleTest, ReadFileByLines)
     }
 }
 
+TEST_F(FileHandleTest, ReadFileByLinesTillEnd)
+{
+    auto file_name = FileHandleTest::temporaryDirectory + FileManager::pathSeparator + "testFileByLines.txt";
+
+    auto write_fh = FileHandle::fileHandleForWritingAtPath(file_name);
+    write_fh.writeData(FileHandleTest::lorumIpsum.getAsData());
+    write_fh.closeFile();
+
+    auto read_fh = FileHandle::fileHandleForReadingAtPath(file_name);
+    int lines{0};
+    while (! read_fh.atEndOfFile())
+    {
+        auto read_line = read_fh.readLine();
+        lines++;
+    }
+    read_fh.closeFile();
+
+    EXPECT_EQ(lines, 9);
+
+    if (FileHandleTest::fileManager.isDeletableAtPath(file_name))
+    {
+        FileHandleTest::fileManager.removeItemAtPath(file_name);
+    }
+}
+
 TEST_F(FileHandleTest, ReadFileThatDoesNotExistTest)
 {
     EXPECT_ANY_THROW(FileHandle fh = FileHandle::fileHandleForReadingAtPath("/foo/bar/bat.txt"));

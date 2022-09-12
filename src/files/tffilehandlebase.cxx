@@ -283,6 +283,12 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        auto FileHandleBase<Handle, Descriptor>::atEndOfFile() const -> bool
+        {
+            return false;
+        }
+
+        template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::closeFile()
         {}
 
