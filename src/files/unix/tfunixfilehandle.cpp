@@ -31,6 +31,7 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tfunixfilehandle.hpp"
 #include "tffilemanager.hpp"
+#include "tfstringencoder.hpp"
 
 namespace TF
 {
@@ -446,6 +447,98 @@ namespace TF
             }
 
             return d;
+        }
+
+        template<>
+        auto FileHandleBase<FILE *, int>::readLine() -> string_type
+        {
+            // The file handle API reads bytes. Those bytes will be in a system encoding.
+            // For now, we assume that the system encoding is the same encoding used by the
+            // string class. We will construct characters byte by byte and then join them together
+            // into a string.
+
+            auto & encoder = string_type::getEncoder();
+            auto descriptor = fileDescriptor();
+
+            StringEncoder::char_type byte{};
+            bool has_read_a_line{false};
+
+            auto buffer = std::unique_ptr<decltype(byte)[], std::default_delete<decltype(byte)[]>>(
+                new decltype(byte)[encoder.numberOfBytesRequiredForLargestCharacterValue()]);
+
+            std::vector<char> byte_array{};
+
+            while (! has_read_a_line)
+            {
+                auto bytes_read = read(descriptor, &byte, sizeof(byte));
+                if (bytes_read < 0)
+                {
+                    throw std::system_error{errno, std::system_category(), "Unable to read bytes from stream"};
+                }
+
+                if (bytes_read == 0)
+                {
+                    // 0 indicates end-of-file, so break out of the loop.
+                    has_read_a_line = true;
+                    continue;
+                }
+
+                if (byte == '\n')
+                {
+                    byte_array.emplace_back(byte);
+                    has_read_a_line = true;
+                    continue;
+                }
+
+                auto bytes_to_expect =
+                    encoder.bytesToExpectForCharacterInByteSequence(&byte, sizeof(byte), encoder.getMyEndianness());
+
+                if (bytes_to_expect == 1)
+                {
+                    byte_array.emplace_back(byte);
+                    continue;
+                }
+
+                if (bytes_to_expect > 1)
+                {
+                    *(buffer.get()) = byte;
+                    auto bytes_still_to_read = bytes_to_expect - 1;
+                    auto tmp = buffer.get() + 1;
+                    while (bytes_still_to_read)
+                    {
+                        auto next_bytes_read = read(descriptor, tmp, bytes_still_to_read);
+                        if (next_bytes_read < 0)
+                        {
+                            throw std::system_error{errno, std::system_category(),
+                                                    "Unable to read rest of bytes"
+                                                    " for character"};
+                        }
+
+                        if (next_bytes_read == 0)
+                        {
+                            // End-of-file.
+                            has_read_a_line = true;
+                            break;
+                        }
+
+                        bytes_still_to_read -= static_cast<decltype(bytes_still_to_read)>(next_bytes_read);
+                        tmp += next_bytes_read;
+                    }
+
+                    if (has_read_a_line)
+                    {
+                        continue;
+                    }
+
+                    // buffer should now contain a character of bytes.
+                    for (decltype(bytes_to_expect) i = 0; i < bytes_to_expect; i++)
+                    {
+                        byte_array.emplace_back(*(buffer.get() + i));
+                    }
+                }
+            }
+
+            return string_type{byte_array.data(), byte_array.size()};
         }
 
         template<>

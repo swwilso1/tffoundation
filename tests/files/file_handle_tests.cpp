@@ -97,7 +97,7 @@ FileHandle::string_type FileHandleTest::temporaryDirectory;
 
 TEST_F(FileHandleTest, SimpleConstructorTest)
 {
-    FileHandle fh;
+    FileHandle fh{};
 }
 
 TEST_F(FileHandleTest, SimpleFileForWritingTest)
@@ -135,6 +135,37 @@ TEST_F(FileHandleTest, SimpleFileForReadingTest)
 
     if (FileHandleTest::fileManager.isDeletableAtPath(fileName))
         FileHandleTest::fileManager.removeItemAtPath(fileName);
+}
+
+TEST_F(FileHandleTest, ReadFileByLines)
+{
+    auto lorem_ipsum_split_by_newlines = FileHandleTest::lorumIpsum.split("\n");
+    auto file_name = FileHandleTest::temporaryDirectory + FileManager::pathSeparator + "testFileByLines.txt";
+
+    auto write_fh = FileHandle::fileHandleForWritingAtPath(file_name);
+    write_fh.writeData(FileHandleTest::lorumIpsum.getAsData());
+    write_fh.closeFile();
+
+    auto read_fh = FileHandle::fileHandleForReadingAtPath(file_name);
+
+    for (auto & line : lorem_ipsum_split_by_newlines)
+    {
+        auto read_line = read_fh.readLine();
+
+        String compare_line{read_line};
+        if (read_line.last() == '\n')
+        {
+            compare_line = read_line.substringToIndex(line.length());
+        }
+
+        EXPECT_EQ(line, compare_line);
+    }
+    read_fh.closeFile();
+
+    if (FileHandleTest::fileManager.isDeletableAtPath(file_name))
+    {
+        FileHandleTest::fileManager.removeItemAtPath(file_name);
+    }
 }
 
 TEST_F(FileHandleTest, ReadFileThatDoesNotExistTest)

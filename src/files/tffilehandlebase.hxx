@@ -347,6 +347,14 @@ namespace TF
              */
             data_type readDataOfLength(size_type length);
 
+            /**
+             * @brief method to read content from file handle till next newline character.
+             * @return the line of text
+             *
+             * The newline character is determined on a platform to platform basis.
+             */
+            [[nodiscard]] auto readLine() -> string_type;
+
 #pragma mark - Methods for writing data
 
             /**

@@ -131,6 +131,9 @@ namespace TF
         FileHandleBase<FILE *, int>::data_type FileHandleBase<FILE *, int>::readDataOfLength(size_type length);
 
         template<>
+        auto FileHandleBase<FILE *, int>::readLine() -> string_type;
+
+        template<>
         void FileHandleBase<FILE *, int>::writeData(const data_type & d);
 
         template<>

@@ -242,6 +242,12 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        auto FileHandleBase<Handle, Descriptor>::readLine() -> string_type
+        {
+            return {};
+        }
+
+        template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::writeData(const data_type & d)
         {
             (void)d;
