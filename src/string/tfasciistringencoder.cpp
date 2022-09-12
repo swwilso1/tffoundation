@@ -878,6 +878,34 @@ namespace TF
             return std::string("58C183D5-08DE-4B9F-A3FE-FB75017A9C87");
         }
 
+        auto ASCIIStringEncoder::bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length,
+                                                                         Endian endian) -> size_type
+        {
+            // endianness is not used in ASCII encoding.
+            (void)endian;
+
+            if (length == 0)
+            {
+                throw std::invalid_argument{"Not enough bytes to determine length of character in byte sequence"};
+            }
+
+            // See if character is one-byte ASCII value.
+            if (*s > 0 && *s < 128 && *s != '\\')
+            {
+                return 1;
+            }
+
+            auto largest_number_of_bytes_needed = numberOfBytesRequiredForLargestCharacterValue();
+
+            // If the character is not a one-byte ASCII value then it should be a char in the form of '\:000000'
+            if (length < largest_number_of_bytes_needed)
+            {
+                throw std::invalid_argument{"character sequence does not contain enough bytes for encoded character"};
+            }
+
+            return largest_number_of_bytes_needed;
+        }
+
     } // namespace Foundation
 
 } // namespace TF

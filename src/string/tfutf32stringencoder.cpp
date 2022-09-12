@@ -1087,6 +1087,20 @@ namespace TF
             return std::string("40BBBC4E-58D9-4606-A40A-1189D1CE53BC");
         }
 
+        auto UTF32StringEncoder::bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length,
+                                                                         Endian endian) -> size_type
+        {
+            (void)s;
+            (void)endian;
+
+            if (length < sizeof(data_type))
+            {
+                throw std::invalid_argument{"byte array does not have enough bytes for a character encoded in UTF-32"};
+            }
+
+            return sizeof(data_type);
+        }
+
     } // namespace Foundation
 
 } // namespace TF

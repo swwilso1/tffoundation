@@ -190,6 +190,14 @@ namespace TF
             return return_value;
         }
 
+        auto JSONStringEncoder::bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length,
+                                                                        Endian endian) -> size_type
+        {
+            // Ignore endianness concerns.
+            (void)endian;
+            return bytesToExpectInUTF8Sequence(s, length);
+        }
+
         JSONStringEncoder::size_type JSONStringEncoder::bytesToExpectInUTF8Sequence(const data_type * s,
                                                                                     size_type length)
         {

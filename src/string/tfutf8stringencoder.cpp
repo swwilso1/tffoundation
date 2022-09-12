@@ -959,6 +959,16 @@ namespace TF
             return theNext.first;
         }
 
+        auto UTF8StringEncoder::bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length,
+                                                                        Endian endian) -> size_type
+        {
+            // UTF-8 encoding ignores endianness.
+            (void)endian;
+
+            // This works for nw because char_type is the same as data_type for the UTF8Encoder.
+            return bytesToExpectInUTF8Sequence(s, length);
+        }
+
         bool UTF8StringEncoder::operator==(const StringEncoder & e)
         {
             return this->getEncoderID() == e.getEncoderID();

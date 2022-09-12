@@ -465,6 +465,29 @@ namespace TF
             /** @brief method to return an id string to identify the class of encoder */
             virtual std::string getEncoderID() const;
 
+            /**
+             * @brief method to return the bytes to expect to encode the character in the sequence given in @e s.
+             * @param s the character sequence
+             * @param length the length of the sequence
+             * @param endian the endian encoding of the character in the byte sequence.
+             * @return the number of bytes that will encode the character
+             *
+             * This method is designed to take a raw, low-level byte representation of a character and return
+             * the number of bytes used to fully encode the character.  It is useful for encoding such as
+             * UTF-8 and UTF-16 that may use variable numbers of bytes to encode a character.
+             */
+            virtual auto bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length, Endian endian)
+                -> size_type = 0;
+
+            /**
+             * @brief method to get the local system endianness.
+             * @return the local endiannes.
+             */
+            [[nodiscard]] auto getMyEndianness() const -> Endian
+            {
+                return myEndianValue;
+            }
+
         protected:
             /** @brief a cached value of the current running system's byte order. */
             static const Endian myEndianValue;

@@ -995,6 +995,36 @@ namespace TF
             return std::string("371D4C11-1DB0-49EB-A26C-C05A64BAA3E6");
         }
 
+        auto UTF16StringEncoder::bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length,
+                                                                         Endian endian) -> size_type
+        {
+            if (length < sizeof(data_type))
+                throw std::runtime_error("bytesToExpectForCharacterInByteSequence not given enough bytes to determine "
+                                         "the bytes used by the character");
+
+            const data_type * firstCode = reinterpret_cast<const data_type *>(s);
+            data_type theCode;
+            theCode = this->correctUTF16CodeForPlatform(*firstCode, endian);
+
+            if (theCode >= 0xD800 && theCode <= 0xDBFF)
+            {
+                if (length < (2 * sizeof(data_type)))
+                    throw std::runtime_error("bytesToExpectForCharacterInByteSequence not given enough bytes to "
+                                             "determine the bytes used by the surrogate pair");
+
+                firstCode++;
+                data_type secondCode = this->correctUTF16CodeForPlatform(*firstCode, endian);
+
+                if (secondCode < 0xDC00 || secondCode > 0xDFFF)
+                    throw std::runtime_error("bytesToExpectForCharacterInByteSequence given invalid value for second "
+                                             "value of surrogate pair");
+
+                return numberOfBytesRequiredForLargestCharacterValue();
+            }
+
+            return sizeof(data_type);
+        }
+
     } // namespace Foundation
 
 } // namespace TF

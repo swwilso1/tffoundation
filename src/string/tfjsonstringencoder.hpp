@@ -67,6 +67,9 @@ namespace TF
 
             std::string getEncoderID() const override;
 
+            auto bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length, Endian endian)
+                -> size_type override;
+
         protected:
             size_type bytesToExpectInUTF8Sequence(const data_type * s, size_type length) override;
 
