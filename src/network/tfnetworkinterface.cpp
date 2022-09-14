@@ -33,6 +33,8 @@ namespace TF::Foundation
 
     NetworkInterface::NetworkInterface(const string_type & name) : m_name{name} {}
 
+    NetworkInterface::~NetworkInterface() {}
+
     auto NetworkInterface::get_name() const -> string_type
     {
         return m_name;

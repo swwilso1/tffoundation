@@ -58,6 +58,13 @@ namespace TF::Foundation
 
         explicit NetworkInterface(const string_type & name);
 
+#pragma mark - destructor
+
+        /**
+         * @brief virtual destructor in case of inheritance.
+         */
+        virtual ~NetworkInterface();
+
 #pragma mark - basic getters/setters
 
         /**
