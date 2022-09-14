@@ -51,10 +51,10 @@ namespace TF::Foundation
 #pragma mark - class constructors
 
         /**
-         * @brief Default constructor.
-         * Initializes address to 0.0.0.0.
+         * @brief Default constructor. Initializes address to 0.0.0.0 or :: (IPv6 empty address).
+         * @param ipv4_address true if the the address should be an IPv4 address.
          */
-        IPAddress();
+        explicit IPAddress(bool ipv4_address = true);
 
         /**
          * @brief initializer from struct in_addr.

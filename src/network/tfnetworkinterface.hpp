@@ -35,6 +35,7 @@ SOFTWARE.
 #include "tfallocator.hpp"
 #include "tfstring.hpp"
 #include "tfipaddress.hpp"
+#include "tfipaddressandnetmask.hpp"
 
 namespace TF::Foundation
 {
@@ -47,9 +48,11 @@ namespace TF::Foundation
     public:
 #pragma mark - public types
         using address_type = IPAddress;
+        using address_and_netmask_type = IPAddressAndNetmask;
         using string_type = String;
         using size_type = Size_t;
         using address_list_type = std::vector<address_type>;
+        using address_and_netmask_list_type = std::vector<address_and_netmask_type>;
         using string_list_type = std::vector<string_type>;
 
 #pragma mark - constructors
@@ -95,7 +98,27 @@ namespace TF::Foundation
          * @brief method to get the number of addresses used by the interface.
          * @return the number of addresses.
          */
-        [[nodiscard]] auto get_number_of_address() const -> size_type;
+        [[nodiscard]] auto get_number_of_addresses() const -> size_type;
+
+#pragma mark - add/get addresses and netmasks
+
+        void add_address_and_netmask(const address_and_netmask_type & addr_mask);
+
+        [[nodiscard]] auto get_addresses_and_netmasks() const -> address_and_netmask_list_type;
+
+        [[nodiscard]] auto get_ipv4_addresses_and_netmasks() const -> address_and_netmask_list_type;
+
+        [[nodiscard]] auto get_ipv6_addresses_and_netmasks() const -> address_and_netmask_list_type;
+
+        [[nodiscard]] auto get_ipv4_address_and_netmask() const -> address_and_netmask_type;
+
+        [[nodiscard]] auto get_ipv6_address_and_netmask() const -> address_and_netmask_type;
+
+        [[nodiscard]] auto get_global_address_and_netmask() const -> address_and_netmask_type;
+
+        [[nodiscard]] auto get_global_ipv4_address_and_netmask() const -> address_and_netmask_type;
+
+        [[nodiscard]] auto get_global_ipv6_address_and_netmask() const -> address_and_netmask_type;
 
 #pragma mark - add/get addresses
 
@@ -111,7 +134,7 @@ namespace TF::Foundation
          *
          * The list will contain both IPv4 and IPv6 addresses if they exist.
          */
-        [[nodiscard]] auto get_addresses() const -> const address_list_type &;
+        [[nodiscard]] auto get_addresses() const -> address_list_type;
 
         /**
          * @brief method to get a list of IPv4 addresses used by the interface.
@@ -252,64 +275,66 @@ namespace TF::Foundation
          * @param o the stream.
          * @return @e o after writing the interface details to the stream.
          */
-        std::ostream & description(std::ostream & o) const;
+        [[nodiscard]] auto description(std::ostream & o) const -> std::ostream &;
 
     private:
         string_type m_name{};
-        address_list_type m_addresses{};
+        address_and_netmask_list_type m_address_and_netmasks{};
         int m_index{};
 
         /**
          * @brief helper function to locate the first address that meets the criteria represented by the callback
          * function checker.
-         * @param checker the callback function that checks each address and returns true if the address meets some
-         * criteria.
+         * @param checker the callback function that checks each address and returns true if the address/netmask meets
+         * some criteria.
          * @param not_found_message message to generate in an exception when the address is not found.
          * @return the address found that matches the criteria (from @e checker).
          */
-        [[nodiscard]] auto get_address_by_criteria(const std::function<bool(const address_type & address)> & checker,
-                                                   const string_type & not_found_message) const -> address_type;
+        [[nodiscard]] auto get_address_by_criteria(
+            const std::function<bool(const address_and_netmask_type & addr_mask)> & checker,
+            const string_type & not_found_message) const -> address_and_netmask_type;
 
         /**
          * @brief helper function locate all addresses in the interface that meet the criteria represented by the
          * callback function @e checker.
-         * @param checker the callback function that checks each address and returns true if the address meets some
-         * criteria.
-         * @return a list of the addresses that match the criteria (from @e checker).
+         * @param checker the callback function that checks each address/netmask and returns true if the address/mask
+         * meets some criteria.
+         * @return a list of the addresses/masks that match the criteria (from @e checker).
          */
         [[nodiscard]] auto get_addresses_by_criteria(
-            const std::function<bool(const address_type & address)> & checker) const -> address_list_type;
+            const std::function<bool(const address_and_netmask_type & addr_mask)> & checker) const
+            -> address_and_netmask_list_type;
 
         /**
          * @brief method to get a list of names generated by the criteria function.
-         * @param criteria the function that generates a string from the address argument.
+         * @param criteria the function that generates a string from the address/netmask argument.
          * @return the list of strings generated by calling @e criteria for each address.
          */
-        [[nodiscard]] auto get_names_by_criteria(const std::function<string_type(address_type & address)> & criteria)
-            -> string_list_type;
+        [[nodiscard]] auto get_names_by_criteria(
+            const std::function<string_type(address_and_netmask_type & addr_mask)> & criteria) -> string_list_type;
 
         /**
          * @brief helper method to return a list of string values for a list of addresses specified by address_criteria
          * and the string values for those addresses generated by name_criteria.
-         * @param address_checker the callback function that returns true when an address matches the selection
+         * @param address_checker the callback function that returns true when an address/netmask matches the selection
          * criteria.
-         * @param name_criteria the callback function that converts the address into a string value to include in
-         * the result list for the selected address.
+         * @param name_criteria the callback function that converts the address/netmask into a string value to include
+         * in the result list for the selected address.
          * @return the name values generated from the selected list of addresses.
          */
         [[nodiscard]] auto get_address_by_criteria_and_name_by_criteria(
-            const std::function<bool(address_type & address)> & address_checker,
-            const std::function<string_type(address_type & address)> & name_criteria) -> string_list_type;
+            const std::function<bool(address_and_netmask_type & addr_mask)> & address_checker,
+            const std::function<string_type(address_and_netmask_type & addr_mask)> & name_criteria) -> string_list_type;
 
         /**
          * @brief helper method to check if an interface has an address that meets some criteria encapsulated in
          * checker.
-         * @param checker the callback function that returns true if the address meets its internal selection
+         * @param checker the callback function that returns true if the address/netmask meets its internal selection
          * criteria.
          * @return true if the interface has at least one address that meets the criteria.
          */
         [[nodiscard]] auto has_address_by_criteria(
-            const std::function<bool(const address_type & address)> & checker) const -> bool;
+            const std::function<bool(const address_and_netmask_type & addr_mask)> & checker) const -> bool;
     };
 
     /**

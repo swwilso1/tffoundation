@@ -27,6 +27,7 @@ SOFTWARE.
 #define NEEDS_ALGORITHM
 #include "tfheaders.hpp"
 #include "tfnetworkinterface.hpp"
+#include "tfvector.hxx"
 
 namespace TF::Foundation
 {
@@ -55,84 +56,175 @@ namespace TF::Foundation
         m_index = index;
     }
 
-    auto NetworkInterface::get_number_of_address() const -> size_type
+    auto NetworkInterface::get_number_of_addresses() const -> size_type
     {
-        return m_addresses.size();
+        return m_address_and_netmasks.size();
     }
 
-    void NetworkInterface::add_address(const address_type & address)
+    void NetworkInterface::add_address_and_netmask(const address_and_netmask_type & addr_mask)
     {
-        m_addresses.emplace_back(address);
+        m_address_and_netmasks.emplace_back(addr_mask);
     }
 
-    auto NetworkInterface::get_addresses() const -> const address_list_type &
+    auto NetworkInterface::get_addresses_and_netmasks() const -> address_and_netmask_list_type
     {
-        return m_addresses;
+        return m_address_and_netmasks;
     }
 
-    auto NetworkInterface::get_ipv4_addresses() const -> address_list_type
+    auto NetworkInterface::get_ipv4_addresses_and_netmasks() const -> address_and_netmask_list_type
     {
-        return get_addresses_by_criteria([](const address_type & address) -> bool {
-            return address.is_ipv4_address();
+        return get_addresses_by_criteria([](const address_and_netmask_type & addr_map) -> bool {
+            return addr_map.address.is_ipv4_address();
         });
     }
 
-    auto NetworkInterface::get_ipv6_addresses() const -> address_list_type
+    auto NetworkInterface::get_ipv6_addresses_and_netmasks() const -> address_and_netmask_list_type
     {
-        return get_addresses_by_criteria([](const address_type & address) -> bool {
-            return address.is_ipv6_address();
+        return get_addresses_by_criteria([](const address_and_netmask_type & addr_map) -> bool {
+            return addr_map.address.is_ipv6_address();
         });
     }
 
-    auto NetworkInterface::get_ipv4_address() const -> address_type
+    auto NetworkInterface::get_ipv4_address_and_netmask() const -> address_and_netmask_type
     {
         return get_address_by_criteria(
-            [](const address_type & address) {
-                return address.is_ipv4_address();
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_ipv4_address();
             },
             "no ipv4 address assigned to interface");
     }
 
-    auto NetworkInterface::get_ipv6_address() const -> address_type
+    auto NetworkInterface::get_ipv6_address_and_netmask() const -> address_and_netmask_type
     {
         return get_address_by_criteria(
-            [](const address_type & address) {
-                return address.is_ipv6_address();
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_ipv6_address();
             },
             "no ipv6 address assigned to interface");
     }
 
-    auto NetworkInterface::get_global_address() const -> address_type
+    auto NetworkInterface::get_global_address_and_netmask() const -> address_and_netmask_type
     {
         return get_address_by_criteria(
-            [](const address_type & address) {
-                return address.is_global_address();
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_global_address();
             },
             "no global address assigned to interface");
     }
 
-    auto NetworkInterface::get_global_ipv4_address() const -> address_type
+    auto NetworkInterface::get_global_ipv4_address_and_netmask() const -> address_and_netmask_type
     {
         return get_address_by_criteria(
-            [](const address_type & address) {
-                return address.is_global_address() && address.is_ipv4_address();
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_global_address() && addr_mask.address.is_ipv4_address();
             },
             "no global ipv4 address assigned to interface");
     }
 
-    auto NetworkInterface::get_global_ipv6_address() const -> address_type
+    auto NetworkInterface::get_global_ipv6_address_and_netmask() const -> address_and_netmask_type
     {
         return get_address_by_criteria(
-            [](const address_type & address) {
-                return address.is_global_address() && address.is_ipv6_address();
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_global_address() && addr_mask.address.is_ipv6_address();
             },
             "no global ipv6 address assigned to interface");
     }
 
+    void NetworkInterface::add_address(const address_type & address)
+    {
+        m_address_and_netmasks.emplace_back(address_and_netmask_type{address});
+    }
+
+    auto NetworkInterface::get_addresses() const -> address_list_type
+    {
+        address_list_type ip_addr_list{};
+        std::for_each(m_address_and_netmasks.cbegin(), m_address_and_netmasks.cend(),
+                      [&ip_addr_list](const address_and_netmask_type & addr_mask) -> void {
+                          ip_addr_list.emplace_back(addr_mask.address);
+                      });
+        return ip_addr_list;
+    }
+
+    auto NetworkInterface::get_ipv4_addresses() const -> address_list_type
+    {
+        address_list_type ipv4_addresses;
+        auto addr_mask_list = get_addresses_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_ipv4_address();
+        });
+        std::for_each(addr_mask_list.cbegin(), addr_mask_list.cend(),
+                      [&ipv4_addresses](const address_and_netmask_type & addr_map) -> void {
+                          ipv4_addresses.emplace_back(addr_map.address);
+                      });
+        return ipv4_addresses;
+    }
+
+    auto NetworkInterface::get_ipv6_addresses() const -> address_list_type
+    {
+        address_list_type ipv6_addresses{};
+        auto addr_mask_list = get_addresses_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_ipv6_address();
+        });
+        std::for_each(addr_mask_list.cbegin(), addr_mask_list.cend(),
+                      [&ipv6_addresses](const address_and_netmask_type & addr_map) -> void {
+                          ipv6_addresses.emplace_back(addr_map.address);
+                      });
+        return ipv6_addresses;
+    }
+
+    auto NetworkInterface::get_ipv4_address() const -> address_type
+    {
+        auto addr_mask = get_address_by_criteria(
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_ipv4_address();
+            },
+            "no ipv4 address assigned to interface");
+        return addr_mask.address;
+    }
+
+    auto NetworkInterface::get_ipv6_address() const -> address_type
+    {
+        auto addr_mask = get_address_by_criteria(
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_ipv6_address();
+            },
+            "no ipv6 address assigned to interface");
+        return addr_mask.address;
+    }
+
+    auto NetworkInterface::get_global_address() const -> address_type
+    {
+        auto addr_mask = get_address_by_criteria(
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_global_address();
+            },
+            "no global address assigned to interface");
+        return addr_mask.address;
+    }
+
+    auto NetworkInterface::get_global_ipv4_address() const -> address_type
+    {
+        auto addr_mask = get_address_by_criteria(
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_global_address() && addr_mask.address.is_ipv4_address();
+            },
+            "no global ipv4 address assigned to interface");
+        return addr_mask.address;
+    }
+
+    auto NetworkInterface::get_global_ipv6_address() const -> address_type
+    {
+        auto addr_mask = get_address_by_criteria(
+            [](const address_and_netmask_type & addr_mask) {
+                return addr_mask.address.is_global_address() && addr_mask.address.is_ipv6_address();
+            },
+            "no global ipv6 address assigned to interface");
+        return addr_mask.address;
+    }
+
     auto NetworkInterface::get_presentation_names() -> string_list_type
     {
-        return get_names_by_criteria([](address_type & address) -> string_type {
-            auto name_val = address.get_presentation_name();
+        return get_names_by_criteria([](address_and_netmask_type & addr_mask) -> string_type {
+            auto name_val = addr_mask.address.get_presentation_name();
             return *name_val;
         });
     }
@@ -140,11 +232,11 @@ namespace TF::Foundation
     auto NetworkInterface::get_ipv4_presentation_names() -> string_list_type
     {
         return get_address_by_criteria_and_name_by_criteria(
-            [](address_type & address) -> bool {
-                return address.is_ipv4_address();
+            [](address_and_netmask_type & addr_mask) -> bool {
+                return addr_mask.address.is_ipv4_address();
             },
-            [](address_type & address) -> string_type {
-                auto name_val = address.get_presentation_name();
+            [](address_and_netmask_type & addr_mask) -> string_type {
+                auto name_val = addr_mask.address.get_presentation_name();
                 return *name_val;
             });
     }
@@ -152,19 +244,19 @@ namespace TF::Foundation
     auto NetworkInterface::get_ipv6_presentation_names() -> string_list_type
     {
         return get_address_by_criteria_and_name_by_criteria(
-            [](address_type & address) -> bool {
-                return address.is_ipv6_address();
+            [](address_and_netmask_type & addr_mask) -> bool {
+                return addr_mask.address.is_ipv6_address();
             },
-            [](address_type & address) -> string_type {
-                auto name_val = address.get_presentation_name();
+            [](address_and_netmask_type & addr_mask) -> string_type {
+                auto name_val = addr_mask.address.get_presentation_name();
                 return *name_val;
             });
     }
 
     auto NetworkInterface::get_dns_names() -> string_list_type
     {
-        return get_names_by_criteria([](address_type & address) -> string_type {
-            auto name_val = address.get_dns_name();
+        return get_names_by_criteria([](address_and_netmask_type & addr_mask) -> string_type {
+            auto name_val = addr_mask.address.get_dns_name();
             return *name_val;
         });
     }
@@ -172,11 +264,11 @@ namespace TF::Foundation
     auto NetworkInterface::get_ipv4_dns_names() -> string_list_type
     {
         return get_address_by_criteria_and_name_by_criteria(
-            [](address_type & address) -> bool {
-                return address.is_ipv4_address();
+            [](address_and_netmask_type & addr_mask) -> bool {
+                return addr_mask.address.is_ipv4_address();
             },
-            [](address_type & address) -> string_type {
-                auto name_val = address.get_dns_name();
+            [](address_and_netmask_type & addr_mask) -> string_type {
+                auto name_val = addr_mask.address.get_dns_name();
                 return *name_val;
             });
     }
@@ -184,61 +276,77 @@ namespace TF::Foundation
     auto NetworkInterface::get_ipv6_dns_names() -> string_list_type
     {
         return get_address_by_criteria_and_name_by_criteria(
-            [](address_type & address) -> bool {
-                return address.is_ipv6_address();
+            [](address_and_netmask_type & addr_mask) -> bool {
+                return addr_mask.address.is_ipv6_address();
             },
-            [](address_type & address) -> string_type {
-                auto name_val = address.get_dns_name();
+            [](address_and_netmask_type & addr_mask) -> string_type {
+                auto name_val = addr_mask.address.get_dns_name();
                 return *name_val;
             });
     }
 
     auto NetworkInterface::is_loopback_interface() const -> bool
     {
-        return has_address_by_criteria([](const address_type & address) -> bool {
-            return address.is_loopback_address();
+        return has_address_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_loopback_address();
         });
     }
 
     auto NetworkInterface::has_ipv4_address() const -> bool
     {
-        return has_address_by_criteria([](const address_type & address) -> bool {
-            return address.is_ipv4_address();
+        return has_address_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_ipv4_address();
         });
     }
 
     auto NetworkInterface::has_ipv6_address() const -> bool
     {
-        return has_address_by_criteria([](const address_type & address) -> bool {
-            return address.is_ipv6_address();
+        return has_address_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_ipv6_address();
         });
     }
 
     auto NetworkInterface::has_global_address() const -> bool
     {
-        return has_address_by_criteria([](const address_type & address) -> bool {
-            return address.is_global_address();
+        return has_address_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_global_address();
         });
     }
 
     auto NetworkInterface::has_global_ipv4_address() const -> bool
     {
-        return has_address_by_criteria([](const address_type & address) -> bool {
-            return address.is_global_address() && address.is_ipv4_address();
+        return has_address_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_global_address() && addr_mask.address.is_ipv4_address();
         });
     }
 
     auto NetworkInterface::has_global_ipv6_address() const -> bool
     {
-        return has_address_by_criteria([](const address_type & address) -> bool {
-            return address.is_global_address() && address.is_ipv6_address();
+        return has_address_by_criteria([](const address_and_netmask_type & addr_mask) -> bool {
+            return addr_mask.address.is_global_address() && addr_mask.address.is_ipv6_address();
         });
     }
 
-    auto NetworkInterface::get_address_by_criteria(const std::function<bool(const address_type & address)> & checker,
-                                                   const string_type & not_found_message) const -> address_type
+    auto NetworkInterface::description(std::ostream & o) const -> std::ostream &
     {
-        for (auto & address : m_addresses)
+        ClassFormatter * formatter = FormatterFactory::getFormatter();
+        if (formatter != nullptr)
+        {
+            formatter->setClassName("NetworkInterface");
+            formatter->addClassMember("string_type", "m_name", m_name);
+            formatter->addClassMember("m_index", m_index);
+            formatter->addClassMember("m_address_and_netmask", m_address_and_netmasks);
+            o << *formatter;
+            delete formatter;
+        }
+        return o;
+    }
+
+    auto NetworkInterface::get_address_by_criteria(
+        const std::function<bool(const address_and_netmask_type & addr_mask)> & checker,
+        const string_type & not_found_message) const -> address_and_netmask_type
+    {
+        for (auto & address : m_address_and_netmasks)
         {
             if (checker(address))
             {
@@ -252,52 +360,53 @@ namespace TF::Foundation
     }
 
     auto NetworkInterface::get_addresses_by_criteria(
-        const std::function<bool(const address_type & address)> & checker) const -> address_list_type
+        const std::function<bool(const address_and_netmask_type & addr_mask)> & checker) const
+        -> address_and_netmask_list_type
     {
-        address_list_type collected_addresses{};
-        std::for_each(m_addresses.cbegin(), m_addresses.cend(),
-                      [&collected_addresses, checker](const address_type & address) -> void {
-                          if (checker(address))
+        address_and_netmask_list_type collected_addresses{};
+        std::for_each(m_address_and_netmasks.cbegin(), m_address_and_netmasks.cend(),
+                      [&collected_addresses, checker](const address_and_netmask_type & addr_mask) -> void {
+                          if (checker(addr_mask))
                           {
-                              collected_addresses.emplace_back(address);
+                              collected_addresses.emplace_back(addr_mask);
                           }
                       });
         return collected_addresses;
     }
 
-    auto NetworkInterface::get_names_by_criteria(const std::function<string_type(address_type & address)> & criteria)
-        -> string_list_type
+    auto NetworkInterface::get_names_by_criteria(
+        const std::function<string_type(address_and_netmask_type & addr_mask)> & criteria) -> string_list_type
     {
         string_list_type collected_names{};
-        std::for_each(m_addresses.begin(), m_addresses.end(),
-                      [&collected_names, criteria](address_type & address) -> void {
-                          collected_names.emplace_back(criteria(address));
+        std::for_each(m_address_and_netmasks.begin(), m_address_and_netmasks.end(),
+                      [&collected_names, criteria](address_and_netmask_type & addr_mask) -> void {
+                          collected_names.emplace_back(criteria(addr_mask));
                       });
         return collected_names;
     }
 
     auto NetworkInterface::get_address_by_criteria_and_name_by_criteria(
-        const std::function<bool(address_type & address)> & address_checker,
-        const std::function<string_type(address_type & address)> & name_criteria) -> string_list_type
+        const std::function<bool(address_and_netmask_type & addr_mask)> & address_checker,
+        const std::function<string_type(address_and_netmask_type & addr_mask)> & name_criteria) -> string_list_type
     {
         string_list_type collected_names{};
-        std::for_each(m_addresses.begin(), m_addresses.end(),
-                      [&collected_names, address_checker, name_criteria](address_type & address) -> void {
-                          if (address_checker(address))
+        std::for_each(m_address_and_netmasks.begin(), m_address_and_netmasks.end(),
+                      [&collected_names, address_checker, name_criteria](address_and_netmask_type & addr_mask) -> void {
+                          if (address_checker(addr_mask))
                           {
-                              collected_names.emplace_back(name_criteria(address));
+                              collected_names.emplace_back(name_criteria(addr_mask));
                           }
                       });
         return collected_names;
     }
 
     auto NetworkInterface::has_address_by_criteria(
-        const std::function<bool(const address_type & address)> & checker) const -> bool
+        const std::function<bool(const address_and_netmask_type & addr_mask)> & checker) const -> bool
     {
         // Replace this code with return std::ranges::any_of(m_addresses, checker);
-        for (auto & address : m_addresses)
+        for (auto & addr_mask : m_address_and_netmasks)
         {
-            if (checker(address))
+            if (checker(addr_mask))
             {
                 return true;
             }

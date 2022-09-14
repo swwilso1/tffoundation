@@ -89,8 +89,8 @@ namespace TF
             virtual std::ostream & writeToStream(std::ostream & o) const;
 
         protected:
-            string_type theType;
-            string_type theName;
+            string_type theType{};
+            string_type theName{};
         };
 
         std::ostream & operator<<(std::ostream & o, const ClassMember & m);
@@ -118,7 +118,7 @@ namespace TF
             std::ostream & writeToStream(std::ostream & o) const override;
 
         private:
-            void * theValue;
+            void * theValue{};
         };
 
         template<typename T>
@@ -129,7 +129,7 @@ namespace TF
 
             TemplateClassMember()
             {
-                value_type v;
+                value_type v{};
                 theType = typeid(v).name();
             }
 
@@ -154,7 +154,7 @@ namespace TF
             }
 
         protected:
-            value_type theValue;
+            value_type theValue{};
         };
 
         template<typename T>
@@ -165,7 +165,7 @@ namespace TF
 
             TemplateClassMemberWithType() : ClassMember()
             {
-                value_type v;
+                value_type v{};
             }
 
             TemplateClassMemberWithType(const string_type & t, const string_type & n, const value_type & v) :
@@ -176,7 +176,7 @@ namespace TF
 
             string_type value() override
             {
-                std::stringstream collector;
+                std::stringstream collector{};
                 collector << theValue;
                 return collector.str();
             }
@@ -188,7 +188,7 @@ namespace TF
             }
 
         protected:
-            value_type theValue;
+            value_type theValue{};
         };
 
         template<typename T>
@@ -202,7 +202,7 @@ namespace TF
 
             TemplateArrayClassMember()
             {
-                value_type v;
+                value_type v{};
                 theType = typeid(v).name();
                 theLength = 0;
                 theValue = nullptr;
@@ -210,7 +210,7 @@ namespace TF
 
             TemplateArrayClassMember(const string_type & n, const value_type * v, const size_type & l)
             {
-                value_type vt;
+                value_type vt{};
                 theType = typeid(vt).name();
                 theName = n;
                 theValue = new value_type[l];
@@ -230,7 +230,7 @@ namespace TF
 
             string_type value() override
             {
-                std::stringstream collector;
+                std::stringstream collector{};
                 if (theLength > 0)
                 {
                     collector << "{";
@@ -268,8 +268,8 @@ namespace TF
             }
 
         protected:
-            value_type * theValue;
-            size_type theLength;
+            value_type * theValue{};
+            size_type theLength{};
         };
 
         template<>
@@ -289,7 +289,7 @@ namespace TF
 
             TemplateArrayClassMemberWithType() : ClassMember()
             {
-                value_type v;
+                value_type v{};
                 theLength = 0;
                 theValue = nullptr;
             }
@@ -315,7 +315,7 @@ namespace TF
 
             string_type value() override
             {
-                std::stringstream collector;
+                std::stringstream collector{};
                 if (theLength > 0)
                 {
                     collector << "{";
@@ -353,8 +353,8 @@ namespace TF
             }
 
         protected:
-            value_type * theValue;
-            size_type theLength;
+            value_type * theValue{};
+            size_type theLength{};
         };
 
         template<>

@@ -41,11 +41,12 @@ TEST(NetworkInterfacesTest, compile_test)
         auto interface = network_interfaces.get_interface_by_name(interface_name);
         if (interface)
         {
-            auto & addresses = interface.value().get_addresses();
-            for (auto address : addresses)
+            auto addr_masks = interface.value().get_addresses_and_netmasks();
+            for (auto addr_mask : addr_masks)
             {
-                address.get_presentation_name();
-                std::cout << "\t" << address << std::endl;
+                addr_mask.address.get_presentation_name();
+                addr_mask.netmask.get_presentation_name();
+                std::cout << "\t" << addr_mask << std::endl;
             }
         }
     }
@@ -59,10 +60,10 @@ TEST(NetworkInterfacesTest, wireless_interfaces)
     for (auto & interface : wireless_interfaces)
     {
         std::cout << interface.get_name() << ":" << std::endl;
-        auto addresses = interface.get_addresses();
-        for (auto & address : addresses)
+        auto addr_masks = interface.get_addresses_and_netmasks();
+        for (auto & addr_mask : addr_masks)
         {
-            std::cout << "\t" << address << std::endl;
+            std::cout << "\t" << addr_mask << std::endl;
         }
     }
 }

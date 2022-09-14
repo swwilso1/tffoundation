@@ -35,8 +35,9 @@ SOFTWARE.
 
 namespace TF::Foundation
 {
-    IPAddress::IPAddress() : m_address_family(PF_INET)
+    IPAddress::IPAddress(bool ipv4_address)
     {
+        m_address_family = ipv4_address ? PF_INET : PF_INET6;
         std::memset(&m_address, 0, sizeof(address_type));
     }
 
