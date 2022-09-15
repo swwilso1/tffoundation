@@ -32,7 +32,6 @@ SOFTWARE.
 #include "tfnetworkinterfaces.hpp"
 #include "tfnetlink.hpp"
 #include "tflog.hpp"
-#include "tfsocket.hpp"
 #include "tfposixnetworkutilities.hpp"
 
 namespace TF::Foundation
