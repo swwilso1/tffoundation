@@ -44,6 +44,8 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tfnetworkinterfaces.hpp"
 #include "tflog.hpp"
+#include "tfsocket.hpp"
+#include "tfposixnetworkutilities.hpp"
 
 namespace TF::Foundation
 {
@@ -147,7 +149,7 @@ namespace TF::Foundation
                             {
                                 // Sometimes the information from the Kernel contains a name entry that is invalid.
                                 // There is probably an error in the code as it tries to pass through the interface
-                                // data structure, but for now, we catch problem here, note it in the log, and
+                                // data structure, but for now, we catch the problem here, note it in the log, and
                                 // keep traversing the list of messages.
                                 LOG(LogPriority::Finer, "Unable to calculate interface name. Length parameter: %d",
                                     static_cast<int32_t>(info_structure->sdl_nlen));
@@ -186,7 +188,12 @@ namespace TF::Foundation
                             {
                                 IPAddress ip_address{address};
                                 auto & interface = m_interface_map[name];
-                                interface.add_address(ip_address);
+
+                                // We could cache the netmask value for a speedup on machines with many network
+                                // interfaces.
+                                auto netmask =
+                                    get_netmask_for_interface_with_name(interface.get_name(), ip_address.get_family());
+                                interface.add_address_and_netmask(IPAddressAndNetmask{ip_address, netmask});
                             }
                         }
                         else if (next_message_header->ifm_type == RTM_IFINFO)
