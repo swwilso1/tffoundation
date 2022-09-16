@@ -327,6 +327,13 @@ namespace TF::Foundation
         });
     }
 
+    void NetworkInterface::clear()
+    {
+        m_name = string_type();
+        m_address_and_netmasks.clear();
+        m_index = 0;
+    }
+
     auto NetworkInterface::description(std::ostream & o) const -> std::ostream &
     {
         ClassFormatter * formatter = FormatterFactory::getFormatter();
