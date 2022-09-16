@@ -51,6 +51,12 @@ namespace TF::Foundation
         using network_interface = NetworkInterface;
 
         /**
+         * @brief method to get a list of interface objects.
+         * @return the list of interface objects.
+         */
+        [[nodiscard]] auto get_interfaces() const -> std::vector<network_interface>;
+
+        /**
          * @brief method to get a vector of the names of the interfaces on a system.
          * @return the vector of interface names.
          */

@@ -29,6 +29,16 @@ SOFTWARE.
 namespace TF::Foundation
 {
 
+    auto NetworkInterfaces::get_interfaces() const -> std::vector<network_interface>
+    {
+        std::vector<network_interface> interfaces{};
+        std::for_each(m_interface_map.cbegin(), m_interface_map.cend(),
+                      [&interfaces](const std::pair<string_type, network_interface> & pair) -> void {
+                          interfaces.emplace_back(pair.second);
+                      });
+        return interfaces;
+    }
+
     auto NetworkInterfaces::get_interface_names() const -> std::vector<string_type>
     {
         std::vector<string_type> interface_names{};
