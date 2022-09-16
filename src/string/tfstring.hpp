@@ -142,6 +142,12 @@ namespace TF
              */
             String(unsigned int c);
 
+            /**
+             * @brief constructor from data object.
+             * @param data the data object.
+             */
+            explicit String(const data_type & data);
+
             /** @brief destructor */
             ~String() override = default;
 

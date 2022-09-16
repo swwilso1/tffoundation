@@ -23,6 +23,7 @@ include(src/multivalue/config.cmake)
 include(src/network/config.cmake)
 include(src/notification/config.cmake)
 include(src/pipe/config.cmake)
+include(src/platform/config.cmake)
 include(src/poll/config.cmake)
 include(src/process/config.cmake)
 include(src/progress/config.cmake)
@@ -37,6 +38,7 @@ include(src/symbol/config.cmake)
 include(src/template/config.cmake)
 include(src/thread/config.cmake)
 include(src/uuid/config.cmake)
+include(src/version/config.cmake)
 
 include_directories(
     src/alarm
@@ -57,6 +59,7 @@ include_directories(
     src/notification
     src/numerics
     src/pipe
+    src/platform
     src/poll
     src/process
     src/progress
@@ -68,6 +71,7 @@ include_directories(
     src/template
     src/thread
     src/uuid
+    src/version
     "${GENERATED_SOURCES_DIR}"
 )
 

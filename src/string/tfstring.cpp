@@ -256,6 +256,18 @@ namespace TF::Foundation
         delete[] charArray;
     }
 
+    String::String(const data_type & data)
+    {
+        static UTF8StringEncoder encoder;
+
+        auto str = reinterpret_cast<const unsigned char *>(data.bytes());
+
+        if (! encoder.checkStringForCorrectness(str, data.length()))
+            throw std::runtime_error("String UTF-8 constructor cannot create string from bad UTF-8");
+
+        core = std::make_shared<core_type>(str, data.length());
+    }
+
     String String::deepCopy() const
     {
         if (core->length() == 0)

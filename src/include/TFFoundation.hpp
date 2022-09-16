@@ -99,3 +99,6 @@ SOFTWARE.
 #include "tfinternetaddress.hpp"
 #include "tfsocket.hpp"
 #include "tfnetworkinterfaces.hpp"
+#include "tfversion.hpp"
+#include "tfcompilerid.hpp"
+#include "tfplatformid.hpp"

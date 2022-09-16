@@ -32,6 +32,7 @@ include(tests/notification/config.cmake)
 include(tests/numerics/config.cmake)
 include(tests/queue/config.cmake)
 include(tests/pipe/config.cmake)
+include(tests/platform/config.cmake)
 include(tests/poll/config.cmake)
 include(tests/process/config.cmake)
 include(tests/progress/config.cmake)
@@ -44,7 +45,4 @@ include(tests/symbol/config.cmake)
 include(tests/template/config.cmake)
 include(tests/thread/config.cmake)
 include(tests/uuid/config.cmake)
-
-
-
-
+include(tests/version/config.cmake)
