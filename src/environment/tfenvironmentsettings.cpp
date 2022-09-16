@@ -49,7 +49,21 @@ namespace TF
                 string_type key, value;
 
                 key = entry.substringToIndex(equalsLocation.position);
-                value = entry.substringFromIndex(equalsLocation.position + equalsLocation.length);
+                try
+                {
+                    value = entry.substringFromIndex(equalsLocation.position + equalsLocation.length);
+                }
+                catch (std::runtime_error & e)
+                {
+                    // We may have a case of 'VAR=' where there is a key portion but no value portion.
+                    // If that is the case we can just use an empty string for the value, but check
+                    // the range object (equalsLocation to make sure).
+                    if (equalsLocation.position + equalsLocation.length != entry.length())
+                    {
+                        // We do not have 'VAR=', so re-throw the exception.
+                        throw e;
+                    }
+                }
 
                 variableMap.insert(std::make_pair(key, value));
                 tmp++;
