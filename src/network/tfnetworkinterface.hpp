@@ -268,12 +268,17 @@ namespace TF::Foundation
          */
         [[nodiscard]] auto is_wireless_interface() const -> bool;
 
-#pragma mark - clear method
+#pragma mark - clear methods
 
         /**
-         * @brief method to reset an interface contents
+         * @brief method to reset an interface's contents
          */
         void clear();
+
+        /**
+         * @brief method to reset an interface's addresses.
+         */
+        void clear_addresses();
 
 #pragma mark - stream related methods
 
