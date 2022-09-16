@@ -1762,6 +1762,12 @@ namespace TF::Foundation
         return theRanges;
     }
 
+    auto String::contains(const String & str) const -> bool
+    {
+        auto rng = rangeOfString(str);
+        return rng.length != 0;
+    }
+
     String String::stringByReplacingOccurencesOfStringWithString(const String & original,
                                                                  const String & replacement) const
     {

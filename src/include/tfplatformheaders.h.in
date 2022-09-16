@@ -169,6 +169,7 @@ namespace TF
 #cmakedefine HAS_SYS_SELECT_H
 #cmakedefine HAS_SYS_SOCKET_H
 #cmakedefine HAS_SYS_SYSCTL_H
+#cmakedefine HAS_SYS_SYSINFO_H
 #cmakedefine HAS_SYS_TIME_H
 #cmakedefine HAS_SYS_TYPES_H
 #cmakedefine HAS_UNISTD_H

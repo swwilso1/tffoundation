@@ -30,6 +30,9 @@ SOFTWARE.
 #include "tfprocess.hpp"
 #include "tfsleep.hpp"
 #include "tfdata.hpp"
+#include "tfenvironmentsettings.hpp"
+#include "tffilemanager.hpp"
+
 namespace TF::Foundation
 {
 
@@ -67,6 +70,25 @@ namespace TF::Foundation
             return result_string.substringToIndex(result_string.length() - 1);
         }
         return result_string;
+    }
+
+    auto find_path_to_binary(const String & binary) -> std::optional<String>
+    {
+        FileManager manager{};
+        EnvironmentSettings settings{};
+        auto path = settings.getValueForVariable("PATH");
+        auto path_array = path.split(":");
+
+        for (auto & path_value : path_array)
+        {
+            auto full_path = path_value + FileManager::pathSeparator + binary;
+            if (manager.fileExistsAtPath(full_path))
+            {
+                return {full_path};
+            }
+        }
+
+        return {};
     }
 
 } // namespace TF::Foundation

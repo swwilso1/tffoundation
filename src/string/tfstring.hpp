@@ -502,6 +502,13 @@ namespace TF
             */
             range_array_type rangesOfString(const String & str) const;
 
+            /**
+             * @brief method to check if a string contains a substring.
+             * @param str the substring
+             * @return true if the string contains @e str.
+             */
+            auto contains(const String & str) const -> bool;
+
 #pragma mark - Methods for replacing substrings
 
             /**

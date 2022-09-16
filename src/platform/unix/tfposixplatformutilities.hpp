@@ -27,6 +27,8 @@ SOFTWARE.
 #ifndef TFPOSIXPLATFORMUTILITIES_HPP
 #define TFPOSIXPLATFORMUTILITIES_HPP
 
+#define NEEDS_OPTIONAL
+#include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfstring.hpp"
@@ -35,6 +37,7 @@ namespace TF::Foundation
 {
 
     auto run_command(const String & command) -> String;
+    auto find_path_to_binary(const String & binary) -> std::optional<String>;
 
 } // namespace TF::Foundation
 

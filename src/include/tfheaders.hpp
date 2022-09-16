@@ -1195,6 +1195,15 @@ SOFTWARE.
 #    undef NEEDS_SYS_SYSCTL_H
 #endif
 
+#if defined(NEEDS_SYS_SYSINFO_H)
+#    if defined(HAS_SYS_SYSINFO_H)
+#        include <sys/sysinfo.h>
+#    else
+#        error "Platform specific header <sys/sysinfo.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_SYSINFO_H
+#endif
+
 #if defined(NEEDS_SYS_TIME_H)
 #    if defined(HAS_SYS_TIME_H)
 #        include <sys/time.h>
