@@ -25,6 +25,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #define NEEDS_ARRAY
+#define NEEDS_UNISTD_H
 #define NEEDS_ASSERT_H
 #define NEEDS_PTHREAD_H
 #define NEEDS_CSTRING

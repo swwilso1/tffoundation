@@ -24,6 +24,7 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#define NEEDS_UNISTD_H
 #define NEEDS_SYS_TYPES_H
 #define NEEDS_SYS_SOCKET_H
 #define NEEDS_SYS_IOCTL_H

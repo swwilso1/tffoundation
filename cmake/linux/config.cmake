@@ -21,8 +21,7 @@ mark_as_advanced(
     FOUNDATION_STATIC_LIBRARY_NAME
 )
 
-list(APPEND LINUX_COMPILE_FLAGS -Werror -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion)
-#list(APPEND LINUX_COMPILE_FLAGS -Werror -pedantic-errors)
+list(APPEND LINUX_COMPILE_FLAGS -Werror -Wall -Wno-unknown-pragmas -Wextra -Wconversion -Wsign-conversion -fsigned-char)
 
 if (BUILD_PROFILE)
     list(APPEND LINUX_COMPILE_FLAGS -pg -fno-omit-frame-pointer)
