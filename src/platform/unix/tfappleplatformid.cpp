@@ -58,6 +58,12 @@ namespace TF::Foundation
             }
         }
 
+#if defined(__x86_64) || defined(__x64_64__)
+        s_processor_architecture = processor_architecture_type::X86_64;
+#elif defined(__arm__) || defined(__aarch64__)
+        s_processor_architecture = processor_architecture_type::ARM64;
+#endif
+
         s_compiler_id.name = "Apple Clang";
         s_compiler_id.version = Version(__clang_major__, __clang_minor__, __clang_patchlevel__);
     }

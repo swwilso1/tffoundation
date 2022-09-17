@@ -38,4 +38,5 @@ TEST(PlatformIdTest, compile_test)
               << std::endl;
     std::cout << platform_id.get_compiler_id() << std::endl;
     std::cout << "processors: " << platform_id.get_number_of_processors() << std::endl;
+    std::cout << "processor architecture: " << platform_id.get_processor_architecture() << std::endl;
 }

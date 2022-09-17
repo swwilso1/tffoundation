@@ -157,5 +157,11 @@ namespace TF::Foundation
 #endif
 
         s_number_of_processors = static_cast<decltype(s_number_of_processors)>(get_nprocs_conf());
+
+#if defined(__x86_64) || defined(__x86_64__)
+        s_processor_architecture = processor_architecture_type::X86_64;
+#elif defined(__AARCH64EL__) || defined(__ARM_64BIT_STATE)
+        s_processor_architecture = processor_architecture_type::ARM64;
+#endif
     }
 } // namespace TF::Foundation

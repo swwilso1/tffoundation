@@ -34,6 +34,7 @@ namespace TF::Foundation
     PlatformId::version_type PlatformId::s_version{};
     PlatformId::compilerid PlatformId::s_compiler_id{};
     uint32_t PlatformId::s_number_of_processors{};
+    PlatformId::processor_architecture_type PlatformId::s_processor_architecture{};
     bool PlatformId::s_initialized{};
     PlatformId::mutex_type PlatformId::s_mutex{};
 
@@ -72,4 +73,28 @@ namespace TF::Foundation
         return s_number_of_processors;
     }
 
+    auto PlatformId::get_processor_architecture() const -> processor_architecture_type
+    {
+        return s_processor_architecture;
+    }
+
+    std::ostream & operator<<(std::ostream & o, const PlatformId::processor_architecture_type & pa)
+    {
+        switch (pa)
+        {
+            case PlatformId::processor_architecture_type::X86_32:
+                o << "x86";
+                break;
+            case PlatformId::processor_architecture_type::X86_64:
+                o << "x86_64";
+                break;
+            case PlatformId::processor_architecture_type::ARM32:
+                o << "arm";
+                break;
+            case PlatformId::processor_architecture_type::ARM64:
+                o << "arm64";
+                break;
+        }
+        return o;
+    }
 } // namespace TF::Foundation

@@ -42,9 +42,18 @@ namespace TF::Foundation
     class PlatformId : public AllocatorInterface
     {
     public:
+        enum class ProcessorArchitecture
+        {
+            X86_32,
+            X86_64,
+            ARM32,
+            ARM64,
+        };
+
         using string_type = String;
         using version_type = Version;
         using compilerid = CompilerId;
+        using processor_architecture_type = ProcessorArchitecture;
 
         PlatformId();
 
@@ -60,6 +69,8 @@ namespace TF::Foundation
 
         [[nodiscard]] auto get_number_of_processors() const -> uint32_t;
 
+        [[nodiscard]] auto get_processor_architecture() const -> processor_architecture_type;
+
     private:
         using mutex_type = std::mutex;
         using lock_type = std::lock_guard<mutex_type>;
@@ -69,11 +80,14 @@ namespace TF::Foundation
         static version_type s_version;
         static compilerid s_compiler_id;
         static uint32_t s_number_of_processors;
+        static processor_architecture_type s_processor_architecture;
         static bool s_initialized;
         static mutex_type s_mutex;
 
         static void initialize();
     };
+
+    std::ostream & operator<<(std::ostream & o, const PlatformId::processor_architecture_type & pa);
 
 } // namespace TF::Foundation
 
