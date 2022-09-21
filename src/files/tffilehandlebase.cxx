@@ -248,6 +248,12 @@ namespace TF
         }
 
         template<class Handle, class Descriptor>
+        void FileHandleBase<Handle, Descriptor>::writeString(const string_type & s)
+        {
+            (void)s;
+        }
+
+        template<class Handle, class Descriptor>
         void FileHandleBase<Handle, Descriptor>::writeData(const data_type & d)
         {
             (void)d;

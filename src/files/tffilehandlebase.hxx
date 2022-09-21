@@ -358,6 +358,15 @@ namespace TF
 #pragma mark - Methods for writing data
 
             /**
+             * @brief method to write a string to a file.
+             *
+             * The file handle must be opened for writing.
+             *
+             * @param s the string to write to the file.
+             */
+            void writeString(const string_type & s);
+
+            /**
              * @brief method to write the contents of a data object to a file.
              *
              * The file handle must be opened for writing.

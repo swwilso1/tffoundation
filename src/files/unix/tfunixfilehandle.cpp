@@ -529,6 +529,20 @@ namespace TF
         }
 
         template<>
+        void FileHandleBase<FILE *, int>::writeString(const string_type & s)
+        {
+            // Someday we need to add an Encoding object to the FileHandle, so that
+            // a file handle represents a file in a particular encoding.  For now,
+            // try to write the file in UTF-8 encoding.
+
+            // I'm not happy about this step because it will copy the data in 's',
+            // however, I would rather keep the internals of 's' agnostic to a particular
+            // encoding, so I will allow it for now.
+            auto s_in_utf8 = s.getAsDataInUTF8Encoding();
+            writeData(s_in_utf8);
+        }
+
+        template<>
         void FileHandleBase<FILE *, int>::writeData(const data_type & d)
         {
             write(d.bytes(), d.length());
