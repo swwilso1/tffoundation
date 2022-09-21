@@ -38,6 +38,53 @@ namespace TF::Foundation
         }
     }
 
+    IPAddressAndNetmask::IPAddressAndNetmask(const string_type & addr, const string_type & netm)
+    {
+        address = IPAddress::address_from_string(addr);
+        netmask = IPAddress::address_from_string(netm);
+    }
+
+    struct BitMask
+    {
+        unsigned char mask;
+        unsigned char bits;
+    };
+
+    auto IPAddressAndNetmask::get_as_cidr_notation() -> string_type
+    {
+        constexpr BitMask masks[7] = {{0xfe, 7}, {0xfc, 6}, {0xf8, 5}, {0xf0, 4}, {0xe0, 3}, {0xc0, 2}, {0x80, 1}};
+        auto raw_binary_netmask = netmask.get_as_in6_addr();
+        auto tmp = reinterpret_cast<unsigned char *>(&raw_binary_netmask);
+        int bits_in_mask{0};
+        for (size_t i = 0; i < sizeof(decltype(raw_binary_netmask)); i++)
+        {
+            if (*(tmp + i) == 0xFF)
+            {
+                bits_in_mask += 8;
+                continue;
+            }
+
+            if (*(tmp + i) == 0)
+            {
+                break;
+            }
+
+            auto number_of_array_elements = sizeof(masks) / sizeof(BitMask);
+            for (decltype(number_of_array_elements) j = 0; j < number_of_array_elements; j++)
+            {
+                if ((*(tmp + i) & masks[j].mask) == masks[j].mask)
+                {
+                    bits_in_mask += masks[j].bits;
+                    break;
+                }
+            }
+            break;
+        }
+
+        auto address_string_representation = address.get_presentation_name();
+        return string_type::initWithFormat("%@/%d", address_string_representation.get(), bits_in_mask);
+    }
+
     auto IPAddressAndNetmask::description(std::ostream & o) const -> std::ostream &
     {
         auto formatter = std::unique_ptr<ClassFormatter>(FormatterFactory::getFormatter());

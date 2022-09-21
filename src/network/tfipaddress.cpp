@@ -465,6 +465,37 @@ namespace TF::Foundation
         return m_dns_name;
     }
 
+    auto IPAddress::get_as_in_addr() const -> in_addr_t
+    {
+        if (m_address_family == PF_INET)
+        {
+            return m_address.ipv4_address.s_addr;
+        }
+        else if (m_address_family == PF_INET6)
+        {
+            in_addr_t return_value{};
+            std::memcpy(&return_value, &m_address.ipv6_address, sizeof(in_addr_t));
+            return return_value;
+        }
+        throw std::runtime_error{"Unrecognized address type"};
+    }
+
+    auto IPAddress::get_as_in6_addr() const -> in6_addr
+    {
+        if (m_address_family == PF_INET)
+        {
+            in6_addr return_value{};
+            std::memset(&return_value, 0, sizeof(in6_addr));
+            std::memcpy(&return_value, &m_address.ipv4_address.s_addr, sizeof(in_addr_t));
+            return return_value;
+        }
+        else if (m_address_family == PF_INET6)
+        {
+            return m_address.ipv6_address;
+        }
+        throw std::runtime_error{"Unrecognized address type"};
+    }
+
     void IPAddress::runtime_error_from_api_error(int error)
     {
         NetworkErrorTable table{};

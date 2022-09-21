@@ -182,6 +182,25 @@ namespace TF::Foundation
          */
         auto get_dns_name() -> string_pointer_type;
 
+#pragma mark - methods to get raw binary addresses
+
+        /**
+         * @brief method to get the address in the raw IPv4 binary form.
+         * @return the raw binary form.
+         *
+         * If the address is an IPv6 address, it will truncate the address to fit in the IPv4 address.
+         */
+        [[nodiscard]] auto get_as_in_addr() const -> in_addr_t;
+
+        /**
+         * @brief method to get the address in the raw IPv6 binary form.
+         * @return the raw binary form.
+         *
+         * If the address is an IPv4 address the higher order bits of the address
+         * will be set to 0.
+         */
+        [[nodiscard]] auto get_as_in6_addr() const -> in6_addr;
+
 #pragma mark - methods for checking the kind of address
 
         /**

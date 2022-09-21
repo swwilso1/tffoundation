@@ -32,12 +32,15 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfipaddress.hpp"
+#include "tfstring.hpp"
 
 namespace TF::Foundation
 {
 
     struct IPAddressAndNetmask : public AllocatorInterface
     {
+        using string_type = String;
+
         IPAddress address{};
         IPAddress netmask{};
 
@@ -45,7 +48,11 @@ namespace TF::Foundation
 
         explicit IPAddressAndNetmask(const IPAddress & addr);
 
+        IPAddressAndNetmask(const string_type & addr, const string_type & netm);
+
         IPAddressAndNetmask(const IPAddress & addr, const IPAddress & nmask) : address{addr}, netmask{nmask} {}
+
+        [[nodiscard]] auto get_as_cidr_notation() -> string_type;
 
         [[nodiscard]] auto description(std::ostream & o) const -> std::ostream &;
     };

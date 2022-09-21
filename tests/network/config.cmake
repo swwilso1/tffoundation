@@ -28,3 +28,9 @@ build_and_run_test(
     NetworkInterfacesTest
     tests/network/network_interfaces_test.cpp
 )
+
+build_and_run_test(
+    address_and_netmask_test
+    IPAddressAndNetmaskTest
+    tests/network/address_and_netmask_test.cpp
+)
