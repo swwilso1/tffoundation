@@ -72,3 +72,48 @@ TEST(IPAddressAndNetmask, ipv4_cidr_tests)
     cidr_test(ipv4_addr_str, "128.0.0.0", ipv4_addr_str + "/1");
     cidr_test(ipv4_addr_str, "0.0.0.0", ipv4_addr_str + "/0");
 }
+
+void test_from_addr_and_cidr(const String & addr_and_cidr, const String & address, const String & netmask)
+{
+    IPAddressAndNetmask addr_mask{addr_and_cidr};
+    EXPECT_EQ(addr_mask.address, IPAddress::address_from_string(address));
+    EXPECT_EQ(addr_mask.netmask, IPAddress::address_from_string(netmask));
+}
+
+TEST(IPAddressAndNetmask, ipv4_from_addr_and_cidr_test)
+{
+    const String address{"192.168.1.223"};
+    test_from_addr_and_cidr(address + "/0", address, "0.0.0.0");
+    test_from_addr_and_cidr(address + "/1", address, "128.0.0.0");
+    test_from_addr_and_cidr(address + "/2", address, "192.0.0.0");
+    test_from_addr_and_cidr(address + "/3", address, "224.0.0.0");
+    test_from_addr_and_cidr(address + "/4", address, "240.0.0.0");
+    test_from_addr_and_cidr(address + "/5", address, "248.0.0.0");
+    test_from_addr_and_cidr(address + "/6", address, "252.0.0.0");
+    test_from_addr_and_cidr(address + "/7", address, "254.0.0.0");
+    test_from_addr_and_cidr(address + "/8", address, "255.0.0.0");
+    test_from_addr_and_cidr(address + "/9", address, "255.128.0.0");
+    test_from_addr_and_cidr(address + "/10", address, "255.192.0.0");
+    test_from_addr_and_cidr(address + "/11", address, "255.224.0.0");
+    test_from_addr_and_cidr(address + "/12", address, "255.240.0.0");
+    test_from_addr_and_cidr(address + "/13", address, "255.248.0.0");
+    test_from_addr_and_cidr(address + "/14", address, "255.252.0.0");
+    test_from_addr_and_cidr(address + "/15", address, "255.254.0.0");
+    test_from_addr_and_cidr(address + "/16", address, "255.255.0.0");
+    test_from_addr_and_cidr(address + "/17", address, "255.255.128.0");
+    test_from_addr_and_cidr(address + "/18", address, "255.255.192.0");
+    test_from_addr_and_cidr(address + "/19", address, "255.255.224.0");
+    test_from_addr_and_cidr(address + "/20", address, "255.255.240.0");
+    test_from_addr_and_cidr(address + "/21", address, "255.255.248.0");
+    test_from_addr_and_cidr(address + "/22", address, "255.255.252.0");
+    test_from_addr_and_cidr(address + "/23", address, "255.255.254.0");
+    test_from_addr_and_cidr(address + "/24", address, "255.255.255.0");
+    test_from_addr_and_cidr(address + "/25", address, "255.255.255.128");
+    test_from_addr_and_cidr(address + "/26", address, "255.255.255.192");
+    test_from_addr_and_cidr(address + "/27", address, "255.255.255.224");
+    test_from_addr_and_cidr(address + "/28", address, "255.255.255.240");
+    test_from_addr_and_cidr(address + "/29", address, "255.255.255.248");
+    test_from_addr_and_cidr(address + "/30", address, "255.255.255.252");
+    test_from_addr_and_cidr(address + "/31", address, "255.255.255.254");
+    test_from_addr_and_cidr(address + "/32", address, "255.255.255.255");
+}

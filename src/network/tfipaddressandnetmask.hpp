@@ -37,6 +37,9 @@ SOFTWARE.
 namespace TF::Foundation
 {
 
+    /**
+     * Class that contains both an IPAddress and a related netmask.
+     */
     struct IPAddressAndNetmask : public AllocatorInterface
     {
         using string_type = String;
@@ -46,17 +49,60 @@ namespace TF::Foundation
 
         IPAddressAndNetmask() = default;
 
+        /**
+         * @brief constructor that initializes from a an address. Initializes the netmask to 0 for
+         * the IPv4/IPv6 type of the address.
+         * @param addr the address.
+         */
         explicit IPAddressAndNetmask(const IPAddress & addr);
 
+        /**
+         * @brief constructo that initializes from a string with address and CIDR notation.
+         * @param addr_with_cidr the string form of the address in CIDR notation.
+         *
+         * Example: 192.168.1.223/24
+         *
+         * If @e addr_with_cidr does not have the '/xx'  CIDR notation, the constructor just
+         * initializes the address with the address value and the netmask to 0.
+         */
+        explicit IPAddressAndNetmask(const string_type & addr_with_cidr);
+
+        /**
+         * @brief constructor initialize the object with the address and netmask values
+         * @param addr the address in string form
+         * @param netm the netmask in string form.
+         */
         IPAddressAndNetmask(const string_type & addr, const string_type & netm);
 
+        /**
+         * @brief constructor initializing the object with an address and netmask.
+         * @param addr the address.
+         * @param nmask the netmask.
+         */
         IPAddressAndNetmask(const IPAddress & addr, const IPAddress & nmask) : address{addr}, netmask{nmask} {}
 
+        /**
+         * @brief method to get the address and netmask as a string value in CIDR notation.
+         * @return the string address and netmask in CIDR notation.
+         *
+         * Example: 192.168.1.223, 255.255.255.0 converts to 192.168.1.223/24
+         */
         [[nodiscard]] auto get_as_cidr_notation() -> string_type;
 
+        /**
+         * @brief method for writing the object to a stream.
+         * @param o the stream object
+         * @return @e o after writing the address and netmask to the stream.
+         */
         [[nodiscard]] auto description(std::ostream & o) const -> std::ostream &;
     };
 
+    /**
+     * @brief overloaded operator<< for IPAddressAndNetmask objects.
+     * @param o the stream object
+     * @param addr_mask the IPAddressAndNetmask object.
+     * @return @e o after writing the contents of @e addr_mask to the stream.
+     */
     std::ostream & operator<<(std::ostream & o, const IPAddressAndNetmask & addr_mask);
 
 } // namespace TF::Foundation
