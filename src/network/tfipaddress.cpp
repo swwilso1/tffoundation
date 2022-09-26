@@ -109,7 +109,7 @@ namespace TF::Foundation
         {};
         struct addrinfo * address_results{nullptr};
 
-        if (value.length() == 0)
+        if (value.empty())
         {
             throw std::runtime_error{"Unable to generate address from empty string"};
         }
@@ -500,7 +500,7 @@ namespace TF::Foundation
     {
         NetworkErrorTable table{};
         auto error_message = table.get_explanation_for_error(error);
-        if (error_message.length() == 0)
+        if (error_message.empty())
         {
             error_message = "IP address lookup from string content failed";
         }

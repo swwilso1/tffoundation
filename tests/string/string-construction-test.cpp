@@ -35,7 +35,7 @@ using namespace TF::Foundation;
 TEST(StringTest, DefaultConstructorTest)
 {
     String s1;
-    EXPECT_TRUE(s1.length() == 0);
+    EXPECT_TRUE(s1.empty());
 }
 
 #define TEST_STRING "test string"

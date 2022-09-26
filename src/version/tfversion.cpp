@@ -54,7 +54,7 @@ namespace TF::Foundation
     {
         Version version{};
 
-        if (s.length() == 0)
+        if (s.empty())
         {
             throw std::invalid_argument{"Version string is empty"};
         }

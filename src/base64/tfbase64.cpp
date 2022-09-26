@@ -155,10 +155,12 @@ namespace TF
             unsigned int decodeHelper = 0;
             size_type padCharsFound = 0;
 
-            if (s.length() == 0)
+            if (s.empty())
+            {
                 return d;
+            }
 
-            // The string only has ASCII codes in it so we can go character by character
+            // The string only has ASCII codes in it, so we can go character by character
             // and convert back to the byte array.
             for (string_type::size_type i = 0; i < s.length(); i++)
             {

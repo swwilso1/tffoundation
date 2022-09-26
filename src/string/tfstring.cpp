@@ -1476,6 +1476,15 @@ namespace TF::Foundation
         return number_of_chars;
     }
 
+    auto String::empty() const -> bool
+    {
+        if (core->length() == 0)
+        {
+            return true;
+        }
+        return false;
+    }
+
     String::size_type String::numberOfBytes() const
     {
         return core->length();

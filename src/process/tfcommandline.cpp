@@ -31,7 +31,7 @@ namespace TF::Foundation
 {
     static bool arg_is_quoted(const String & arg)
     {
-        if (arg.length() == 0)
+        if (arg.empty())
         {
             return false;
         }
@@ -76,7 +76,7 @@ namespace TF::Foundation
 
     bool convert_command_line_to_vector(const String & command_line, std::vector<String> & list)
     {
-        if (command_line.length() == 0)
+        if (command_line.empty())
         {
             return false;
         }

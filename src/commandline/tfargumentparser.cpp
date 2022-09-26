@@ -305,7 +305,7 @@ namespace TF
         {
             m_symbolTable.clear();
 
-            if (m_name.length() == 0 && l.size() > 0)
+            if (m_name.empty() && l.size() > 0)
             {
                 m_name = l[0];
             }
@@ -542,7 +542,7 @@ namespace TF
                             // The argument should have a const value, check for that first.   If it does not
                             // exist then output an error.
                             auto constant = arg.getConstant();
-                            if (constant.length() == 0)
+                            if (constant.empty())
                             {
                                 noConstantValueProvidedMessage(arg);
                                 return false;
@@ -603,7 +603,7 @@ namespace TF
                         else if (action == ArgumentAction::AppendConst)
                         {
                             auto constant = arg.getConstant();
-                            if (constant.length() == 0)
+                            if (constant.empty())
                             {
                                 noConstantValueProvidedMessage(arg);
                                 return false;

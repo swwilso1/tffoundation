@@ -311,6 +311,16 @@ namespace TF
             */
             size_type numberOfBytes() const;
 
+#pragma mark - Method for inspecting aspects of a string
+
+            /**
+             * @brief method to check if a string is empty
+             * @return true if the string has no characters
+             *
+             * Use empty instead of length() == 0 to check for an empty string.
+             */
+            auto empty() const -> bool;
+
 #pragma mark - Methods for getting characters
 
             /**

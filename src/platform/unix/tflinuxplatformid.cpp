@@ -72,7 +72,7 @@ namespace TF::Foundation
                 }
             }
 
-            if (s_vendor.length() == 0)
+            if (s_vendor.empty())
             {
                 if (centos_query_result != "not installed")
                 {
