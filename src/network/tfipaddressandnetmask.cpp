@@ -159,7 +159,12 @@ namespace TF::Foundation
         }
 
         auto address_string_representation = address.get_presentation_name();
-        return string_type::initWithFormat("%@/%d", address_string_representation.get(), bits_in_mask);
+        string_type result{*address_string_representation};
+        if (bits_in_mask > 0)
+        {
+            result = string_type::initWithFormat("%@/%d", address_string_representation.get(), bits_in_mask);
+        }
+        return result;
     }
 
     auto IPAddressAndNetmask::description(std::ostream & o) const -> std::ostream &

@@ -70,7 +70,7 @@ TEST(IPAddressAndNetmask, ipv4_cidr_tests)
     cidr_test(ipv4_addr_str, "224.0.0.0", ipv4_addr_str + "/3");
     cidr_test(ipv4_addr_str, "192.0.0.0", ipv4_addr_str + "/2");
     cidr_test(ipv4_addr_str, "128.0.0.0", ipv4_addr_str + "/1");
-    cidr_test(ipv4_addr_str, "0.0.0.0", ipv4_addr_str + "/0");
+    cidr_test(ipv4_addr_str, "0.0.0.0", ipv4_addr_str);
 }
 
 void test_from_addr_and_cidr(const String & addr_and_cidr, const String & address, const String & netmask)
