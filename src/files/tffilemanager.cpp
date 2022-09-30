@@ -160,6 +160,33 @@ namespace TF
             return false;
         }
 
+        auto FileManager::extensionOfItemAtPath(const string_type & path) const -> string_type
+        {
+            auto path_separator_ranges = path.rangesOfString(pathSeparator);
+            auto dot_character_ranges = path.rangesOfString(".");
+
+            if (dot_character_ranges.empty())
+            {
+                return {};
+            }
+
+            if (path_separator_ranges.empty())
+            {
+                auto & last_range = dot_character_ranges[dot_character_ranges.size() - 1];
+                return path.substringFromIndex(last_range.position + last_range.length);
+            }
+
+            auto & last_range = dot_character_ranges[dot_character_ranges.size() - 1];
+            auto & last_separator_range = path_separator_ranges[path_separator_ranges.size() - 1];
+
+            if (last_range.position > (last_separator_range.position + last_separator_range.length))
+            {
+                return path.substringFromIndex(last_range.position + last_range.length);
+            }
+
+            return {};
+        }
+
         bool FileManager::contentsEqualAtPathAndPath(const string_type & pathA, const string_type & pathB) const
         {
             if (sizeofFileAtPath(pathA) != sizeofFileAtPath(pathB))

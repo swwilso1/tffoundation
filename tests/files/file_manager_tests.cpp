@@ -216,6 +216,25 @@ TEST(FileManagerTest, BasenameOfItemTest)
     EXPECT_EQ(basename, "foo.file");
 }
 
+TEST(FileManagerTest, ExtensionOfItemTest)
+{
+    FileManager fm{};
+    auto extension = fm.extensionOfItemAtPath("/tmp/foo.file");
+    EXPECT_EQ(extension, "file");
+
+    extension = fm.extensionOfItemAtPath("/tmp/foo.dir/foo.file");
+    EXPECT_EQ(extension, "file");
+
+    extension = fm.extensionOfItemAtPath("/tmp/foo_file");
+    EXPECT_EQ(extension, String{});
+
+    extension = fm.extensionOfItemAtPath("/tmp/foo.dir/foo_file");
+    EXPECT_EQ(extension, String{});
+
+    extension = fm.extensionOfItemAtPath("/tmp/foo/foo.file.orig");
+    EXPECT_EQ(extension, "orig");
+}
+
 TEST(FileManagerTest, DirnameOfItemTest)
 {
     FileManager fm;

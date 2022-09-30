@@ -293,6 +293,15 @@ namespace TF
             string_type baseNameOfItemAtPath(const string_type & path) const;
 
             /**
+             * @brief method to get the extension of the iterm at path
+             * @param path the location of the item
+             * @return the extension (anything after a "." character).
+             *
+             * May return an empty string.
+             */
+            [[nodiscard]] auto extensionOfItemAtPath(const string_type & path) const -> string_type;
+
+            /**
              * @brief method to get the directory name of the item at path
              * @param path the location of the item
              * @return the directory name
