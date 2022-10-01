@@ -426,4 +426,9 @@ namespace TF::Foundation
         return false;
     }
 
+    std::ostream & operator<<(std::ostream & o, const NetworkInterface & i)
+    {
+        return i.description(o);
+    }
+
 } // namespace TF::Foundation
