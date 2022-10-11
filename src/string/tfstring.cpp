@@ -1777,6 +1777,75 @@ namespace TF::Foundation
         return rng.length != 0;
     }
 
+    void String::trim()
+    {
+        if (empty())
+        {
+            return;
+        }
+
+        String return_string{*this};
+        range_type characters_at_beginning{};
+        range_type characters_at_end{};
+
+        // Check the first part of the string to see if there are any space characters at the beginning of the string.
+        if (return_string.first() == ' ')
+        {
+            characters_at_beginning.position = 0;
+            size_type i{0};
+            for (; i < return_string.length(); i++)
+            {
+                if (return_string.characterAtIndex(i) != ' ')
+                {
+                    break;
+                }
+            }
+
+            characters_at_beginning.length = i;
+
+            auto substrings = substringsNotInRange(characters_at_beginning);
+
+            if (substrings.size() > 0)
+            {
+                return_string = substrings[0];
+            }
+            else if (i == return_string.length())
+            {
+                return_string = String{};
+            }
+        };
+
+        if (return_string.empty())
+        {
+            *this = return_string;
+            return;
+        }
+
+        if (return_string.last() == ' ')
+        {
+            size_type i = 0;
+            size_type j = return_string.length() - 1;
+            for (; j >= 1; j--, i++)
+            {
+                if (return_string.characterAtIndex(j) != ' ')
+                {
+                    break;
+                }
+            }
+
+            // We know that return_string[0] is not ' ' from the test above.
+            j++;
+
+            characters_at_end.position = j;
+            characters_at_end.length = i;
+
+            auto substrings = return_string.substringsNotInRange(characters_at_end);
+            return_string = substrings[0];
+        }
+
+        *this = return_string;
+    }
+
     String String::stringByReplacingOccurencesOfStringWithString(const String & original,
                                                                  const String & replacement) const
     {

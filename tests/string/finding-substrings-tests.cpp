@@ -106,3 +106,22 @@ TEST(StringTest, RangeOfUnicodeStringTest)
     EXPECT_EQ(theRanges[0], Range(9, 2));
     EXPECT_EQ(theRanges[1], Range(27, 2));
 }
+
+TEST(StringTest, TrimTest)
+{
+    String s{"    foo"};
+    s.trim();
+    EXPECT_EQ(s, String{"foo"});
+
+    String s2{"foo     "};
+    s2.trim();
+    EXPECT_EQ(s2, String{"foo"});
+
+    String s3{"    "};
+    s3.trim();
+    EXPECT_EQ(s3, String{});
+
+    String s4{"    foo    "};
+    s4.trim();
+    EXPECT_EQ(s4, String{"foo"});
+}

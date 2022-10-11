@@ -519,6 +519,12 @@ namespace TF
              */
             auto contains(const String & str) const -> bool;
 
+            /**
+             * @brief method to remove space characters at the beginning of a string and at
+             * the end of a string.
+             */
+            void trim();
+
 #pragma mark - Methods for replacing substrings
 
             /**
