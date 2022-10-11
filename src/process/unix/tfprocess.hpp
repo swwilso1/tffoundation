@@ -29,11 +29,13 @@ SOFTWARE.
 #define TFPROCESS_HPP
 
 #define NEEDS_OSTREAM
+#define NEEDS_CHRONO
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfstring.hpp"
 #include "tfpipe.hpp"
+#include "tfsleep.hpp"
 
 namespace TF::Foundation
 {
@@ -113,6 +115,60 @@ namespace TF::Foundation
         void update_exit_status();
 
         /**
+         * Method to wait till a process terminates.
+         *
+         * The method returns when the process finishes.
+         */
+        void wait();
+
+        /**
+         * @brief method to wait for a specified amount of time to see if the process finishes.
+         * @tparam Rep the type used for the duration representation
+         * @tparam Period the type used for the duration period.
+         * @param wait_time the duration
+         * @return true if the process finished and false otherwise.
+         */
+        template<class Rep, class Period>
+        [[nodiscard]] auto wait_for(const std::chrono::duration<Rep, Period> & wait_time) -> bool
+        {
+            auto right_now = std::chrono::high_resolution_clock::now();
+            auto right_now_duration = std::chrono::time_point_cast<decltype(wait_time)>(right_now);
+            auto later = right_now_duration + wait_time;
+            return wait_until(later);
+        }
+
+        /**
+         * @brief method to wait for the process to finish until time reaches a specified clock time.
+         * @tparam Clock the type of the clock.
+         * @tparam Duration the type of the duration of the clock.
+         * @param timeout_time the the time
+         * @return true if the process finished and false otherwise.
+         */
+        template<class Clock, class Duration>
+        [[nodiscard]] auto wait_until(const std::chrono::time_point<Clock, Duration> & timeout_time) -> bool
+        {
+            try
+            {
+                while (is_alive())
+                {
+                    Sleep(std::chrono::milliseconds(50));
+                    update_exit_status();
+                    auto right_now = Clock::now();
+                    auto right_now_duration = std::chrono::time_point_cast<Duration>(right_now);
+                    if (right_now_duration >= timeout_time)
+                    {
+                        return ! is_alive();
+                    }
+                }
+            }
+            catch (...)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /**
          * @brief method to return the raw process id.
          * @return the raw process id.
          */
@@ -184,6 +240,8 @@ namespace TF::Foundation
         Pipe m_standard_in{};
         Pipe m_standard_out{};
         Pipe m_standard_err{};
+
+        void update_stop_code_from_status(int status);
     };
 
     /**

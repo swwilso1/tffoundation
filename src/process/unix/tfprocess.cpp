@@ -143,18 +143,7 @@ namespace TF::Foundation
 
             if (return_id == process_id || return_id < 0)
             {
-                if (WIFEXITED(child_status))
-                {
-                    m_stop_code = WEXITSTATUS(child_status);
-                }
-                else if (WIFSIGNALED(child_status))
-                {
-                    m_stop_code = WTERMSIG(child_status);
-                }
-                else if (WIFSTOPPED(child_status))
-                {
-                    m_stop_code = WSTOPSIG(child_status);
-                }
+                update_stop_code_from_status(child_status);
 
                 if (m_stop_code != 0)
                 {
@@ -203,18 +192,17 @@ namespace TF::Foundation
         auto return_id = waitpid(m_process_id, &child_status, WNOHANG);
         if (return_id == m_process_id)
         {
-            if (WIFEXITED(child_status))
-            {
-                m_stop_code = WEXITSTATUS(child_status);
-            }
-            else if (WIFSIGNALED(child_status))
-            {
-                m_stop_code = WTERMSIG(child_status);
-            }
-            else if (WIFSTOPPED(child_status))
-            {
-                m_stop_code = WSTOPSIG(child_status);
-            }
+            update_stop_code_from_status(child_status);
+        }
+    }
+
+    void Process::wait()
+    {
+        int child_status{};
+        auto return_id = waitpid(m_process_id, &child_status, 0);
+        if (return_id == m_process_id)
+        {
+            update_stop_code_from_status(child_status);
         }
     }
 
@@ -286,6 +274,22 @@ namespace TF::Foundation
             delete formatter;
         }
         return o;
+    }
+
+    void Process::update_stop_code_from_status(int status)
+    {
+        if (WIFEXITED(status))
+        {
+            m_stop_code = WEXITSTATUS(status);
+        }
+        else if (WIFSIGNALED(status))
+        {
+            m_stop_code = WTERMSIG(status);
+        }
+        else if (WIFSTOPPED(status))
+        {
+            m_stop_code = WSTOPSIG(status);
+        }
     }
 
     std::ostream & operator<<(std::ostream & o, const Process & p)
