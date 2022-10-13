@@ -26,6 +26,7 @@ SOFTWARE.
 
 #include <cstring>
 #include <string>
+#include <string_view>
 #include <iostream>
 #include "TFFoundation.hpp"
 #include "gtest/gtest.h"
@@ -107,6 +108,14 @@ TEST(StringTest, CXXStyleStringConstructorTest)
 {
     std::string ss(HELLO_WORLD);
     String s(ss);
+    auto ptr = s.cStr();
+    EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
+}
+
+TEST(StringTest, StringViewConstructorTest)
+{
+    std::string_view sv(HELLO_WORLD);
+    String s{sv};
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
 }

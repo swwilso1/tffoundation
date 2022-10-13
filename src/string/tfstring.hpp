@@ -32,6 +32,7 @@ SOFTWARE.
 #define NEEDS_MEMORY
 #define NEEDS_UTILITY
 #define NEEDS_STRING
+#define NEEDS_STRING_VIEW
 #define NEEDS_VECTOR
 #define NEEDS_FUNCTIONAL
 #include "tfheaders.hpp"
@@ -110,6 +111,12 @@ namespace TF
                 @return a new string object.
             */
             String(const std::string & s);
+
+            /**
+             * @brief STL string_view constructor
+             * @param sv a std::string_view object.
+             */
+            String(const std::string_view & sv);
 
             /**
                 @brief UTF-8 string constructor
