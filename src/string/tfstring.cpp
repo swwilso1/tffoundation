@@ -2234,6 +2234,11 @@ namespace TF::Foundation
         return t.operator==(s);
     }
 
+    auto operator==(const std::string_view & s, const String & t) -> bool
+    {
+        return t.operator==(s);
+    }
+
     bool operator<(const String & a, const String & b)
     {
         ComparisonResult result = compareStrings(a, b, nullptr);

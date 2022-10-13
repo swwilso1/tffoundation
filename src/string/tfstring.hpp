@@ -754,9 +754,17 @@ namespace TF
          * @brief overloaded == operator to compare a STL string and a String
          * @param s the STL string
          * @param t the String object
-         * @return true if the two strings are lexiccally equal and false otherwise.
+         * @return true if the two strings are lexically equal and false otherwise.
          */
         bool operator==(const std::string & s, const String & t);
+
+        /**
+         * @brief overloaded == operator to compare a STL string_view and a String
+         * @param s the STL string_view
+         * @param t the String object
+         * @return true if the two strings are lexically equal an false otherwise.
+         */
+        [[nodiscard]] auto operator==(const std::string_view & s, const String & t) -> bool;
 
         /**
          * @brief overloaded < operator to compare two String objects
