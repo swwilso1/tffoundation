@@ -113,12 +113,6 @@ namespace TF
             String(const std::string & s);
 
             /**
-             * @brief STL string_view constructor
-             * @param sv a std::string_view object.
-             */
-            String(const std::string_view & sv);
-
-            /**
                 @brief UTF-8 string constructor
                 @param str an array of UTF-8 code sequences
                 @param length the length of the @e str array
@@ -163,6 +157,13 @@ namespace TF
             String deepCopy() const;
 
 #pragma mark - Initialization routines
+
+            /**
+             * @brief string_view initializer.
+             * @param sv the string_view object
+             * @return a new String object.
+             */
+            static auto initWithStringView(const std::string_view & sv) -> String;
 
             /**
                 @brief static method to create a string object using a specified format

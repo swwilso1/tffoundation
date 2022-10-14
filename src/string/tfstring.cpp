@@ -133,53 +133,6 @@ namespace TF::Foundation
         core = std::make_shared<core_type>(theArray.get(), bytesRequiredForUTF8);
     }
 
-    String::String(const std::string_view & sv)
-    {
-        ASCIIStringEncoder asciiEncoder;
-        auto stringLength = sv.length();
-        auto str = sv.data();
-        auto charactersInString =
-            asciiEncoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), stringLength);
-
-        auto characters = std::make_unique<unicode_point_type[]>(charactersInString);
-        auto endian = ASCIIStringEncoder::thisSystemEndianness();
-
-        auto * tmp = reinterpret_cast<char_type *>(const_cast<char *>(str));
-        size_type i = 0;
-
-        // Use the ASCII encoder to convert the argument to unicode points.
-        while (stringLength > 0)
-        {
-            auto result = asciiEncoder.nextCodePoint(tmp, stringLength, endian);
-            characters[i++] = result.first;
-            tmp += result.second;
-            stringLength -= result.second;
-        }
-
-        UTF8StringEncoder utf8Encoder;
-
-        // Now convert the unicode points to UTF-8
-        size_type bytesRequiredForUTF8 = 0;
-
-        for (size_type j = 0; j < charactersInString; ++j)
-        {
-            bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[j]);
-        }
-
-        auto theArray = std::make_unique<char_type[]>(bytesRequiredForUTF8);
-        tmp = theArray.get();
-        auto tmpLength = bytesRequiredForUTF8;
-
-        for (size_type j = 0; j < charactersInString; ++j)
-        {
-            auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[j], endian);
-            tmp += result;
-            tmpLength -= result;
-        }
-
-        core = std::make_shared<core_type>(theArray.get(), bytesRequiredForUTF8);
-    }
-
     // The argument should be encoded UTF-8.
     String::String(const unsigned char * str, size_type length)
     {
@@ -322,6 +275,12 @@ namespace TF::Foundation
 
         String s(core->data(), core->length());
         return s;
+    }
+
+    auto String::initWithStringView(const std::string_view & sv) -> String
+    {
+        std::string s{sv};
+        return {s};
     }
 
     String String::initWithFormat(const char * format, ...)
@@ -2236,7 +2195,8 @@ namespace TF::Foundation
 
     auto operator==(const std::string_view & s, const String & t) -> bool
     {
-        return t.operator==(s);
+        auto newS = String::initWithStringView(s);
+        return newS == t;
     }
 
     bool operator<(const String & a, const String & b)

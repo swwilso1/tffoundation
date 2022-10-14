@@ -115,7 +115,7 @@ TEST(StringTest, CXXStyleStringConstructorTest)
 TEST(StringTest, StringViewConstructorTest)
 {
     std::string_view sv(HELLO_WORLD);
-    String s{sv};
+    auto s = String::initWithStringView(sv);
     auto ptr = s.cStr();
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
 }
