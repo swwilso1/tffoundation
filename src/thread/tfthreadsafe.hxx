@@ -95,8 +95,8 @@ namespace TF::Foundation
 
     protected:
         using lock_type = std::lock_guard<std::mutex>;
-        std::mutex m_mutex;
-        data_structure_ptr m_data_structure;
+        std::mutex m_mutex{};
+        data_structure_ptr m_data_structure{};
     };
 
 } // namespace TF::Foundation

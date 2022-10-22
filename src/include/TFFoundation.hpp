@@ -43,6 +43,7 @@ SOFTWARE.
 #include "tfthreadpool.hpp"
 #include "tfconditionvariable.hpp"
 #include "tfdata.hpp"
+#include "tfthreadsafe.hxx"
 #include "tfthreadsafequeue.hxx"
 #include "tfthreadsafeunorderedmap.hxx"
 #include "tfthreadcontroller.hpp"
