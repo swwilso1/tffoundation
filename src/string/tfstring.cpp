@@ -1783,6 +1783,40 @@ namespace TF::Foundation
         return rng.length != 0;
     }
 
+    auto String::startsWith(const String & str) const -> bool
+    {
+        if (str.length() > length())
+        {
+            return false;
+        }
+
+        if (str.length() == 0)
+        {
+            return false;
+        }
+
+        auto sub = substringToIndex(str.length());
+
+        return sub == str;
+    }
+
+    auto String::endsWith(const String & str) const -> bool
+    {
+        if (str.length() > length())
+        {
+            return false;
+        }
+
+        if (str.length() == 0)
+        {
+            return false;
+        }
+
+        auto sub = substringFromIndex(length() - str.length());
+
+        return sub == str;
+    }
+
     void String::trim()
     {
         if (empty())

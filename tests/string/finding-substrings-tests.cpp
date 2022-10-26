@@ -107,6 +107,24 @@ TEST(StringTest, RangeOfUnicodeStringTest)
     EXPECT_EQ(theRanges[1], Range(27, 2));
 }
 
+TEST(StringTest, StartsWithTest)
+{
+    String s{"A quick brown fox"};
+    EXPECT_TRUE(s.startsWith("A quick"));
+    EXPECT_FALSE(s.startsWith("A quick brown fox jumped over the log"));
+    EXPECT_FALSE(s.startsWith(String{}));
+    EXPECT_FALSE(s.startsWith("Hey Jude"));
+}
+
+TEST(StringTest, EndsWithTest)
+{
+    String s{"A quick brown fox jumped over the log"};
+    EXPECT_TRUE(s.endsWith("over the log"));
+    EXPECT_FALSE(s.endsWith("A quick brown fox jumped over the decayed log"));
+    EXPECT_FALSE(s.endsWith(String{}));
+    EXPECT_FALSE(s.endsWith("horses backsides"));
+}
+
 TEST(StringTest, TrimTest)
 {
     String s{"    foo"};

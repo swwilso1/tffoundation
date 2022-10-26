@@ -528,6 +528,20 @@ namespace TF
             auto contains(const String & str) const -> bool;
 
             /**
+             * @brief method to check if a string starts with the characters in another string.
+             * @param str the other string
+             * @return true if the string starts with the characters in @e str.
+             */
+            [[nodiscard]] auto startsWith(const String & str) const -> bool;
+
+            /**
+             * @brief method to check if a string ends with the characters in the another string.
+             * @param str the other string
+             * @return true if the string ends with the characters in @e str.
+             */
+            [[nodiscard]] auto endsWith(const String & str) const -> bool;
+
+            /**
              * @brief method to remove space characters at the beginning of a string and at
              * the end of a string.
              */
