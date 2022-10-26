@@ -114,6 +114,9 @@ TEST(StringTest, StartsWithTest)
     EXPECT_FALSE(s.startsWith("A quick brown fox jumped over the log"));
     EXPECT_FALSE(s.startsWith(String{}));
     EXPECT_FALSE(s.startsWith("Hey Jude"));
+
+    String s1{"ab"};
+    EXPECT_TRUE(s1.startsWith("ab"));
 }
 
 TEST(StringTest, EndsWithTest)
@@ -123,6 +126,9 @@ TEST(StringTest, EndsWithTest)
     EXPECT_FALSE(s.endsWith("A quick brown fox jumped over the decayed log"));
     EXPECT_FALSE(s.endsWith(String{}));
     EXPECT_FALSE(s.endsWith("horses backsides"));
+
+    String s1{"AB"};
+    EXPECT_TRUE(s1.endsWith("AB"));
 }
 
 TEST(StringTest, TrimTest)

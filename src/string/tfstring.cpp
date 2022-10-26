@@ -1785,17 +1785,24 @@ namespace TF::Foundation
 
     auto String::startsWith(const String & str) const -> bool
     {
-        if (str.length() > length())
+        auto s_length = str.length();
+        auto my_length = length();
+        if (s_length > my_length)
         {
             return false;
         }
 
-        if (str.length() == 0)
+        if (s_length == 0)
         {
             return false;
         }
 
-        auto sub = substringToIndex(str.length());
+        if (s_length == my_length)
+        {
+            return *this == str;
+        }
+
+        auto sub = substringToIndex(s_length);
 
         return sub == str;
     }
