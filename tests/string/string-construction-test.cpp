@@ -120,6 +120,12 @@ TEST(StringTest, StringViewConstructorTest)
     EXPECT_TRUE(strncmp(HELLO_WORLD, ptr.get(), s.length()) == 0);
 }
 
+TEST(StringTest, U8StringConstructorTest)
+{
+    String s{u8"㆚㆛ぁあぃいぅうぇ"};
+    EXPECT_TRUE(s.length() == 9);
+}
+
 TEST(StringTest, UTF8StringConstructorTest)
 {
     unsigned char tmp[10];
@@ -150,6 +156,12 @@ TEST(StringTest, UTF8StringConstructorTest2)
     EXPECT_TRUE(s.length() == 9);
 }
 
+TEST(StringTest, U16ConstructorTest)
+{
+    String s{u"㆚㆛ぁあぃいぅうぇ"};
+    EXPECT_TRUE(s.length() == 9);
+}
+
 TEST(StringTest, UTF16StringConstructorTest)
 {
     unsigned short tmp[7];
@@ -165,6 +177,12 @@ TEST(StringTest, UTF16StringConstructorTest)
     String s(tmp, 7);
 
     EXPECT_TRUE(s.length() == 5);
+}
+
+TEST(StringTest, U32ConstructorTest)
+{
+    String s{U"㆚㆛ぁあぃいぅうぇ"};
+    EXPECT_TRUE(s.length() == 9);
 }
 
 TEST(StringTest, UTF32StringConstructorTest)

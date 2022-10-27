@@ -113,6 +113,12 @@ namespace TF
             String(const std::string & s);
 
             /**
+             * @brief u8"" string constructor
+             * @param str a pointer to a 0 terminated array of UTF-8 characters.
+             */
+            String(const char8_t * str);
+
+            /**
                 @brief UTF-8 string constructor
                 @param str an array of UTF-8 code sequences
                 @param length the length of the @e str array
@@ -121,12 +127,25 @@ namespace TF
             String(const unsigned char * str, size_type length);
 
             /**
+             * @brief u"" string constructor
+             * @param str a pointer to a 0 terminated array of UTF-16 characters.
+             */
+            String(const char16_t * str);
+
+            /**
                 @brief UTF-16 string constructor
                 @param str a string of UTF-16 character codes
                 @param length the length of the @e str array
                 @return a new string object.
             */
             String(const unsigned short * str, size_type length);
+
+            /**
+             * @brief U"" string constructor
+             * @param str a pointer to a 0 terminated array of UTF-32 characters.
+             * @param str
+             */
+            String(const char32_t * str);
 
             /**
                 @brief UTF-32 string constructor
@@ -731,6 +750,20 @@ namespace TF
                 printf() family of functions.
             */
             String stringByAppendingFormat(const char * format, va_list * argList) const;
+
+            /**
+             * @brief helper function to initialize a string from an array of UTF-16 codes
+             * @param str the array of codes
+             * @param length the length of @e str.
+             */
+            void initFromUTF16(const unsigned short * str, size_type length);
+
+            /**
+             * @brief helper function to initialize a string from an array of UTF-32 codes
+             * @param str the array of codes
+             * @param length the length of @e str
+             */
+            void initFromUTF32(const unsigned int * str, size_type length);
 
             using encoder_type = StringEncoder;
 

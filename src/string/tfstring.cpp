@@ -25,6 +25,7 @@ SOFTWARE.
 
 ******************************************************************************/
 
+#define NEEDS_ARRAY
 #define NEEDS_CSTRING
 #define NEEDS_CSTDARG
 #define NEEDS_IOSTREAM
@@ -133,6 +134,26 @@ namespace TF::Foundation
         core = std::make_shared<core_type>(theArray.get(), bytesRequiredForUTF8);
     }
 
+    String::String(const char8_t * str)
+    {
+        static UTF8StringEncoder encoder;
+        size_type str_length{0};
+        auto * tmp = str;
+        while (*tmp != 0)
+        {
+            str_length++;
+            tmp++;
+        }
+
+        if (! encoder.checkStringForCorrectness(reinterpret_cast<const UTF8StringEncoder::char_type *>(str),
+                                                str_length))
+        {
+            throw std::runtime_error{"String char8_t constructor cannot create string from bad UTF-8"};
+        }
+
+        core = std::make_shared<core_type>(reinterpret_cast<const unsigned char *>(str), str_length);
+    };
+
     // The argument should be encoded UTF-8.
     String::String(const unsigned char * str, size_type length)
     {
@@ -144,103 +165,60 @@ namespace TF::Foundation
         core = std::make_shared<core_type>(str, length);
     }
 
+    String::String(const char16_t * str)
+    {
+        size_type str_length{0};
+        auto * tmp = str;
+        while (*tmp != 0)
+        {
+            str_length++;
+            tmp++;
+        }
+
+        // The str array does not contain a byte order mark.  The initialization code requires that we
+        // add a byte order mark otherwise it interprets the code units as big-endian units.
+        auto array = std::make_unique<unsigned short[]>(str_length + 1);
+
+        auto first_code = array.get();
+        *first_code = 0xFEFF;
+        first_code++;
+
+        std::memcpy(first_code, str, str_length * sizeof(unsigned short));
+
+        initFromUTF16(array.get(), str_length + 1);
+    }
+
     // The argument should be encoded UTF-16
     String::String(const unsigned short * str, size_type length)
     {
-        static UTF16StringEncoder encoder;
-        static UTF8StringEncoder utf8Encoder;
-        auto tmp = reinterpret_cast<const unsigned char *>(str);
-        size_type byteLength = length * sizeof(const unsigned short);
+        initFromUTF16(str, length);
+    }
 
-        if (! encoder.checkStringForCorrectness(tmp, byteLength))
-            throw std::runtime_error("String UTF-16 constructor cannot create string from bad UTF-16");
-
-        size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
-
-        auto theArray = std::make_unique<unicode_point_type[]>(theNumberOfCodes);
-
-        auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
-        auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
-        if (queryResult.first)
+    String::String(const char32_t * str)
+    {
+        size_type str_length{0};
+        auto * tmp = str;
+        while (*tmp != 0)
         {
-            tmp += bomLength;
-            byteLength -= bomLength;
+            str_length++;
+            tmp++;
         }
 
-        size_type bytesNeededForUTF8 = 0;
+        // The str array does not contain a byte order mark.  The initialization code requires that we
+        // add a byte order mark otherwise it interprets the code units as big-endian units.
+        auto array = std::make_unique<unsigned int[]>(str_length + 1);
 
-        for (size_type i = 0; i < theNumberOfCodes; i++)
-        {
-            auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
-            theArray[i] = operationResult.first;
-            bytesNeededForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(theArray[i]);
-            tmp += operationResult.second;
-            byteLength -= operationResult.second;
-        }
+        auto first_code = array.get();
+        *first_code = 0xFEFF;
+        first_code++;
+        std::memcpy(first_code, str, str_length * sizeof(unsigned int));
 
-        auto charArray = std::make_unique<char_type[]>(bytesNeededForUTF8);
-
-        auto tmp2 = charArray.get();
-        auto bytesLeft = bytesNeededForUTF8;
-
-        for (size_type i = 0; i < theNumberOfCodes; i++)
-        {
-            auto operationResult =
-                utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i], UTF8StringEncoder::thisSystemEndianness());
-            tmp2 += operationResult;
-            bytesLeft -= operationResult;
-        }
-
-        core = std::make_shared<core_type>(charArray.get(), bytesNeededForUTF8);
+        initFromUTF32(array.get(), str_length + 1);
     }
 
     String::String(const unsigned int * str, size_type length)
     {
-        static UTF32StringEncoder encoder;
-        static UTF8StringEncoder utf8Encoder;
-        auto tmp = reinterpret_cast<const unsigned char *>(str);
-        size_type byteLength = length * sizeof(const unsigned int);
-
-        if (! encoder.checkStringForCorrectness(tmp, byteLength))
-            throw std::runtime_error("String UTF-32 constructor cannot create string from bad UTF-32");
-
-        size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
-
-        auto theArray = std::make_unique<unicode_point_type[]>(theNumberOfCodes);
-
-        auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
-        auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
-        if (queryResult.first)
-        {
-            tmp += bomLength;
-            byteLength -= bomLength;
-        }
-
-        size_type bytesNeededForUTF8 = 0;
-
-        for (size_type i = 0; i < theNumberOfCodes; i++)
-        {
-            auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
-            theArray[i] = operationResult.first;
-            bytesNeededForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(theArray[i]);
-            tmp += operationResult.second;
-            byteLength -= operationResult.second;
-        }
-
-        auto charArray = std::make_unique<char_type[]>(bytesNeededForUTF8);
-
-        auto tmp2 = charArray.get();
-        auto bytesLeft = bytesNeededForUTF8;
-
-        for (size_type i = 0; i < theNumberOfCodes; i++)
-        {
-            auto operationResult =
-                utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i], UTF8StringEncoder::thisSystemEndianness());
-            tmp2 += operationResult;
-            bytesLeft -= operationResult;
-        }
-
-        core = std::make_shared<core_type>(charArray.get(), bytesNeededForUTF8);
+        initFromUTF32(str, length);
     }
 
     String::String(unsigned int c)
@@ -2211,6 +2189,104 @@ namespace TF::Foundation
             }
         }
         return o;
+    }
+
+    void String::initFromUTF16(const unsigned short * str, size_type length)
+    {
+        static UTF16StringEncoder encoder;
+        static UTF8StringEncoder utf8Encoder;
+        auto tmp = reinterpret_cast<const unsigned char *>(str);
+        size_type byteLength = length * sizeof(const unsigned short);
+
+        if (! encoder.checkStringForCorrectness(tmp, byteLength))
+            throw std::runtime_error("String UTF-16 constructor cannot create string from bad UTF-16");
+
+        size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
+
+        auto theArray = std::make_unique<unicode_point_type[]>(theNumberOfCodes);
+
+        auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
+        auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
+        if (queryResult.first)
+        {
+            tmp += bomLength;
+            byteLength -= bomLength;
+        }
+
+        size_type bytesNeededForUTF8 = 0;
+
+        for (size_type i = 0; i < theNumberOfCodes; i++)
+        {
+            auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
+            theArray[i] = operationResult.first;
+            bytesNeededForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(theArray[i]);
+            tmp += operationResult.second;
+            byteLength -= operationResult.second;
+        }
+
+        auto charArray = std::make_unique<char_type[]>(bytesNeededForUTF8);
+
+        auto tmp2 = charArray.get();
+        auto bytesLeft = bytesNeededForUTF8;
+
+        for (size_type i = 0; i < theNumberOfCodes; i++)
+        {
+            auto operationResult =
+                utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i], UTF8StringEncoder::thisSystemEndianness());
+            tmp2 += operationResult;
+            bytesLeft -= operationResult;
+        }
+
+        core = std::make_shared<core_type>(charArray.get(), bytesNeededForUTF8);
+    }
+
+    void String::initFromUTF32(const unsigned int * str, size_type length)
+    {
+        static UTF32StringEncoder encoder;
+        static UTF8StringEncoder utf8Encoder;
+        auto tmp = reinterpret_cast<const unsigned char *>(str);
+        size_type byteLength = length * sizeof(const unsigned int);
+
+        if (! encoder.checkStringForCorrectness(tmp, byteLength))
+            throw std::runtime_error("String UTF-32 constructor cannot create string from bad UTF-32");
+
+        size_type theNumberOfCodes = encoder.numberOfCharacters(tmp, byteLength);
+
+        auto theArray = std::make_unique<unicode_point_type[]>(theNumberOfCodes);
+
+        auto queryResult = encoder.hasByteOrderMark(tmp, byteLength);
+        auto bomLength = encoder.lengthOfByteOrderMarkInBytes();
+        if (queryResult.first)
+        {
+            tmp += bomLength;
+            byteLength -= bomLength;
+        }
+
+        size_type bytesNeededForUTF8 = 0;
+
+        for (size_type i = 0; i < theNumberOfCodes; i++)
+        {
+            auto operationResult = encoder.nextCodePoint(tmp, byteLength, queryResult.second);
+            theArray[i] = operationResult.first;
+            bytesNeededForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(theArray[i]);
+            tmp += operationResult.second;
+            byteLength -= operationResult.second;
+        }
+
+        auto charArray = std::make_unique<char_type[]>(bytesNeededForUTF8);
+
+        auto tmp2 = charArray.get();
+        auto bytesLeft = bytesNeededForUTF8;
+
+        for (size_type i = 0; i < theNumberOfCodes; i++)
+        {
+            auto operationResult =
+                utf8Encoder.encodeCodePoint(tmp2, bytesLeft, theArray[i], UTF8StringEncoder::thisSystemEndianness());
+            tmp2 += operationResult;
+            bytesLeft -= operationResult;
+        }
+
+        core = std::make_shared<core_type>(charArray.get(), bytesNeededForUTF8);
     }
 
     std::ostream & operator<<(std::ostream & o, const String & s)
