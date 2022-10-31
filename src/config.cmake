@@ -28,6 +28,7 @@ include(src/poll/config.cmake)
 include(src/process/config.cmake)
 include(src/progress/config.cmake)
 include(src/queue/config.cmake)
+include(src/random/config.cmake)
 if (UNIX)
     include(src/signal/config.cmake)
 endif()
@@ -64,6 +65,7 @@ include_directories(
     src/process
     src/progress
     src/queue
+    src/random
     src/sleep
     src/stl
     src/string

@@ -103,3 +103,4 @@ SOFTWARE.
 #include "tfversion.hpp"
 #include "tfcompilerid.hpp"
 #include "tfplatformid.hpp"
+#include "tfrandomstringgenerator.hpp"
