@@ -60,7 +60,7 @@ namespace TF::Foundation
         }
 
         auto version_numbers = s.split(".");
-        if (version_numbers.size() == 0)
+        if (version_numbers.empty())
         {
             throw std::invalid_argument{"Version string did not contain a '.' character"};
         }
