@@ -50,6 +50,8 @@ namespace TF::Foundation
 
         Version(uint32_t maj, uint32_t min, uint32_t rel, uint32_t pat = 0);
 
+        [[nodiscard]] auto as_string() const -> string_type;
+
         [[nodiscard]] auto description(std::ostream & o) const -> std::ostream &;
 
         static auto version_from_string(const string_type & s) -> Version;

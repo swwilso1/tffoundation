@@ -43,3 +43,12 @@ TEST(VersionTest, basic_test)
     stream << v2;
     EXPECT_EQ(stream.str(), "3.4.5.6");
 }
+
+TEST(VersionTest, as_string_test)
+{
+    Version version{1, 2, 3};
+    EXPECT_EQ(version.as_string(), String{"1.2.3"});
+
+    Version version2{1, 2, 3, 4};
+    EXPECT_EQ(version2.as_string(), String{"1.2.3.4"});
+}

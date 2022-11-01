@@ -35,13 +35,23 @@ namespace TF::Foundation
         major{maj}, minor{min}, release{rel}, patch{pat}
     {}
 
+    auto Version::as_string() const -> string_type
+    {
+        String string_version{};
+        if (patch == 0)
+        {
+            string_version = string_type::initWithFormat("%u.%u.%u", major, minor, release);
+        }
+        else
+        {
+            string_version = string_type::initWithFormat("%u.%u.%u.%u", major, minor, release, patch);
+        }
+        return string_version;
+    }
+
     auto Version::description(std::ostream & o) const -> std::ostream &
     {
-        o << major << "." << minor << "." << release;
-        if (patch > 0)
-        {
-            o << "." << patch;
-        }
+        o << as_string();
         return o;
     }
 
