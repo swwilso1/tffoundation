@@ -38,6 +38,7 @@ include(src/string/config.cmake)
 include(src/symbol/config.cmake)
 include(src/template/config.cmake)
 include(src/thread/config.cmake)
+include(src/user/config.cmake)
 include(src/uuid/config.cmake)
 include(src/version/config.cmake)
 
@@ -72,6 +73,7 @@ include_directories(
     src/symbol
     src/template
     src/thread
+    src/user
     src/uuid
     src/version
     "${GENERATED_SOURCES_DIR}"
