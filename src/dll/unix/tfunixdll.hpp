@@ -38,6 +38,9 @@ namespace TF::Foundation
     template<>
     auto DLLBase<void *, void *>::load_function(const string_type & name) -> function_handle;
 
+    template<>
+    void DLLBase<void *, void *>::close();
+
 } // namespace TF::Foundation
 
 #endif // TFUNIXDLL_HPP

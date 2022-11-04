@@ -52,4 +52,6 @@ TEST(DLLTest, BasicTest)
     EXPECT_NE(test_function_2, nullptr);
     auto fp2 = reinterpret_cast<function_type>(test_function_2);
     EXPECT_EQ(fp2(), 2);
+
+    EXPECT_NO_THROW(dll_test_lib.close(););
 }

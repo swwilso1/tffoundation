@@ -51,4 +51,19 @@ namespace TF::Foundation
         return the_handle;
     }
 
+    template<>
+    void DLLBase<void *, void *>::close()
+    {
+        auto api_result = dlclose(m_module_handle);
+        if (api_result != 0)
+        {
+            auto dl_error_string = dlerror();
+            if (dl_error_string)
+            {
+                throw std::runtime_error{dl_error_string};
+            }
+            throw std::runtime_error{"dlclose failed to close library"};
+        }
+    }
+
 } // namespace TF::Foundation

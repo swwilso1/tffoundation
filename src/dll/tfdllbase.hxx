@@ -53,6 +53,8 @@ namespace TF::Foundation
             return {};
         }
 
+        void close() {}
+
     private:
         module_handle m_module_handle{};
     };
