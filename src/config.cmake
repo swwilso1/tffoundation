@@ -14,6 +14,7 @@ include(src/numerics/config.cmake)
 include(src/data/config.cmake)
 include(src/date/config.cmake)
 include(src/defer/config.cmake)
+include(src/dll/config.cmake)
 include(src/environment/config.cmake)
 include(src/files/config.cmake)
 include(src/format/config.cmake)
@@ -51,6 +52,7 @@ include_directories(
     src/data
     src/date
     src/defer
+    src/dll
     src/environment
     src/files
     src/format
@@ -81,6 +83,7 @@ include_directories(
 
 if(UNIX)
     include_directories(
+        src/dll/unix
         src/files/unix
         src/network/unix
         src/process/unix

@@ -151,6 +151,7 @@ namespace TF
 // Platform specific headers
 #cmakedefine HAS_ARPA_INET_H
 #cmakedefine HAS_ASM_TYPES_H
+#cmakedefine HAS_DLFCN_H
 #cmakedefine HAS_FCNTL_H
 #cmakedefine HAS_IPHLPAPI_H
 #cmakedefine HAS_LINUX_NETLINK_H

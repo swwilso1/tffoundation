@@ -1033,6 +1033,15 @@ SOFTWARE.
 #    undef NEEDS_ASM_TYPES_H
 #endif
 
+#if defined(NEEDS_DLFCN_H)
+#    if defined(HAS_DLFCN_H)
+#        include <dlfcn.h>
+#    else
+#        error "Platform specific header <dlfcn.h> required, but not available"
+#    endif
+#    undef NEEDS_DLFCN_H
+#endif
+
 #if defined(NEEDS_FCNTL_H)
 #    if defined(HAS_FCNTL_H)
 #        include <fcntl.h>
