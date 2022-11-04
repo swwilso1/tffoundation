@@ -58,6 +58,12 @@ namespace TF
             m_name = name;
         }
 
+        void ArgumentParser::setVersion(const Version & version)
+        {
+            m_version = version;
+            m_did_set_version_number = true;
+        }
+
         void ArgumentParser::setDescription(const string_type & description)
         {
             m_description = description;
@@ -807,6 +813,7 @@ namespace TF
             m_subParserMap.clear();
             m_arguments.clear();
             m_name = "";
+            m_did_set_version_number = false;
             m_description = "";
             m_epilog = "";
             m_prefixCharacter = "-";
@@ -818,6 +825,8 @@ namespace TF
         {
             auto * subParser = new SubParser(new ArgumentParser(), help);
             subParser->parser->m_name = m_name;
+            subParser->parser->m_version = m_version;
+            subParser->parser->m_did_set_version_number = m_did_set_version_number;
             subParser->parser->m_subCommand = command;
             m_subParserMap[command] = subParser;
             return *subParser->parser;
@@ -830,11 +839,16 @@ namespace TF
 
             m_outStream << "usage: ";
 
-            if (m_name.length() > 0)
+            if (! m_name.empty())
                 m_outStream << m_name << " ";
 
-            if (m_subCommand.length() > 0)
+            if (! m_subCommand.empty())
                 m_outStream << m_subCommand << " ";
+
+            if (m_did_set_version_number)
+            {
+                m_outStream << "(" << m_version << ") ";
+            }
 
             if (! m_subParserMap.empty())
             {
@@ -1181,6 +1195,8 @@ namespace TF
                 formatter->addClassMember<symbol_table_type>("m_symbolTable", m_symbolTable);
                 formatter->addClassMember<argument_list_type>("m_arguments", m_arguments);
                 formatter->addClassMember<string_type>("m_name", m_name);
+                formatter->addClassMember<Version>("m_version", m_version);
+                formatter->addClassMember<bool>("m_did_set_version_number", m_did_set_version_number);
                 formatter->addClassMember<string_type>("m_description", m_description);
                 formatter->addClassMember<string_type>("m_epilog", m_epilog);
                 formatter->addClassMember<string_type>("m_prefixCharacters", m_prefixCharacter);

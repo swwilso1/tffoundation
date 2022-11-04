@@ -37,6 +37,7 @@ SOFTWARE.
 #include "tfstring.hpp"
 #include "tfargument.hpp"
 #include "tfsymboltable.hxx"
+#include "tfversion.hpp"
 
 namespace TF
 {
@@ -762,6 +763,28 @@ namespace TF
             void setName(const string_type & name);
 
             /**
+             * @brief method to set the parser's version number.
+             *
+             * The version number is used when generating the usage message (for --help arguments).
+             * For example:
+             * @code{.cpp}
+             * Version v_number{1,0,0};
+             * ArgumentParser parser{};
+             * parser.setName("myprogram");
+             * parser.setVersion(v_number);
+             * @endcode
+             *
+             * will generate a usage message with the following form:
+             *
+             * @verbatim
+             * usage: myprogram (1.0.0) [-h H]
+             * @endverbatim
+             *
+             * @param version the version number object.
+             */
+            void setVersion(const Version & version);
+
+            /**
              * @brief method to set the parser's description text.
              *
              * The description text gets displayed in the usage message after the usage line
@@ -1278,23 +1301,26 @@ namespace TF
              */
             void addHelpArgument();
 
-            symbol_table_type m_symbolTable;
+            symbol_table_type m_symbolTable{};
 
-            parser_map_type m_subParserMap;
+            parser_map_type m_subParserMap{};
 
-            argument_list_type m_arguments;
+            argument_list_type m_arguments{};
 
-            string_type m_name;
+            string_type m_name{};
 
-            string_type m_subCommand;
+            Version m_version{};
+            bool m_did_set_version_number{false};
 
-            string_type m_description;
+            string_type m_subCommand{};
 
-            string_type m_epilog;
+            string_type m_description{};
 
-            string_type m_prefixCharacter;
+            string_type m_epilog{};
 
-            bool m_exitAfterHelp;
+            string_type m_prefixCharacter{};
+
+            bool m_exitAfterHelp{};
 
             std::ostream & m_outStream;
         };
