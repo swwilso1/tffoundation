@@ -64,6 +64,7 @@ namespace TF::Foundation
             }
             throw std::runtime_error{"dlclose failed to close library"};
         }
+        m_auto_close = false;
     }
 
 } // namespace TF::Foundation

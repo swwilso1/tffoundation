@@ -28,6 +28,8 @@ SOFTWARE.
 #ifndef TFDLLLOADER_HPP
 #define TFDLLLOADER_HPP
 
+#define NEEDS_MEMORY
+#include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfstring.hpp"
@@ -36,17 +38,34 @@ SOFTWARE.
 namespace TF::Foundation
 {
 
+    /**
+     * Class used to load a dynamic shared library.
+     */
     class DLLLoader : public AllocatorInterface
     {
     public:
         using string_type = String;
-        using dll_type = DLL;
+        using dll_type = std::shared_ptr<DLL>;
 
+        /**
+         * @brief method to load a named shared library.
+         * @param name usually the full filesystem path to the library.
+         * @return a std::shared_ptr to the DLL object.
+         */
         static auto load_library(const string_type & name) -> dll_type;
 
+        /**
+         * @brief method to load a reference to the currently running shared library.
+         * @return a std::shared_ptr to the currently running DLL object.
+         */
         static auto load_library() -> dll_type;
 
     private:
+        /**
+         * @brief helper function that does the work of loading a named shared library.
+         * @param name the name of the shared library.
+         * @return a std::shared_ptr to the shared library.
+         */
         static auto load_library_helper(const char * name) -> dll_type;
     };
 

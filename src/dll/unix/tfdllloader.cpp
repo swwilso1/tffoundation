@@ -57,7 +57,7 @@ namespace TF::Foundation
 
             throw std::runtime_error{"dlopen failed to open the named library"};
         }
-        return dll_type{module_handle};
+        return std::make_shared<DLL>(module_handle);
     }
 
 } // namespace TF::Foundation

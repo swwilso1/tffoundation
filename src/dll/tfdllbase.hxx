@@ -35,6 +35,11 @@ SOFTWARE.
 namespace TF::Foundation
 {
 
+    /**
+     * Templated base class for representing a dynamic shared library object.
+     * @tparam MODULE_HANDLE the type representing the handle to the shared library.
+     * @tparam FUNCTION_HANDLE the type represent a handle to a function in the shared library.
+     */
     template<typename MODULE_HANDLE, typename FUNCTION_HANDLE>
     class DLLBase : public AllocatorInterface
     {
@@ -43,20 +48,68 @@ namespace TF::Foundation
         using module_handle = MODULE_HANDLE;
         using function_handle = FUNCTION_HANDLE;
 
-        DLLBase() = default;
+        /**
+         * @brief default constructor
+         * @param auto_close true if the object should automatically try to close the handle to the library
+         * in the destructor.
+         */
+        explicit DLLBase(bool auto_close = false) : m_auto_close{auto_close} {}
 
-        explicit DLLBase(module_handle handle) : m_module_handle{handle} {}
+        /**
+         * @brief module handle constructor
+         * @param handle the handle to the shared library
+         * @param auto_close true if the object should automatically try to close the handle to the library
+         * in the destructor.
+         */
+        DLLBase(module_handle handle, bool auto_close = true) : m_module_handle{handle}, m_auto_close{auto_close} {}
 
+        // Deleted copy/move constructors. Wrap DLL in std::shared_ptr if you need to copy the DLL around.
+        DLLBase(const DLLBase & dll) = delete;
+
+        DLLBase(DLLBase && dll) = delete;
+
+        /**
+         * @brief destructor
+         *
+         * Attempts to automatically close the handle to the library.
+         */
+        ~DLLBase()
+        {
+            if (m_auto_close)
+            {
+                close();
+            }
+        }
+
+        // Deleted assigment/move assignment operators. Use std::shared_ptr if needed.
+
+        DLLBase & operator=(const DLLBase & dll) = delete;
+
+        DLLBase & operator=(DLLBase && dll) = delete;
+
+        /**
+         * @brief method to load a handle to the named function from the shared library
+         * @param name the name of the function
+         * @return a handle to the function on success, will throw a std::runtime_error
+         * exception on error.
+         */
         [[nodiscard]] auto load_function(const string_type & name) -> function_handle
         {
             (void)name;
             return {};
         }
 
-        void close() {}
+        /**
+         * @brief method to close the handle to the library.
+         */
+        void close()
+        {
+            m_auto_close = false;
+        }
 
     private:
         module_handle m_module_handle{};
+        bool m_auto_close{};
     };
 
 } // namespace TF::Foundation

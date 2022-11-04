@@ -34,7 +34,7 @@ TEST(DLLTest, BasicTest)
 {
     using function_type = int (*)();
     FileManager file_manager{};
-    DLL dll_test_lib{};
+    DLLLoader::dll_type dll_test_lib{};
 
     auto current_dir = file_manager.currentWorkingDirectoryPath();
     auto path_to_dll = current_dir + FileManager::pathSeparator + "libdlltest.so";
@@ -42,16 +42,16 @@ TEST(DLLTest, BasicTest)
     EXPECT_NO_THROW(dll_test_lib = DLLLoader::load_library(path_to_dll););
 
     DLL::function_handle test_function_1{};
-    EXPECT_NO_THROW(test_function_1 = dll_test_lib.load_function("tf1"););
+    EXPECT_NO_THROW(test_function_1 = dll_test_lib->load_function("tf1"););
     EXPECT_NE(test_function_1, nullptr);
     auto fp1 = reinterpret_cast<function_type>(test_function_1);
     EXPECT_EQ(fp1(), 1);
 
     DLL::function_handle test_function_2{};
-    EXPECT_NO_THROW(test_function_2 = dll_test_lib.load_function("tf2"););
+    EXPECT_NO_THROW(test_function_2 = dll_test_lib->load_function("tf2"););
     EXPECT_NE(test_function_2, nullptr);
     auto fp2 = reinterpret_cast<function_type>(test_function_2);
     EXPECT_EQ(fp2(), 2);
 
-    EXPECT_NO_THROW(dll_test_lib.close(););
+    EXPECT_NO_THROW(dll_test_lib->close(););
 }
