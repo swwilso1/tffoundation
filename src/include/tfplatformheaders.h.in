@@ -82,6 +82,7 @@ namespace TF
 #cmakedefine HAS_CLOCALE
 #cmakedefine HAS_CMATH
 #cmakedefine HAS_CODECVT
+#cmakedefine HAS_COMPARE
 #cmakedefine HAS_COMPLEX
 #cmakedefine HAS_CONDITION_VARIABLE
 #cmakedefine HAS_CSTDIO

@@ -44,6 +44,25 @@ TEST(VersionTest, basic_test)
     EXPECT_EQ(stream.str(), "3.4.5.6");
 }
 
+TEST(VersionTest, comparison_test)
+{
+    {
+        Version a{}, b{};
+        EXPECT_TRUE(a == b);
+        EXPECT_FALSE(a != b);
+    }
+
+    {
+        Version a{1, 0, 0}, b{1, 0, 0};
+        EXPECT_EQ(a, b);
+    }
+
+    {
+        Version a{1, 0, 1}, b{1, 0, 0};
+        EXPECT_GT(a, b);
+    }
+}
+
 TEST(VersionTest, as_string_test)
 {
     Version version{1, 2, 3};

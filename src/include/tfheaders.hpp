@@ -423,9 +423,18 @@ SOFTWARE.
 #    if defined(HAS_CODECVT)
 #        include <codecvt>
 #    else
-#        error "System C header <codecvt> required, but not available"
+#        error "System C++ header <codecvt> required, but not available"
 #    endif
 #    undef NEEDS_CODECVT
+#endif
+
+#if defined(NEEDS_COMPARE)
+#    if defined(HAS_COMPARE)
+#        include <compare>
+#    else
+#        error "System C++ header <compare> required, but not available"
+#    endif
+#    undef NEEDS_COMPARE
 #endif
 
 #if defined(NEEDS_COMPLEX)

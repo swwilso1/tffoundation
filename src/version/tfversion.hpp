@@ -29,6 +29,7 @@ SOFTWARE.
 #define TFVERSION_HPP
 
 #define NEEDS_OSTREAM
+#define NEEDS_COMPARE
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
@@ -37,7 +38,7 @@ SOFTWARE.
 namespace TF::Foundation
 {
 
-    struct Version : public AllocatorInterface
+    struct Version
     {
         using string_type = String;
 
@@ -49,6 +50,8 @@ namespace TF::Foundation
         Version() = default;
 
         Version(uint32_t maj, uint32_t min, uint32_t rel, uint32_t pat = 0);
+
+        std::strong_ordering operator<=>(const Version & v) const = default;
 
         [[nodiscard]] auto as_string() const -> string_type;
 
