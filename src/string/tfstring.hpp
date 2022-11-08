@@ -403,6 +403,12 @@ namespace TF
             */
             std::string stlString() const;
 
+            /**
+             * @brief return a STL string version (if possible) encoded in UTF-8.
+             * @return the STL string in UTF-8.
+             */
+            [[nodiscard]] auto stlStringInUTF8() const -> std::string;
+
 #pragma mark - Methods for combining strings
 
             /**

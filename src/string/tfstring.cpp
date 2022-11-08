@@ -1547,6 +1547,12 @@ namespace TF::Foundation
         return std::string{ascii_encoded_data.bytes(), ascii_encoded_data.length()};
     }
 
+    auto String::stlStringInUTF8() const -> std::string
+    {
+        auto utf8_encoded_data = getAsDataInUTF8Encoding();
+        return std::string{utf8_encoded_data.bytes(), utf8_encoded_data.length()};
+    };
+
     String String::stringByAppendingFormat(const char * format, ...) const
     {
         String result;
