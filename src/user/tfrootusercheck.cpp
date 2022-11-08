@@ -26,6 +26,8 @@ SOFTWARE.
 ******************************************************************************/
 
 #define NEEDS_IOSTREAM
+#define NEEDS_UNISTD_H
+#define NEEDS_SYS_TYPES_H
 #include "tfheaders.hpp"
 #include "tfrootusercheck.hpp"
 
