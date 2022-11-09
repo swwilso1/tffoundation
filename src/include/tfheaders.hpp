@@ -1195,6 +1195,15 @@ SOFTWARE.
 #    undef NEEDS_SYS_SELECT_H
 #endif
 
+#if defined(NEEDS_SYS_SENDFILE_H)
+#    if defined(HAS_SYS_SENDFILE_H)
+#        include <sys/sendfile.h>
+#    else
+#        error "Platform specific header <sys/sendfile.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_SENDFILE_H
+#endif
+
 #if defined(NEEDS_SYS_SOCKET_H)
 #    if defined(HAS_SYS_SOCKET_H)
 #        include <sys/socket.h>
@@ -1238,6 +1247,15 @@ SOFTWARE.
 #        error "Platform specific header <sys/types.h> required, but not available"
 #    endif
 #    undef NEEDS_SYS_TYPES_H
+#endif
+
+#if defined(NEEDS_SYS_UIO_H)
+#    if defined(HAS_SYS_UIO_H)
+#        include <sys/uio.h>
+#    else
+#        error "Platform specific header <sys/uio.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_UIO_H
 #endif
 
 #if defined(NEEDS_UNISTD_H)

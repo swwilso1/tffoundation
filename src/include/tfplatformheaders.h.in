@@ -169,11 +169,13 @@ namespace TF
 #cmakedefine HAS_SYS_FILE_H
 #cmakedefine HAS_SYS_IOCTL_H
 #cmakedefine HAS_SYS_SELECT_H
+#cmakedefine HAS_SYS_SENDFILE_H
 #cmakedefine HAS_SYS_SOCKET_H
 #cmakedefine HAS_SYS_SYSCTL_H
 #cmakedefine HAS_SYS_SYSINFO_H
 #cmakedefine HAS_SYS_TIME_H
 #cmakedefine HAS_SYS_TYPES_H
+#cmakedefine HAS_SYS_UIO_H
 #cmakedefine HAS_UNISTD_H
 #cmakedefine HAS_WINSOCK2_H
 #cmakedefine HAS_WS2TCPIP_H

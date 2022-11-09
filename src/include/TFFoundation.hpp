@@ -107,3 +107,4 @@ SOFTWARE.
 #include "tfrootusercheck.hpp"
 #include "tfdll.hpp"
 #include "tfdllloader.hpp"
+#include "tfitemcopier.hpp"
