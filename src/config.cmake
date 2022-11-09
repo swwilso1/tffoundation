@@ -126,6 +126,10 @@ if(APPLE)
             LINK_FLAGS "${FOUNDATION_FRAMEWORK_LIBRARY_LINK_FLAGS}")
     endif()
     if(FOUNDATION_FRAMEWORK_LIBRARY_LIBRARIES)
+        # As of the time of this writing on macOS, we need to have both a PRIVATE and INTERFACE
+        # call for target_link_libraries.
+        target_link_libraries(${FOUNDATION_FRAMEWORK_LIBRARY_NAME} PRIVATE
+            ${FOUNDATION_FRAMEWORK_LIBRARY_LIBRARIES})
         target_link_libraries(${FOUNDATION_FRAMEWORK_LIBRARY_NAME} INTERFACE
             ${FOUNDATION_FRAMEWORK_LIBRARY_LIBRARIES})
     endif()
@@ -162,6 +166,10 @@ if(FOUNDATION_SHARED_LIBRARY_LINK_FLAGS)
         LINK_FLAGS "${FOUNDATION_SHARED_LIBRARY_LINK_FLAGS}")
 endif()
 if(FOUNDATION_SHARED_LIBRARY_LIBRARIES)
+    # As of the time of this writing on macOS, we need to have both a PRIVATE and INTERFACE
+    # call for target_link_libraries.
+    target_link_libraries(${FOUNDATION_SHARED_LIBRARY_NAME} PRIVATE
+        ${FOUNDATION_SHARED_LIBRARY_LIBRARIES})
     target_link_libraries(${FOUNDATION_SHARED_LIBRARY_NAME} INTERFACE
         ${FOUNDATION_SHARED_LIBRARY_LIBRARIES})
 endif()
