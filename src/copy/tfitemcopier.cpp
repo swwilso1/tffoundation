@@ -29,7 +29,7 @@ SOFTWARE.
 #if defined(TFLINUX)
 #    define NEEDS_SYS_SENDFILE_H
 #elif defined(TFMACOS)
-#    define NEEDS_ARRAY
+#    define NEEDS_VECTOR
 #    define NEEDS_UNISTD_H
 #endif
 #include "tfheaders.hpp"
@@ -46,9 +46,13 @@ namespace TF::Foundation
         FileManager fm{};
         auto properties = fm.propertiesForItemAtPath(source);
         m_file_size_in_bytes = properties.size;
+
+        m_interrupter = []() -> bool {
+            return false;
+        };
     }
 
-    void ItemCopier::copy(interrupter_type interrupter)
+    void ItemCopier::copy()
     {
         auto read_handle = FileHandle::fileHandleForReadingAtPath(m_source_item, true);
         auto write_handle = FileHandle::fileHandleForWritingAtPath(m_destination_item, true);
@@ -61,7 +65,8 @@ namespace TF::Foundation
         auto write_descriptor = write_handle.fileDescriptor();
         off_t offset{0};
 #elif defined(TFMACOS)
-        std::array<char, s_block_size> buffer;
+        std::vector<char> buffer{};
+        buffer.reserve(m_block_size);
 #endif
 
         while (! finished)
@@ -100,9 +105,9 @@ namespace TF::Foundation
             bytes_still_to_transfer -= typed_bytes_sent;
             finished = bytes_still_to_transfer == 0;
 
-            if (! finished && interrupter)
+            if (! finished)
             {
-                finished = interrupted = interrupter();
+                finished = interrupted = m_interrupter();
             }
         }
 

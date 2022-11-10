@@ -46,7 +46,12 @@ TEST(ItemCopier, copy_test)
 
     auto copy_file = temporary_dir + FileManager::pathSeparator + "fileB.txt";
 
+    auto interrupter = []() -> bool {
+        return false;
+    };
+
     ItemCopier item_copier{temporary_file, copy_file};
+    item_copier.set_interrupter(interrupter);
     item_copier.copy();
 
     EXPECT_TRUE(file_manager.contentsEqualAtPathAndPath(temporary_file, copy_file));

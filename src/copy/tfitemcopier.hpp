@@ -78,6 +78,16 @@ namespace TF::Foundation
         }
 
         /**
+         * @brief method to set the interrupter object that will be called to see if the copier should terminate
+         * early
+         * @param interrupter the interrupter object
+         */
+        void set_interrupter(const interrupter_type & interrupter)
+        {
+            m_interrupter = interrupter;
+        }
+
+        /**
          * @brief method to get the size of the data that needs copied from the source.
          * @return the number of bytes needed to copy.
          */
@@ -91,7 +101,7 @@ namespace TF::Foundation
          * @param interrupter a callback function that the copier calls periodically to check if the copy should abort
          * early. The @e interrupter function should return true if the copier should abort early.
          */
-        void copy(interrupter_type interrupter = nullptr);
+        void copy();
 
     private:
         static constexpr int s_block_size{1048576};
@@ -101,6 +111,7 @@ namespace TF::Foundation
         size_type m_block_size{s_block_size};
         size_type m_file_size_in_bytes{0};
         notifier_type m_notifier{};
+        interrupter_type m_interrupter{};
     };
 
 } // namespace TF::Foundation
