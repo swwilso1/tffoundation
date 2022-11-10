@@ -95,15 +95,50 @@ namespace TF
 
         void FileManager::createDirectoriesAtPath(const string_type & path) const
         {
-            String fullPath(path);
-            auto components = fullPath.split(pathSeparator);
-            String subPath;
-
-            for (auto & entry : components)
+            if (path.contains(pathSeparator))
             {
-                subPath += String(pathSeparator) + entry;
-                if (! directoryExistsAtPath(subPath))
-                    createDirectoryAtPath(subPath);
+                auto components = path.split(pathSeparator);
+                String subPath{};
+                if (path.first() == pathSeparator)
+                {
+                    for (auto & entry : components)
+                    {
+                        subPath += pathSeparator + entry;
+                        if (! directoryExistsAtPath(subPath))
+                        {
+                            createDirectoryAtPath(subPath);
+                        }
+                    }
+                }
+                else
+                {
+                    auto components_size = components.size();
+                    if (components_size > 0)
+                    {
+                        subPath = components[0];
+
+                        if (! directoryExistsAtPath(subPath))
+                        {
+                            createDirectoryAtPath(subPath);
+                        }
+
+                        for (decltype(components)::size_type i = 1; i < components_size; i++)
+                        {
+                            subPath += pathSeparator + components[i];
+                            if (! directoryExistsAtPath(subPath))
+                            {
+                                createDirectoryAtPath(subPath);
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (! directoryExistsAtPath(path))
+                {
+                    createDirectoryAtPath(path);
+                }
             }
         }
 
