@@ -214,6 +214,9 @@ TEST(FileManagerTest, BasenameOfItemTest)
 
     basename = fm.baseNameOfItemAtPath("/tmp/path/to/something/foo.file");
     EXPECT_EQ(basename, "foo.file");
+
+    auto basename2 = fm.baseNameOfItemAtPath("foo.file");
+    EXPECT_EQ(basename2, "foo.file");
 }
 
 TEST(FileManagerTest, ExtensionOfItemTest)
