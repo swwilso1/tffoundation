@@ -29,6 +29,7 @@ SOFTWARE.
 #include "tfplatformid.hpp"
 #include "tfposixplatformutilities.hpp"
 #include "tfconversion.hpp"
+#include "tffilemanager.hpp"
 
 #if defined(__GNUC__)
 #    if defined(__GNUC_PATCHLEVEL__)
@@ -44,15 +45,28 @@ namespace TF::Foundation
     {
         s_name = "Linux";
 
+        String rpm{};
+        String lsb_release{};
+
         auto rpm_path = find_path_to_binary("rpm");
         auto lsb_release_path = find_path_to_binary("lsb_release");
 
         if (rpm_path)
         {
-            auto centos_query_result = run_command(rpm_path.value() + " -q centos-release");
-            auto fedora_query_result = run_command(rpm_path.value() + " -q fedora-release");
-            auto sles_query_result = run_command(rpm_path.value() + " -q sles-release");
-            auto system_query_result = run_command(rpm_path.value() + " -q system-release");
+            rpm = rpm_path.value().deepCopy();
+        }
+
+        if (lsb_release_path)
+        {
+            lsb_release = lsb_release_path.value().deepCopy();
+        }
+
+        if (! rpm.empty())
+        {
+            auto centos_query_result = run_command(rpm + " -q centos-release");
+            auto fedora_query_result = run_command(rpm + " -q fedora-release");
+            auto sles_query_result = run_command(rpm + " -q sles-release");
+            auto system_query_result = run_command(rpm + " -q system-release");
             String release_string{};
 
             std::vector<String> release_helper_strings{};
@@ -64,7 +78,7 @@ namespace TF::Foundation
 
             for (auto & helper : release_helper_strings)
             {
-                auto rhel_query_result = run_command(rpm_path.value() + " -q " + helper);
+                auto rhel_query_result = run_command(rpm + " -q " + helper);
                 if (rhel_query_result.length() > 0 && rhel_query_result != "not installed")
                 {
                     s_vendor = "Redhat";
@@ -91,8 +105,7 @@ namespace TF::Foundation
                 }
                 else if (system_query_result != "not installed")
                 {
-                    auto sub_vendor_query_result =
-                        run_command(rpm_path.value() + " -q --qf \"%{VENDOR}\" system-release");
+                    auto sub_vendor_query_result = run_command(rpm + " -q --qf \"%{VENDOR}\" system-release");
                     if (sub_vendor_query_result.contains("Amazon"))
                     {
                         s_vendor = "Amazon";
@@ -100,10 +113,10 @@ namespace TF::Foundation
                     }
                 }
 
-                auto major_version = Conversion::convertStringToInt(
-                    run_command(rpm_path.value() + " -q -qf \"%{VERSION}\" " + release_string));
-                auto minor_version = Conversion::convertStringToInt(
-                    run_command(rpm_path.value() + " -q -qf \"%{RELEASE}\" " + release_string));
+                auto major_version =
+                    Conversion::convertStringToInt(run_command(rpm + " -q -qf \"%{VERSION}\" " + release_string));
+                auto minor_version =
+                    Conversion::convertStringToInt(run_command(rpm + " -q -qf \"%{RELEASE}\" " + release_string));
 
                 if (major_version)
                 {
@@ -116,10 +129,10 @@ namespace TF::Foundation
                 }
             }
         }
-        else if (lsb_release_path)
+        else if (! lsb_release.empty())
         {
-            auto distribution = run_command(lsb_release_path.value() + " -i");
-            auto release = run_command(lsb_release_path.value() + " -r");
+            auto distribution = run_command(lsb_release + " -i");
+            auto release = run_command(lsb_release + " -r");
 
             auto distribution_parts = distribution.split(":");
             if (distribution_parts.size() > 1)

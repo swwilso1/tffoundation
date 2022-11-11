@@ -28,8 +28,6 @@ SOFTWARE.
 #include "tfheaders.hpp"
 #include "tfposixplatformutilities.hpp"
 #include "tfprocess.hpp"
-#include "tfsleep.hpp"
-#include "tfdata.hpp"
 #include "tfenvironmentsettings.hpp"
 #include "tffilemanager.hpp"
 
@@ -42,29 +40,9 @@ namespace TF::Foundation
         auto std_out_handle = p.handle_for_standard_out();
 
         p.launch(command);
+        p.wait();
 
-        Data data_from_process{};
-
-        while (p.is_alive())
-        {
-            auto data = std_out_handle.readToEndOfFile();
-            if (data.length() > 0)
-            {
-                data_from_process.append(data);
-            }
-
-            Sleep(std::chrono::milliseconds{10});
-
-            data = std_out_handle.readToEndOfFile();
-            if (data.length() > 0)
-            {
-                data_from_process.append(data);
-            }
-
-            p.update_exit_status();
-        }
-        data_from_process.append(std_out_handle.readToEndOfFile());
-        String result_string{data_from_process};
+        String result_string{std_out_handle.readToEndOfFile()};
         if (result_string.last() == '\n')
         {
             return result_string.substringToIndex(result_string.length() - 1);

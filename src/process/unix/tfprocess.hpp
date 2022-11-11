@@ -132,8 +132,7 @@ namespace TF::Foundation
         [[nodiscard]] auto wait_for(const std::chrono::duration<Rep, Period> & wait_time) -> bool
         {
             auto right_now = std::chrono::high_resolution_clock::now();
-            auto right_now_duration = std::chrono::time_point_cast<decltype(wait_time)>(right_now);
-            auto later = right_now_duration + wait_time;
+            auto later = right_now + wait_time;
             return wait_until(later);
         }
 
@@ -166,6 +165,16 @@ namespace TF::Foundation
                 return false;
             }
             return true;
+        }
+
+        /**
+         * @brief method to force the launch code to close all possible file descriptors
+         * after fork() but before exec().
+         * @param close_all true if the launch code should close all possible descriptors.
+         */
+        void set_close_all_descriptors(bool close_all)
+        {
+            m_close_all_possible_descriptors = close_all;
         }
 
         /**
@@ -236,6 +245,7 @@ namespace TF::Foundation
     private:
         int m_process_id{};
         int m_stop_code{};
+        bool m_close_all_possible_descriptors{};
         string_type m_command_line{};
         Pipe m_standard_in{};
         Pipe m_standard_out{};

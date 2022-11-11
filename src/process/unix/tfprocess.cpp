@@ -26,11 +26,11 @@ SOFTWARE.
 ******************************************************************************/
 
 #include "tfplatform.hpp"
-#include <unistd.h>
-#include <sys/resource.h>
+#define NEEDS_UNISTD_H
+#define NEEDS_SYS_RESOURCE_H
 #if defined(TFLINUX)
-#    include <sys/types.h>
-#    include <sys/wait.h>
+#    define NEEDS_SYS_TYPES_H
+#    define NEEDS_SYS_WAIT_H
 #endif
 #define NEEDS_SYSTEM_ERROR
 #include "tfheaders.hpp"
@@ -97,12 +97,21 @@ namespace TF::Foundation
             dup2(m_standard_out.write_handle(), STDOUT_FILENO);
             dup2(m_standard_err.write_handle(), STDERR_FILENO);
 
-            // By convention STDIN/STDOUT/STDERRR have 0/1/2 file descriptor values.
-            if (resource_limit.rlim_max == RLIM_INFINITY)
+            auto limit = resource_limit.rlim_max;
+            if (! m_close_all_possible_descriptors)
             {
-                resource_limit.rlim_max = 1024;
+                limit = 1024;
             }
-            for (rlim_t j = STDERR_FILENO + 1; j < resource_limit.rlim_max; j++)
+            else
+            {
+                if (limit == RLIM_INFINITY)
+                {
+                    limit = 1024;
+                }
+            }
+
+            // By convention STDIN/STDOUT/STDERRR have 0/1/2 file descriptor values.
+            for (rlim_t j = STDERR_FILENO + 1; j <= limit; j++)
             {
                 close(static_cast<int>(j));
             }

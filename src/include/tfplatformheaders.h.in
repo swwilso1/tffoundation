@@ -168,6 +168,7 @@ namespace TF
 #cmakedefine HAS_PTHREAD_H
 #cmakedefine HAS_SYS_FILE_H
 #cmakedefine HAS_SYS_IOCTL_H
+#cmakedefine HAS_SYS_RESOURCE_H
 #cmakedefine HAS_SYS_SELECT_H
 #cmakedefine HAS_SYS_SENDFILE_H
 #cmakedefine HAS_SYS_SOCKET_H
@@ -176,6 +177,7 @@ namespace TF
 #cmakedefine HAS_SYS_TIME_H
 #cmakedefine HAS_SYS_TYPES_H
 #cmakedefine HAS_SYS_UIO_H
+#cmakedefine HAS_SYS_WAIT_H
 #cmakedefine HAS_UNISTD_H
 #cmakedefine HAS_WINSOCK2_H
 #cmakedefine HAS_WS2TCPIP_H

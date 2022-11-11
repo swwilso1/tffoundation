@@ -1186,6 +1186,15 @@ SOFTWARE.
 #    undef NEEDS_SYS_IOCTL_H
 #endif
 
+#if defined(NEEDS_SYS_RESOURCE_H)
+#    if defined(HAS_SYS_RESOURCE_H)
+#        include <sys/resource.h>
+#    else
+#        error "Platform specific header <sys/resource.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_RESOURCE_H
+#endif
+
 #if defined(NEEDS_SYS_SELECT_H)
 #    if defined(HAS_SYS_SELECT_H)
 #        include <sys/select.h>
@@ -1256,6 +1265,15 @@ SOFTWARE.
 #        error "Platform specific header <sys/uio.h> required, but not available"
 #    endif
 #    undef NEEDS_SYS_UIO_H
+#endif
+
+#if defined(NEEDS_SYS_WAIT_H)
+#    if defined(HAS_SYS_WAIT_H)
+#        include <sys/wait.h>
+#    else
+#        error "Platform specific header <sys/wait.h> required, but not available"
+#    endif
+#    undef NEEDS_SYS_WAIT_H
 #endif
 
 #if defined(NEEDS_UNISTD_H)
