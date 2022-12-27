@@ -167,7 +167,7 @@ namespace TF
 
             if (! wroteBytes)
             {
-                // The source file was empty so we have to create an empty output file.
+                // The source file was empty, so we have to create an empty output file.
                 createFileAtPath(destPath);
             }
         }
@@ -328,7 +328,7 @@ namespace TF
                     {
                         return;
                     }
-                };
+                }
 
                 for (auto & item : files)
                 {
@@ -337,7 +337,7 @@ namespace TF
                     {
                         return;
                     }
-                };
+                }
             }
         }
 

@@ -182,7 +182,8 @@ namespace TF
 
         bool FileManager::itemAtPathIsLink(const string_type & path) const
         {
-            struct stat item_stats;
+            struct stat item_stats
+            {};
 
             auto lstat_api_result = lstat(path.stlString().c_str(), &item_stats);
             if (lstat_api_result == 0)
@@ -198,7 +199,8 @@ namespace TF
 
         bool FileManager::fileExistsAtPath(const string_type & path) const
         {
-            struct stat pathData;
+            struct stat pathData
+            {};
 
             auto pathStr = path.cStr();
 
@@ -215,7 +217,8 @@ namespace TF
 
         bool FileManager::directoryExistsAtPath(const string_type & path) const
         {
-            struct stat pathData;
+            struct stat pathData
+            {};
 
             auto pathStr = path.cStr();
 
@@ -229,7 +232,8 @@ namespace TF
 
             if (S_ISLNK(pathData.st_mode))
             {
-                struct stat linkData;
+                struct stat linkData
+                {};
                 auto statResult = stat(pathStr.get(), &linkData);
 
                 if (statResult < 0)
@@ -252,7 +256,8 @@ namespace TF
         FileManager::file_properties_type FileManager::propertiesForItemAtPath(const string_type & path) const
         {
             file_properties_type theProperties;
-            struct stat pathData;
+            struct stat pathData
+            {};
 
             auto pathStr = path.cStr();
 
@@ -361,7 +366,7 @@ namespace TF
             if (p.hasOtherExecutePermission())
                 newMode |= S_IXOTH;
 
-            // Disable the umask so we can get an exact permissions change.
+            // Disable the umask, so we can get an exact permissions change.
             auto origUmask = umask(0);
 
             auto pathStr = path.cStr();
@@ -379,7 +384,8 @@ namespace TF
 
         bool FileManager::isReadableAtPath(const string_type & path) const
         {
-            struct stat pathData;
+            struct stat pathData
+            {};
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
             if (result < 0)
@@ -412,7 +418,8 @@ namespace TF
 
         bool FileManager::isWritableAtPath(const string_type & path) const
         {
-            struct stat pathData;
+            struct stat pathData
+            {};
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
             if (result < 0)
@@ -445,7 +452,8 @@ namespace TF
 
         bool FileManager::isExecutableAtPath(const string_type & path) const
         {
-            struct stat pathData;
+            struct stat pathData
+            {};
             auto pathStr = path.cStr();
             auto result = lstat(pathStr.get(), &pathData);
             if (result < 0)
@@ -482,7 +490,7 @@ namespace TF
             auto result = chdir(pathStr.get());
             if (result < 0)
             {
-                throw std::system_error{errno, std::system_category(), "Unable to change current workingd directory"};
+                throw std::system_error{errno, std::system_category(), "Unable to change current working directory"};
             }
         }
 
@@ -510,7 +518,8 @@ namespace TF
 
         FileManager::size_type FileManager::sizeofFileAtPath(const string_type & path) const
         {
-            struct stat info;
+            struct stat info
+            {};
 
             auto pathStr = path.cStr();
 
@@ -527,7 +536,7 @@ namespace TF
         FileManager::string_type FileManager::baseNameOfItemAtPath(const string_type & path) const
         {
             auto separator_ranges = path.rangesOfString(pathSeparator);
-            if (separator_ranges.size() > 0)
+            if (! separator_ranges.empty())
             {
                 auto & last_range = separator_ranges[separator_ranges.size() - 1];
                 return path.substringFromIndex(last_range.position + 1);
