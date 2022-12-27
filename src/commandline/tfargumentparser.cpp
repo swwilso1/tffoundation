@@ -879,7 +879,7 @@ namespace TF
                 string_type shortestName = arg.getShortestName();
                 string_type upperCaseName = shortestName.uppercaseString();
                 string_type argExample =
-                    upperCaseName.stringByReplacingOccurencesOfStringWithString(m_prefixCharacter, "");
+                    upperCaseName.stringByReplacingOccurrencesOfStringWithString(m_prefixCharacter, "");
                 if (arg.argumentIsOptional(m_prefixCharacter))
                 {
                     auto numberOfArgs = arg.getNumberOfArgs();

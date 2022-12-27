@@ -139,12 +139,12 @@ namespace TF
                 size_type substringLength, const char_type * replaceStringStart, size_type replaceStringLength,
                 range_array_type & ranges) override;
 
-            virtual void replaceOccurancesOfStringWithString(const char_type * originalStringStart,
-                                                             size_type originalStringLength, char_type * newStringStart,
-                                                             size_type newStringLength,
-                                                             const char_type * replacementStringStart,
-                                                             size_type replacementStringLength,
-                                                             range_array_type & substringRanges) override;
+            virtual void replaceOccurrencesOfStringWithString(const char_type * originalStringStart,
+                                                              size_type originalStringLength,
+                                                              char_type * newStringStart, size_type newStringLength,
+                                                              const char_type * replacementStringStart,
+                                                              size_type replacementStringLength,
+                                                              range_array_type & substringRanges) override;
 
             virtual unicode_point_type correctValueForPlatform(const char_type * start, size_type length,
                                                                Endian endian) override;

@@ -17,6 +17,7 @@ list(APPEND FOUNDATION_HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfutf16stringencoder.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfutf32stringencoder.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfstringiterator.hpp"
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/string/tfwindows1252encoder.hpp"
 )
 
 
@@ -40,5 +41,7 @@ list(APPEND FOUNDATION_SOURCE_FILES
     "src/string/tfutf32stringencoder.hpp"
     "src/string/tfstringiterator.cpp"
     "src/string/tfstringiterator.hpp"
+	"src/string/tfwindows1252encoder.cpp"
+	"src/string/tfwindows1252encoder.hpp"
 )
 

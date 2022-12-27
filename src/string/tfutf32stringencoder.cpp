@@ -969,7 +969,7 @@ namespace TF
             return (newsize * sizeof(data_type)) + this->lengthOfByteOrderMarkInBytes();
         }
 
-        void UTF32StringEncoder::replaceOccurancesOfStringWithString(
+        void UTF32StringEncoder::replaceOccurrencesOfStringWithString(
             const char_type * originalStringStart, size_type originalStringLength, char_type * newStringStart,
             size_type newStringLength, const char_type * replacementStringStart, size_type replacementStringLength,
             range_array_type & substringRanges)

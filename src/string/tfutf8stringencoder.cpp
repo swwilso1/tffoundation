@@ -910,7 +910,7 @@ namespace TF
             return newsize;
         }
 
-        void UTF8StringEncoder::replaceOccurancesOfStringWithString(
+        void UTF8StringEncoder::replaceOccurrencesOfStringWithString(
             const char_type * originalStringStart, size_type originalStringLength, char_type * newStringStart,
             size_type newStringLength, const char_type * replacementStringStart, size_type replacementStringLength,
             range_array_type & substringRanges)

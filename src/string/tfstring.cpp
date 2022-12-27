@@ -41,6 +41,7 @@ SOFTWARE.
 #include "tfutf8stringencoder.hpp"
 #include "tfutf16stringencoder.hpp"
 #include "tfutf32stringencoder.hpp"
+#include "tfwindows1252encoder.hpp"
 
 namespace TF::Foundation
 {
@@ -327,7 +328,7 @@ namespace TF::Foundation
         std::stringstream accumulator;
 
         // Now parse the format string.   The format string must be
-        // a C-Style (ie ends with '\0' (null-terminated) string.
+        // a C-Style (ie ends with '\0' (null-terminated)) string.
         // Standard printf style arguments are accepted and one
         // extra form.  %@ now indicates a String argument.
 
@@ -1389,6 +1390,56 @@ namespace TF::Foundation
 
         return theString;
     }
+
+    String String::initWithWindows1252(const unsigned char * str, size_type length)
+    {
+        String theString;
+
+        static Windows1252StringEncoder windows1252Encoder;
+        auto charactersInString =
+            windows1252Encoder.numberOfCharacters(reinterpret_cast<const char_type *>(str), length);
+
+        auto characters = std::make_unique<unicode_point_type[]>(charactersInString);
+        auto endian = Windows1252StringEncoder::thisSystemEndianness();
+
+        auto * tmp = reinterpret_cast<char_type *>(const_cast<unsigned char *>(str));
+        size_type i = 0;
+
+        // Use the Windows 1252 encoder to convert the argument to unicode points.
+        while (length > 0)
+        {
+            auto result = windows1252Encoder.nextCodePoint(tmp, length, endian);
+            characters[i++] = result.first;
+            tmp += result.second;
+            length -= result.second;
+        }
+
+        static UTF8StringEncoder utf8Encoder;
+
+        // Now convert the unicode points to UTF-8
+        size_type bytesRequiredForUTF8 = 0;
+
+        for (size_type j = 0; j < charactersInString; ++j)
+        {
+            bytesRequiredForUTF8 += utf8Encoder.bytesNeededForRepresentationOfCode(characters[j]);
+        }
+
+        auto theArray = std::make_unique<char_type[]>(bytesRequiredForUTF8);
+        tmp = theArray.get();
+        auto tmpLength = bytesRequiredForUTF8;
+
+        for (size_type j = 0; j < charactersInString; ++j)
+        {
+            auto result = utf8Encoder.encodeCodePoint(tmp, tmpLength, characters[j], endian);
+            tmp += result;
+            tmpLength -= result;
+        }
+
+        theString.core = std::make_shared<core_type>(theArray.get(), bytesRequiredForUTF8);
+
+        return theString;
+    }
+
 #if 1 // Disabled for now
 
     String::iterator String::begin()
@@ -1551,7 +1602,7 @@ namespace TF::Foundation
     {
         auto utf8_encoded_data = getAsDataInUTF8Encoding();
         return std::string{utf8_encoded_data.bytes(), utf8_encoded_data.length()};
-    };
+    }
 
     String String::stringByAppendingFormat(const char * format, ...) const
     {
@@ -1836,7 +1887,7 @@ namespace TF::Foundation
 
             auto substrings = substringsNotInRange(characters_at_beginning);
 
-            if (substrings.size() > 0)
+            if (! substrings.empty())
             {
                 return_string = substrings[0];
             }
@@ -1844,7 +1895,7 @@ namespace TF::Foundation
             {
                 return_string = String{};
             }
-        };
+        }
 
         if (return_string.empty())
         {
@@ -1877,8 +1928,8 @@ namespace TF::Foundation
         *this = return_string;
     }
 
-    String String::stringByReplacingOccurencesOfStringWithString(const String & original,
-                                                                 const String & replacement) const
+    String String::stringByReplacingOccurrencesOfStringWithString(const String & original,
+                                                                  const String & replacement) const
     {
         range_array_type originalStringRanges;
         static UTF8StringEncoder theEncoder;
@@ -1889,9 +1940,9 @@ namespace TF::Foundation
 
         auto newString = new char_type[bytesNeededForNewString];
 
-        theEncoder.replaceOccurancesOfStringWithString(core->data(), core->length(), newString, bytesNeededForNewString,
-                                                       replacement.core->data(), replacement.core->length(),
-                                                       originalStringRanges);
+        theEncoder.replaceOccurrencesOfStringWithString(core->data(), core->length(), newString,
+                                                        bytesNeededForNewString, replacement.core->data(),
+                                                        replacement.core->length(), originalStringRanges);
 
         String theResultString(newString, bytesNeededForNewString);
 
@@ -1932,7 +1983,7 @@ namespace TF::Foundation
         else
         {
             // The string represented by range is somewhere in the middle of this string, ie not at
-            // either edge.  Calculate the preceding and remaining stubstrings.
+            // either edge.  Calculate the preceding and remaining substrings.
             range_type precedingRange(0, range.position);
             size_type remainingLocation = range.position + range.length;
             range_type remainingRange(remainingLocation, totalLength - remainingLocation);

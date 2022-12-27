@@ -54,7 +54,7 @@ namespace TF
 
         Argument::string_type Argument::getShortNameWithoutPrefix(const string_type & prefix) const
         {
-            return m_shortName.stringByReplacingOccurencesOfStringWithString(prefix, "");
+            return m_shortName.stringByReplacingOccurrencesOfStringWithString(prefix, "");
         }
 
         void Argument::setLongName(const string_type & name)
@@ -69,7 +69,7 @@ namespace TF
 
         Argument::string_type Argument::getLongNameWithoutPrefix(const string_type & prefix) const
         {
-            return m_longName.stringByReplacingOccurencesOfStringWithString(prefix, "");
+            return m_longName.stringByReplacingOccurrencesOfStringWithString(prefix, "");
         }
 
         void Argument::setNames(const string_list_type & names)
@@ -149,7 +149,7 @@ namespace TF
             if (m_destination.length() > 0)
                 return m_destination;
 
-            return m_longName.stringByReplacingOccurencesOfStringWithString(prefix, "");
+            return m_longName.stringByReplacingOccurrencesOfStringWithString(prefix, "");
         }
 
         void Argument::setChoices(const string_list_type & choices)

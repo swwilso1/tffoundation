@@ -36,35 +36,35 @@ using namespace TF::Foundation;
 TEST(StringTest, ReplacingOccurencesOfSubstringTest)
 {
     String s("Mostly cloudy, 46F");
-    auto t = s.stringByReplacingOccurencesOfStringWithString(String("cloudy"), String("sunny"));
+    auto t = s.stringByReplacingOccurrencesOfStringWithString(String("cloudy"), String("sunny"));
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
 TEST(StringTest, ReplacingOccurencesOfSubstringTest2)
 {
     String s("Mostly cloudy, 46F");
-    auto t = s.stringByReplacingOccurencesOfStringWithString("cloudy", "sunny");
+    auto t = s.stringByReplacingOccurrencesOfStringWithString("cloudy", "sunny");
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
 TEST(StringTest, ReplacingOccurencesOfSubstringTest3)
 {
     String s("Mostly cloudy, 46F");
-    auto t = s.stringByReplacingOccurencesOfStringWithString(std::string("cloudy"), std::string("sunny"));
+    auto t = s.stringByReplacingOccurrencesOfStringWithString(std::string("cloudy"), std::string("sunny"));
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }
 
 TEST(StringTest, ReplacingOccurencesOfSubstringTest4)
 {
     String s("Mostly cloudy, 46F.  Should stay cloudy all day");
-    auto t = s.stringByReplacingOccurencesOfStringWithString(String("cloudy"), String("sunny"));
+    auto t = s.stringByReplacingOccurrencesOfStringWithString(String("cloudy"), String("sunny"));
     EXPECT_EQ(t, "Mostly sunny, 46F.  Should stay sunny all day");
 }
 
 TEST(StringTest, ReplacingOccurencesOfSubstringTest5)
 {
     String s = String::initWithASCIIEncodedUnicode("Mostly \\:006689\\:005854\\:104432\\:004241, 46F");
-    auto t = s.stringByReplacingOccurencesOfStringWithString(
+    auto t = s.stringByReplacingOccurrencesOfStringWithString(
         String::initWithASCIIEncodedUnicode("\\:006689\\:005854\\:104432\\:004241"), "sunny");
     EXPECT_EQ(t, "Mostly sunny, 46F");
 }

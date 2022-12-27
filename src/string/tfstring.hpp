@@ -274,6 +274,14 @@ namespace TF
              */
             static String initWithJSONEncodedUnicode(const char * str, size_type length);
 
+            /**
+             * @brief Initializes a String object from a Windows 1252 encoded string.
+             * @param str the Windows 1252 encoded string.
+             * @param length the number of bytes in @e str
+             * @return the initialized String.
+             */
+            static String initWithWindows1252(const unsigned char * str, size_type length);
+
 #pragma mark - Iterator methods
 
             /**
@@ -580,8 +588,8 @@ namespace TF
                 @param replacement the string to insert in place of @e original
                 @return a new string object
             */
-            String stringByReplacingOccurencesOfStringWithString(const String & original,
-                                                                 const String & replacement) const;
+            String stringByReplacingOccurrencesOfStringWithString(const String & original,
+                                                                  const String & replacement) const;
 
             /**
                 @brief return a string created by replacing the sub-string in the specified range with another string

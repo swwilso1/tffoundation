@@ -337,3 +337,88 @@ TEST(StringTest, JSONStringConstructorTest)
     tmp_string = String(tmp2, 7);
     EXPECT_EQ(s, tmp_string);
 }
+
+TEST(StringTest, Windows1252StringConstructionTest)
+{
+    unsigned char simple_characters[128];
+    for (int64_t i = 0; i < 128; i++)
+    {
+        simple_characters[i] = static_cast<unsigned char>(i);
+    }
+
+    char simple_string_chars[128];
+    for (int64_t i = 0; i < 128; i++)
+    {
+        simple_string_chars[i] = static_cast<char>(i);
+    }
+
+    auto windows_string1 = String::initWithWindows1252(simple_characters, 128);
+    String simple_string1{simple_string_chars, 128};
+
+    EXPECT_EQ(windows_string1, simple_string1);
+
+    unsigned char end_simple_characters[96];
+    for (int64_t i = 0; i < 96; i++)
+    {
+        end_simple_characters[i] = static_cast<unsigned char>(i + 160);
+    }
+
+    unsigned int end_simple_unicode_codes[97];
+    end_simple_unicode_codes[0] = 0xFEFF;
+    for (int64_t i = 1; i < 98; i++)
+    {
+        end_simple_unicode_codes[i] = static_cast<unsigned int>(i + 159);
+    }
+
+    windows_string1 = String::initWithWindows1252(end_simple_characters, 96);
+    String simple_string2{end_simple_unicode_codes, 97};
+
+    EXPECT_EQ(windows_string1, simple_string2);
+
+    unsigned char complex_characters[32];
+    for (int64_t i = 0; i < 32; i++)
+    {
+        complex_characters[i] = static_cast<unsigned char>(i) + 0x80;
+    }
+
+    auto windows_complicated_string1 = String::initWithWindows1252(complex_characters, 32);
+
+    unsigned int complex_codes[33];
+    complex_codes[0] = 0xfeff;
+    complex_codes[1] = 0x20ac;
+    complex_codes[2] = 0x0081;
+    complex_codes[3] = 0x201a;
+    complex_codes[4] = 0x0192;
+    complex_codes[5] = 0x201e;
+    complex_codes[6] = 0x2026;
+    complex_codes[7] = 0x2020;
+    complex_codes[8] = 0x2021;
+    complex_codes[9] = 0x02c6;
+    complex_codes[10] = 0x2030;
+    complex_codes[11] = 0x0160;
+    complex_codes[12] = 0x2039;
+    complex_codes[13] = 0x0152;
+    complex_codes[14] = 0x008d;
+    complex_codes[15] = 0x017d;
+    complex_codes[16] = 0x008f;
+    complex_codes[17] = 0x0090;
+    complex_codes[18] = 0x2018;
+    complex_codes[19] = 0x2019;
+    complex_codes[20] = 0x201c;
+    complex_codes[21] = 0x201d;
+    complex_codes[22] = 0x2022;
+    complex_codes[23] = 0x2013;
+    complex_codes[24] = 0x2014;
+    complex_codes[25] = 0x02dc;
+    complex_codes[26] = 0x2122;
+    complex_codes[27] = 0x0161;
+    complex_codes[28] = 0x203a;
+    complex_codes[29] = 0x0153;
+    complex_codes[30] = 0x009d;
+    complex_codes[31] = 0x017e;
+    complex_codes[32] = 0x0178;
+
+    String complex_string{complex_codes, 33};
+
+    EXPECT_EQ(windows_complicated_string1, complex_string);
+}

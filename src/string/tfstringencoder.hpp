@@ -226,8 +226,8 @@ namespace TF
                                                                     size_type index) = 0;
 
             /**
-                    @brief given a pointer to a byte array and range object, caculate whether or not that range of bytes
-                    lies in the given byte array.
+                    @brief given a pointer to a byte array and range object, calculate whether or not that range of
+               bytes lies in the given byte array.
                     @param start the pointer to the array of bytes.
                     @param length the number of bytes in the byte array.
                     @param range the byte range.
@@ -237,7 +237,7 @@ namespace TF
                                                      const range_type & range);
 
             /**
-                    @brief given a pointer to a byte array and range object, caculate whether or not that range of
+                    @brief given a pointer to a byte array and range object, calculate whether or not that range of
                characters lies in the given byte array.
                     @param start the pointer to the array of bytes.
                     @param length the number of bytes in the byte array.
@@ -251,7 +251,7 @@ namespace TF
                     @brief given a byte array and a range of characters, calculate the number of bytes from the byte
                     array required to represent that range of characters.
                     @param start the pointer to the array of bytes.
-                    @param lengt hthe number of bytes in the byte array.
+                    @param length the number of bytes in the byte array.
                     @param range the character range
                     @return the number of bytes used to encode that character range in the byte array.
 
@@ -270,7 +270,7 @@ namespace TF
             virtual bool containsCharacterWithZeroValue(const char_type * start, size_type length) = 0;
 
             /**
-                    @brief given a byte array, caclulate whether or not the array has a character value that
+                    @brief given a byte array, calculate whether or not the array has a character value that
                     lies outside the range of ASCII characters (1 - 127).
                     @param start the pointer to the array of bytes.
                     @param length the number of bytes in the byte array.
@@ -281,13 +281,13 @@ namespace TF
 
             /**
                     @brief given a byte array and another byte array representing the contents of a substring,
-                    calculate the range (location and length) of bytes of the first occurance of the substring
+                    calculate the range (location and length) of bytes of the first occurrence of the substring
                     in the first byte array.
                     @param stringStart the pointer to the array of bytes.
                     @param stringLength the number of bytes in the byte array.
                     @param substringStart the pointer to the substring's array of bytes.
                     @param substringLength the number of bytes in the substring's byte array.
-                    @return a range object specifying the start location and number of bytes of the first occurance
+                    @return a range object specifying the start location and number of bytes of the first occurrence
                     of the substring in the string.
             */
             virtual range_type findByteRangeOfSubstringInString(const char_type * stringStart, size_type stringLength,
@@ -296,7 +296,7 @@ namespace TF
 
             /**
                     @brief given a byte array and another byte array representing the contents of a substring,
-                    calculate all the ranges (location and length) of bytes of the occurances of the substring
+                    calculate all the ranges (location and length) of bytes of the occurrences of the substring
                     int the first byte array.
                     @param stringStart the pointer to the array of bytes.
                     @param stringLength the number of bytes in the byte array.
@@ -312,14 +312,14 @@ namespace TF
 
             /**
                     @brief given a byte array and another byte array representing the contents of a substring,
-                    calculate the range (location and length) of characters of the first occurance of the substring
+                    calculate the range (location and length) of characters of the first occurrence of the substring
                     in the first byte array.
                     @param stringStart the pointer to the array of bytes.
                     @param stringLength the number of bytes in the byte array.
                     @param substringStart the pointer to the substring's array of bytes.
                     @param substringLength the number of bytes in the substring's byte array.
-                    @return a range object specifying the start location and number of characters of the first occurance
-                    of the substring in the string.
+                    @return a range object specifying the start location and number of characters of the first
+               occurrence of the substring in the string.
             */
             virtual range_type findCharacterRangeForSubstringInString(const char_type * stringStart,
                                                                       size_type stringLength,
@@ -328,7 +328,7 @@ namespace TF
 
             /**
                     @brief given a byte array and another byte array representing the contents of a substring,
-                    calculate all the ranges (location and length) of characters of the occurances of the substring
+                    calculate all the ranges (location and length) of characters of the occurrences of the substring
                     int the first byte array.
                     @param stringStart the pointer to the array of bytes.
                     @param stringLength the number of bytes in the byte array.
@@ -344,7 +344,7 @@ namespace TF
 
             /**
                     @brief given a byte array and another byte array representing the contents of a substring,
-                    caculate all the ranges (location and lengths) of characters in the first string that do
+                    calculate all the ranges (location and lengths) of characters in the first string that do
                     not match the substring.
                     @param stringStart the pointer to the array of bytes.
                     @param stringLength the number of bytes in the byte array.
@@ -372,12 +372,12 @@ namespace TF
                                                     const char_type * secondStringStart, size_type secondStringLength);
 
             /**
-                    @brief given a byte array and case conversion specificer, convert the characters in the byte
+                    @brief given a byte array and case conversion specifier, convert the characters in the byte
                     array to the case indicated.
                     @param start the pointer to the array of bytes.
                     @param length the number of bytes in the byte array.
                     @param convertToCase the new case value.  TFUpperCase indicates that all lower case values
-                    should be converted to upper case.  TFLowerCase indicates that all upper case values shoul
+                    should be converted to upper case.  TFLowerCase indicates that all upper case values should
                     be converted to lower case.
             */
             virtual void convertStringCharacters(char_type * start, size_type length, StringCase convertToCase) = 0;
@@ -410,7 +410,7 @@ namespace TF
                     @param newStringStart the pointer to the bytes array for the new string.
                     @param newStringLength the number of bytes in the new string array.
                     @param replacementStringStart the pointer to the array of bytes for the replacement string.
-                    @param replacementStringLength the number of bytes in the replacment string array.
+                    @param replacementStringLength the number of bytes in the replacement string array.
                     @param substringRanges a reference to an array of ranges that contain the location and
                     lengths of the substrings to replace in originalStringStart.
 
@@ -422,12 +422,12 @@ namespace TF
                     In addition, the replacementString and the originalString will both contain byte order marks if
                     the encoder uses byte order marks.
             */
-            virtual void replaceOccurancesOfStringWithString(const char_type * originalStringStart,
-                                                             size_type originalStringLength, char_type * newStringStart,
-                                                             size_type newStringLength,
-                                                             const char_type * replacementStringStart,
-                                                             size_type replacementStringLength,
-                                                             range_array_type & substringRanges) = 0;
+            virtual void replaceOccurrencesOfStringWithString(const char_type * originalStringStart,
+                                                              size_type originalStringLength,
+                                                              char_type * newStringStart, size_type newStringLength,
+                                                              const char_type * replacementStringStart,
+                                                              size_type replacementStringLength,
+                                                              range_array_type & substringRanges) = 0;
 
             /**
                     @brief given a byte array and a byte order direction, retrieve the Unicode value for the character
@@ -454,7 +454,7 @@ namespace TF
             */
             virtual bool operator!=(const StringEncoder & e);
 
-            /** @brief caculate the byte order used by the currently running system. */
+            /** @brief calculate the byte order used by the currently running system. */
             static Endian thisSystemEndianness();
 
             /**
@@ -481,7 +481,7 @@ namespace TF
 
             /**
              * @brief method to get the local system endianness.
-             * @return the local endiannes.
+             * @return the local endianness.
              */
             [[nodiscard]] auto getMyEndianness() const -> Endian
             {
