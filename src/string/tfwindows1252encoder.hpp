@@ -58,100 +58,99 @@ namespace TF::Foundation
 
         virtual ~Windows1252StringEncoder() = default;
 
-        virtual auto clone() -> StringEncoder * override;
+        auto clone() -> StringEncoder * override;
 
-        virtual auto basicCodeLengthInBytes() -> size_type override;
+        auto basicCodeLengthInBytes() -> size_type override;
 
-        virtual auto hasFixedCodeLength() -> bool override;
+        auto hasFixedCodeLength() -> bool override;
 
-        virtual auto numberOfBytesRequiredForLargestCharacterValue() -> size_type override;
+        auto numberOfBytesRequiredForLargestCharacterValue() -> size_type override;
 
-        virtual auto canUseByteOrderMark() -> bool override;
+        auto canUseByteOrderMark() -> bool override;
 
-        virtual auto usesByteOrderMark() -> bool override;
+        auto usesByteOrderMark() -> bool override;
 
-        virtual auto lengthOfByteOrderMarkInBytes() -> size_type override;
+        auto lengthOfByteOrderMarkInBytes() -> size_type override;
 
-        virtual void writeByteOrderMark(char_type * start, size_type length) override;
+        void writeByteOrderMark(char_type * start, size_type length) override;
 
-        virtual auto hasByteOrderMark(const char_type * start, size_type length) -> byte_order_query_type override;
+        auto hasByteOrderMark(const char_type * start, size_type length) -> byte_order_query_type override;
 
-        virtual auto numberOfCharacters(const char_type * start, size_type length) -> size_type override;
+        auto numberOfCharacters(const char_type * start, size_type length) -> size_type override;
 
-        virtual auto checkStringForCorrectness(const char_type * start, size_type length) -> bool override;
+        auto checkStringForCorrectness(const char_type * start, size_type length) -> bool override;
 
-        virtual auto nextCodePoint(const char_type * start, size_type length, Endian endian)
+        auto nextCodePoint(const char_type * start, size_type length, Endian endian)
             -> std::pair<unicode_point_type, size_type> override;
 
-        virtual auto nextCode(const char_type * start, size_type length, Endian endian)
+        auto nextCode(const char_type * start, size_type length, Endian endian)
             -> std::pair<unicode_point_type, size_type> override;
 
-        virtual auto unicodeCodePointForCharacterAtIndex(const char_type * start, size_type length, size_type index)
+        auto unicodeCodePointForCharacterAtIndex(const char_type * start, size_type length, size_type index)
             -> unicode_point_type override;
 
-        virtual auto bytesNeededForRepresentationOfCode(unicode_point_type code) -> size_type override;
+        auto bytesNeededForRepresentationOfCode(unicode_point_type code) -> size_type override;
 
-        virtual auto encodeCodePoint(char_type * start, size_type length, unicode_point_type code, Endian endian)
+        auto encodeCodePoint(char_type * start, size_type length, unicode_point_type code, Endian endian)
             -> size_type override;
 
-        virtual auto arrayIndexOfCharacterAtCharacterIndex(const char_type * start, size_type length, size_type index)
+        auto arrayIndexOfCharacterAtCharacterIndex(const char_type * start, size_type length, size_type index)
             -> size_type override;
 
-        virtual auto numberOfBytesToCaptureCharactersInRange(const char_type * start, size_type length,
-                                                             const range_type & range) -> size_type override;
+        auto numberOfBytesToCaptureCharactersInRange(const char_type * start, size_type length,
+                                                     const range_type & range) -> size_type override;
 
-        virtual auto containsCharacterWithZeroValue(const char_type * start, size_type length) -> bool override;
+        auto containsCharacterWithZeroValue(const char_type * start, size_type length) -> bool override;
 
-        virtual auto containsCharacterNotInASCIIRange(const char_type * start, size_type length) -> bool override;
+        auto containsCharacterNotInASCIIRange(const char_type * start, size_type length) -> bool override;
 
-        virtual auto findByteRangeOfSubstringInString(const char_type * stringStart, size_type stringLength,
-                                                      const char_type * substringStart, size_type substringLength)
+        auto findByteRangeOfSubstringInString(const char_type * stringStart, size_type stringLength,
+                                              const char_type * substringStart, size_type substringLength)
             -> range_type override;
 
-        virtual auto findByteRangesOfSubstringInString(const char_type * stringStart, size_type stringLength,
-                                                       const char_type * substringStart, size_type substringLength)
+        auto findByteRangesOfSubstringInString(const char_type * stringStart, size_type stringLength,
+                                               const char_type * substringStart, size_type substringLength)
             -> range_array_type override;
 
-        virtual auto findCharacterRangeForSubstringInString(const char_type * stringStart, size_type stringLength,
-                                                            const char_type * substringStart, size_type substringLength)
+        auto findCharacterRangeForSubstringInString(const char_type * stringStart, size_type stringLength,
+                                                    const char_type * substringStart, size_type substringLength)
             -> range_type override;
 
-        virtual auto findCharacterRangesForSubstringInString(const char_type * stringStart, size_type stringLength,
-                                                             const char_type * substringStart,
-                                                             size_type substringLength) -> range_array_type override;
-
-        virtual auto findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type * stringStart,
-                                                                            size_type stringLength,
-                                                                            const char_type * substringStart,
-                                                                            size_type substringLength)
+        auto findCharacterRangesForSubstringInString(const char_type * stringStart, size_type stringLength,
+                                                     const char_type * substringStart, size_type substringLength)
             -> range_array_type override;
 
-        virtual auto compareStrings(const char_type * firstStringStart, size_type firstStringLength,
-                                    const char_type * secondStringStart, size_type secondStringLength)
+        auto findCharacterRangesOfSubstringsThatDoNotMatchSubstring(const char_type * stringStart,
+                                                                    size_type stringLength,
+                                                                    const char_type * substringStart,
+                                                                    size_type substringLength)
+            -> range_array_type override;
+
+        auto compareStrings(const char_type * firstStringStart, size_type firstStringLength,
+                            const char_type * secondStringStart, size_type secondStringLength)
             -> ComparisonResult override;
 
-        virtual void convertStringCharacters(char_type * start, size_type length, StringCase convertToCase) override;
+        void convertStringCharacters(char_type * start, size_type length, StringCase convertToCase) override;
 
-        virtual auto computeArraySizeInBytesForStringByReplacingSubstrings(
+        auto computeArraySizeInBytesForStringByReplacingSubstrings(
             const char_type * stringStart, size_type stringLength, const char_type * substringStart,
             size_type substringLength, const char_type * replaceStringStart, size_type replaceStringLength,
             range_array_type & ranges) -> size_type override;
 
-        virtual void replaceOccurrencesOfStringWithString(const char_type * originalStringStart,
-                                                          size_type originalStringLength, char_type * newStringStart,
-                                                          size_type newStringLength,
-                                                          const char_type * replacementStringStart,
-                                                          size_type replacementStringLength,
-                                                          range_array_type & substringRanges) override;
+        void replaceOccurrencesOfStringWithString(const char_type * originalStringStart, size_type originalStringLength,
+                                                  char_type * newStringStart, size_type newStringLength,
+                                                  const char_type * replacementStringStart,
+                                                  size_type replacementStringLength,
+                                                  range_array_type & substringRanges) override;
 
-        virtual auto correctValueForPlatform(const char_type * start, size_type length, Endian endian)
+        auto correctValueForPlatform(const char_type * start, size_type length, Endian endian)
             -> unicode_point_type override;
 
-        virtual auto operator==(const StringEncoder & e) -> bool override;
+        auto operator==(const StringEncoder & e) -> bool override;
 
-        virtual auto description(std::ostream & o) const -> std::ostream & override;
+        auto description(std::ostream & o) const -> std::ostream & override;
 
-        virtual auto getEncoderID() const -> std::string override;
+        auto getEncoderID() const -> std::string override;
 
         auto bytesToExpectForCharacterInByteSequence(const char_type * s, size_type length, Endian endian)
             -> size_type override;
