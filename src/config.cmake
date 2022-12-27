@@ -16,6 +16,7 @@ include(src/data/config.cmake)
 include(src/date/config.cmake)
 include(src/defer/config.cmake)
 include(src/dll/config.cmake)
+include(src/encoding/config.cmake)
 include(src/environment/config.cmake)
 include(src/files/config.cmake)
 include(src/format/config.cmake)
@@ -55,6 +56,7 @@ include_directories(
     src/date
     src/defer
     src/dll
+    src/encoding
     src/environment
     src/files
     src/format

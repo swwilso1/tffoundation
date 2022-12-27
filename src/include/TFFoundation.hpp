@@ -108,3 +108,4 @@ SOFTWARE.
 #include "tfdll.hpp"
 #include "tfdllloader.hpp"
 #include "tfitemcopier.hpp"
+#include "tfencodingrecognizer.hpp"

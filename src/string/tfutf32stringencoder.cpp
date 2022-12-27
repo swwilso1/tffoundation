@@ -129,6 +129,11 @@ namespace TF
             std::pair<parent_type::unicode_point_type, size_type> theNext;
             byte_order_query_type stringQueryResult = this->hasByteOrderMark(start, length);
 
+            if ((length % 4) != 0)
+            {
+                return false;
+            }
+
             if (stringQueryResult.first)
             {
                 stringTmp += this->lengthOfByteOrderMarkInBytes();
