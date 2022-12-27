@@ -81,12 +81,12 @@ namespace TF::Foundation
             auto byte3 = *(str + 2);
             auto byte4 = *(str + 3);
 
-            if (byte1 == 0 && (byte2 >= 0 && byte2 <= 10))
+            if (byte1 == 0 && byte2 <= 10)
             {
                 endian = Endian::BigEndian;
                 found_byte_order = true;
             }
-            else if ((byte3 >= 0 && byte3 <= 10) && byte4 == 0)
+            else if (byte3 <= 10 && byte4 == 0)
             {
                 endian = Endian::LittleEndian;
                 found_byte_order = true;
@@ -123,7 +123,7 @@ namespace TF::Foundation
                     return {};
                 }
 
-                if (! (byte2 >= 0 && byte2 <= 10))
+                if (! (byte2 <= 10))
                 {
                     return {};
                 }
@@ -145,7 +145,7 @@ namespace TF::Foundation
                 auto byte1 = *(start + i + 2);
                 auto byte2 = *(start + i + 3);
 
-                if (! (byte1 >= 0 && byte1 <= 10))
+                if (! (byte1 <= 10))
                 {
                     return {};
                 }
