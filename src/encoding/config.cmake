@@ -8,6 +8,7 @@
 list(APPEND FOUNDATION_HEADER_FILES
     "${CMAKE_CURRENT_SOURCE_DIR}/src/encoding/tfencoding.hpp"
     "${CMAKE_CURRENT_SOURCE_DIR}/src/encoding/tfencodingrecognizer.hpp"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/encoding/tfencodingteststrategy.hpp"
     )
 
 list(APPEND FOUNDATION_SOURCE_FILES
