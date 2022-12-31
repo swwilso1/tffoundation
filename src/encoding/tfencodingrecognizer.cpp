@@ -39,25 +39,25 @@ SOFTWARE.
 namespace TF::Foundation
 {
 
-    auto EncodingRecognizer::recognize_encoding(const unsigned char * str, size_type length)
-        -> std::optional<encoding_type>
+    EncodingRecognizer::EncodingRecognizer()
     {
-
-        std::vector<std::unique_ptr<EncodingTestStrategy>> test_strategy_list{};
-
         auto utf32_test_strategy = std::make_unique<UTF32EncodingTestStrategy>();
         auto utf16_test_strategy = std::make_unique<UTF16EncodingTestStrategy>();
         auto utf8_test_strategy = std::make_unique<UTF8EncodingTestStrategy>();
         auto ascii_test_strategy = std::make_unique<ASCIIEncodingTestStrategy>();
         auto windows1252_test_strategy = std::make_unique<Windows1252EncodingTestStrategy>();
 
-        test_strategy_list.emplace_back(std::move(utf32_test_strategy));
-        test_strategy_list.emplace_back(std::move(utf16_test_strategy));
-        test_strategy_list.emplace_back(std::move(utf8_test_strategy));
-        test_strategy_list.emplace_back(std::move(ascii_test_strategy));
-        test_strategy_list.emplace_back(std::move(windows1252_test_strategy));
+        m_test_strategy_list.emplace_back(std::move(utf32_test_strategy));
+        m_test_strategy_list.emplace_back(std::move(utf16_test_strategy));
+        m_test_strategy_list.emplace_back(std::move(utf8_test_strategy));
+        m_test_strategy_list.emplace_back(std::move(ascii_test_strategy));
+        m_test_strategy_list.emplace_back(std::move(windows1252_test_strategy));
+    }
 
-        for (auto & strategy : test_strategy_list)
+    auto EncodingRecognizer::recognize_encoding(const unsigned char * str, size_type length)
+        -> std::optional<encoding_type>
+    {
+        for (auto & strategy : m_test_strategy_list)
         {
             auto result = strategy->has_encoding(str, length);
             if (result)

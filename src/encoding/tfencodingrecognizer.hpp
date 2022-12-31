@@ -33,6 +33,7 @@ SOFTWARE.
 #include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tfencoding.hpp"
+#include "tfencodingteststrategy.hpp"
 
 namespace TF::Foundation
 {
@@ -42,7 +43,12 @@ namespace TF::Foundation
     public:
         using encoding_type = Encoding;
 
-        static auto recognize_encoding(const unsigned char * str, size_type length) -> std::optional<encoding_type>;
+        EncodingRecognizer();
+
+        auto recognize_encoding(const unsigned char * str, size_type length) -> std::optional<encoding_type>;
+
+    private:
+        std::vector<std::unique_ptr<EncodingTestStrategy>> m_test_strategy_list{};
     };
 
 } // namespace TF::Foundation
