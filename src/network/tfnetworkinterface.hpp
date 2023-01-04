@@ -273,7 +273,7 @@ namespace TF::Foundation
         /**
          * @brief method to reset an interface's contents
          */
-        void clear();
+        virtual void clear();
 
         /**
          * @brief method to reset an interface's addresses.
