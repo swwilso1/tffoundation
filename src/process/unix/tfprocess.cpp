@@ -75,6 +75,18 @@ namespace TF::Foundation
         {
             throw std::runtime_error{"Unable to convert command line for process launch"};
         }
+	
+        // Execv requires an array of char** with the arguments.
+        char ** execv_argv = new char *[argv_list.size() + 1];
+        std::vector<String>::size_type i{0};
+        std::for_each(argv_list.cbegin(), argv_list.cend(), [execv_argv, &i](const String & s) -> void {
+            auto cStr = s.cStr();
+            auto length = std::strlen(cStr.get());
+            execv_argv[i] = new char[length + 1];
+            std::memcpy(execv_argv[i], cStr.get(), length);
+            execv_argv[i][length] = 0;
+            ++i;
+        });
 
         auto process_id = fork();
 
@@ -84,18 +96,6 @@ namespace TF::Foundation
         }
         else if (process_id == 0)
         {
-            // Execv requires an array of char** with the arguments.
-            char ** execv_argv = new char *[argv_list.size() + 1];
-            std::vector<String>::size_type i{0};
-            std::for_each(argv_list.cbegin(), argv_list.cend(), [execv_argv, &i](const String & s) -> void {
-                auto cStr = s.cStr();
-                auto length = std::strlen(cStr.get());
-                execv_argv[i] = new char[length + 1];
-                std::memcpy(execv_argv[i], cStr.get(), length);
-                execv_argv[i][length] = 0;
-                ++i;
-            });
-
             // Now set up the file descriptors to read/write to/from the parent.
             dup2(m_standard_in.read_handle(), STDIN_FILENO);
             dup2(m_standard_out.write_handle(), STDOUT_FILENO);
