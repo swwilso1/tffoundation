@@ -64,6 +64,18 @@ namespace TF::Foundation
             signal_manager->handle_signals();
         }
 
+        // The child process.
+        std::vector<String> argv_list{};
+
+        // This convert step has to happen in the parent, before the fork.  After the fork, manipulation of
+	// strings can run into a mutex lock in the string code allocator that can be held by another
+	// thread in the process. That other thread will disappear after the fork and cause deadlock in
+	// the child process.
+        if (! convert_command_line_to_vector(m_command_line, argv_list))
+        {
+            throw std::runtime_error{"Unable to convert command line for process launch"};
+        }
+
         auto process_id = fork();
 
         if (process_id < 0)
@@ -72,14 +84,6 @@ namespace TF::Foundation
         }
         else if (process_id == 0)
         {
-            // The child process.
-            std::vector<String> argv_list{};
-
-            if (! convert_command_line_to_vector(m_command_line, argv_list))
-            {
-                throw std::runtime_error{"Unable to convert command line for process launch"};
-            }
-
             // Execv requires an array of char** with the arguments.
             char ** execv_argv = new char *[argv_list.size() + 1];
             std::vector<String>::size_type i{0};
