@@ -363,7 +363,7 @@ TEST(StringTest, Windows1252StringConstructionTest)
         end_simple_characters[i] = static_cast<unsigned char>(i + 160);
     }
 
-    unsigned int end_simple_unicode_codes[97];
+    unsigned int end_simple_unicode_codes[98];
     end_simple_unicode_codes[0] = 0xFEFF;
     for (int64_t i = 1; i < 98; i++)
     {
