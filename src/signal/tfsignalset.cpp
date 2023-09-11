@@ -26,6 +26,8 @@ SOFTWARE.
 ******************************************************************************/
 
 #include "tfplatform.hpp"
+#define NEEDS_ALGORITHM
+#include "tfheaders.hpp"
 #include "tfsignalset.hpp"
 
 namespace TF::Foundation

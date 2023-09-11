@@ -26,6 +26,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #include "tfplatform.hpp"
+#define NEEDS_ALGORITHM
 #define NEEDS_CSTRING
 #include "tfheaders.hpp"
 #include "tfsignalhandler.hpp"
