@@ -979,13 +979,14 @@ namespace TF
             size_type newStringLength, const char_type * replacementStringStart, size_type replacementStringLength,
             range_array_type & substringRanges)
         {
+            (void)newStringLength;
+
             const data_type * originalDataTypeString = reinterpret_cast<const data_type *>(originalStringStart);
             size_type originalDataTypeStringLength = originalStringLength / sizeof(data_type);
             byte_order_query_type originalStringQuery =
                 this->hasByteOrderMark(originalStringStart, originalStringLength);
 
             data_type * newDataTypeString = reinterpret_cast<data_type *>(newStringStart);
-            size_type newDataTypeStringLength = newStringLength / sizeof(data_type);
 
             const data_type * replacementDataTypeString = reinterpret_cast<const data_type *>(replacementStringStart);
             size_type replacementDataTypeStringLength = replacementStringLength / sizeof(data_type);
@@ -1013,7 +1014,6 @@ namespace TF
 
             *newDataTypeString = 0xFEFF;
             newDataTypeString++;
-            newDataTypeStringLength--;
 
             parent_type::unicode_point_type theCode;
 

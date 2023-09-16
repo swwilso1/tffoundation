@@ -274,38 +274,6 @@ namespace TF::Foundation
         return result;
     }
 
-#define CLEAR_CONTROL_SETTINGS()      \
-    {                                 \
-        processingFormatCode = false; \
-        processingPrecision = false;  \
-        needsZeroPadding = false;     \
-        hasLLModifier = false;        \
-        hasLModifier = false;         \
-        hasCapitalLModifier = false;  \
-        hasHModifier = false;         \
-        hasHHModifier = false;        \
-        hasFieldWidth = false;        \
-        hasPrecision = false;         \
-        needsLeftAdjustment = false;  \
-        fieldWidth = 0;               \
-        precision = 0;                \
-        counter++;                    \
-    }
-
-#define ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(value) \
-    if (processingPrecision)                        \
-    {                                               \
-        precision = (precision * 10) + (value);     \
-        if (! hasPrecision)                         \
-            hasPrecision = true;                    \
-    }                                               \
-    else                                            \
-    {                                               \
-        fieldWidth = (fieldWidth * 10) + (value);   \
-        if (! hasFieldWidth)                        \
-            hasFieldWidth = true;                   \
-    }
-
     String String::initWithFormat(const char * format, va_list * argList)
     {
         bool processingFormatCode = false;
@@ -327,6 +295,42 @@ namespace TF::Foundation
 
         std::stringstream accumulator;
 
+        auto add_value_to_precision_or_fieldwidth = [&processingPrecision, &precision, &hasPrecision, &fieldWidth,
+                                                     &hasFieldWidth](int value) {
+            if (processingPrecision)
+            {
+                precision = (precision * 10) + (value);
+                if (! hasPrecision)
+                    hasPrecision = true;
+            }
+            else
+            {
+                fieldWidth = (fieldWidth * 10) + (value);
+                if (! hasFieldWidth)
+                    hasFieldWidth = true;
+            }
+        };
+
+        auto clear_control_settings = [&processingFormatCode, &processingPrecision, &needsZeroPadding, &hasLLModifier,
+                                       &hasLModifier, &hasCapitalLModifier, &hasHModifier, &hasHHModifier,
+                                       &hasFieldWidth, &hasPrecision, &needsLeftAdjustment, &fieldWidth, &precision,
+                                       &counter]() {
+            processingFormatCode = false;
+            processingPrecision = false;
+            needsZeroPadding = false;
+            hasLLModifier = false;
+            hasLModifier = false;
+            hasCapitalLModifier = false;
+            hasHModifier = false;
+            hasHHModifier = false;
+            hasFieldWidth = false;
+            hasPrecision = false;
+            needsLeftAdjustment = false;
+            fieldWidth = 0;
+            precision = 0;
+            counter++;
+        };
+
         // Now parse the format string.   The format string must be
         // a C-Style (ie ends with '\0' (null-terminated)) string.
         // Standard printf style arguments are accepted and one
@@ -346,7 +350,7 @@ namespace TF::Foundation
                     if (processingFormatCode)
                     {
                         accumulator << *fmt;
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -440,7 +444,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -507,7 +511,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -574,7 +578,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -641,7 +645,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -708,7 +712,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -743,7 +747,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -776,7 +780,7 @@ namespace TF::Foundation
                         }
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -802,7 +806,7 @@ namespace TF::Foundation
                             value << s;
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -830,7 +834,7 @@ namespace TF::Foundation
                         }
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -902,7 +906,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -974,7 +978,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -1046,7 +1050,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -1077,7 +1081,7 @@ namespace TF::Foundation
                         }
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -1108,7 +1112,7 @@ namespace TF::Foundation
 
                         accumulator << value.str();
 
-                        CLEAR_CONTROL_SETTINGS()
+                        clear_control_settings();
                     }
                     else
                     {
@@ -1124,7 +1128,7 @@ namespace TF::Foundation
                         }
                         else
                         {
-                            ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(0)
+                            add_value_to_precision_or_fieldwidth(0);
                         }
                     }
                     else
@@ -1135,7 +1139,7 @@ namespace TF::Foundation
                 case '1': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(1)
+                        add_value_to_precision_or_fieldwidth(1);
                     }
                     else
                     {
@@ -1145,7 +1149,7 @@ namespace TF::Foundation
                 case '2': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(2)
+                        add_value_to_precision_or_fieldwidth(2);
                     }
                     else
                     {
@@ -1155,7 +1159,7 @@ namespace TF::Foundation
                 case '3': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(3)
+                        add_value_to_precision_or_fieldwidth(3);
                     }
                     else
                     {
@@ -1165,7 +1169,7 @@ namespace TF::Foundation
                 case '4': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(4)
+                        add_value_to_precision_or_fieldwidth(4);
                     }
                     else
                     {
@@ -1175,7 +1179,7 @@ namespace TF::Foundation
                 case '5': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(5)
+                        add_value_to_precision_or_fieldwidth(5);
                     }
                     else
                     {
@@ -1185,7 +1189,7 @@ namespace TF::Foundation
                 case '6': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(6)
+                        add_value_to_precision_or_fieldwidth(6);
                     }
                     else
                     {
@@ -1195,7 +1199,7 @@ namespace TF::Foundation
                 case '7': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(7)
+                        add_value_to_precision_or_fieldwidth(7);
                     }
                     else
                     {
@@ -1205,7 +1209,7 @@ namespace TF::Foundation
                 case '8': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(8)
+                        add_value_to_precision_or_fieldwidth(8);
                     }
                     else
                     {
@@ -1215,7 +1219,7 @@ namespace TF::Foundation
                 case '9': // Check to see if we need augment fieldWidth.
                     if (processingFormatCode)
                     {
-                        ADD_VALUE_TO_PRECISION_OR_FIELDWIDTH(9)
+                        add_value_to_precision_or_fieldwidth(9);
                     }
                     else
                     {
