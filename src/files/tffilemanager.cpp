@@ -99,7 +99,7 @@ namespace TF
             {
                 auto components = path.split(pathSeparator);
                 String subPath{};
-                if (path.first() == pathSeparator)
+                if (path.substringToIndex(pathSeparator.length()) == pathSeparator)
                 {
                     for (auto & entry : components)
                     {
