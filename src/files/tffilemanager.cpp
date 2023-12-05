@@ -103,6 +103,11 @@ namespace TF
                 {
                     for (auto & entry : components)
                     {
+                        if (entry.empty())
+                        {
+                            continue;
+                        }
+
                         subPath += pathSeparator + entry;
                         if (! directoryExistsAtPath(subPath))
                         {
