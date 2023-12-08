@@ -33,6 +33,7 @@ SOFTWARE.
 #define NEEDS_RATIO
 #define NEEDS_CTIME
 #include "tfheaders.hpp"
+#include "tfconfigure.hpp"
 
 namespace TF
 {
@@ -43,8 +44,10 @@ namespace TF
         template<class Rep, class Ratio>
         std::ostream & operator<<(std::ostream & o, const std::chrono::duration<Rep, Ratio> & d);
 
+#ifndef TIMEPOINT_HAS_OSTREAM_OUTPUT_OPERATOR
         template<class Dur>
         std::ostream & operator<<(std::ostream & o, const std::chrono::time_point<Dur> & tp);
+#endif
 
     } // namespace Foundation
 

@@ -41,6 +41,7 @@ namespace TF
             return o;
         };
 
+#ifndef TIMEPOINT_HAS_OSTREAM_OUTPUT_OPERATOR
         template<class Dur>
         std::ostream & operator<<(std::ostream & o, const std::chrono::time_point<Dur> & tp)
         {
@@ -48,6 +49,7 @@ namespace TF
             o << duration << " since epoch";
             return o;
         }
+#endif
 
     } // namespace Foundation
 

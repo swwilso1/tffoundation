@@ -25,6 +25,7 @@ SOFTWARE.
 ******************************************************************************/
 
 #define NEEDS_CSTRING
+#define NEEDS_STDEXCEPT
 #include "tfheaders.hpp"
 #include "tfnetworkaddress.hpp"
 

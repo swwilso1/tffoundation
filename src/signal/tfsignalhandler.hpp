@@ -30,6 +30,7 @@ SOFTWARE.
 
 #define NEEDS_UNORDERED_SET
 #define NEEDS_VECTOR
+#define NEEDS_OSTREAM
 #include "tfheaders.hpp"
 #include "tftypes.hpp"
 #include "tfallocator.hpp"

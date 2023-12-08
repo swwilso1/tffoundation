@@ -27,6 +27,7 @@ SOFTWARE.
 
 #include "tfplatform.hpp"
 #define NEEDS_ALGORITHM
+#define NEEDS_SYSTEM_ERROR
 #include "tfheaders.hpp"
 #include "tfsignalset.hpp"
 
