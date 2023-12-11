@@ -106,6 +106,15 @@ namespace TF::Foundation
         }
 
         /**
+         * @brief method to reset the tracked progress to zero.
+         */
+        void reset()
+        {
+            lock_type lock(m_mutex);
+            m_current = 0;
+        }
+
+        /**
          * @brief method to notify the observer of the meter that progress has happened.
          * @param force_notify true if the method should invoke a call to the callback function even if
          * the meter has not progressed one or more percentage points.
