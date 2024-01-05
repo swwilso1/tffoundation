@@ -30,255 +30,250 @@ SOFTWARE.
 #define NEEDS_MEMORY
 #define NEEDS_OPTIONAL
 #include "tfheaders.hpp"
-#include "tftypes.hpp"
 #include "tfallocator.hpp"
 #include "tftypetraits.hpp"
 #include "tfstring.hpp"
 
-namespace TF
+namespace TF::Foundation
 {
 
-    namespace Foundation
+    namespace values
     {
-
-        namespace values
-        {
-            class IVal
-            {
-            public:
-                virtual ~IVal() {}
-                virtual IVal * copy() const
-                {
-                    return nullptr;
-                }
-                virtual bool operator==(const IVal & v) const
-                {
-                    (void)v;
-                    return false;
-                }
-            };
-
-            template<typename T>
-            class AVal : public IVal
-            {
-                static_assert(Traits::has_operator_equal<T>::value, "Type T must support comparison");
-
-            public:
-                using value_type = T;
-
-                AVal() : value{} {}
-
-                IVal * copy() const override
-                {
-                    AVal * new_val = new AVal;
-                    new_val->value = value;
-                    return new_val;
-                }
-
-                bool operator==(const IVal & v) const override
-                {
-                    const AVal * other_val = dynamic_cast<const AVal *>(&v);
-                    if (other_val)
-                    {
-                        return value == other_val->value;
-                    }
-                    return false;
-                }
-
-                value_type value;
-            };
-        } // namespace values
-
-        class MultiValue
+        class IVal
         {
         public:
-            MultiValue() : m_ival{} {}
+            virtual ~IVal() = default;
 
-            template<typename T>
-            MultiValue(const T & t) : m_ival{}
+            [[nodiscard]] virtual IVal * copy() const
             {
-                auto thing = std::make_unique<values::AVal<T>>();
-                thing->value = t;
-                m_ival = std::move(thing);
+                return nullptr;
             }
 
-            template<typename T>
-            MultiValue(T t[]) : m_ival{}
+            virtual bool operator==(const IVal & v) const
             {
-                auto thing = std::make_unique<values::AVal<T *>>();
-                thing->value = t;
-                m_ival = std::move(thing);
+                (void)v;
+                return false;
             }
-
-            MultiValue(const MultiValue & v)
-            {
-                m_ival = ival_ptr(v.m_ival->copy());
-            }
-
-            MultiValue(MultiValue && v)
-            {
-                m_ival = std::move(v.m_ival);
-            }
-
-            MultiValue & operator=(const MultiValue & v)
-            {
-                if (this == &v)
-                {
-                    return *this;
-                }
-
-                m_ival = ival_ptr(v.m_ival->copy());
-                return *this;
-            }
-
-            MultiValue & operator=(MultiValue && v)
-            {
-                if (this == &v)
-                {
-                    return *this;
-                }
-
-                m_ival = std::move(v.m_ival);
-                return *this;
-            }
-
-            template<typename T>
-            MultiValue & operator=(const T & t)
-            {
-                auto thing = std::make_unique<values::AVal<T>>();
-                thing->value = t;
-                m_ival = std::move(thing);
-                return *this;
-            }
-
-            bool operator==(const MultiValue & v) const
-            {
-                if (this == &v)
-                {
-                    return true;
-                }
-
-                if (! m_ival || ! v.m_ival)
-                {
-                    return false;
-                }
-
-                return *m_ival == *v.m_ival;
-            }
-
-            bool operator!=(const MultiValue & v) const
-            {
-                return ! (*this == v);
-            }
-
-            template<typename T>
-            T * pointer()
-            {
-                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
-                if (thing)
-                {
-                    return &thing->value;
-                }
-                throw std::runtime_error{"type not convertible to T"};
-            }
-
-            template<typename T>
-            const T * pointer() const
-            {
-                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
-                if (thing)
-                {
-                    return &thing->value;
-                }
-                throw std::runtime_error{"type not convertible to T"};
-            }
-
-            template<typename T>
-            T & reference()
-            {
-                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
-                if (thing)
-                {
-                    return thing->value;
-                }
-                throw std::runtime_error{"type not convertible to T"};
-            }
-
-            template<typename T>
-            const T & reference() const
-            {
-                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
-                if (thing)
-                {
-                    return thing->value;
-                }
-                throw std::runtime_error{"type not convertible to T"};
-            }
-
-            template<typename T>
-            operator T()
-            {
-                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
-                if (thing)
-                {
-                    return thing->value;
-                }
-                throw std::runtime_error{"type not convertible to T"};
-                return thing->value;
-            }
-
-            template<typename T>
-            bool is_type() const
-            {
-                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
-                return thing != nullptr;
-            }
-
-            bool is_integer() const
-            {
-                return is_type<int8_t>() || is_type<uint8_t>() || is_type<int16_t>() || is_type<uint16_t>() ||
-                       is_type<int32_t>() || is_type<uint32_t>() || is_type<int64_t>() || is_type<uint64_t>();
-            }
-
-            bool is_real() const
-            {
-                return is_type<float>() || is_type<double>();
-            }
-
-            bool is_numeric() const
-            {
-                return is_real() || is_integer();
-            }
-
-            bool is_bool() const
-            {
-                return is_type<bool>();
-            }
-
-            bool is_string() const
-            {
-                return is_type<String>();
-            }
-
-            template<typename T>
-            std::optional<T> get() const
-            {
-                values::AVal<T> * thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
-                if (thing)
-                {
-                    return std::optional<T>{thing->value};
-                }
-                return std::optional<T>{};
-            }
-
-        public:
-            using ival_ptr = std::unique_ptr<values::IVal>;
-
-            ival_ptr m_ival;
         };
 
-    } // namespace Foundation
+        template<typename T>
+        class AVal : public IVal
+        {
+            static_assert(Traits::has_operator_equal<T>::value, "Type T must support comparison");
 
-} // namespace TF
+        public:
+            using value_type = T;
+
+            AVal() : value{} {}
+
+            [[nodiscard]] IVal * copy() const override
+            {
+                AVal * new_val = new AVal;
+                new_val->value = value;
+                return new_val;
+            }
+
+            bool operator==(const IVal & v) const override
+            {
+                const AVal * other_val = dynamic_cast<const AVal *>(&v);
+                if (other_val)
+                {
+                    return value == other_val->value;
+                }
+                return false;
+            }
+
+            value_type value;
+        };
+    } // namespace values
+
+    class MultiValue
+    {
+    public:
+        MultiValue() : m_ival{} {}
+
+        template<typename T>
+        MultiValue(const T & t) : m_ival{}
+        {
+            auto thing = std::make_unique<values::AVal<T>>();
+            thing->value = t;
+            m_ival = std::move(thing);
+        }
+
+        template<typename T>
+        MultiValue(T t[]) : m_ival{}
+        {
+            auto thing = std::make_unique<values::AVal<T *>>();
+            thing->value = t;
+            m_ival = std::move(thing);
+        }
+
+        MultiValue(const MultiValue & v)
+        {
+            m_ival = ival_ptr(v.m_ival->copy());
+        }
+
+        MultiValue(MultiValue && v) noexcept
+        {
+            m_ival = std::move(v.m_ival);
+        }
+
+        MultiValue & operator=(const MultiValue & v)
+        {
+            if (this == &v)
+            {
+                return *this;
+            }
+
+            m_ival = ival_ptr(v.m_ival->copy());
+            return *this;
+        }
+
+        MultiValue & operator=(MultiValue && v) noexcept
+        {
+            if (this == &v)
+            {
+                return *this;
+            }
+
+            m_ival = std::move(v.m_ival);
+            return *this;
+        }
+
+        template<typename T>
+        MultiValue & operator=(const T & t)
+        {
+            auto thing = std::make_unique<values::AVal<T>>();
+            thing->value = t;
+            m_ival = std::move(thing);
+            return *this;
+        }
+
+        bool operator==(const MultiValue & v) const
+        {
+            if (this == &v)
+            {
+                return true;
+            }
+
+            if (! m_ival || ! v.m_ival)
+            {
+                return false;
+            }
+
+            return *m_ival == *v.m_ival;
+        }
+
+        bool operator!=(const MultiValue & v) const
+        {
+            return ! (*this == v);
+        }
+
+        template<typename T>
+        T * pointer()
+        {
+            auto thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+            if (thing)
+            {
+                return &thing->value;
+            }
+            throw std::runtime_error{"type not convertible to T"};
+        }
+
+        template<typename T>
+        const T * pointer() const
+        {
+            auto thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+            if (thing)
+            {
+                return &thing->value;
+            }
+            throw std::runtime_error{"type not convertible to T"};
+        }
+
+        template<typename T>
+        T & reference()
+        {
+            auto thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+            if (thing)
+            {
+                return thing->value;
+            }
+            throw std::runtime_error{"type not convertible to T"};
+        }
+
+        template<typename T>
+        const T & reference() const
+        {
+            auto thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+            if (thing)
+            {
+                return thing->value;
+            }
+            throw std::runtime_error{"type not convertible to T"};
+        }
+
+        template<typename T>
+        operator T()
+        {
+            auto thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+            if (thing)
+            {
+                return thing->value;
+            }
+            throw std::runtime_error{"type not convertible to T"};
+        }
+
+        template<typename T>
+        [[nodiscard]] bool is_type() const
+        {
+            auto thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+            return thing != nullptr;
+        }
+
+        [[nodiscard]] bool is_integer() const
+        {
+            return is_type<int8_t>() || is_type<uint8_t>() || is_type<int16_t>() || is_type<uint16_t>() ||
+                   is_type<int32_t>() || is_type<uint32_t>() || is_type<int64_t>() || is_type<uint64_t>();
+        }
+
+        [[nodiscard]] bool is_real() const
+        {
+            return is_type<float>() || is_type<double>();
+        }
+
+        [[nodiscard]] bool is_numeric() const
+        {
+            return is_real() || is_integer();
+        }
+
+        [[nodiscard]] bool is_bool() const
+        {
+            return is_type<bool>();
+        }
+
+        [[nodiscard]] bool is_string() const
+        {
+            return is_type<String>();
+        }
+
+        template<typename T>
+        std::optional<T> get() const
+        {
+            auto thing = dynamic_cast<values::AVal<T> *>(m_ival.get());
+            if (thing)
+            {
+                return std::optional<T>{thing->value};
+            }
+            return std::optional<T>{};
+        }
+
+    public:
+        using ival_ptr = std::unique_ptr<values::IVal>;
+
+        ival_ptr m_ival;
+    };
+
+} // namespace TF::Foundation
 
 #endif // TFMULTIVALUE_HPP
