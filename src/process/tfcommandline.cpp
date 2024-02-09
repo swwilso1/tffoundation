@@ -63,7 +63,6 @@ namespace TF::Foundation
             if (requires_quote_mark)
             {
                 collected_command_line += "'";
-                requires_quote_mark = false;
             }
             if (i < (argc - 1))
             {

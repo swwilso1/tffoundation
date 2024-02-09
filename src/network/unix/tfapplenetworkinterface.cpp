@@ -80,6 +80,8 @@ namespace TF::Foundation
             }
         }
 
+        CFRelease(interfaces);
+
         return method_result;
     }
 } // namespace TF::Foundation

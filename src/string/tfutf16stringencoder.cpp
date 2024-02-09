@@ -176,7 +176,7 @@ namespace TF
             parent_type::unicode_point_type theCode;
             size_type theSize;
 
-            if (utf16Length == 0)
+            if (utf16Length == 0 || string == nullptr)
                 throw std::runtime_error("unable to compute nextCodePoint for empty string");
 
             data_type code = this->correctUTF16CodeForPlatform(*utf16, endian);
@@ -708,6 +708,12 @@ namespace TF
 
         void UTF16StringEncoder::convertStringCharacters(char_type * string, size_type length, StringCase convertToCase)
         {
+
+            if (string == nullptr || length == 0)
+            {
+                return;
+            }
+
             byte_order_query_type stringQueryResult = this->hasByteOrderMark(string, length);
             std::pair<parent_type::unicode_point_type, size_type> theNext;
 

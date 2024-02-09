@@ -829,6 +829,11 @@ namespace TF
             size_type substringLength, const char_type * replaceStringStart, size_type replaceStringLength,
             range_array_type & ranges)
         {
+            if (stringStart == nullptr || substringStart == nullptr)
+            {
+                return 0;
+            }
+
             (void)replaceStringStart;
 
             size_type newsize = 0;

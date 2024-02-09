@@ -68,9 +68,9 @@ namespace TF::Foundation
         std::vector<String> argv_list{};
 
         // This convert step has to happen in the parent, before the fork.  After the fork, manipulation of
-	// strings can run into a mutex lock in the string code allocator that can be held by another
-	// thread in the process. That other thread will disappear after the fork and cause deadlock in
-	// the child process.
+        // strings can run into a mutex lock in the string code allocator that can be held by another
+        // thread in the process. That other thread will disappear after the fork and cause deadlock in
+        // the child process.
         if (! convert_command_line_to_vector(m_command_line, argv_list))
         {
             throw std::runtime_error{"Unable to convert command line for process launch"};
@@ -88,10 +88,28 @@ namespace TF::Foundation
             ++i;
         });
 
+        auto memory_cleaner = [execv_argv, &argv_list]() {
+            std::vector<String>::size_type i{0};
+            if (execv_argv != nullptr)
+            {
+                std::for_each(argv_list.cbegin(), argv_list.cend(), [execv_argv, &i](const String & s) -> void {
+                    (void)s;
+                    if (execv_argv[i] != nullptr)
+                    {
+                        delete[] execv_argv[i];
+                    }
+                    ++i;
+                });
+
+                delete[] execv_argv;
+            }
+        };
+
         auto process_id = fork();
 
         if (process_id < 0)
         {
+            memory_cleaner();
             throw std::system_error{errno, std::system_category(), "fork failed"};
         }
         else if (process_id == 0)
@@ -125,13 +143,8 @@ namespace TF::Foundation
 
             // Anything past here is an error condition.  We clean up the memory usage and
             // then throw.
-            i = 0;
-            std::for_each(argv_list.cbegin(), argv_list.cend(), [execv_argv, &i](const String & s) -> void {
-                (void)s;
-                delete[] execv_argv[i];
-            });
+            memory_cleaner();
 
-            delete[] execv_argv;
             throw std::runtime_error{"execv failed"};
         }
         else
@@ -168,6 +181,9 @@ namespace TF::Foundation
             m_standard_in.close_for_reading();
             m_standard_out.close_for_writing();
             m_standard_err.close_for_writing();
+
+            // Now clean up the memory allocated for execv_argv.
+            memory_cleaner();
         }
 
         m_process_id = process_id;
